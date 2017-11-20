@@ -1,3 +1,5 @@
+import numpy as np
+
 import torch
 import torch.autograd as autograd
 import torch.nn as nn
@@ -6,28 +8,24 @@ import torch.optim as optim
 
 torch.manual_seed(1)
 
-# all this commented code came from a tutorial that I copied
+data = [("me gusta comer en la cafeteria".split(), "SPANISH"),
+		("Give it to me".split(), "ENGLISH"),
+		("No creo que sea una buena idea".split(), "SPANISH"),
+		("No it is not a good idea to get lost at sea".split(), "ENGLISH")]
 
-# data = [("me gusta comer en la cafeteria".split(), "SPANISH"),
-# 		("Give it to me".split(), "ENGLISH"),
-# 		("No creo que sea una buena idea".split(), "SPANISH"),
-# 		("No it is not a good idea to get lost at sea".split(), "ENGLISH")]
+test_data = [("Yo creo que si".split(), "SPANISH"),
+	("it is lost on me".split(), "ENGLISH")]
 
-# test_data = [("Yo creo que si".split(), "SPANISH"),
-# 	("it is lost on me".split(), "ENGLISH")]
+# word_to_ix maps each word in the vocab to a unique integer, which will be its
+# index into the Bag of words vector
+word_to_ix = {}
+for sent, _ in data + test_data:
+	for word in sent:
+		if word not in word_to_ix:
+			word_to_ix[word] = len(word_to_ix)
+print(word_to_ix)
 
-# # word_to_ix maps each word in the vocab to a unique integer, which will be its
-# # index into the Bag of words vector
-# word_to_ix = {}
-# for sent, _ in data + test_data:
-# 	for word in sent:
-# 		if word not in word_to_ix:
-# 			word_to_ix[word] = len(word_to_ix)
-# print(word_to_ix)
-
-# VOCAB_SIZE = len(word_to_ix)
-# NUM_LABELS = 2
-
+EMBEDDING_SIZE = 50
 
 class Stack(nn.Module):  # inheriting from nn.Module!
 
@@ -35,11 +33,12 @@ class Stack(nn.Module):  # inheriting from nn.Module!
 		super(Stack, self).__init__()
 
 		# initialize the datastructure
-		self.V = torch.FloatTensor(np.zeros(shape=[0, embedding_size]))
-		self.s = torch.FloatTensor(np.zeros(shape=[0]))
+		self.V = torch.FloatTensor(0, embedding_size)
+		self.s = torch.FloatTensor(0)
 
 		# an instance of the ReLU function
-		self.relu = nn.ReLU()
+		# self.relu = nn.ReLU()
+		self.relu = lambda x: max(0, x)
 
 	def forward(self, v, u, d):
 		"""
@@ -50,23 +49,35 @@ class Stack(nn.Module):  # inheriting from nn.Module!
 		"""
 
 		# update V
-		self.V = torch.cat(self.V, v, 0)
+		self.V = torch.cat([self.V, v], 0)
 
 		# update s
-		s = torch.empty_like(self.s)
-		s_len = self.s.shape[0]
+		s_len = self.s.shape[0] if self.s.shape else 0
+		s = torch.FloatTensor(s_len + 1)
 		for i in xrange(s_len):
 			old = sum(self.s[j] for j in xrange(i + 1, s_len)) # TODO indexing right?
-			s[i,:] = self.relu(self.s[i,:] - self.relu(u - old))
-		self.s = torch.cat(s, torch.FloatTensor(d), 0)
+			s[i] = self.relu(self.s[i] - self.relu(u - old))
+		s[s_len] = d
+		self.s = s
 
 		# calculate r
-		r = 0.
+		r = torch.zeros([1, v.shape[1]])
 		for i in xrange(s_len + 1):
-			old = sum(self.s[j] for j in xrange(i + 1, s_len + 1)) # TODO indexing right?
-			r += min(self.s[i], self.relu(old))
+			old = sum(self.s[j] for j in xrange(i, s_len + 1)) # TODO indexing right?
+			# print "weight: {}, relu: {}".format(self.s[i], self.relu(old))
+			r += min(self.s[i], self.relu(old)) * self.V[i,:]
 
 		return r
+
+	def log(self):
+		"""
+		Prints a representation of the stack to stdout.
+		"""
+		if not self.V.shape:
+			print "[Empty stack]"
+			return
+		for i in xrange(len(self.V)):
+			print "\t".join(str(x) for x in self.V[i,:]), "\t|\t", self.s[i]
 
 
 # def make_bow_vector(sentence, word_to_ix):
@@ -80,7 +91,13 @@ class Stack(nn.Module):  # inheriting from nn.Module!
 # 	return torch.LongTensor([label_to_ix[label]])
 
 
-# model = BoWClassifier(NUM_LABELS, VOCAB_SIZE)
+stack = Stack(3)
+stack.log()
+print "pushed", stack.forward(torch.FloatTensor([[1, 2, 3]]), 0, 1)
+stack.log()
+print "popped", stack.forward(torch.FloatTensor([[4, 5, 6]]), 1, 1)
+stack.log()
+# print "pushed", stack.forward(torch.FloatTensor([[7, 8, 9]]), 1, 1)
 
 # # the model knows its parameters.  The first output below is A, the second is b.
 # # Whenever you assign a component to a class variable in the __init__ function
