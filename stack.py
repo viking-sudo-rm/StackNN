@@ -6,10 +6,6 @@ import torch.optim as optim
 
 torch.manual_seed(1)
 
-def relu(t):
-	z = torch.zeros(t.shape)
-	return torch.max(z, t)
-
 class Stack(nn.Module):
 
 	def __init__(self, batch_size, embedding_size):
@@ -19,8 +15,13 @@ class Stack(nn.Module):
 		self.V = torch.FloatTensor(0)
 		self.s = torch.FloatTensor(0)
 
+		self.zero = torch.zeros(batch_size)
+
 		self.batch_size = batch_size
 		self.embedding_size = embedding_size
+
+	def relu(self, t):
+		return torch.max(self.zero, t)
 
 	def forward(self, v, u, d):
 		"""
@@ -37,9 +38,16 @@ class Stack(nn.Module):
 		# update s, which is of size [t, batch_size]
 		old_t = self.s.shape[0] if self.s.shape else 0
 		s = torch.FloatTensor(old_t + 1, self.batch_size)
-		for i in xrange(old_t):
-			old = torch.sum(self.s[i + 1:old_t,:], 0) if i + 1 < old_t else torch.zeros(self.batch_size)
-			s[i,:] = relu(self.s[i,:] - relu(u - old))
+		w = torch.FloatTensor(u)
+		for i in reversed(xrange(old_t)):
+			s_ = self.relu(self.s[i,:] - w)
+			w = self.relu(w - self.s[i,:])
+			s[i,:] = s_
+			if torch.sum(w > self.zero) <= 0:
+				break
+		# for i in xrange(old_t):
+		# 	old = torch.sum(self.s[i + 1:old_t,:], 0) if i + 1 < old_t else torch.zeros(self.batch_size)
+		# 	s[i,:] = self.relu(self.s[i,:] - self.relu(u - old))
 		s[old_t,:] = d
 		self.s = s
 
@@ -49,7 +57,7 @@ class Stack(nn.Module):
 			if i + 1 == old_t + 1:
 				continue
 			old = torch.sum(self.s[i + 1:old_t + 1,:], 0)
-			r += torch.min(self.s[i,:], relu(old)) * self.V[i,:,:]
+			r += torch.min(self.s[i,:], self.relu(old)) * self.V[i,:,:]
 
 		return r
 
@@ -72,6 +80,6 @@ if __name__ == "__main__":
 	stack.log()
 	print out
 	print
-	out = stack.forward(torch.FloatTensor([[11, 22], [33, 44]]), torch.FloatTensor([1, 0]), torch.FloatTensor([1, 0]))
+	out = stack.forward(torch.FloatTensor([[11, 22], [33, 44]]), torch.FloatTensor([.5, .5]), torch.FloatTensor([1, 1]))
 	stack.log()
 	print out
