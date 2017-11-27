@@ -58,18 +58,6 @@ if torch.cuda.is_available():
 
 corpus = data.Corpus(args.data)
 
-# Starting from sequential data, batchify arranges the dataset into columns.
-# For instance, with the alphabet as the sequence and batch size 4, we'd get
-# ┌ a g m s ┐
-# │ b h n t │
-# │ c i o u │
-# │ d j p v │
-# │ e k q w │
-# └ f l r x ┘.
-# These columns are treated as independent by the model, which means that the
-# dependence of e. g. 'g' on 'f' can not be learned, but allows more efficient
-# batch processing.
-
 def batchify(data, bsz):
     # Work out how cleanly we can divide the dataset into bsz parts.
     nbatch = data.size(0) // bsz
@@ -86,12 +74,25 @@ train_data = batchify(corpus.train, args.batch_size)
 val_data = batchify(corpus.valid, eval_batch_size)
 test_data = batchify(corpus.test, eval_batch_size)
 
+print corpus.train
+quit()
+
 ###############################################################################
 # Build the model
 ###############################################################################
 
 ntokens = len(corpus.dictionary)
-model = model.FFController(ntokens, 50, 50, ntokens)
+embedding_size = 60
+read_size = 40
+
+# TODO figure out sequence lengths?
+
+print "batch size = {}".format(args.batch_size)
+print "num embeddings = {}".format(ntokens)
+print "embedding size = {}".format(embedding_size)
+print "read size = {}".format(read_size)
+
+model = model.FFController(args.batch_size, ntokens, embedding_size, read_size, 35)
 if args.cuda:
     model.cuda()
 
@@ -141,30 +142,28 @@ def evaluate(data_source):
     return total_loss[0] / len(data_source)
 
 def train():
+
     # Turn on training mode which enables dropout.
     model.train()
     total_loss = 0
     start_time = time.time()
     ntokens = len(corpus.dictionary)
+    print "ntokens", ntokens
+
     for batch, i in enumerate(range(0, train_data.size(0) - 1, args.bptt)):
         data, targets = get_batch(train_data, i)
         model.zero_grad()
-        # FIXME right now looping naively without batching
+        model.init_stack()
+
         loss = 0.
-        for i in xrange(data.data.shape[1]):
-            v = data[:,i]
-            print "size", len(v)
-            model.init_stack()
-            # for c in v:
-            #     model(c)
-            # TODO the prediction is the concatenation of all the vectors (35L, 20L) -> (700L,)
-            pred = torch.cat([model(c) for c in v], 0)
-            # pred = torch.cat(pred, 0)
-            print targets.data.shape, pred.data.shape
-            # pred = torch.FloatTensor()
-            # print pred
-        loss = criterion(output.view(-1, ntokens), targets)
-        loss.backward()
+        for i in xrange(data.data.shape[0]):
+            v = data[i,:]
+            pred = model(v)
+            print "--{}--\n\ttarget size = {}\n\tpred size = {}".format(i, targets.data.shape, pred.data.shape)
+            # FIXME what's wrong with these dimensions?
+            print pred.view(700)
+            loss += criterion(pred.view(700), targets)
+            loss.backward()
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.
         torch.nn.utils.clip_grad_norm(model.parameters(), args.clip)

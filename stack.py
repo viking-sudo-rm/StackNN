@@ -4,8 +4,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 
-torch.manual_seed(1)
-
 class Stack(nn.Module):
 
 	def __init__(self, batch_size, embedding_size):
@@ -52,7 +50,7 @@ class Stack(nn.Module):
 			old = torch.sum(self.s[i + 1:old_t + 1,:], 0) if i + 1 < old_t + 1 else self.zero
 			coeffs = torch.min(self.s[i,:], self.relu(old))
 			# reformating coeffs into a matrix that can be multiplied element-wise
-			r += coeffs.view(2, 1).repeat(1, self.embedding_size) * self.V[i,:,:]
+			r += coeffs.view(self.batch_size, 1).repeat(1, self.embedding_size) * self.V[i,:,:]
 		return r
 
 	def log(self):
@@ -79,6 +77,6 @@ if __name__ == "__main__":
 	out = stack.forward(torch.FloatTensor([[11, 22, 33], [44, 55, 66]]), torch.FloatTensor([.5, .5]), torch.FloatTensor([1, 1]))
 	stack.log()
 	print out
-	out = stack.forward(torch.FloatTensor([[11, 22, 33], [44, 55, 66]]), torch.FloatTensor([.25, .25]), torch.FloatTensor([1, 1]))
+	out = stack.forward(torch.FloatTensor([[111, 222, 333], [444, 555, 666]]), torch.FloatTensor([.25, .25]), torch.FloatTensor([1, 1]))
 	stack.log()
 	print out
