@@ -9,6 +9,12 @@ from torch.autograd import Variable
 import data
 import model
 
+"""
+
+Example taken from https://github.com/pytorch/examples/tree/master/word_language_model to test the stack implementation.
+
+"""
+
 parser = argparse.ArgumentParser(description='PyTorch PennTreeBank RNN/LSTM Language Model')
 parser.add_argument('--data', type=str, default='./data/penn',
                     help='location of the data corpus')
@@ -74,9 +80,6 @@ train_data = batchify(corpus.train, args.batch_size)
 val_data = batchify(corpus.valid, eval_batch_size)
 test_data = batchify(corpus.test, eval_batch_size)
 
-print corpus.train
-quit()
-
 ###############################################################################
 # Build the model
 ###############################################################################
@@ -88,11 +91,11 @@ read_size = 40
 # TODO figure out sequence lengths?
 
 print "batch size = {}".format(args.batch_size)
-print "num embeddings = {}".format(ntokens)
+print "num tokens = {}".format(ntokens)
 print "embedding size = {}".format(embedding_size)
 print "read size = {}".format(read_size)
 
-model = model.FFController(args.batch_size, ntokens, embedding_size, read_size, 35)
+model = model.FFController(args.batch_size, ntokens, embedding_size, read_size, ntokens)
 if args.cuda:
     model.cuda()
 
@@ -123,7 +126,7 @@ def repackage_hidden(h):
 def get_batch(source, i, evaluation=False):
     seq_len = min(args.bptt, len(source) - 1 - i)
     data = Variable(source[i:i+seq_len], volatile=evaluation)
-    target = Variable(source[i+1:i+1+seq_len].view(-1))
+    target = Variable(source[i+1:i+1+seq_len].view(-1)) # it's flattened
     return data, target
 
 
@@ -155,15 +158,22 @@ def train():
         model.zero_grad()
         model.init_stack()
 
+        # Loop over the batch and run the controller network several times
         loss = 0.
         for i in xrange(data.data.shape[0]):
             v = data[i,:]
             pred = model(v)
-            print "--{}--\n\ttarget size = {}\n\tpred size = {}".format(i, targets.data.shape, pred.data.shape)
-            # FIXME what's wrong with these dimensions?
-            print pred.view(700)
-            loss += criterion(pred.view(700), targets)
-            loss.backward()
+            print "--{}--\n\tpred size = {}\n\ttarget size = {}".format(i, targets.data.shape, pred.data.shape)
+            # print "helo world"
+            # print "pred shape", pred.data.shape
+
+            # see http://pytorch.org/docs/master/nn.html for CrossEntropyLoss documentation
+            # https://github.com/pytorch/pytorch/issues/1258
+
+        # should 
+
+        loss += criterion(pred, targets)
+        loss.backward()
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.
         torch.nn.utils.clip_grad_norm(model.parameters(), args.clip)
