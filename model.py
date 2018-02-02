@@ -1,5 +1,7 @@
 import torch
 import torch.autograd as autograd
+from torch.autograd import Variable
+from torch.autograd import Variable
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
@@ -32,7 +34,8 @@ class FFController(nn.Module):
 		# u, d, v = read_params[:,0], read_params[:,1], read_params[:,2:]
 		u, d, v = read_params[:,0].contiguous(), read_params[:,1].contiguous(), read_params[:,2:].contiguous()
 		self.read = self.stack.forward(v.data, u.data, d.data)
-		return F.softmax(output[:,2 + self.read_size:]) # log softmax?
+		# return F.softmax(output[:,2 + self.read_size:]) # log softmax?
+		return output[:,2 + self.read_size:] #should not apply softmax
 
 	def init_stack(self):
 		self.read = torch.zeros([self.batch_size, self.read_size])

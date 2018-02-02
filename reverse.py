@@ -9,7 +9,7 @@ from sklearn.utils import shuffle
 
 m = __import__("model-bare")
 
-BATCH_SIZE = 100
+BATCH_SIZE = 10
 READ_SIZE = 4
 CUDA = False
 
@@ -32,9 +32,9 @@ longT = lambda b: Variable(torch.LongTensor([b]))
 zero = lambda: Variable(torch.FloatTensor([[1., 0., 0.]]))
 end = lambda: Variable(torch.FloatTensor([[0., 0., 1.]]))
 
-train_X = [randstr() for _ in xrange(8000)]
-dev_X = [randstr() for _ in xrange(1000)]
-test_X = [randstr() for _ in xrange(1000)]
+train_X = [randstr() for _ in xrange(800)]
+dev_X = [randstr() for _ in xrange(100)]
+test_X = [randstr() for _ in xrange(100)]
 
 train_Y = [reverse(x) for x in train_X]
 dev_Y = [reverse(x) for x in dev_X]
@@ -79,7 +79,7 @@ def train(train_X, train_Y):
 		
 		total_loss += batch_loss.data
 		if batch % 10 == 0:
-			print "batch {}: loss={:.2f}, acc={:.2f}".format(batch, sum(batch_loss.data), digits_correct / digits_total)
+			print "batch {}: loss={:.2f}, acc={:.2f}".format(batch, sum(batch_loss.data) / BATCH_SIZE, digits_correct / digits_total)
 
 def evaluate(test_X, test_Y):
 	model.eval()
@@ -100,12 +100,13 @@ def evaluate(test_X, test_Y):
 
 			total_loss += criterion(a, y)
 
-	print "epoch {}: loss={:.2f}, acc={:.2f}".format(epoch, sum(total_loss.data), digits_correct / digits_total)
+	print "epoch {}: loss={:.2f}, acc={:.2f}".format(epoch, sum(total_loss.data) / len(test_X), digits_correct / digits_total)
 
 
 # optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
-optimizer = optim.Adam(model.parameters(), lr=0.01)
+optimizer = optim.Adam(model.parameters(), lr=0.0001)
 for epoch in xrange(EPOCHS):
+	print "-- starting epoch {} --".format(epoch)
 	train_X, train_Y = shuffle(train_X, train_Y)
 	train(train_X, train_Y)
 	evaluate(dev_X, dev_Y)
