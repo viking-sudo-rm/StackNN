@@ -7,10 +7,9 @@ class Dataset:
 		with open(filename, "r") as fh:
 			self.x, self.y = [], []
 			for line in fh.readlines():
-				tokens = line.strip().split(" ")
-				if len(tokens) < 2: continue
-				self.x.append(tokens[1:])
-				self.y.append(tokens[0])
+				y, x = line.strip().split("\t")
+				self.x.append(x.split(" "))
+				self.y.append(y)
 
 	def getLexicon(self):
 		""" Should use this function on all relevant datasets to build an encoder. """
@@ -21,7 +20,10 @@ class Dataset:
 
 	def encode(self, encoder):
 		""" Takes a LabelEncoder to convert tokens to numbers. """
-		self.x = map(encoder.transform, self.x)
+		for i in xrange(len(self.x)):
+			if i % 1000 == 0: print "{}/{}".format(i, len(self.x))
+			self.x[i] = encoder.transform(self.x[i])
+			self.y[i] = 0 if self.y[i] == "VBZ" else 1
 
 print "loading dataset.."
 dataset = Dataset("rnn_agr_simple/numpred.test.0")
