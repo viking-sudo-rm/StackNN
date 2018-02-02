@@ -9,10 +9,12 @@ from sklearn.utils import shuffle
 
 m = __import__("model-bare")
 
-BATCH_SIZE = 10
-READ_SIZE = 4
-CUDA = False
+# Hyperparameters
+LEARNING_RATE = .01 # .01 and .1 seem to work well?
+BATCH_SIZE = 1 # 10 is the best I've found
+READ_SIZE = 1 # was using 4 before
 
+CUDA = False
 EPOCHS = 10
 
 model = m.FFController(1, 3, READ_SIZE, 2)
@@ -78,7 +80,7 @@ def train(train_X, train_Y):
 		optimizer.step()
 		
 		total_loss += batch_loss.data
-		if batch % 10 == 0:
+		if batch % (len(test_X) // BATCH_SIZE // 10) == 0:
 			print "batch {}: loss={:.2f}, acc={:.2f}".format(batch, sum(batch_loss.data) / BATCH_SIZE, digits_correct / digits_total)
 
 def evaluate(test_X, test_Y):
@@ -104,7 +106,8 @@ def evaluate(test_X, test_Y):
 
 
 # optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
-optimizer = optim.Adam(model.parameters(), lr=0.0001)
+optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
+print "hyperparameters: lr={}, batch_size={}, read_dim={}".format(LEARNING_RATE, BATCH_SIZE, READ_SIZE)
 for epoch in xrange(EPOCHS):
 	print "-- starting epoch {} --".format(epoch)
 	train_X, train_Y = shuffle(train_X, train_Y)
