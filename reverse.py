@@ -72,7 +72,8 @@ def train(train_X, train_Y):
 				digits_total += 1
 				digits_correct += len(torch.nonzero((y_ == y).data))
 
-				batch_loss += criterion(a, y)
+				# batch loss is normalized for length
+				batch_loss += criterion(a, y) / len(X)
 		
 		# update the weights
 		optimizer.zero_grad()
@@ -80,7 +81,7 @@ def train(train_X, train_Y):
 		optimizer.step()
 		
 		total_loss += batch_loss.data
-		if batch % (len(test_X) // BATCH_SIZE // 10) == 0:
+		if batch % 10 == 0:
 			print "batch {}: loss={:.2f}, acc={:.2f}".format(batch, sum(batch_loss.data) / BATCH_SIZE, digits_correct / digits_total)
 
 def evaluate(test_X, test_Y):
