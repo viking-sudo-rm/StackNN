@@ -11,7 +11,7 @@ m = __import__("model-bare")
 
 # Hyperparameters
 LEARNING_RATE = .01 # .01 and .1 seem to work well?
-BATCH_SIZE = 1 # 10 is the best I've found
+BATCH_SIZE = 10 # 10 is the best I've found
 READ_SIZE = 1 # was using 4 before
 
 CUDA = False
@@ -101,7 +101,7 @@ def evaluate(test_X, test_Y):
 			digits_total += 1
 			digits_correct += len(torch.nonzero((y_ == y).data))
 
-			total_loss += criterion(a, y)
+			total_loss += criterion(a, y) / len(X)
 
 	print "epoch {}: loss={:.2f}, acc={:.2f}".format(epoch, sum(total_loss.data) / len(test_X), digits_correct / digits_total)
 
