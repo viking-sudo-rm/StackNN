@@ -15,7 +15,7 @@ PyTorch hello world example to see how to use it.
 
 ## Improving the model
 
-It's possible that there are still bugs stack.py, and there are definitely inefficiencies. The more pairs of eyes that read through the stack implementation, the better it gets.
+It's possible that there are still bugs in stack.py, and there are definitely inefficiencies. The more pairs of eyes that read through the stack implementation, the better it gets.
 
 Some specific things that can be done are:
 * Initialize stack memory block to a parameterized constant size rather than concating repeatedly. This would let us train instances of different length in the same parallel batch.
