@@ -50,15 +50,15 @@ class Stack(nn.Module):
 			w = F.relu(w - self.s[i,:])
 			s[i,:] = s_
 			# if len(torch.nonzero(w.data)) == 0: break
-			#this line makes things go crazy => issue?
+			# FIXME above line shouldn't make things go crazy
 		s[old_t,:] = d
 		self.s = s
 
 		# calculate r, which is of size [batch_size, embedding_size]
 		r = Variable(torch.zeros([self.batch_size, self.embedding_size]))
-		for i in xrange(old_t + 1):
-			old = torch.sum(self.s[i:old_t + 1,:], 0)
-			coeffs = torch.min(self.s[i,:], F.relu(old))
+		for i in reversed(xrange(old_t + 1)):
+			used = torch.sum(self.s[i + 1:old_t + 1,:], 0) if i < old_t else self.zero
+			coeffs = torch.min(self.s[i,:], F.relu(1 - used))
 			# reformating coeffs into a matrix that can be multiplied element-wise
 			r += coeffs.view(self.batch_size, 1).repeat(1, self.embedding_size) * self.V[i,:,:]
 		return r
