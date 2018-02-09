@@ -15,22 +15,24 @@ PyTorch hello world example to see how to use it.
 
 ## Improving the model
 
-Due to the poor performance that the model achieves on string reversal (~66%), it's likely that there are still bugs in the implementation in stack.py. Having another pair of eyes to read through this implementation or suggest improvements would be immensely helpful.
+It's possible that there are still bugs stack.py, and there are definitely inefficiencies. The more pairs of eyes that read through the stack implementation, the better it gets.
 
-It would also be nice if someone could write an LSTM controller network (see [PyTorch documentation on LSTMs](http://pytorch.org/docs/master/nn.html)).
+Some specific things that can be done are:
+* Initialize stack memory block to a certain constant size rather than concating repeatedly. This would let us train instances of different length in the same parallel batch.
+* Implement an LSTM controller network. This should be pretty simple using the built-in recurrent architectures in PyTorch (see [PyTorch documentation on LSTMs](http://pytorch.org/docs/master/nn.html)).
+* Get rid of for loops in stack.py? Not sure how necessary this is, but could add some benefits towards parallelization.
 
 ## Tasks
 
-I think it's a good idea to try to get the model
-running on a single task like string reversal. For string reversal, you
-don't need an annotated data set, but can just generate a list of Python strings on the alphabet {0, 1}. The strings should be
-of varying length, and the task is as follows:
+In reverse.py, I train a feed-forward controller network to do string reversal. I generate a list of 800 Python strings on the alphabet {0, 1} with length normally distributed around 10. The task is as follows:
 
 ~~~~
 i:       0 1 2 3 4 5 6 7
 x:       1 1 0 1 - - - -
 y:       - - - - 1 0 1 1
 ~~~~
+
+In 10 epochs, the network achieves 77% test accuracy. I'm sure this would go higher with more training.
 
 As far as more linguistically interesting tasks, there's also a dataset for agreement in the
 folder rnn_agr_simple.
