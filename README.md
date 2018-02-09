@@ -35,4 +35,4 @@ y:       - - - - 1 0 1 1
 In 10 epochs, the network achieves 77% test accuracy. I'm sure this would go higher with more training.
 
 As far as more linguistically interesting tasks, there's also a dataset for agreement in the
-folder rnn_agr_simple.
+folder rnn_agr_simple. We discussed other tasks in CLAY meetings that I will write down here at some point.
