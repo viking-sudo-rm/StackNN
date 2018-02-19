@@ -8,7 +8,7 @@ import torch.optim as optim
 class Stack(nn.Module):
 
 	"""
-	Neural stack implementation based on Grefensette et al., 2015.
+	Neural stack implementation based on Grefenstette et al., 2015.
 	@see https://arxiv.org/pdf/1506.02516.pdf
 	"""
 
@@ -18,9 +18,6 @@ class Stack(nn.Module):
 		# initialize tensors
 		self.V = Variable(torch.FloatTensor(0))
 		self.s = Variable(torch.FloatTensor(0))
-
-		# TODO either make everything a variable
-		# TODO or implement custom backward pass function
 
 		self.zero = Variable(torch.zeros(batch_size))
 

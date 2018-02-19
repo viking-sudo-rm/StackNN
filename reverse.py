@@ -4,76 +4,88 @@ import random
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import torch.nn.functional as F
 from torch.autograd import Variable
 from sklearn.utils import shuffle
 
 m = __import__("model-bare")
 
+# Language parameters
+MIN_LENGTH = 1
+MEAN_LENGTH = 10
+STD_LENGTH = 2
+MAX_LENGTH = 12
+
 # Hyperparameters
 LEARNING_RATE = .01 # .01 and .1 seem to work well?
 BATCH_SIZE = 10 # 10 is the best I've found
-READ_SIZE = 1 # was using 4 before
+READ_SIZE = 2 # was using 4 before
 
 CUDA = False
-EPOCHS = 10
+EPOCHS = 30
 
-model = m.FFController(1, 3, READ_SIZE, 2)
+model = m.FFController(3, READ_SIZE, 3)
 if CUDA:
     model.cuda()
 
 criterion = nn.CrossEntropyLoss()
 
 def randstr():
-	length = max(1, int(random.gauss(10, 2)))
+	length = min(max(MIN_LENGTH, int(random.gauss(MEAN_LENGTH, STD_LENGTH))), MAX_LENGTH)
 	return [random.randint(0, 1) for _ in xrange(length)]
 
 reverse = lambda s: s[::-1]
-floatT = lambda b: Variable(torch.FloatTensor([[1. if i == b else 0. for i in xrange(3)]]))
-longT = lambda b: Variable(torch.LongTensor([b]))
+onehot = lambda b: torch.FloatTensor([1. if i == b else 0. for i in xrange(3)])
 
-zero = lambda: Variable(torch.FloatTensor([[1., 0., 0.]]))
-end = lambda: Variable(torch.FloatTensor([[0., 0., 1.]]))
+def get_tensors(B):
+	X_raw = [randstr() for _ in xrange(B)]
 
-train_X = [randstr() for _ in xrange(800)]
-dev_X = [randstr() for _ in xrange(100)]
-test_X = [randstr() for _ in xrange(100)]
+	# initialize X to one-hot encodings of NULL
+	X = torch.FloatTensor(B, 2 * MAX_LENGTH, 3)
+	X[:,:,:2].fill_(0)
+	X[:,:,2].fill_(1)
 
-train_Y = [reverse(x) for x in train_X]
-dev_Y = [reverse(x) for x in dev_X]
-test_Y = [reverse(x) for x in test_X]
+	# initialize Y to NULL
+	Y = torch.LongTensor(B, 2 * MAX_LENGTH)
+	Y.fill_(2)
 
-train_X = [map(floatT, X) for X in train_X]
-dev_X = [map(floatT, X) for X in dev_X]
-test_X = [map(floatT, X) for X in test_X]
+	for i, x in enumerate(X_raw):
+		y = reverse(x)
+		for j, char in enumerate(x):
+			X[i,j,:] = onehot(char)
+			Y[i,j + len(x)] = y[j]
+	return Variable(X), Variable(Y)
 
-train_Y = [map(longT, X) for X in train_Y]
-dev_Y = [map(longT, X) for X in dev_Y]
-test_Y = [map(longT, X) for X in test_Y]
+train_X, train_Y = get_tensors(800)
+dev_X, dev_Y = get_tensors(100)
+test_X, test_Y = get_tensors(100)
 
 def train(train_X, train_Y):
 	model.train()
 	total_loss = 0.
 
-	for batch, i in enumerate(xrange(0, len(train_X) - BATCH_SIZE, BATCH_SIZE)):
+	for batch, i in enumerate(xrange(0, len(train_X.data) - BATCH_SIZE, BATCH_SIZE)):
 		
 		digits_correct = 0
 		digits_total = 0
 		batch_loss = 0.
 
-		for j in xrange(i, i + BATCH_SIZE):
-			X, Y = train_X[j], train_Y[j]
-			model.init_stack()
-			for x in X:
-				model.forward(x)
-			for y in Y:
-				a = model.forward(end())
-				_, y_ = torch.max(a, 1)
+		X, Y = train_X[i:i+BATCH_SIZE,:,:], train_Y[i:i+BATCH_SIZE,:]
+		model.init_stack(BATCH_SIZE)
+		for j in xrange(2 * MAX_LENGTH):
 
-				digits_total += 1
-				digits_correct += len(torch.nonzero((y_ == y).data))
+			a = model.forward(X[:,j,:])
 
-				# batch loss is normalized for length
-				batch_loss += criterion(a, y) / len(X)
+			indices = Y[:,j] != 2
+			valid_a = a[indices.view(-1, 1)].view(-1, 3)
+			valid_Y = Y[:,j][indices]
+
+			if len(valid_a) == 0: continue
+
+			_, valid_y_ = torch.max(valid_a, 1)
+			digits_total += len(valid_a)
+			digits_correct += len(torch.nonzero((valid_y_ == valid_Y).data))
+			batch_loss += criterion(valid_a, valid_Y)
 		
 		# update the weights
 		optimizer.zero_grad()
@@ -82,35 +94,37 @@ def train(train_X, train_Y):
 		
 		total_loss += batch_loss.data
 		if batch % 10 == 0:
-			print "batch {}: loss={:.2f}, acc={:.2f}".format(batch, sum(batch_loss.data) / BATCH_SIZE, digits_correct / digits_total)
+			print "batch {}: loss={:.4f}, acc={:.2f}".format(batch, sum(batch_loss.data) / BATCH_SIZE, digits_correct / digits_total)
 
 def evaluate(test_X, test_Y):
 	model.eval()
 	total_loss = 0.
 	digits_correct = 0
 	digits_total = 0
-	for j in xrange(len(test_X)):
-		X, Y = train_X[j], train_Y[j]
-		model.init_stack()
-		for x in X:
-			model.forward(x)
-		for y in Y:
-			a = model.forward(end())
-			_, y_ = torch.max(a, 1)
+	model.init_stack(len(test_X.data))
+	for j in xrange(2 * MAX_LENGTH):
 
-			digits_total += 1
-			digits_correct += len(torch.nonzero((y_ == y).data))
+		a = model.forward(test_X[:,j,:])
 
-			total_loss += criterion(a, y) / len(X)
+		indices = test_Y[:,j] != 2
+		valid_a = a[indices.view(-1, 1)].view(-1, 3)
+		valid_Y = test_Y[:,j][indices]
 
-	print "epoch {}: loss={:.2f}, acc={:.2f}".format(epoch, sum(total_loss.data) / len(test_X), digits_correct / digits_total)
+		if len(valid_a) == 0: continue
 
+		_, valid_y_ = torch.max(valid_a, 1)
+		digits_total += len(valid_a)
+		digits_correct += len(torch.nonzero((valid_y_ == valid_Y).data))
+		total_loss += criterion(valid_a, valid_Y)
+
+	print "epoch {}: loss={:.4f}, acc={:.2f}".format(epoch, sum(total_loss.data) / len(test_X), digits_correct / digits_total)
 
 # optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 print "hyperparameters: lr={}, batch_size={}, read_dim={}".format(LEARNING_RATE, BATCH_SIZE, READ_SIZE)
 for epoch in xrange(EPOCHS):
 	print "-- starting epoch {} --".format(epoch)
-	train_X, train_Y = shuffle(train_X, train_Y)
+	perm = torch.randperm(800)
+	train_X, train_Y = train_X[perm], train_Y[perm]
 	train(train_X, train_Y)
 	evaluate(dev_X, dev_Y)
