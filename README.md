@@ -18,7 +18,7 @@ PyTorch hello world example to see how to use it.
 It's possible that there are still bugs in stack.py, and there are definitely inefficiencies. The more pairs of eyes that read through the stack implementation, the better it gets.
 
 Some specific things that can be done are:
-* Initialize stack memory block to a parameterized constant size rather than concating repeatedly. This would let us train instances of different length in the same parallel batch.
+* Initialize stack memory block to a parameterized constant size rather than concating repeatedly.
 * Implement an LSTM controller network. This should be pretty simple using the built-in recurrent architectures in PyTorch (see [PyTorch documentation on LSTMs](http://pytorch.org/docs/master/nn.html)).
 * Get rid of for loops in stack.py? Not sure how necessary this is, but could add some benefits towards parallelization.
 
@@ -32,7 +32,7 @@ x:       1 1 0 1 - - - -
 y:       - - - - 1 0 1 1
 ~~~~
 
-In 10 epochs, the network achieves 77% test accuracy. I'm sure this would go higher with more training.
+In 30 epochs, the network achieves over 95% test accuracy. Note that, since the dataset it is learning is generated each time, it will sometimes get stuck on a local minimum.
 
 As far as more linguistically interesting tasks, there's also a dataset for agreement in the
 folder rnn_agr_simple. We discussed other tasks in CLAY meetings that I will write down here at some point.
