@@ -41,13 +41,13 @@ class Stack(nn.Module):
 		# update s, which is of size [t, batch_size]
 		old_t = self.s.data.shape[0] if self.s.data.shape else 0
 		s = Variable(torch.FloatTensor(old_t + 1, self.batch_size))
-		w = Variable(torch.FloatTensor(u.data), requires_grad=False)
+		w = u
 		for i in reversed(xrange(old_t)):
 			s_ = F.relu(self.s[i,:] - w)
 			w = F.relu(w - self.s[i,:])
 			s[i,:] = s_
 			# if len(torch.nonzero(w.data)) == 0: break
-			# FIXME above line shouldn't make things go crazy
+			# TODO does this if work properly now?
 		s[old_t,:] = d
 		self.s = s
 
@@ -72,7 +72,7 @@ class Stack(nn.Module):
 			if b > 0:
 				print "----------------------------"
 			for i in xrange(V.shape[0]):
-				print "{:.2}\t|\t{:.2f}".format("\t".join(str(x) for x in V[i, b,:]), self.s[i, b].data[0])
+				print "{}\t|\t{:.2f}".format("\t".join("{:.2f}".format(x) for x in V[i, b,:]), self.s[i, b].data[0])
 
 if __name__ == "__main__":
 	print "Running stack tests.."
