@@ -32,7 +32,7 @@ x:       1 1 0 1 - - - -
 y:       - - - - 1 0 1 1
 ~~~~
 
-In 30 epochs, the network tends to achieve over 95% test accuracy. Since the dataset it is learning is randomly generated each run, the model will sometimes get stuck on a local minimum.
+In 30 epochs, the network tends to achieve over 95% test accuracy. Since the dataset it is learning is randomly generated each run, the model will sometimes get stuck.
 
 As far as more linguistically interesting tasks, there's also a dataset for agreement in the
 folder rnn_agr_simple. We discussed other tasks in CLAY meetings that I will write down here at some point.
