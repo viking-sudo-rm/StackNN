@@ -94,7 +94,8 @@ def train(train_X, train_Y):
 		
 		total_loss += batch_loss.data
 		if batch % 10 == 0:
-			print "batch {}: loss={:.4f}, acc={:.2f}".format(batch, sum(batch_loss.data) / BATCH_SIZE, digits_correct / digits_total)
+			mean_loss = sum(batch_loss.data) / BATCH_SIZE
+			print "batch {}: loss={:.4f}, acc={:.2f}".format(batch, mean_loss, digits_correct / digits_total)
 
 def evaluate(test_X, test_Y):
 	model.eval()
@@ -117,7 +118,8 @@ def evaluate(test_X, test_Y):
 		digits_correct += len(torch.nonzero((valid_y_ == valid_Y).data))
 		total_loss += criterion(valid_a, valid_Y)
 
-	print "epoch {}: loss={:.4f}, acc={:.2f}".format(epoch, sum(total_loss.data) / len(test_X), digits_correct / digits_total)
+	mean_loss = sum(total_loss.data) / len(test_X)
+	print "epoch {}: loss={:.4f}, acc={:.2f}".format(epoch, mean_loss, digits_correct / digits_total)
 
 # optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)

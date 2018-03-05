@@ -20,6 +20,7 @@ class Stack(nn.Module):
 		self.s = Variable(torch.FloatTensor(0))
 
 		self.zero = Variable(torch.zeros(batch_size))
+		# TODO is this okay?
 
 		self.batch_size = batch_size
 		self.embedding_size = embedding_size
@@ -36,6 +37,7 @@ class Stack(nn.Module):
 		v = v.view(1, self.batch_size, self.embedding_size)
 		self.V = torch.cat([self.V, v], 0) if len(self.V.data) != 0 else v
 
+		# TODO append to self.s so we can terminate lower loop early?
 		# TODO initialize stack to fixed size
 
 		# update s, which is of size [t, batch_size]
@@ -47,7 +49,6 @@ class Stack(nn.Module):
 			w = F.relu(w - self.s[i,:])
 			s[i,:] = s_
 			# if len(torch.nonzero(w.data)) == 0: break
-			# TODO does this if work properly now?
 		s[old_t,:] = d
 		self.s = s
 
@@ -75,7 +76,7 @@ class Stack(nn.Module):
 				print "{}\t|\t{:.2f}".format("\t".join("{:.2f}".format(x) for x in V[i, b,:]), self.s[i, b].data[0])
 
 if __name__ == "__main__":
-	print "Running stack tests.."
+	print "Simulating example stack.."
 	stack = Stack(1, 1)
 	stack.log()
 	out = stack.forward(
