@@ -8,7 +8,8 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 from sklearn.utils import shuffle
 
-m = __import__("model-bare")
+#m = __import__("model-bare")
+m = __import__("model-lstm")
 
 # Language parameters
 MIN_LENGTH = 1
@@ -17,14 +18,15 @@ STD_LENGTH = 2
 MAX_LENGTH = 12
 
 # Hyperparameters
-LEARNING_RATE = .01 # .01 and .1 seem to work well?
+LEARNING_RATE = .1 # .01 and .1 seem to work well?
 BATCH_SIZE = 10 # 10 is the best I've found
-READ_SIZE = 2 # was using 4 before
+READ_SIZE = 1 # was using 4 before
 
 CUDA = False
-EPOCHS = 30
+EPOCHS = 100
 
-model = m.FFController(3, READ_SIZE, 3)
+#model = m.FFController(3, READ_SIZE, 3)
+model = m.LSTM_Controller(3, READ_SIZE, 3)
 if CUDA:
     model.cuda()
 
@@ -65,7 +67,7 @@ def train(train_X, train_Y):
 	total_loss = 0.
 
 	for batch, i in enumerate(xrange(0, len(train_X.data) - BATCH_SIZE, BATCH_SIZE)):
-		
+
 		digits_correct = 0
 		digits_total = 0
 		batch_loss = 0.
@@ -86,12 +88,12 @@ def train(train_X, train_Y):
 			digits_total += len(valid_a)
 			digits_correct += len(torch.nonzero((valid_y_ == valid_Y).data))
 			batch_loss += criterion(valid_a, valid_Y)
-		
+
 		# update the weights
 		optimizer.zero_grad()
 		batch_loss.backward()
 		optimizer.step()
-		
+
 		total_loss += batch_loss.data
 		if batch % 10 == 0:
 			mean_loss = sum(batch_loss.data) / BATCH_SIZE
