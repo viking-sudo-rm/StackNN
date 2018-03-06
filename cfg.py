@@ -37,7 +37,8 @@ S -> '(' S ')' [0.2] | '(' ')' [0.2]
 S -> '[' S ']' [0.2] | '[' ']' [0.2]
 """)
 
-parenthesis_strings = list(generate(grammar, depth=5))
+# parenthesis_strings = list(generate(grammar, depth=3))
+# was using this to set max depth ^
 code_for = {u'(': 0, u')': 1, u'[': 2, u']': 3, '#': 4}
 
 model = m.FFController(len(code_for), READ_SIZE, len(code_for))
@@ -46,9 +47,24 @@ if CUDA:
 
 criterion = nn.CrossEntropyLoss()
 
+def generate_sample(grammar, prod, frags):
+    """
+    Generate random sentence using PCFG.
+    @see https://stackoverflow.com/questions/15009656/how-to-use-nltk-to-generate-sentences-from-an-induced-grammar
+    """     
+    if prod in grammar._lhs_index: # Derivation
+        derivations = grammar._lhs_index[prod]            
+        derivation = random.choice(derivations)            
+        for d in derivation._rhs:            
+            generate_sample(grammar, d, frags)
+    elif prod in grammar._rhs_index:
+        # terminal
+        frags.append(str(prod))
+
 def randstr():
-    #	return [random.randint(0, 1) for _ in xrange(length)]
-    string = random.choice(parenthesis_strings)
+    string = []
+    generate_sample(grammar, grammar.start(), string)
+    # string = random.choice(parenthesis_strings)
     return [code_for[s] for s in string]
 
 
