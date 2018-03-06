@@ -36,10 +36,10 @@ S -> S S [0.2]
 S -> '(' S ')' [0.2] | '(' ')' [0.2]
 S -> '[' S ']' [0.2] | '[' ']' [0.2]
 """)
+code_for = {u'(': 0, u')': 1, u'[': 2, u']': 3, '#': 4}
 
 # parenthesis_strings = list(generate(grammar, depth=3))
 # was using this to set max depth ^
-code_for = {u'(': 0, u')': 1, u'[': 2, u']': 3, '#': 4}
 
 model = m.FFController(len(code_for), READ_SIZE, len(code_for))
 if CUDA:
