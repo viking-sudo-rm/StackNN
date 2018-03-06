@@ -12,6 +12,7 @@ from torch.autograd import Variable
 from sklearn.utils import shuffle
 from nltk.parse.generate import generate
 from nltk import CFG, PCFG
+from itertools import izip
 
 m = __import__("model-bare")
 
@@ -30,22 +31,20 @@ READ_SIZE = 2  # length of vectors on the stack
 CUDA = False
 EPOCHS = 30
 
-grammar = PCFG.fromstring("""S -> S S [0.2]
- S -> '(' S ')' [0.2] | '(' ')' [0.2]
- S -> '[' S ']' [0.2] | '[' ']' [0.2]""")
-
-# print grammar
+grammar = PCFG.fromstring("""
+S -> S S [0.2]
+S -> '(' S ')' [0.2] | '(' ')' [0.2]
+S -> '[' S ']' [0.2] | '[' ']' [0.2]
+""")
 
 parenthesis_strings = list(generate(grammar, depth=5))
+code_for = {u'(': 0, u')': 1, u'[': 2, u']': 3, '#': 4}
 
-model = m.FFController(3, READ_SIZE, 3)
+model = m.FFController(len(code_for), READ_SIZE, len(code_for))
 if CUDA:
     model.cuda()
 
 criterion = nn.CrossEntropyLoss()
-
-code_for = {u'(': 0, u')': 1, u'[': 2, u']': 3, '#': 4}
-
 
 def randstr():
     #	return [random.randint(0, 1) for _ in xrange(length)]
@@ -92,23 +91,24 @@ def train(train_X, train_Y):
 
     for batch, i in enumerate(xrange(0, len(train_X.data) - BATCH_SIZE, BATCH_SIZE)):
 
-        digits_correct = 0
-        digits_total = 0
-        batch_loss = 0.
-
         X, Y = train_X[i:i + BATCH_SIZE, :, :], train_Y[i:i + BATCH_SIZE]
         model.init_stack(BATCH_SIZE)
+
         valid_X = (X[:, :, len(code_for) - 1] != 1)
-        lengths_X = torch.sum(valid_X, 1)
-
-        A = Variable(torch.FloatTensor(B, len(code_for)))
-
+        lengths_X = torch.sum(valid_X.type(torch.LongTensor), 1)
+        A = Variable(torch.FloatTensor(BATCH_SIZE, MAX_LENGTH, len(code_for)))
+        
         for j in xrange(MAX_LENGTH):
             a = model.forward(X[:, j, :])
-            A[:, j] = torch.transpose(a, 0, 1)
+            A[:, j, :] = a
 
-            ##############  to here !!!!!!!!!!!!!!!!!
-            batch_loss += criterion(valid_a, valid_Y)
+        # see https://stackoverflow.com/questions/49104307/indexing-on-axis-by-list-in-pytorch
+        predicted_Y = torch.stack([a[i] for a, i in izip(A, lengths_X)])
+        predicted_Y = torch.squeeze(predicted_Y)
+
+        batch_loss = criterion(predicted_Y, Y)
+        _, predictions = torch.max(predicted_Y, 1)
+        accuracy = sum((predictions == Y).data) / len(Y.data)
 
         # update the weights
         optimizer.zero_grad()
@@ -117,37 +117,31 @@ def train(train_X, train_Y):
 
         total_loss += batch_loss.data
         if batch % 10 == 0:
-            print "batch {}: loss={:.4f}, acc={:.2f}".format(batch, sum(batch_loss.data) / BATCH_SIZE,
-                                                             digits_correct / digits_total)
+            print "batch {}: loss={:.4f}, acc={:.2f}".format(batch, sum(batch_loss.data) / BATCH_SIZE, accuracy)
 
 
 def evaluate(test_X, test_Y):
     model.eval()
-    total_loss = 0.
-    digits_correct = 0
-    digits_total = 0
     model.init_stack(len(test_X.data))
-    for j in xrange(2 * MAX_LENGTH):
 
+    valid_X = (test_X[:, :, len(code_for) - 1] != 1)
+    lengths_X = torch.sum(valid_X.type(torch.LongTensor), 1)
+    A = Variable(torch.FloatTensor(len(test_X.data), MAX_LENGTH, len(code_for)))
+    
+    for j in xrange(MAX_LENGTH):
         a = model.forward(test_X[:, j, :])
+        A[:, j, :] = a
 
-        # print the (first) stack after every step
-        model.stack.log0()
+    # see https://stackoverflow.com/questions/49104307/indexing-on-axis-by-list-in-pytorch
+    predicted_Y = torch.stack([a[i] for a, i in izip(A, lengths_X)])
+    predicted_Y = torch.squeeze(predicted_Y)
 
-        indices = test_Y[:, j] != 2
-        valid_a = a[indices.view(-1, 1)].view(-1, 3)
-        valid_Y = test_Y[:, j][indices]
+    _, predictions = torch.max(predicted_Y, 1)
+    accuracy = sum((predictions == test_Y).data) / len(test_Y.data)
+    total_loss = criterion(predicted_Y, test_Y)
 
-        if len(valid_a) == 0: continue
-
-        _, valid_y_ = torch.max(valid_a, 1)
-        digits_total += len(valid_a)
-        digits_correct += len(torch.nonzero((valid_y_ == valid_Y).data))
-        total_loss += criterion(valid_a, valid_Y)
-
-    print model.state_dict()
-    print "epoch {}: loss={:.4f}, acc={:.2f}".format(epoch, sum(total_loss.data) / len(test_X),
-                                                     digits_correct / digits_total)
+    # print model.state_dict()
+    print "epoch {}: loss={:.4f}, acc={:.2f}".format(epoch, sum(total_loss.data) / len(test_X), accuracy)
 
 
 # optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
