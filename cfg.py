@@ -45,7 +45,8 @@ model = m.FFController(len(code_for), READ_SIZE, len(code_for))
 if CUDA:
     model.cuda()
 
-criterion = nn.CrossEntropyLoss()
+# Requires PyTorch 0.3.x
+criterion = nn.CrossEntropyLoss(reduce=False)
 
 def generate_sample(grammar, prod, frags):
     """
@@ -81,50 +82,56 @@ def get_tensors(B):
     X[:, :, len(code_for) - 1].fill_(1)
 
     # initialize Y to NULL
-    Y = torch.LongTensor(B)
-    Y.fill_(0)
+    # Y = torch.LongTensor(B)
+    # Y.fill_(0)
+
+    # for i, x in enumerate(X_raw):
+    #     length = min(max(MIN_LENGTH - 1, int(random.gauss(MEAN_LENGTH, STD_LENGTH))), len(x) - 1)
+    #     for j, char in enumerate(x[:length]):
+    #         X[i, j, :] = onehot(char)
+    #     Y[i] = x[length]
+    # return Variable(X), Variable(Y)
 
     for i, x in enumerate(X_raw):
         length = min(max(MIN_LENGTH - 1, int(random.gauss(MEAN_LENGTH, STD_LENGTH))), len(x) - 1)
         for j, char in enumerate(x[:length]):
             X[i, j, :] = onehot(char)
-        Y[i] = x[length]
-    return Variable(X), Variable(Y)
+    return Variable(X)
 
+# train_X, train_Y = get_tensors(800)
+# dev_X, dev_Y = get_tensors(100)
+# test_X, test_Y = get_tensors(100)
 
-train_X, train_Y = get_tensors(800)
+train_X = get_tensors(800)
+dev_X = get_tensors(100)
+test_X = get_tensors(100)
 
-# print train_X[0,0,:]
-# print train_Y[0]
-
-dev_X, dev_Y = get_tensors(100)
-test_X, test_Y = get_tensors(100)
-
-
-def train(train_X, train_Y):
+def train(train_X):
     model.train()
     total_loss = 0.
+    num_correct = 0
+    num_total = 0
+
+    # avged per mini-batch
 
     for batch, i in enumerate(xrange(0, len(train_X.data) - BATCH_SIZE, BATCH_SIZE)):
 
-        X, Y = train_X[i:i + BATCH_SIZE, :, :], train_Y[i:i + BATCH_SIZE]
+        batch_loss = 0.
+
+        X = train_X[i:i + BATCH_SIZE, :, :]
         model.init_stack(BATCH_SIZE)
 
-        valid_X = (X[:, :, len(code_for) - 1] != 1)
-        lengths_X = torch.sum(valid_X.type(torch.LongTensor), 1)
-        A = Variable(torch.FloatTensor(BATCH_SIZE, MAX_LENGTH, len(code_for)))
+        valid_X = (X[:, :, len(code_for) - 1] != 1).type(torch.FloatTensor)
         
-        for j in xrange(MAX_LENGTH):
-            a = model.forward(X[:, j, :])
-            A[:, j, :] = a
+        for j in xrange(1, MAX_LENGTH):
 
-        # see https://stackoverflow.com/questions/49104307/indexing-on-axis-by-list-in-pytorch
-        predicted_Y = torch.stack([a[i] for a, i in izip(A, lengths_X)])
-        predicted_Y = torch.squeeze(predicted_Y)
+            a = model.forward(X[:, j - 1, :])
+            _, y = torch.max(X[:, j, :], 1)
+            _, y_pred = torch.max(a, 1)
 
-        batch_loss = criterion(predicted_Y, Y)
-        _, predictions = torch.max(predicted_Y, 1)
-        accuracy = sum((predictions == Y).data) / len(Y.data)
+            batch_loss += torch.mean(valid_X[:, j] * criterion(a, y))
+            num_correct += sum((valid_X[:, j] * (y_pred == y).type(torch.FloatTensor)).data)
+            num_total += sum(valid_X[:, j].data)
 
         # update the weights
         optimizer.zero_grad()
@@ -133,31 +140,32 @@ def train(train_X, train_Y):
 
         total_loss += batch_loss.data
         if batch % 10 == 0:
-            print "batch {}: loss={:.4f}, acc={:.2f}".format(batch, sum(batch_loss.data) / BATCH_SIZE, accuracy)
+            print "batch {}: loss={:.4f}, acc={:.2f}".format(batch, sum(batch_loss.data), num_correct / num_total)
 
 
-def evaluate(test_X, test_Y):
+def evaluate(test_X):
+
     model.eval()
     model.init_stack(len(test_X.data))
 
-    valid_X = (test_X[:, :, len(code_for) - 1] != 1)
-    lengths_X = torch.sum(valid_X.type(torch.LongTensor), 1)
-    A = Variable(torch.FloatTensor(len(test_X.data), MAX_LENGTH, len(code_for)))
+    total_loss = 0.
+    num_correct = 0
+    num_total = 0
+
+    valid_X = (test_X[:, :, len(code_for) - 1] != 1).type(torch.FloatTensor)
     
     for j in xrange(MAX_LENGTH):
-        a = model.forward(test_X[:, j, :])
-        A[:, j, :] = a
 
-    # see https://stackoverflow.com/questions/49104307/indexing-on-axis-by-list-in-pytorch
-    predicted_Y = torch.stack([a[i] for a, i in izip(A, lengths_X)])
-    predicted_Y = torch.squeeze(predicted_Y)
+        a = model.forward(test_X[:, j - 1, :])
+        _, y = torch.max(test_X[:, j, :], 1)
+        _, y_pred = torch.max(a, 1)
 
-    _, predictions = torch.max(predicted_Y, 1)
-    accuracy = sum((predictions == test_Y).data) / len(test_Y.data)
-    total_loss = criterion(predicted_Y, test_Y)
+        total_loss += torch.mean(valid_X[:, j] * criterion(a, y))
+        num_correct += sum((valid_X[:, j] * (y_pred == y).type(torch.FloatTensor)).data)
+        num_total += sum(valid_X[:, j].data)
 
     # print model.state_dict()
-    print "epoch {}: loss={:.4f}, acc={:.2f}".format(epoch, sum(total_loss.data) / len(test_X), accuracy)
+    print "epoch {}: loss={:.4f}, acc={:.2f}".format(epoch, sum(total_loss.data), num_correct / num_total)
 
 
 # optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
@@ -166,6 +174,6 @@ print "hyperparameters: lr={}, batch_size={}, read_dim={}".format(LEARNING_RATE,
 for epoch in xrange(EPOCHS):
     print "-- starting epoch {} --".format(epoch)
     perm = torch.randperm(800)
-    train_X, train_Y = train_X[perm], train_Y[perm]
-    train(train_X, train_Y)
-    evaluate(dev_X, dev_Y)
+    train_X = train_X[perm]
+    train(train_X)
+    evaluate(dev_X)
