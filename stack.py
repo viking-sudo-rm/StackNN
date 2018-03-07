@@ -48,7 +48,6 @@ class Stack(nn.Module):
 			s_ = F.relu(self.s[i,:] - w)
 			w = F.relu(w - self.s[i,:])
 			s[i,:] = s_
-			# if len(torch.nonzero(w.data)) == 0: break
 		s[old_t,:] = d
 		self.s = s
 

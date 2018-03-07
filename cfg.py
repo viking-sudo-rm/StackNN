@@ -28,7 +28,6 @@ LEARNING_RATE = .01  # .01 and .1 seem to work well?
 BATCH_SIZE = 10  # 10 is the best I've found
 READ_SIZE = 2  # length of vectors on the stack
 
-CUDA = False
 EPOCHS = 30
 
 grammar = PCFG.fromstring("""
@@ -42,8 +41,8 @@ code_for = {u'(': 0, u')': 1, u'[': 2, u']': 3, '#': 4}
 # was using this to set max depth ^
 
 model = m.FFController(len(code_for), READ_SIZE, len(code_for))
-if CUDA:
-    model.cuda()
+try: model.cuda()
+except AssertionError: pass
 
 # Requires PyTorch 0.3.x
 criterion = nn.CrossEntropyLoss(reduce=False)
