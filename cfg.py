@@ -93,8 +93,8 @@ def get_tensors(B):
     # return Variable(X), Variable(Y)
 
     for i, x in enumerate(X_raw):
-        length = min(max(MIN_LENGTH - 1, int(random.gauss(MEAN_LENGTH, STD_LENGTH))), len(x) - 1)
-        for j, char in enumerate(x[:length]):
+        # length = min(max(MIN_LENGTH - 1, int(random.gauss(MEAN_LENGTH, STD_LENGTH))), len(x) - 1)
+        for j, char in enumerate(x if len(x) < MAX_LENGTH else x[:MAX_LENGTH]):
             X[i, j, :] = onehot(char)
     return Variable(X)
 
@@ -153,7 +153,9 @@ def evaluate(test_X):
     num_total = 0
 
     valid_X = (test_X[:, :, len(code_for) - 1] != 1).type(torch.FloatTensor)
-    
+
+    y_prev = None
+
     for j in xrange(MAX_LENGTH):
 
         a = model.forward(test_X[:, j - 1, :])
@@ -163,6 +165,9 @@ def evaluate(test_X):
         total_loss += torch.mean(valid_X[:, j] * criterion(a, y))
         num_correct += sum((valid_X[:, j] * (y_pred == y).type(torch.FloatTensor)).data)
         num_total += sum(valid_X[:, j].data)
+
+        print str(F.softmax(a[0, :])) + ", " + str(y_prev) + ", " + str(y[0])
+        y_prev = y[0]
 
     # print model.state_dict()
     print "epoch {}: loss={:.4f}, acc={:.2f}".format(epoch, sum(total_loss.data), num_correct / num_total)
