@@ -22,13 +22,12 @@ LEARNING_RATE = .1 # .01 and .1 seem to work well?
 BATCH_SIZE = 10 # 10 is the best I've found
 READ_SIZE = 1 # was using 4 before
 
-CUDA = False
 EPOCHS = 100
 
 #model = m.FFController(3, READ_SIZE, 3)
 model = m.LSTM_Controller(3, READ_SIZE, 3)
-if CUDA:
-    model.cuda()
+try: model.cuda()
+except AssertionError: pass
 
 criterion = nn.CrossEntropyLoss()
 

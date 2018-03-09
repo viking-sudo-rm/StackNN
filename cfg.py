@@ -57,13 +57,14 @@ def generate_sample(grammar, prod, frags):
         derivation = random.choice(derivations)            
         for d in derivation._rhs:            
             generate_sample(grammar, d, frags)
-    elif prod in grammar._rhs_index:
+    else:
         # terminal
         frags.append(str(prod))
 
 def randstr():
     string = []
     generate_sample(grammar, grammar.start(), string)
+    print string
     # string = random.choice(parenthesis_strings)
     return [code_for[s] for s in string]
 
