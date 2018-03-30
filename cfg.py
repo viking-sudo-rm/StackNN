@@ -64,14 +64,11 @@ def generate_sample(grammar, prod, frags):
 def randstr():
     string = []
     generate_sample(grammar, grammar.start(), string)
-    print string
     # string = random.choice(parenthesis_strings)
     return [code_for[s] for s in string]
 
-
 reverse = lambda s: s[::-1]
 onehot = lambda b: torch.FloatTensor([1. if i == b else 0. for i in xrange(len(code_for))])
-
 
 def get_tensors(B):
     X_raw = [randstr() for _ in xrange(B)]
