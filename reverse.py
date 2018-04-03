@@ -19,6 +19,7 @@ MAX_LENGTH = 12
 
 # Hyperparameters
 LEARNING_RATE = .01 # .01 is baseline -- .1 doesn't work!
+LAMBDA = .01
 BATCH_SIZE = 10 # 10 is baseline
 READ_SIZE = 2 # 2 is baseline
 
@@ -122,9 +123,12 @@ def evaluate(test_X, test_Y):
 	mean_loss = sum(total_loss.data)
 	print "epoch {}: loss={:.4f}, acc={:.2f}".format(epoch, mean_loss, digits_correct / digits_total)
 
-# optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
-optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
-print "hyperparameters: lr={}, batch_size={}, read_dim={}".format(LEARNING_RATE, BATCH_SIZE, READ_SIZE)
+optimizer = optim.Adam(model.parameters(),
+	lr=LEARNING_RATE,
+	weight_decay=LAMBDA,
+)
+print "hyperparameters: lr={}, lambda={} batch_size={}, read_dim={}".format(LEARNING_RATE, LAMBDA, BATCH_SIZE, READ_SIZE)
+
 for epoch in xrange(EPOCHS):
 	print "-- starting epoch {} --".format(epoch)
 	perm = torch.randperm(800)
