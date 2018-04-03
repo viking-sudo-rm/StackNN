@@ -3,8 +3,7 @@ from __future__ import division
 import torch.nn as nn
 
 from tasks.reverse import ReverseTask
-
-m = __import__("model-bare")
+from models.vanilla import Controller
 
 read_size = 1
 task = ReverseTask(min_length=1,
@@ -16,7 +15,7 @@ task = ReverseTask(min_length=1,
                    read_size=read_size,
                    cuda=False,
                    epochs=100,
-                   model=m.FFController(3, read_size, 3),
+                   model=Controller(3, read_size, 3),
                    criterion=nn.CrossEntropyLoss(),
                    verbose=True)
 

@@ -8,8 +8,8 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 from sklearn.utils import shuffle
 
-#m = __import__("model-bare")
-m = __import__("model-lstm")
+# from models.lstm import Controller
+from models.vanilla import Controller
 
 # Language parameters
 MIN_LENGTH = 1
@@ -18,14 +18,13 @@ STD_LENGTH = 2
 MAX_LENGTH = 12
 
 # Hyperparameters
-LEARNING_RATE = .1 # .01 and .1 seem to work well?
-BATCH_SIZE = 10 # 10 is the best I've found
-READ_SIZE = 1 # was using 4 before
+LEARNING_RATE = .01 # .01 is baseline -- .1 doesn't work!
+BATCH_SIZE = 10 # 10 is baseline
+READ_SIZE = 2 # 2 is baseline
 
-EPOCHS = 100
+EPOCHS = 30
 
-#model = m.FFController(3, READ_SIZE, 3)
-model = m.LSTM_Controller(3, READ_SIZE, 3)
+model = Controller(3, READ_SIZE, 3)
 try: model.cuda()
 except AssertionError: pass
 
@@ -60,6 +59,7 @@ def get_tensors(B):
 train_X, train_Y = get_tensors(800)
 dev_X, dev_Y = get_tensors(100)
 test_X, test_Y = get_tensors(100)
+trace_X, _ = get_tensors(1)
 
 def train(train_X, train_Y):
 	model.train()
@@ -131,3 +131,4 @@ for epoch in xrange(EPOCHS):
 	train_X, train_Y = train_X[perm], train_Y[perm]
 	train(train_X, train_Y)
 	evaluate(dev_X, dev_Y)
+model.trace(trace_X)

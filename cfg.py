@@ -3,8 +3,6 @@
 """
 from __future__ import division
 
-import random
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -13,9 +11,10 @@ from torch.autograd import Variable
 from sklearn.utils import shuffle
 from nltk.parse.generate import generate
 from nltk import CFG, PCFG
+import random
 from itertools import izip
 
-m = __import__("model-bare")
+from models.vanilla import Controller
 
 # Language parameters
 MAX_LENGTH = 25  # bound on length of string (or prefix thereof)
@@ -118,12 +117,6 @@ def in_predict_codes(code):
     return False
 
 
-"""
-# print "test of in_predict_codes
-for s in code_for:
-    print "symbol = {}, in? = {}".format(s,in_predict_codes(onehot(code_for[s])))
-"""
-
 # sample_strings = all strings from grammar of depth at most sample_depth
 sample_strings = list(generate(grammar, depth=sample_depth))
 
@@ -137,11 +130,9 @@ print "random sample string = {}".format(random.choice(sample_strings))
 
 #################################
 
-model = m.FFController(len(code_for), READ_SIZE, len(code_for))
-try:
-    model.cuda()
-except AssertionError:
-    pass
+model = Controller(len(code_for), READ_SIZE, len(code_for))
+try: model.cuda()
+except AssertionError: pass
 
 # Requires PyTorch 0.3.x
 criterion = nn.CrossEntropyLoss(reduce=False)
@@ -197,6 +188,7 @@ def get_tensors(B):
 train_X = get_tensors(800)
 dev_X = get_tensors(100)
 test_X = get_tensors(100)
+trace_X = get_tensors(1)
 
 
 def train(train_X):
@@ -275,7 +267,7 @@ def evaluate(test_X):
         num_correct += sum((valid_X[:, j] * (y_pred == y).type(torch.FloatTensor)).data)
         num_total += sum(valid_X[:, j].data)
 
-        print str(F.softmax(a[0, :])) + ", " + str(y_prev) + ", " + str(y[0])
+        # print str(F.softmax(a[0, :])) + ", " + str(y_prev) + ", " + str(y[0])
         y_prev = y[0]
 
     # print model.state_dict()

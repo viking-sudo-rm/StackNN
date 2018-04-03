@@ -8,16 +8,15 @@ import torch.optim as optim
 import random
 
 from stack import Stack
+from model import Controller as AbstractController
 
 torch.manual_seed(1)
 
-class FFController(nn.Module):
+class Controller(AbstractController):
 
-	def __init__(self, batch_size, num_embeddings, embedding_size, read_size, output_size):
-		super(FFController, self).__init__()
-
-		self.read_size = read_size
-		self.batch_size = batch_size
+	def __init__(self, num_embeddings, embedding_size, read_size, output_size):
+		
+		super(Controller, self).__init__(read_size)
 
 		# initialize the controller parameters
 		self.embed = nn.Embedding(num_embeddings, embedding_size)
@@ -36,7 +35,3 @@ class FFController(nn.Module):
 		self.read = self.stack.forward(v.data, u.data, d.data)
 		# return F.softmax(output[:,2 + self.read_size:]) # log softmax?
 		return output[:,2 + self.read_size:] #should not apply softmax
-
-	def init_stack(self):
-		self.read = torch.zeros([self.batch_size, self.read_size])
-		self.stack = Stack(self.batch_size, self.read_size)

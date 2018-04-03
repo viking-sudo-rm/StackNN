@@ -5,6 +5,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 
+# TODO might want to swap dimensions on V for consistency
+
 class Stack(nn.Module):
 
 	"""
@@ -20,7 +22,6 @@ class Stack(nn.Module):
 		self.s = Variable(torch.FloatTensor(0))
 
 		self.zero = Variable(torch.zeros(batch_size))
-		# TODO is this okay?
 
 		self.batch_size = batch_size
 		self.embedding_size = embedding_size
