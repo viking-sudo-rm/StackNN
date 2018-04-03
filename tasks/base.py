@@ -2,6 +2,7 @@ from __future__ import division
 
 from abc import ABCMeta, abstractmethod
 
+import torch
 import torch.nn as nn
 import torch.optim as optim
 
@@ -55,15 +56,65 @@ class Task(object):
         self.test_x = None
         self.test_y = None
 
-    # @abstractmethod
-    # def get_data(self):
-    #     """
-    #     Generates or loads training and testing datasets
-    #     for this task.
-    #
-    #     :return: None
-    #     """
-    #     raise NotImplementedError("Missing implementation for get_data")
+    """ Experiments """
+
+    def run_experiment(self):
+        self._print_experiment_start()
+        self.get_data()
+        for epoch in xrange(self.epochs):
+            self.run_epoch(epoch)
+
+        return
+
+    def run_epoch(self, epoch):
+        """
+
+        :param epoch:
+        :return:
+        """
+        self._print_epoch_start(epoch)
+        self._shuffle_training_data()
+        self.train()
+        self.evaluate(epoch)
+
+    def _shuffle_training_data(self):
+        """
+        Shuffles the training data.
+
+        :return: None
+        """
+        num_examples = len(self.train_x)
+        shuffled_indices = torch.randperm(num_examples)
+        self.train_x = self.train_x[shuffled_indices]
+        self.train_y = self.train_y[shuffled_indices]
+        return
+
+    def _print_experiment_start(self):
+        """
+
+        :return:
+        """
+        if not self.verbose:
+            return
+
+        print "Learning Rate: " + str(self.learning_rate)
+        print "Batch Size: " + str(self.batch_size)
+        print "Read Size: " + str(self.read_size)
+        return
+
+    def _print_epoch_start(self, epoch):
+        """
+
+        :param epoch:
+        :return:
+        """
+        if not self.verbose:
+            return
+
+        print "\n-- Epoch " + str(epoch) + " --\n"
+        return
+
+    """ Model Training """
 
     def train(self):
         """
@@ -171,3 +222,15 @@ class Task(object):
 
         print message
         return
+
+    """ Data Generation """
+
+    @abstractmethod
+    def get_data(self):
+        """
+        Generates or loads training and testing datasets
+        for this task.
+
+        :return: None
+        """
+        raise NotImplementedError("Missing implementation for get_data")
