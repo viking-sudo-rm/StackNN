@@ -97,6 +97,15 @@ class ReverseTask(Task):
 
     """ Data Generation """
 
+    def get_data(self):
+        """
+
+        :return:
+        """
+        self.train_x, self.train_y = self.get_tensors(800)
+        self.test_x, self.test_y = self.get_tensors(100)
+        return
+
     def randstr(self):
         """
         Generates a random string of 0s and 1s. The length of the
