@@ -9,8 +9,6 @@ import random
 from stack import Stack
 from model import Controller as AbstractController
 
-torch.manual_seed(1)
-
 class Controller(AbstractController):
 
 	def __init__(self, input_size, read_size, output_size):
@@ -39,6 +37,7 @@ class Controller(AbstractController):
 		output, hidden = self.lstm(lstm_input, self.hidden)
 		self.hidden = hidden	#update hidden state for next time
 
+		# TODO what happens if we use softmax afor write vector?
 		read_params = F.sigmoid(output[:,:,:2 + self.read_size].squeeze())
 		u, d, v = read_params[:,0].contiguous(), read_params[:,1].contiguous(), read_params[:,2:].contiguous()
 		self.read = self.stack.forward(v, u, d)
@@ -47,7 +46,7 @@ class Controller(AbstractController):
 
 	def init_stack(self, batch_size):
 
-		super(LSTMController, self).init_stack(batch_size)
+		super(Controller, self).init_stack(batch_size)
 
 		# create an initial hidden state of 0s for the lstm
 		# needed to "clean out" the model for re-use on new inputs
