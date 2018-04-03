@@ -9,7 +9,12 @@ import torch.optim as optim
 
 class Task(object):
     """
-    Abstract class for stack NN tasks.
+    Abstract class for creating experiments that train and evaluate a
+    neural network model with a neural stack or queue. To create a
+    custom task, create a class inheriting from this one that overrides
+    the constructor self.__init__ and the functions self.get_data and
+    self._evaluate_step.
+
     """
     __metaclass__ = ABCMeta
 
@@ -89,6 +94,8 @@ class Task(object):
         self.test_x = None
         self.test_y = None
 
+        return
+
     """ Experiments """
 
     def run_experiment(self):
@@ -125,6 +132,8 @@ class Task(object):
         self.train()
         self.evaluate(epoch)
 
+        return
+
     def _shuffle_training_data(self):
         """
         Shuffles the training data.
@@ -135,6 +144,7 @@ class Task(object):
         shuffled_indices = torch.randperm(num_examples)
         self.train_x = self.train_x[shuffled_indices]
         self.train_y = self.train_y[shuffled_indices]
+
         return
 
     def _print_experiment_start(self):
@@ -150,6 +160,7 @@ class Task(object):
         print "Learning Rate: " + str(self.learning_rate)
         print "Batch Size: " + str(self.batch_size)
         print "Read Size: " + str(self.read_size)
+
         return
 
     def _print_epoch_start(self, epoch):
@@ -166,6 +177,7 @@ class Task(object):
             return
 
         print "\n-- Epoch " + str(epoch) + " --\n"
+
         return
 
     """ Model Training """
@@ -189,6 +201,8 @@ class Task(object):
             self.model.init_stack(self.batch_size)
             self._evaluate_batch(x, y, batch, i)
 
+        return
+
     def evaluate(self, epoch):
         """
         Evaluates the model given by self.model using the testing data
@@ -202,6 +216,8 @@ class Task(object):
         self.model.eval()
         self.model.init_stack(len(self.test_x.data))
         self._evaluate_batch(self.test_x, self.test_y, epoch, False)
+
+        return
 
     def _evaluate_batch(self, x, y, name, is_batch):
         """
