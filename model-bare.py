@@ -30,9 +30,8 @@ class FFController(nn.Module):
 	def forward(self, x):
 		output = self.linear(torch.cat([x, self.read], 1))
 		read_params = F.sigmoid(output[:,:2 + self.read_size])
-		# u, d, v = read_params[:,0], read_params[:,1], read_params[:,2:]
-		u, d, v = read_params[:,0].contiguous(), read_params[:,1].contiguous(), read_params[:,2:].contiguous()
-		self.read = self.stack.forward(v, u, d)
+		self.u, self.d, self.v = read_params[:,0].contiguous(), read_params[:,1].contiguous(), read_params[:,2:].contiguous()
+		self.read = self.stack.forward(self.v, self.u, self.d)
 		return output[:,2 + self.read_size:]
 
 	def init_stack(self, batch_size):

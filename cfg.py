@@ -3,8 +3,6 @@
 """
 from __future__ import division
 
-import random
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -13,7 +11,11 @@ from torch.autograd import Variable
 from sklearn.utils import shuffle
 from nltk.parse.generate import generate
 from nltk import CFG, PCFG
+import random
 from itertools import izip
+
+import numpy as np
+import matplotlib.pyplot as plt
 
 m = __import__("model-bare")
 
@@ -118,12 +120,6 @@ def in_predict_codes(code):
     return False
 
 
-"""
-# print "test of in_predict_codes
-for s in code_for:
-    print "symbol = {}, in? = {}".format(s,in_predict_codes(onehot(code_for[s])))
-"""
-
 # sample_strings = all strings from grammar of depth at most sample_depth
 sample_strings = list(generate(grammar, depth=sample_depth))
 
@@ -197,6 +193,7 @@ def get_tensors(B):
 train_X = get_tensors(800)
 dev_X = get_tensors(100)
 test_X = get_tensors(100)
+trace_X = get_tensors(1)
 
 
 def train(train_X):
@@ -282,6 +279,24 @@ def evaluate(test_X):
     print "epoch {}: loss={:.4f}, acc={:.2f}".format(epoch, sum(total_loss.data), num_correct / num_total)
 
 
+def trace(trace_X):
+    """
+    TODO should be added to an abstract class from which all models inherit
+    Visualize stack activations for a single training sample.
+    @param trace_X [1, max_length, input_size] tensor
+    """
+    model.eval()
+    model.init_stack(1)
+    data = np.zeros([4, MAX_LENGTH]) # 2 + len(v)
+    for j in xrange(1, MAX_LENGTH):
+        model.forward(trace_X[:, j - 1, :])
+        data[0,j] = model.u.data.numpy()
+        data[1,j] = model.d.data.numpy()
+        data[2:,j] = model.v.data.numpy()
+    plt.imshow(data, cmap="hot", interpolation="nearest")
+    plt.show()
+
+
 # optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 print "hyperparameters: lr={}, batch_size={}, read_dim={}".format(LEARNING_RATE, BATCH_SIZE, READ_SIZE)
@@ -291,3 +306,5 @@ for epoch in xrange(EPOCHS):
     train_X = train_X[perm]
     train(train_X)
     evaluate(dev_X)
+
+    trace(trace_X)
