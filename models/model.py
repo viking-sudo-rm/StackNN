@@ -24,7 +24,7 @@ class Controller(nn.Module):
 	
 	@abstractmethod
 	def forward(self, x):
-		pass
+		return NotImplementedError("Must define forward pass.")
 
 	def init_stack(self, batch_size):
 		self.read = Variable(torch.zeros([batch_size, self.read_size]))
