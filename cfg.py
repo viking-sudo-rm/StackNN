@@ -14,10 +14,7 @@ from nltk import CFG, PCFG
 import random
 from itertools import izip
 
-import numpy as np
-import matplotlib.pyplot as plt
-
-m = __import__("model-bare")
+from models.vanilla import Controller
 
 # Language parameters
 MAX_LENGTH = 25  # bound on length of string (or prefix thereof)
@@ -133,11 +130,9 @@ print "random sample string = {}".format(random.choice(sample_strings))
 
 #################################
 
-model = m.FFController(len(code_for), READ_SIZE, len(code_for))
-try:
-    model.cuda()
-except AssertionError:
-    pass
+model = Controller(len(code_for), READ_SIZE, len(code_for))
+try: model.cuda()
+except AssertionError: pass
 
 # Requires PyTorch 0.3.x
 criterion = nn.CrossEntropyLoss(reduce=False)
@@ -272,29 +267,11 @@ def evaluate(test_X):
         num_correct += sum((valid_X[:, j] * (y_pred == y).type(torch.FloatTensor)).data)
         num_total += sum(valid_X[:, j].data)
 
-        print str(F.softmax(a[0, :])) + ", " + str(y_prev) + ", " + str(y[0])
+        # print str(F.softmax(a[0, :])) + ", " + str(y_prev) + ", " + str(y[0])
         y_prev = y[0]
 
     # print model.state_dict()
     print "epoch {}: loss={:.4f}, acc={:.2f}".format(epoch, sum(total_loss.data), num_correct / num_total)
-
-
-def trace(trace_X):
-    """
-    TODO should be added to an abstract class from which all models inherit
-    Visualize stack activations for a single training sample.
-    @param trace_X [1, max_length, input_size] tensor
-    """
-    model.eval()
-    model.init_stack(1)
-    data = np.zeros([4, MAX_LENGTH]) # 2 + len(v)
-    for j in xrange(1, MAX_LENGTH):
-        model.forward(trace_X[:, j - 1, :])
-        data[0,j] = model.u.data.numpy()
-        data[1,j] = model.d.data.numpy()
-        data[2:,j] = model.v.data.numpy()
-    plt.imshow(data, cmap="hot", interpolation="nearest")
-    plt.show()
 
 
 # optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
@@ -306,5 +283,3 @@ for epoch in xrange(EPOCHS):
     train_X = train_X[perm]
     train(train_X)
     evaluate(dev_X)
-
-    trace(trace_X)
