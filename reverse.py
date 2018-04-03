@@ -18,9 +18,9 @@ STD_LENGTH = 2
 MAX_LENGTH = 12
 
 # Hyperparameters
-LEARNING_RATE = .1 # .01 and .1 seem to work well?
-BATCH_SIZE = 10 # 10 is the best I've found
-READ_SIZE = 1 # was using 4 before
+LEARNING_RATE = .01 # .01 is baseline -- .1 doesn't work!
+BATCH_SIZE = 10 # 10 is baseline
+READ_SIZE = 2 # 2 is baseline
 
 EPOCHS = 30
 
