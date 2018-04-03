@@ -12,7 +12,7 @@ from math import sqrt
 from stack import Stack
 from model import Controller as AbstractController
 
-torch.manual_seed(1)
+# torch.manual_seed(1)
 
 class Controller(AbstractController):
 
@@ -23,8 +23,8 @@ class Controller(AbstractController):
 		# initialize the controller parameters
 		self.linear = nn.Linear(input_size + read_size, 2 + read_size + output_size)
 		# self.linear.weight.data.normal_(0, sqrt(2 / (input_size + read_size)))
-		# self.linear.weight.data.normal_(0, sqrt(input_size + read_size))
-		self.linear.weight.data.uniform_(-.1, .1)
+		self.linear.weight.data.normal_(0, sqrt(input_size + read_size))
+		# self.linear.weight.data.uniform_(-.1, .1)
 		self.linear.bias.data.fill_(0)
 	
 	def forward(self, x):
