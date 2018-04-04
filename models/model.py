@@ -10,19 +10,21 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 from math import sqrt
+from abc import ABCMeta, abstractmethod
 
 from stack import Stack
 
-torch.manual_seed(1)
-
 class Controller(nn.Module):
+
+	__metaclass__ = ABCMeta
 
 	def __init__(self, read_size):
 		super(Controller, self).__init__()
 		self.read_size = read_size
-		
+	
+	@abstractmethod
 	def forward(self, x):
-		raise NotImplementedError("Must define forward pass.")
+		pass
 
 	def init_stack(self, batch_size):
 		self.read = Variable(torch.zeros([batch_size, self.read_size]))
