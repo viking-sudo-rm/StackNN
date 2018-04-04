@@ -199,7 +199,7 @@ class Task(object):
             x = self.train_x[i:i + self.batch_size, :, :]
             y = self.train_y[i:i + self.batch_size, :]
             self.model.init_stack(self.batch_size)
-            self._evaluate_batch(x, y, batch, i)
+            self._evaluate_batch(x, y, batch, True)
 
         return
 
@@ -313,6 +313,8 @@ class Task(object):
         :return: None
         """
         if not self.verbose:
+            return
+        elif is_batch and name % 10 != 0:
             return
 
         if is_batch:

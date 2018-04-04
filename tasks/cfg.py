@@ -31,11 +31,11 @@ class CFGTask(Task):
                  batch_size=10,
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
-                 epochs=100,
-                 learning_rate=0.1,
+                 epochs=30,
+                 learning_rate=0.01,
                  max_length=25,
                  null=u"#",
-                 read_size=1,
+                 read_size=2,
                  verbose=True):
         """
         Constructor for the CFGTask object. To create a CFGTask, the
