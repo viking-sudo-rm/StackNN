@@ -14,7 +14,6 @@ class Task(object):
     custom task, create a class inheriting from this one that overrides
     the constructor self.__init__ and the functions self.get_data and
     self._evaluate_step.
-
     """
     __metaclass__ = ABCMeta
 
