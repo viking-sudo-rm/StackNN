@@ -33,6 +33,7 @@ class CFGTask(Task):
                  cuda=False,
                  epochs=30,
                  learning_rate=0.01,
+                 l2_weight=0.01,
                  max_length=25,
                  null=u"#",
                  read_size=2,
@@ -77,6 +78,10 @@ class CFGTask(Task):
         :type learning_rate: float
         :param learning_rate: The learning rate used for training
 
+        :type l2_weight: float
+        :param l2_weight: The amount of l2 regularization used for
+            training
+
         :type max_length: int
         :param max_length: The maximum length of a string that will
             appear in the input training and testing data
@@ -98,6 +103,7 @@ class CFGTask(Task):
                                       cuda=cuda,
                                       epochs=epochs,
                                       learning_rate=learning_rate,
+                                      l2_weight=l2_weight,
                                       max_x_length=max_length,
                                       max_y_length=max_length,
                                       model=model,

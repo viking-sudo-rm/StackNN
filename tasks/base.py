@@ -22,7 +22,8 @@ class Task(object):
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
                  epochs=100,
-                 learning_rate=0.1,
+                 learning_rate=0.01,
+                 l2_weight=.01,
                  max_x_length=10,
                  max_y_length=10,
                  model=None,
@@ -47,6 +48,10 @@ class Task(object):
 
         :type learning_rate: float
         :param learning_rate: The learning rate used for training
+
+        :type l2_weight: float
+        :param l2_weight: The amount of l2 regularization used for
+            training
 
         :type max_x_length: int
         :param max_x_length: The maximum length of an input to the
@@ -81,7 +86,8 @@ class Task(object):
         self.model = model
         self.criterion = criterion
         self.optimizer = optim.Adam(self.model.parameters(),
-                                    lr=self.learning_rate)
+                                    lr=self.learning_rate,
+                                    weight_decay=l2_weight)
 
         # Runtime settings
         self.cuda = cuda
