@@ -181,7 +181,7 @@ class CFGTask(Task):
         null = self.code_for[self.null]
         valid_x = (y[:, j] != null).type(torch.FloatTensor)
         for k in xrange(len(valid_x)):
-            if y[k, j].data[0] in self.to_predict_code:
+            if y[k, j].data[0] not in self.to_predict_code:
                 valid_x[k] = 0
 
         correct_trials = (y_pred == y[:, j]).type(torch.FloatTensor)
