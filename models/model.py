@@ -72,10 +72,20 @@ class Controller(nn.Module):
         self.stack = Stack(batch_size, self.read_size, k=self.k)
 
     def read_stack(self, v, u, d):
+
         self.read = self.stack.forward(self.v, self.u, self.d)
+
+        # If we want multiple read vectors
         if self.k is not None:
             self.read = tf.cat(tf.unbind(self.read, dim=1), dim=1)
             # TODO verify this 
+
+    def get_read_size(self):
+        """
+        Return the effective read size, taking k into account.
+        """
+        k = 1 if self.k is None else self.k
+        return self.read_size * k
 
     def trace(self, trace_X):
         """
@@ -85,7 +95,7 @@ class Controller(nn.Module):
         """
         self.eval()
         self.init_stack(1)
-        max_length = trace_X.shape[1]
+        max_length = trace_X.data.shape()[1]
         data = np.zeros([2 + self.read_size, max_length])  # 2 + len(v)
         for j in xrange(1, max_length):
             self.forward(trace_X[:, j - 1, :])
