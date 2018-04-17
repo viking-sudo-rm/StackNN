@@ -8,7 +8,7 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
-from stack import Stack
+from structs.stack import Stack
 
 
 class Controller(nn.Module):

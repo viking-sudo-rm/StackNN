@@ -6,7 +6,6 @@ import torch.nn.functional as F
 import torch.optim as optim
 import random
 
-from stack import Stack
 from model import Controller as AbstractController
 
 class Controller(AbstractController):
