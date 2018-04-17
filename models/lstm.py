@@ -10,9 +10,9 @@ from model import Controller as AbstractController
 
 class Controller(AbstractController):
 
-	def __init__(self, input_size, read_size, output_size):
+	def __init__(self, input_size, read_size, output_size, **args):
 		
-		super(Controller, self).__init__(read_size)
+		super(Controller, self).__init__(read_size, **args)
 
 		self.input_size = input_size
 		self.read_size = read_size
@@ -38,8 +38,8 @@ class Controller(AbstractController):
 
 		# TODO what happens if we use softmax afor write vector?
 		read_params = F.sigmoid(output[:,:,:2 + self.read_size].squeeze())
-		u, d, v = read_params[:,0].contiguous(), read_params[:,1].contiguous(), read_params[:,2:].contiguous()
-		self.read = self.stack.forward(v, u, d)
+		self.u, self.d, self.v = read_params[:,0].contiguous(), read_params[:,1].contiguous(), read_params[:,2:].contiguous()
+		self.read_stack(self.v, self.u, self.d)
 
 		return output[:,:,2 + self.read_size:].squeeze()
 

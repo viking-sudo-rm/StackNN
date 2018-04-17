@@ -11,13 +11,11 @@ from math import sqrt
 
 from model import Controller as AbstractController
 
-# torch.manual_seed(1)
-
 class Controller(AbstractController):
 
-	def __init__(self, input_size, read_size, output_size):
+	def __init__(self, input_size, read_size, output_size, **args):
 
-		super(Controller, self).__init__(read_size)
+		super(Controller, self).__init__(read_size, **args)
 
 		# initialize the controller parameters
 		self.linear = nn.Linear(input_size + read_size, 2 + read_size + output_size)
@@ -30,5 +28,5 @@ class Controller(AbstractController):
 		output = self.linear(torch.cat([x, self.read], 1))
 		read_params = F.sigmoid(output[:,:2 + self.read_size])
 		self.u, self.d, self.v = read_params[:,0].contiguous(), read_params[:,1].contiguous(), read_params[:,2:].contiguous()
-		self.read = self.stack.forward(self.v, self.u, self.d)
+		self.read_stack(self.v, self.u, self.d)
 		return output[:,2 + self.read_size:]

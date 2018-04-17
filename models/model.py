@@ -20,7 +20,7 @@ class Controller(nn.Module):
     """
     __metaclass__ = ABCMeta
 
-    def __init__(self, read_size, struct_type=Stack):
+    def __init__(self, read_size, struct_type=Stack, k=None):
         """
         Constructor for the Controller object.
 
@@ -37,6 +37,7 @@ class Controller(nn.Module):
         super(Controller, self).__init__()
         self.read_size = read_size
         self.struct_type = struct_type
+        self.k = k
 
         self.read = None
         self.stack = None
@@ -68,7 +69,13 @@ class Controller(nn.Module):
         :return: None
         """
         self.read = Variable(torch.zeros([batch_size, self.read_size]))
-        self.stack = Stack(batch_size, self.read_size)
+        self.stack = Stack(batch_size, self.read_size, k=self.k)
+
+    def read_stack(self, v, u, d):
+        self.read = self.stack.forward(self.v, self.u, self.d)
+        if self.k is not None:
+            self.read = tf.cat(tf.unbind(self.read, dim=1), dim=1)
+            # TODO verify this 
 
     def trace(self, trace_X):
         """
