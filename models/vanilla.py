@@ -20,8 +20,8 @@ class Controller(AbstractController):
 		# initialize the controller parameters
 		self.linear = nn.Linear(input_size + self.get_read_size(), 2 + self.get_read_size() + output_size)
 		# self.linear.weight.data.normal_(0, sqrt(2 / (input_size + read_size)))
-		self.linear.weight.data.normal_(0, sqrt(input_size + self.get_read_size()))
-		# self.linear.weight.data.uniform_(-.1, .1)
+		# self.linear.weight.data.normal_(0, sqrt(input_size + self.get_read_size()))
+		self.linear.weight.data.uniform_(-.1, .1) # THIS ONE WORKS?
 		self.linear.bias.data.fill_(0)
 	
 	def forward(self, x):
