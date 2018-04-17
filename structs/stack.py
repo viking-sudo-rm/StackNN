@@ -14,12 +14,15 @@ class Stack(nn.Module):
 	@see https://arxiv.org/pdf/1506.02516.pdf
 	"""
 
-	def __init__(self, batch_size, embedding_size):
+	def __init__(self, batch_size, embedding_size, k=None):
 		super(Stack, self).__init__()
 
 		# initialize tensors
 		self.V = Variable(torch.FloatTensor(0))
 		self.s = Variable(torch.FloatTensor(0))
+
+		# controls number of read vectors
+		self.k = k
 
 		self.zero = Variable(torch.zeros(batch_size))
 
@@ -31,7 +34,7 @@ class Stack(nn.Module):
 		@param v [batch_size, embedding_size] matrix to push
 		@param u [batch_size,] vector of pop signals in (0, 1)
 		@param d [batch_size,] vector of push signals in (0, 1)
-		@return [batch_size, embedding_size] read matrix
+		@return [batch_size, embedding_size] or [batch_size, self.k, embedding_size] read matrix
 		"""
 
 		# update V, which is of size [t, bach_size, embedding_size]
@@ -52,14 +55,30 @@ class Stack(nn.Module):
 		s[old_t,:] = d
 		self.s = s
 
-		# calculate r, which is of size [batch_size, embedding_size]
-		r = Variable(torch.zeros([self.batch_size, self.embedding_size]))
-		for i in reversed(xrange(old_t + 1)):
-			used = torch.sum(self.s[i + 1:old_t + 1,:], 0) if i < old_t else self.zero
-			coeffs = torch.min(self.s[i,:], F.relu(1 - used))
-			# reformating coeffs into a matrix that can be multiplied element-wise
-			r += coeffs.view(self.batch_size, 1).repeat(1, self.embedding_size) * self.V[i,:,:]
-		return r
+		if self.k is None:
+
+			# calculate r, which is of size [batch_size, embedding_size]
+			r = Variable(torch.zeros([self.batch_size, self.embedding_size]))
+			for i in reversed(xrange(old_t + 1)):
+				used = torch.sum(self.s[i + 1:old_t + 1,:], 0) if i < old_t else self.zero
+				coeffs = torch.min(self.s[i,:], F.relu(1 - used))
+				# reformating coeffs into a matrix that can be multiplied element-wise
+				r += coeffs.view(self.batch_size, 1).repeat(1, self.embedding_size) * self.V[i,:,:]
+			return r
+
+		else: # calculate k read vectors
+
+			# TODO can probably make this more efficient
+
+			r = Variable(torch.zeros([self.batch_size, self.k, self.embedding_size]))
+			for k in xrange(self.k):
+				for i in reversed(xrange(old_t + 1)):
+					used = torch.sum(self.s[i + 1:old_t + 1,:], 0) if i < old_t else self.zero
+					coeffs = torch.min(self.s[i,:], F.relu(1 + k - used))
+					r[:,k,:] = r[:,k,:] + coeffs.view(self.batch_size, 1).repeat(1, self.embedding_size) * self.V[i,:,:]
+			for k in reversed(xrange(1, self.k)):
+				r[:,k,:] = r[:,k,:] - r[:,k - 1,:]
+			return r
 
 	def log(self):
 		"""
@@ -77,7 +96,7 @@ class Stack(nn.Module):
 
 if __name__ == "__main__":
 	print "Simulating example stack.."
-	stack = Stack(1, 1)
+	stack = Stack(1, 1, k=2)
 	stack.log()
 	out = stack.forward(
 		Variable(torch.FloatTensor([[1]])),
