@@ -16,40 +16,81 @@ class ReverseTask(Task):
 
     def __init__(self,
                  min_length=1,
-                 mean_length=10,
-                 std_length=2,
                  max_length=12,
-                 learning_rate=0.1,
+                 mean_length=10,
+                 std_length=2.,
                  batch_size=10,
-                 read_size=1,
-                 cuda=False,
-                 epochs=100,
-                 model=None,
                  criterion=nn.CrossEntropyLoss(),
-                 verbose=False):
+                 cuda=False,
+                 epochs=30,
+                 learning_rate=0.01,
+                 l2_weight=0.01,
+                 model=None,
+                 read_size=2,
+                 verbose=True):
         """
+        Constructor for the ReverseTask object. The only information
+        that needs to be specified by the user is information about the
+        distribution of the strings appearing in the input data.
 
-        :param min_length:
-        :param mean_length:
-        :param std_length:
-        :param max_length:
-        :param learning_rate:
-        :param batch_size:
-        :param read_size:
-        :param cuda:
-        :param epochs:
-        :param model:
-        :param criterion:
+        :type min_length: int
+        :param min_length: The shortest possible length of an input
+            string
+
+        :type max_length: int
+        :param max_length: The longest possible length of an input
+            string
+
+        :type mean_length: int
+        :param mean_length: The average length of an input string
+
+        :type std_length: float
+        :param std_length: The standard deviation of the length of an
+            input string
+
+        :type batch_size: int
+        :param batch_size: The number of trials in each batch
+
+        :type criterion: nn.modules.loss._Loss
+        :param criterion: The error function used for training the model
+
+        :type cuda: bool
+        :param cuda: If True, CUDA functionality will be used
+
+        :type epochs: int
+        :param epochs: The number of training epochs that will be
+            performed when executing an experiment
+
+        :type learning_rate: float
+        :param learning_rate: The learning rate used for training
+
+        :type l2_weight: float
+        :param l2_weight: The amount of l2 regularization used for
+            training
+
+        :type model:
+        :param model: The machine learning model used in this
+            experiment, specified by a choice of controller and neural
+            data structure
+
+        :type read_size: int
+        :param read_size: The length of the vectors stored on the neural
+            data structure
+
+        :type verbose: bool
+        :param verbose: If True, the progress of the experiment will be
+            displayed in the console
         """
-        super(ReverseTask, self).__init__(max_x_length=max_length * 2,
-                                          max_y_length=max_length * 8,
-                                          learning_rate=learning_rate,
-                                          batch_size=batch_size,
-                                          read_size=read_size,
+        super(ReverseTask, self).__init__(batch_size=batch_size,
+                                          criterion=criterion,
                                           cuda=cuda,
                                           epochs=epochs,
+                                          learning_rate=learning_rate,
+                                          l2_weight=l2_weight,
+                                          max_x_length=max_length * 2,
+                                          max_y_length=max_length * 8,
                                           model=model,
-                                          criterion=criterion,
+                                          read_size=read_size,
                                           verbose=verbose)
 
         self.min_length = min_length
@@ -61,25 +102,34 @@ class ReverseTask(Task):
 
     def _evaluate_step(self, x, y, a, j):
         """
+        Computes the loss, number of guesses correct, and total number
+        of guesses at the jth time step. The loss for a string is
+        considered to be 0 if the neural network is still reading the
+        input string.
 
+        :type x: Variable
+        :param x: The input data, represented as a 3D tensor. Each
+            example consists of a string of 0s and 1s, followed by
+            "null"s. All symbols are in one-hot representation
 
-        :type x: torch.FloatTensor
-        :param x: The input data, consisting of a set of
-            strings of 0s and 1s
+        :type y: Variable
+        :param y: The output data, represented as a 2D tensor. Each
+            example consists of a sequence of "null"s, followed by a
+            string backwards. All symbols are represented numerically
 
-        :type y: torch.LongTensor
-        :param y: The output data, consisting of NULLs followed
-            by the input strings backwards
-
-        :type a: torch.LongTensor
-        :param a: The output of the neural network during this
-            training step
+        :type a: Variable
+        :param a: The output of the neural network at the jth time step,
+            represented as a 2D vector. For each i, a[i, :] is the
+            output of the neural network at the jth time step, in one-
+            hot representation
 
         :type j: int
-        :param j: The number of this trial
+        :param j: This function is called during the jth time step of
+            the neural network's computation
 
         :rtype: tuple
-        :return:
+        :return: The loss, number of correct guesses, and number of
+            total guesses at the jth time step
         """
         indices = (y[:, j] != 2)
         valid_a = a[indices.view(-1, 1)].view(-1, 3)

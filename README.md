@@ -3,7 +3,7 @@ A PyTorch implementation of differentiable stacks for use in neural networks. In
 
 ## How to use
 
-To train the stack model 
+To train the stack model
 on various tasks, here is what you need to know:
 
 * stack.py implements the stack data structure.
@@ -19,8 +19,9 @@ It's possible that there are still bugs in stack.py, and there are definitely in
 
 Some specific things that can be done are:
 * Initialize stack memory block to a parameterized constant size rather than concating repeatedly.
-* Implement an LSTM controller network. This should be pretty simple using the built-in recurrent architectures in PyTorch (see [PyTorch documentation on LSTMs](http://pytorch.org/docs/master/nn.html)).
-* Get rid of for loops in stack.py? Not sure how necessary this is, but could add some benefits towards parallelization.
+* Fix the LSTM (see [PyTorch documentation on LSTMs](http://pytorch.org/docs/master/nn.html)).
+* Incorporate latest functionality from reverse.py into modularized version (tasks/reverse.py) -- namely the visualization of the stack
+* 
 
 ## Tasks
 

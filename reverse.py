@@ -8,8 +8,8 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 from sklearn.utils import shuffle
 
-# from models.lstm import Controller
-from models.vanilla import Controller
+from models.lstm import Controller
+# from models.vanilla import Controller
 
 # Language parameters
 MIN_LENGTH = 1

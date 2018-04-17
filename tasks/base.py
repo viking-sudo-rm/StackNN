@@ -14,7 +14,6 @@ class Task(object):
     custom task, create a class inheriting from this one that overrides
     the constructor self.__init__ and the functions self.get_data and
     self._evaluate_step.
-
     """
     __metaclass__ = ABCMeta
 
@@ -23,7 +22,8 @@ class Task(object):
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
                  epochs=100,
-                 learning_rate=0.1,
+                 learning_rate=0.01,
+                 l2_weight=.01,
                  max_x_length=10,
                  max_y_length=10,
                  model=None,
@@ -48,6 +48,10 @@ class Task(object):
 
         :type learning_rate: float
         :param learning_rate: The learning rate used for training
+
+        :type l2_weight: float
+        :param l2_weight: The amount of l2 regularization used for
+            training
 
         :type max_x_length: int
         :param max_x_length: The maximum length of an input to the
@@ -82,7 +86,8 @@ class Task(object):
         self.model = model
         self.criterion = criterion
         self.optimizer = optim.Adam(self.model.parameters(),
-                                    lr=self.learning_rate)
+                                    lr=self.learning_rate,
+                                    weight_decay=l2_weight)
 
         # Runtime settings
         self.cuda = cuda
@@ -199,7 +204,7 @@ class Task(object):
             x = self.train_x[i:i + self.batch_size, :, :]
             y = self.train_y[i:i + self.batch_size, :]
             self.model.init_stack(self.batch_size)
-            self._evaluate_batch(x, y, batch, i)
+            self._evaluate_batch(x, y, batch, True)
 
         return
 
@@ -313,6 +318,8 @@ class Task(object):
         :return: None
         """
         if not self.verbose:
+            return
+        elif is_batch and name % 10 != 0:
             return
 
         if is_batch:
