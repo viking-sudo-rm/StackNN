@@ -7,7 +7,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import random
-from math import sqrt
 
 from model import Controller as AbstractController
 
@@ -19,9 +18,10 @@ class Controller(AbstractController):
 
 		# initialize the controller parameters
 		self.linear = nn.Linear(input_size + self.get_read_size(), 2 + self.get_read_size() + output_size)
-		# self.linear.weight.data.normal_(0, sqrt(2 / (input_size + read_size)))
-		# self.linear.weight.data.normal_(0, sqrt(input_size + self.get_read_size()))
-		self.linear.weight.data.uniform_(-.1, .1) # THIS ONE WORKS?
+		
+		# Careful! The way we initialize weights seems to really matter
+		# self.linear.weight.data.uniform_(-.1, .1) # THIS ONE WORKS
+		AbstractController.init_gaussian(self.linear.weight)
 		self.linear.bias.data.fill_(0)
 	
 	def forward(self, x):

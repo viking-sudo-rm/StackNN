@@ -87,6 +87,11 @@ class Controller(nn.Module):
         k = 1 if self.k is None else self.k
         return self.read_size * k
 
+    @staticmethod
+    def init_gaussian(tensor):
+        n = tensor.data.shape[0]
+        tensor.data.normal_(0, 1. / np.sqrt(n))
+
     def trace(self, trace_X):
         """
         Visualize stack activations for a single training sample.
