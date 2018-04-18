@@ -21,7 +21,7 @@ class Controller(AbstractController):
 		
 		# Careful! The way we initialize weights seems to really matter
 		# self.linear.weight.data.uniform_(-.1, .1) # THIS ONE WORKS
-		AbstractController.init_gaussian(self.linear.weight)
+		AbstractController.init_normal(self.linear.weight)
 		self.linear.bias.data.fill_(0)
 	
 	def forward(self, x):

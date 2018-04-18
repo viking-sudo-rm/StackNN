@@ -88,7 +88,7 @@ class Controller(nn.Module):
         return self.read_size * k
 
     @staticmethod
-    def init_gaussian(tensor):
+    def init_normal(tensor):
         n = tensor.data.shape[0]
         tensor.data.normal_(0, 1. / np.sqrt(n))
 
