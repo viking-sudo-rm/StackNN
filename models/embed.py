@@ -17,11 +17,13 @@ class Controller(AbstractController):
 		
 		super(Controller, self).__init__(read_size, **args)
 
-		# initialize the controller parameters
+		# Initialize the embedding parameters
 		self.embed = nn.Embedding(num_embeddings, embedding_size)
-		self.embed.weight.data.uniform_(-.1, .1)
+		AbstractController.init_normal(self.embed.weight)
+
+		# Initialize the linear parameters
 		self.linear = nn.Linear(embedding_size + self.get_read_size(), 2 + self.get_read_size() + output_size)
-		self.linear.weight.data.uniform_(-.1, .1)
+		AbstractController.init_normal(self.linear.weight)
 		self.linear.bias.data.fill_(0)
 		
 	def forward(self, x):

@@ -22,8 +22,8 @@ class Controller(AbstractController):
 		self.lstm = nn.LSTM(input_size + read_size, 2 + read_size + output_size)
 
 		#initialize weights
-		self.lstm.weight_hh_l0.data.uniform_(-.1, .1)
-		self.lstm.weight_ih_l0.data.uniform_(-.1, .1)
+		AbstractController.init_normal(self.lstm.weight_hh_l0)
+		AbstractController.init_normal(self.lstm.weight_ih_l0)
 		self.lstm.bias_hh_l0.data.fill_(0)
 		self.lstm.bias_ih_l0.data.fill_(0)
 
