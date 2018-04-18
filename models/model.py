@@ -95,7 +95,7 @@ class Controller(nn.Module):
         """
         self.eval()
         self.init_stack(1)
-        max_length = trace_X.data.shape()[1]
+        max_length = trace_X.data.shape[1]
         data = np.zeros([2 + self.read_size, max_length])  # 2 + len(v)
         for j in xrange(1, max_length):
             self.forward(trace_X[:, j - 1, :])

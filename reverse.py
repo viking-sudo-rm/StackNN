@@ -19,7 +19,7 @@ MAX_LENGTH = 12
 
 # Hyperparameters
 LEARNING_RATE = .01 # .01 is baseline -- .1 doesn't work!
-LAMBDA = 0.
+LAMBDA = .01
 BATCH_SIZE = 10 # 10 is baseline
 READ_SIZE = 2 # 2 is baseline
 
