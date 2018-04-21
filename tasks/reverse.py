@@ -7,6 +7,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 from base import Task
+from models.vanilla import Controller as FFStackController
 
 
 class ReverseTask(Task):
@@ -26,6 +27,7 @@ class ReverseTask(Task):
                  learning_rate=0.01,
                  l2_weight=0.01,
                  model=None,
+                 model_type=FFStackController,
                  read_size=2,
                  verbose=True):
         """
@@ -68,10 +70,15 @@ class ReverseTask(Task):
         :param l2_weight: The amount of l2 regularization used for
             training
 
-        :type model:
-        :param model: The machine learning model used in this
-            experiment, specified by a choice of controller and neural
-            data structure
+        :param model: The model that will be trained and evaluated.
+            This parameter is being kept for compatibility with older
+            code. Please use the model_type parameter instead in order
+            to automatically instantiate models.
+
+        :type model_type: type
+        :param model_type: The model that will be trained and evaluated.
+            For this task, please pass the *type* of the model to the
+            constructor, not an instance of the model class
 
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
@@ -90,6 +97,7 @@ class ReverseTask(Task):
                                           max_x_length=max_length * 2,
                                           max_y_length=max_length * 8,
                                           model=model,
+                                          model_type=model_type,
                                           read_size=read_size,
                                           verbose=verbose)
 
@@ -97,6 +105,21 @@ class ReverseTask(Task):
         self.mean_length = mean_length
         self.std_length = std_length
         self.max_length = max_length
+
+    def reset_model(self, model_type):
+        """
+        Instantiates a neural network model of a given type that is
+        compatible with this Task. This function must set self.model to
+        an instance of model_type
+
+        :type model_type: type
+        :param model_type: A type from the models package. Please pass
+            the desired model's *type* to this parameter, not an
+            instance thereof
+
+        :return: None
+        """
+        self.model = model_type(3, self.read_size, 3)
 
     """ Model Training """
 
@@ -149,8 +172,10 @@ class ReverseTask(Task):
 
     def get_data(self):
         """
+        Generates training and testing datasets for this task using the
+        self.get_tensors method.
 
-        :return:
+        :return: None
         """
         self.train_x, self.train_y = self.get_tensors(800)
         self.test_x, self.test_y = self.get_tensors(100)
@@ -158,13 +183,13 @@ class ReverseTask(Task):
 
     def randstr(self):
         """
-        Generates a random string of 0s and 1s. The length of the
-        string is between self.min_length and self.max_length. The
-        average length of the string is self.mean_length. The standard
-        deviation of the length of the string is self.std_length.
+        Generates a random string of 0s and 1s. The length of the string
+        is between self.min_length and self.max_length. The average
+        length of the string is self.mean_length. The standard deviation
+        of the length of the string is self.std_length.
 
         :rtype: list
-        :return: A sequence of 0s and 1s
+        :return: A sequence of "0"s and "1"s
         """
         length = int(random.gauss(self.mean_length, self.std_length))
         length = min(max(self.min_length, length), self.max_length)
@@ -172,24 +197,23 @@ class ReverseTask(Task):
 
     def get_tensors(self, b):
         """
-        Generates a dataset containing correct input and output
-        values for the reversal task. An input value is a string
-        of 0s and 1s in one-hot encoding, followed by NULLs. An
-        output value is a sequence of NULLs of the same length
-        as the input, followed by the reverse of the input string,
-        as a sequence of raw characters.
+        Generates a dataset containing correct input and output values
+        for the reversal task. An input value is a sequence of 0s and 1s
+        in one-hot encoding, followed by "null"s. An output value is a
+        sequence of "null"s of the same length as the input, followed by
+        the reverse of the input string, as a sequence of raw characters.
 
         For example, the following is a valid input-output pair.
             input: [0., 1., 0.], [1., 0., 0.],
                     [0., 0., 1.], [0., 0., 1.]
-            output: NULL, NULL, 0, 1
+            output: null, null, 0, 1
 
         :type b: int
         :param b: The number of examples in the dataset
 
         :rtype: tuple
-        :return: A Variable containing the input values and a
-            Variable containing the output values
+        :return: A Variable containing the input values and a Variable
+            containing the output values
         """
         x_raw = [self.randstr() for _ in xrange(b)]
 
@@ -232,7 +256,7 @@ class ReverseTask(Task):
             2 -> [0., 0., 1.]
 
         0 and 1 represent alphabet symbols.
-        2 represents NULL.
+        2 represents "null."
 
         :type b: int
         :param b: 0, 1, or 2

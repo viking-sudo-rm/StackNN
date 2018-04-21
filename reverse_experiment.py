@@ -16,7 +16,7 @@ task = ReverseTask(min_length=1,
                    read_size=read_size,
                    cuda=False,
                    epochs=100,
-                   model=Controller(3, read_size, 3),
+                   model_type=Controller,
                    criterion=nn.CrossEntropyLoss(),
                    verbose=True)
 
