@@ -95,8 +95,7 @@ class CFGTask(Task):
             displayed in the console
         """
         self.code_for = CFGTask.get_code_for(grammar, null)
-        num_words = len(self.code_for)
-        model = model_type(num_words, read_size, num_words)
+        self.num_words = len(self.code_for)
 
         super(CFGTask, self).__init__(batch_size=batch_size,
                                       criterion=criterion,
@@ -106,7 +105,7 @@ class CFGTask(Task):
                                       l2_weight=l2_weight,
                                       max_x_length=max_length,
                                       max_y_length=max_length,
-                                      model=model,
+                                      model_type=model_type,
                                       read_size=read_size,
                                       verbose=verbose)
 
@@ -119,6 +118,21 @@ class CFGTask(Task):
         self.sample_strings = self.generate_sample_strings()
 
         return
+
+    def reset_model(self, model_type):
+        """
+        Instantiates a neural network model of a given type that is
+        compatible with this Task. This function must set self.model to
+        an instance of model_type
+
+        :type model_type: type
+        :param model_type: A type from the models package. Please pass
+            the desired model's *type* to this parameter, not an
+            instance thereof
+
+        :return: None
+        """
+        self.model = model_type(self.num_words, self.read_size, self.num_words)
 
     @staticmethod
     def get_code_for(grammar, null):
