@@ -8,7 +8,7 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
-from stack import Stack
+from structs.stack import Stack
 
 
 class Controller(nn.Module):
@@ -20,7 +20,7 @@ class Controller(nn.Module):
     """
     __metaclass__ = ABCMeta
 
-    def __init__(self, read_size, struct_type=Stack):
+    def __init__(self, read_size, struct_type=Stack, k=None):
         """
         Constructor for the Controller object.
 
@@ -37,11 +37,10 @@ class Controller(nn.Module):
         super(Controller, self).__init__()
         self.read_size = read_size
         self.struct_type = struct_type
+        self.k = k
 
         self.read = None
         self.stack = None
-
-        return
 
     @abstractmethod
     def forward(self, x):
@@ -70,9 +69,28 @@ class Controller(nn.Module):
         :return: None
         """
         self.read = Variable(torch.zeros([batch_size, self.read_size]))
-        self.stack = Stack(batch_size, self.read_size)
+        self.stack = Stack(batch_size, self.read_size, k=self.k)
 
-        return
+    def read_stack(self, v, u, d):
+
+        self.read = self.stack.forward(self.v, self.u, self.d)
+
+        # If we want multiple read vectors
+        if self.k is not None:
+            self.read = tf.cat(tf.unbind(self.read, dim=1), dim=1)
+            # TODO verify this 
+
+    def get_read_size(self):
+        """
+        Return the effective read size, taking k into account.
+        """
+        k = 1 if self.k is None else self.k
+        return self.read_size * k
+
+    @staticmethod
+    def init_normal(tensor):
+        n = tensor.data.shape[0]
+        tensor.data.normal_(0, 1. / np.sqrt(n))
 
     def trace(self, trace_X):
         """
@@ -82,7 +100,7 @@ class Controller(nn.Module):
         """
         self.eval()
         self.init_stack(1)
-        max_length = trace_X.shape[1]
+        max_length = trace_X.data.shape[1]
         data = np.zeros([2 + self.read_size, max_length])  # 2 + len(v)
         for j in xrange(1, max_length):
             self.forward(trace_X[:, j - 1, :])
@@ -91,5 +109,3 @@ class Controller(nn.Module):
             data[2:, j] = self.v.data.numpy()
         plt.imshow(data, cmap="hot", interpolation="nearest")
         plt.show()
-
-        return
