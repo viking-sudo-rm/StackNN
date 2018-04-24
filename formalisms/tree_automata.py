@@ -10,7 +10,8 @@ check_is_transition and BUTA for more details.
 For more information about tree automata in general, please see the TATA
 book by Comon et al.: http://tata.gforge.inria.fr/
 """
-from itertools import product
+from itertools import product, chain, islice
+from numbers import Number
 
 import nltk.grammar as gr
 from nltk.tree import Tree
@@ -58,7 +59,7 @@ def check_type(obj, t):
 
     :return: None
     """
-    if type(obj) is not t:
+    if not isinstance(obj, t):
         raise TypeError("{} must be of type {}".format(obj, t))
     return
 
@@ -109,7 +110,7 @@ class BUTA(object):
         check_is_nonterminal(*finals)
         check_is_transition(*transitions)
         self.finals = finals
-        self.transitions = transitions
+        self._transitions = transitions
 
     @staticmethod
     def fromstring(transitions, *finals):
@@ -130,7 +131,32 @@ class BUTA(object):
         _, rules = gr.read_grammar(transitions, gr.standard_nonterm_parser)
         return BUTA(rules, set(gr.Nonterminal(nt) for nt in finals))
 
-    """ Parsing and Recognition """
+    """ Transition Function """
+
+    def transitions(self, lhs=None, label=None):
+        """
+        Public accessor for self._transitions.
+
+        :type lhs: gr.Nonterminal
+        :param lhs: If lhs is not set to None, then only transitions
+            with lhs on the left-hand side will be returned
+
+        :type label: unicode
+        :param label: If label is set to none, then only transitions
+            whose right-hand sides begin with label will be returned
+
+        :rtype: set
+        :return: The set of transitions with the specified lhs and label
+        """
+        if lhs is None and label is None:
+            return self._transitions
+        elif label is None:
+            return set(t for t in self._transitions if t.lhs() == lhs)
+        elif lhs is None:
+            return set(t for t in self._transitions if t.rhs()[0] == label)
+        else:
+            return set(t for t in self._transitions if t.lhs() == lhs and
+                       t.rhs()[0] == label)
 
     def _transition(self, symbol, *children):
         """
@@ -146,7 +172,23 @@ class BUTA(object):
         :return: The set of states that could be assigned to the node
         """
         rhs = (symbol,) + tuple(children)
-        return set(t.lhs() for t in self.transitions if t.rhs() == rhs)
+        return set(t.lhs() for t in self._transitions if t.rhs() == rhs)
+
+    def _inverse_transition(self, state):
+        """
+        Evaluates the inverse of the transition funtion of this BUTA.
+
+        :type state: gr.Nonterminal
+        :param state: A state
+
+        :rtype: set
+        :return: A set of pairs, each of which contains the symbol and
+            the sequence of child states that transition to state
+        """
+        transitions = self.transitions(lhs=state)
+        return set((t.rhs()[0], t.rhs()[1:]) for t in transitions)
+
+    """ Parsing and Recognition """
 
     def parse(self, tree):
         """
@@ -185,3 +227,77 @@ class BUTA(object):
         """
         root_states = set(p.label() for p in self.parse(tree))
         return not root_states.isdisjoint(self.finals)
+
+    """ Generation """
+
+    def generate(self, states=None, depth=10, n=None):
+        """
+        Generates all trees up to a certain depth or number that are
+        assigned one or more given states by this BUTA.
+
+        :type states: set
+        :param states: The root node of every tree generated is assigned
+            a state from this set by this BUTA. If states is not
+            specified, it will be the set of final states of this BUTA
+            by default
+
+        :type depth: int
+        :param depth: The maximum height of a generated tree
+
+        :type n: int
+        :param n: The maximum number of trees to generate
+
+        :rtype: generator
+        :return: A generator that produces every tree satisfying the
+            above description
+        """
+        check_type(depth, Number)
+        if states is None:
+            states = self.finals
+        else:
+            for q in states:
+                check_is_nonterminal(q)
+
+        gen = chain.from_iterable([self._generate_all((q,), depth)
+                                   for q in states])
+        if n is not None:
+            gen = islice(gen, n)
+
+        for t in gen:
+            yield t[0]
+
+    def _generate_all(self, states, depth):
+        """
+        Generates all trees up to a certain depth that are assigned a
+        given state by this BUTA.
+
+        :type states: tuple
+        :param states: A tuple of states
+
+        :type depth: int
+        :param depth: The maximum height of a generated tree
+
+        :rtype: generator
+        :return: This generator produces a series of tuples of trees.
+            The ith element of each tuple is a tree whose root node is
+            assigned the state states[i] by this BUTA. This generator
+            produces all possible tuples of this form
+        """
+        for q in states:
+            check_is_nonterminal(q)
+        if depth <= 0:
+            return
+
+        if len(states) == 0:
+            yield ()
+        elif len(states) == 1:
+            for label, child_states in self._inverse_transition(states[0]):
+                if len(child_states) == 0:
+                    yield (label,)
+                else:
+                    for t in self._generate_all(child_states, depth - 1):
+                        yield (Tree(label, t),)
+        else:
+            for t in self._generate_all(states[0:1], depth):
+                for s in self._generate_all(states[1:], depth):
+                    yield t + s
