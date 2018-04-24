@@ -7,10 +7,6 @@ from nltk.grammar import Nonterminal
 from tree_automata import BUTA
 from trees import Tree, reverse_polish
 
-"""
-         1         2         3         4         5         6         7
-        9012345678901234567890123456789012345678901234567890123456789012
-"""
 # Create a tree automaton recognizing true boolean expressions
 a = BUTA.fromstring("""
     T -> '1'
