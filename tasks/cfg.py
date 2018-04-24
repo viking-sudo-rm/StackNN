@@ -94,7 +94,8 @@ class CFGTask(Task):
         :param verbose: If True, the progress of the experiment will be
             displayed in the console
         """
-        self.code_for = CFGTask.get_code_for(grammar, null)
+        self.grammar = grammar
+        self.code_for = self._get_code_for(null)
         self.num_words = len(self.code_for)
 
         super(CFGTask, self).__init__(batch_size=batch_size,
@@ -109,7 +110,6 @@ class CFGTask(Task):
                                       read_size=read_size,
                                       verbose=verbose)
 
-        self.grammar = grammar
         self.to_predict_code = self.words_to_code(*to_predict)
         self.sample_depth = sample_depth
         self.null = null
@@ -134,8 +134,7 @@ class CFGTask(Task):
         """
         self.model = model_type(self.num_words, self.read_size, self.num_words)
 
-    @staticmethod
-    def get_code_for(grammar, null):
+    def _get_code_for(self, null):
         """
         Creates an encoding of a CFG's terminal symbols as numbers.
 
@@ -149,7 +148,7 @@ class CFGTask(Task):
         :return: A dict associating each terminal of the grammar with a
             unique number. The highest number represents "null"
         """
-        rhss = [r.rhs() for r in grammar.productions()]
+        rhss = [r.rhs() for r in self.grammar.productions()]
         rhs_symbols = set()
         rhs_symbols.update(*rhss)
         rhs_symbols = set(x for x in rhs_symbols if cfg.is_terminal(x))
