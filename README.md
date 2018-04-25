@@ -9,11 +9,9 @@ on various tasks, here is what you need to know:
 * stack.py implements the stack data structure.
 * model.py implements a feed-forward controller network. You should
 call forward() on every input and init_stack() whenever you want to
-reset the stack between inputs. Since the model is implemented in the
-standard format for PyTorch models, it might be useful to look at a
-PyTorch hello world example to see how to use it.
+reset the stack between inputs. Since the model is implemented according to the standard PyTorch object-oriented paradigm, it might be useful to look at a PyTorch hello world example to see how to use it.
 
-## Improving the model
+## Improving the stack model
 
 It's possible that there are still bugs in stack.py, and there are definitely inefficiencies. The more pairs of eyes that read through the stack implementation, the better it gets.
 
@@ -23,6 +21,10 @@ Some other things that can be done are:
 * Initialize stack memory block to a parameterized constant size rather than concating repeatedly.
 * Fix the LSTM (see [PyTorch documentation on LSTMs](http://pytorch.org/docs/master/nn.html)).
 * Incorporate latest functionality from reverse.py into modularized version (tasks/reverse.py) -- namely the visualization of the stack.
+
+## Improving the controller
+
+I am planning on trying a controller that reads the input from a pre-initialized buffer. This would allow the controller to learn epsilon transitions and also nicely parallels the structure of shift-reduce parsing.
 
 ## Tasks
 
@@ -44,3 +46,7 @@ We also have an experiment that trains a context-free language model. This can b
 
 As far as more linguistically interesting tasks, there's also a dataset for agreement in the
 folder rnn_agr_simple. We discussed other tasks in CLAY meetings that I will write down here at some point.
+
+### Tree automata evaluation
+
+Yiding is working on implementing a task where the stack is used to evaluate the largest spanned constituent for strings according to a tree automata. This will let us train a network to evaluate Polish notion boolean formulae, which is an especially interesting novel task to try.
