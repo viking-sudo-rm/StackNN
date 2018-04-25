@@ -8,7 +8,7 @@ on various tasks, here is what you need to know:
 
 * `stack.py` implements the stack data structure.
 * `model.py` implements a feed-forward controller network. You should
-call `forward()` on every input and init_stack() whenever you want to
+call `forward()` on every input and `init_stack()` whenever you want to
 reset the stack between inputs. Since the model is implemented according to the standard PyTorch object-oriented paradigm, it might be useful to look at a PyTorch hello world example to see how to use it.
 
 ## The stack
