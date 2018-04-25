@@ -6,14 +6,14 @@ A PyTorch implementation of differentiable stacks for use in neural networks. In
 To train the stack model
 on various tasks, here is what you need to know:
 
-* stack.py implements the stack data structure.
-* model.py implements a feed-forward controller network. You should
-call forward() on every input and init_stack() whenever you want to
+* `stack.py` implements the stack data structure.
+* `model.py` implements a feed-forward controller network. You should
+call `forward()` on every input and init_stack() whenever you want to
 reset the stack between inputs. Since the model is implemented according to the standard PyTorch object-oriented paradigm, it might be useful to look at a PyTorch hello world example to see how to use it.
 
 ## The stack
 
-It's possible that there are still bugs in stack.py, and there are definitely inefficiencies. The more pairs of eyes that read through the stack implementation, the better it gets.
+It's possible that there are still bugs in `stack.py`, and there are definitely inefficiencies. The more pairs of eyes that read through the stack implementation, the better it gets.
 
 See the latest CLAY email for an up-to-date list of tasks.
 
@@ -30,7 +30,7 @@ I am planning on trying a controller that reads the input from a pre-initialized
 
 ### String reversal
 
-In reverse.py, I train a feed-forward controller network to do string reversal. I generate a list of 800 Python strings on the alphabet {0, 1} with length normally distributed around 10. The task is as follows:
+In `reverse.py`, I train a feed-forward controller network to do string reversal. I generate a list of 800 Python strings on the alphabet {0, 1} with length normally distributed around 10. The task is as follows:
 
 ~~~~
 i:       0 1 2 3 4 5 6 7
