@@ -225,8 +225,15 @@ class BUTA(object):
         :rtype: bool
         :return: True if this BUTA accepts tree; False otherwise
         """
-        root_states = set(p.label() for p in self.parse(tree))
+        root_states = set(BUTA._state_of(p) for p in self.parse(tree))
         return not root_states.isdisjoint(self.finals)
+
+    @staticmethod
+    def _state_of(parse):
+        if isinstance(parse, Tree):
+            return parse.label()
+        elif isinstance(parse, gr.Nonterminal):
+            return parse
 
     """ Generation """
 
