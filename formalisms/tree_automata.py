@@ -14,7 +14,6 @@ from itertools import product, chain, islice
 from numbers import Number
 
 import nltk.grammar as gr
-from nltk.tree import Tree
 
 from trees import get_root_label, Tree
 
