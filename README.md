@@ -37,11 +37,11 @@ In 10 epochs, the model tends to achieve 100% accuracy. Since the dataset it is 
 
 We also have an experiment that trains a context-free language model. This can be used to probe interesting questions about structure. For example, it can be used to predict closing parentheses in a Dijk language. On this task, our stack model converges to 100% accuracy.
 
+### Tree automata evaluation
+
+Yiding is working on implementing a task where the stack is used to evaluate the largest spanned constituent for strings according to a tree automata. This will let us train a network to evaluate Polish notion boolean formulae, which is an especially interesting novel task to try.
+
 ### Other tasks
 
 As far as more linguistically interesting tasks, there's also a dataset for agreement in the
 folder rnn_agr_simple. We discussed other tasks in CLAY meetings that I will write down here at some point.
-
-### Tree automata evaluation
-
-Yiding is working on implementing a task where the stack is used to evaluate the largest spanned constituent for strings according to a tree automata. This will let us train a network to evaluate Polish notion boolean formulae, which is an especially interesting novel task to try.
