@@ -6,9 +6,8 @@ A PyTorch implementation of differentiable stacks for use in neural networks. In
 To train the stack model
 on various tasks, here is what you need to know:
 
-* `structs/stack.py` implements the stack data structure. You will probably not be interacting with this object directly.
-* Classes in the `models` package implement various types of controller networks.
-call `forward()` on every input and `init_stack()` whenever you want to
+* `structs.stack.Stack` implements the stack data structure. You will probably not be interacting with this object directly.
+* Each file in the `models` package implements a different type of `Controller` network for the stack. The interface for all of these controllers is the same: call `forward()` on every input and `init_stack()` whenever you want to
 reset the stack between inputs. Since the model is implemented according to the standard PyTorch object-oriented paradigm, it might be useful to look at a PyTorch hello world example to see how to use it.
 
 ## Model
