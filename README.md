@@ -30,7 +30,7 @@ x:       1 1 0 1 - - - -
 y:       - - - - 1 0 1 1
 ~~~~
 
-In 10 epochs, the model tends to achieve 100% accuracy. Since the dataset it is learning is randomly generated each run, the model will sometimes get stuck around 60%. Note that these results were achieved before we modularized the code into the new object-oriented paradigm for future development. If you are unable to replicate these results, please let us know.
+In 10 epochs, the model tends to achieve 100% accuracy. Since the dataset it is learning is randomly generated each run, the model will sometimes get stuck around 60%. Note that these results were achieved before we modularized the code to be more object-oriented for future development. If you are unable to replicate these results, please let us know.
 
 ### Context-free language modelling
 
