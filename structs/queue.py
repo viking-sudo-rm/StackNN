@@ -39,7 +39,7 @@ class Queue(nn.Module):
 		# TODO initialize queue to fixed size
 
 		# update s, which is of size [t, batch_size]
-		old_t = self.s.data.shape[0] if self.s.data.shape else 0
+		old_t = self.s.size(0) if self.s.size() else 0
 		s = Variable(torch.FloatTensor(old_t + 1, self.batch_size))
 		w = u
 		for i in xrange(old_t):
@@ -59,6 +59,14 @@ class Queue(nn.Module):
 			# reformating coeffs into a matrix that can be multiplied element-wise
 			r += coeffs.view(self.batch_size, 1).repeat(1, self.embedding_size) * self.V[i,:,:]
 		return r
+
+	# TODO make this modular?
+	def enqueue_all(self, X, pad):
+		n_times = X.size(0)
+		self.V = Variable(torch.zeros(pad, self.batch_size, self.embedding_size))
+		self.s = Variable(torch.zeros(pad, self.batch_size))
+		self.V[:n_times, :, :] = X
+		self.s[:n_times, :] = Variable(torch.ones(n_times, self.batch_size))
 
 	def log(self):
 		"""

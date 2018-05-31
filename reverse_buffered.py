@@ -9,7 +9,8 @@ from torch.autograd import Variable
 from sklearn.utils import shuffle
 
 # from models.lstm import Controller
-from models.vanilla import Controller
+# from models.vanilla import Controller
+from models.buffered import Controller
 
 # Language parameters
 MIN_LENGTH = 1
@@ -22,6 +23,7 @@ LEARNING_RATE = .01 # .01 is baseline -- .1 doesn't work!
 LAMBDA = .01
 BATCH_SIZE = 10 # 10 is baseline
 READ_SIZE = 2 # 2 is baseline
+PAD = 12
 
 EPOCHS = 30
 
@@ -42,20 +44,39 @@ def get_tensors(B):
 	X_raw = [randstr() for _ in xrange(B)]
 
 	# initialize X to one-hot encodings of NULL
-	X = torch.FloatTensor(B, 2 * MAX_LENGTH, 3)
+	X = torch.FloatTensor(B, MAX_LENGTH, 3)
 	X[:,:,:2].fill_(0)
 	X[:,:,2].fill_(1)
 
 	# initialize Y to NULL
-	Y = torch.LongTensor(B, 2 * MAX_LENGTH)
+	Y = torch.LongTensor(B, MAX_LENGTH)
 	Y.fill_(2)
 
 	for i, x in enumerate(X_raw):
 		y = reverse(x)
 		for j, char in enumerate(x):
 			X[i,j,:] = onehot(char)
-			Y[i,j + len(x)] = y[j]
+			Y[i,j] = y[j]
 	return Variable(X), Variable(Y)
+
+# def get_tensors(B):
+# 	X_raw = [randstr() for _ in xrange(B)]
+
+# 	# initialize X to one-hot encodings of NULL
+# 	X = torch.FloatTensor(B, 2 * MAX_LENGTH, 3)
+# 	X[:,:,:2].fill_(0)
+# 	X[:,:,2].fill_(1)
+
+# 	# initialize Y to NULL
+# 	Y = torch.LongTensor(B, 2 * MAX_LENGTH)
+# 	Y.fill_(2)
+
+# 	for i, x in enumerate(X_raw):
+# 		y = reverse(x)
+# 		for j, char in enumerate(x):
+# 			X[i,j,:] = onehot(char)
+# 			Y[i,j + len(x)] = y[j]
+# 	return Variable(X), Variable(Y)
 
 train_X, train_Y = get_tensors(800)
 dev_X, dev_Y = get_tensors(100)
@@ -66,6 +87,7 @@ def train(train_X, train_Y):
 	model.train()
 	total_loss = 0.
 
+	# Note, for some reason, batch zero just gets one thing in it!!
 	for batch, i in enumerate(xrange(0, len(train_X.data) - BATCH_SIZE, BATCH_SIZE)):
 
 		digits_correct = 0
@@ -73,10 +95,19 @@ def train(train_X, train_Y):
 		batch_loss = 0.
 
 		X, Y = train_X[i:i+BATCH_SIZE,:,:], train_Y[i:i+BATCH_SIZE,:]
-		model.init_stack(BATCH_SIZE)
-		for j in xrange(2 * MAX_LENGTH):
+		
+		# # Buffered model
+		zero = Variable(torch.zeros(BATCH_SIZE, 3))
+		model.init_stack_and_buffer(BATCH_SIZE, X, PAD)
+		for j in xrange(PAD):
+			model.forward()
+		for j in xrange(MAX_LENGTH):
+			a = model.buffer_out.forward(zero, 1., 0.)
 
-			a = model.forward(X[:,j,:])
+		# # Normal seq2seq
+		# model.init_stack(BATCH_SIZE)
+		# for j in xrange(2 * MAX_LENGTH):
+		# 	a = model.forward(X[:,j,:])
 
 			indices = Y[:,j] != 2
 			valid_a = a[indices.view(-1, 1)].view(-1, 3)
@@ -104,10 +135,19 @@ def evaluate(test_X, test_Y):
 	total_loss = 0.
 	digits_correct = 0
 	digits_total = 0
-	model.init_stack(len(test_X.data))
-	for j in xrange(2 * MAX_LENGTH):
 
-		a = model.forward(test_X[:,j,:])
+	# # Buffered model
+	zero = Variable(torch.zeros(BATCH_SIZE, 3))
+	model.init_stack_and_buffer(BATCH_SIZE, test_X, PAD)
+	for j in xrange(PAD):
+		model.forward()
+	for j in xrange(MAX_LENGTH):
+		a = model.buffer_out.forward(zero, 1., 0.)
+
+	# # Normal seq2seq
+	# model.init_stack(len(test_X.data))
+	# for j in xrange(2 * MAX_LENGTH):
+	# 	a = model.forward(test_X[:,j,:])
 
 		indices = test_Y[:,j] != 2
 		valid_a = a[indices.view(-1, 1)].view(-1, 3)
@@ -134,5 +174,5 @@ for epoch in xrange(EPOCHS):
 	perm = torch.randperm(800)
 	train_X, train_Y = train_X[perm], train_Y[perm]
 	train(train_X, train_Y)
-	evaluate(dev_X, dev_Y)
+	# evaluate(dev_X, dev_Y)
 model.trace(trace_X)
