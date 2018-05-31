@@ -17,7 +17,7 @@ Please report any bugs in the GitHub issues tracker.
 
 Some planned changes are:
 * Initialize stack memory block to a parameterized constant size rather than concating repeatedly.
-* Fix the LSTM (see [PyTorch documentation on LSTMs](http://pytorch.org/docs/master/nn.html)).
+* Fix the LSTM controller (see [PyTorch documentation on LSTMs](http://pytorch.org/docs/master/nn.html)).
 
 ## Tasks
 
