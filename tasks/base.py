@@ -6,6 +6,8 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
+from models.vanilla import Controller as FFStackController
+
 
 class Task(object):
     """
@@ -27,6 +29,7 @@ class Task(object):
                  max_x_length=10,
                  max_y_length=10,
                  model=None,
+                 model_type=FFStackController,
                  read_size=1,
                  verbose=True):
 
@@ -60,10 +63,15 @@ class Task(object):
         :type max_y_length: int
         :param max_y_length: The maximum length of a neural net output
 
-        :type model:
-        :param model: The machine learning model used in this
-            experiment, specified by a choice of controller and neural
-            data structure
+        :param model: The model that will be trained and evaluated.
+            This parameter is being kept for compatibility with older
+            code. Please use the model_type parameter instead in order
+            to automatically instantiate models.
+
+        :type model_type: type
+        :param model_type: The model that will be trained and evaluated.
+            Please pass the *type* of the model to the constructor, not
+            an instance of the model class
 
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
@@ -83,7 +91,12 @@ class Task(object):
         self.read_size = read_size
 
         # Model settings
-        self.model = model
+        if model is None:
+            self.model = None
+            self.reset_model(model_type)
+        else:
+            self.model = model
+
         self.criterion = criterion
         self.optimizer = optim.Adam(self.model.parameters(),
                                     lr=self.learning_rate,
@@ -100,6 +113,21 @@ class Task(object):
         self.test_y = None
 
         return
+
+    @abstractmethod
+    def reset_model(self, model_type):
+        """
+        Instantiates a neural network model of a given type that is
+        compatible with this Task.
+
+        :type model_type: type
+        :param model_type: A type from the models package. Please pass
+            the desired model's *type* to this parameter, not an
+            instance thereof
+
+        :return: None
+        """
+        raise NotImplementedError("Missing implementation for construct_model")
 
     """ Experiments """
 
@@ -194,6 +222,8 @@ class Task(object):
 
         :return: None
         """
+        if self.model is None:
+            raise ValueError("Missing model")
         if self.train_x is None or self.train_y is None:
             raise ValueError("Missing training data")
 

@@ -6,12 +6,10 @@ A PyTorch implementation of differentiable stacks for use in neural networks. In
 To train the stack model
 on various tasks, here is what you need to know:
 
-* stack.py implements the stack data structure.
-* model.py implements a feed-forward controller network. You should
-call forward() on every input and init_stack() whenever you want to
-reset the stack between inputs. Since the model is implemented in the
-standard format for PyTorch models, it might be useful to look at a
-PyTorch hello world example to see how to use it.
+* `structs/stack.py` implements the stack data structure.
+* Classes in the `models` package implement various types of controller networks.
+call `forward()` on every input and `init_stack()` whenever you want to
+reset the stack between inputs. Since the model is implemented according to the standard PyTorch object-oriented paradigm, it might be useful to look at a PyTorch hello world example to see how to use it.
 
 ## Model
 
@@ -43,3 +41,7 @@ We also have an experiment that trains a context-free language model. This can b
 
 As far as more linguistically interesting tasks, there's also a dataset for agreement in the
 folder rnn_agr_simple. We discussed other tasks in CLAY meetings that I will write down here at some point.
+
+### Tree automata evaluation
+
+Yiding is working on implementing a task where the stack is used to evaluate the largest spanned constituent for strings according to a tree automata. This will let us train a network to evaluate Polish notion boolean formulae, which is an especially interesting novel task to try.
