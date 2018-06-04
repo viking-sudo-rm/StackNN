@@ -25,6 +25,9 @@ class Controller(AbstractController):
         # self.linear.weight.data.uniform_(-.1, .1) # THIS ONE WORKS
         AbstractController.init_normal(self.linear.weight)
         self.linear.bias.data.fill_(0)
+        self.linear.bias.data[0] = -1.  # Discourage popping
+        self.linear.bias.data[2] = 1.  # Encourage reading
+        self.linear.bias.data[3] = 1.  # Encourage writing
 
     def forward(self):
         x = self.buffer_in.forward(Variable(self.zero), self.e_in, 0.)
