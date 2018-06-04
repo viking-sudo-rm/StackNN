@@ -22,7 +22,7 @@ LEARNING_RATE = .01  # .01 is baseline -- .1 doesn't work!
 LAMBDA = .01
 BATCH_SIZE = 10  # 10 is baseline
 READ_SIZE = 2  # 2 is baseline
-PAD = 12
+PAD = 24
 
 EPOCHS = 30
 
@@ -45,44 +45,44 @@ reverse = lambda s: s[::-1]
 onehot = lambda b: torch.FloatTensor([1. if i == b else 0. for i in xrange(3)])
 
 
+# def get_tensors(B):
+#     X_raw = [randstr() for _ in xrange(B)]
+#
+#     # initialize X to one-hot encodings of NULL
+#     X = torch.FloatTensor(B, MAX_LENGTH, 3)
+#     X[:, :, :2].fill_(0)
+#     X[:, :, 2].fill_(1)
+#
+#     # initialize Y to NULL
+#     Y = torch.LongTensor(B, MAX_LENGTH)
+#     Y.fill_(2)
+#
+#     for i, x in enumerate(X_raw):
+#         y = reverse(x)
+#         for j, char in enumerate(x):
+#             X[i, j, :] = onehot(char)
+#             Y[i, j] = y[j]
+#     return Variable(X), Variable(Y)
+
+
 def get_tensors(B):
     X_raw = [randstr() for _ in xrange(B)]
 
     # initialize X to one-hot encodings of NULL
-    X = torch.FloatTensor(B, MAX_LENGTH, 3)
+    X = torch.FloatTensor(B, 2 * MAX_LENGTH, 3)
     X[:, :, :2].fill_(0)
     X[:, :, 2].fill_(1)
 
     # initialize Y to NULL
-    Y = torch.LongTensor(B, MAX_LENGTH)
+    Y = torch.LongTensor(B, 2 * MAX_LENGTH)
     Y.fill_(2)
 
     for i, x in enumerate(X_raw):
         y = reverse(x)
         for j, char in enumerate(x):
             X[i, j, :] = onehot(char)
-            Y[i, j] = y[j]
+            Y[i, j + len(x)] = y[j]
     return Variable(X), Variable(Y)
-
-
-# def get_tensors(B):
-# 	X_raw = [randstr() for _ in xrange(B)]
-
-# 	# initialize X to one-hot encodings of NULL
-# 	X = torch.FloatTensor(B, 2 * MAX_LENGTH, 3)
-# 	X[:,:,:2].fill_(0)
-# 	X[:,:,2].fill_(1)
-
-# 	# initialize Y to NULL
-# 	Y = torch.LongTensor(B, 2 * MAX_LENGTH)
-# 	Y.fill_(2)
-
-# 	for i, x in enumerate(X_raw):
-# 		y = reverse(x)
-# 		for j, char in enumerate(x):
-# 			X[i,j,:] = onehot(char)
-# 			Y[i,j + len(x)] = y[j]
-# 	return Variable(X), Variable(Y)
 
 train_X, train_Y = get_tensors(800)
 dev_X, dev_Y = get_tensors(100)
