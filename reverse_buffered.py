@@ -148,9 +148,11 @@ def evaluate(test_X, test_Y):
     digits_correct = 0
     digits_total = 0
 
+    len_X = test_X.size(0)
+
     # # Buffered model
-    zero = Variable(torch.zeros(BATCH_SIZE, 3))
-    model.init_stack_and_buffer(BATCH_SIZE, test_X, PAD)
+    zero = Variable(torch.zeros(len_X, 3))
+    model.init_stack_and_buffer(len_X, test_X, PAD)
     for j in xrange(PAD):
         model.forward()
     for j in xrange(MAX_LENGTH):
@@ -190,5 +192,5 @@ for epoch in xrange(EPOCHS):
     perm = torch.randperm(800)
     train_X, train_Y = train_X[perm], train_Y[perm]
     train(train_X, train_Y)
-# evaluate(dev_X, dev_Y)
+    evaluate(dev_X, dev_Y)
 model.trace(trace_X)
