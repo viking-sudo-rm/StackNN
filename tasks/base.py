@@ -229,7 +229,7 @@ class Task(object):
 
         self.model.train()
 
-        last_trial = len(self.train_x.data) - self.batch_size
+        last_trial = len(self.train_x.data) - self.batch_size + 1
         for batch, i in enumerate(xrange(0, last_trial, self.batch_size)):
             x = self.train_x[i:i + self.batch_size, :, :]
             y = self.train_y[i:i + self.batch_size, :]
@@ -349,11 +349,11 @@ class Task(object):
         """
         if not self.verbose:
             return
-        elif is_batch and name % 10 != 0:
+        elif is_batch and name % 10 != 9:
             return
 
         if is_batch:
-            message = "Batch {}: ".format(name)
+            message = "Batch {}-{}: ".format(name - 9, name)
             loss = sum(batch_loss.data) / self.batch_size
         else:
             message = "Epoch {}: ".format(name)
