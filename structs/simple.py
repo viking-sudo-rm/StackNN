@@ -81,6 +81,7 @@ class SimpleStruct(Struct):
                 self.contents = torch.cat([bottom, v, top], 0)
 
         self._t += 1
+        self.strengths[self._t, :] = strength
         return
 
     def read(self, strength):
