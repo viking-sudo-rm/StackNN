@@ -70,7 +70,7 @@ class Struct(nn.Module):
         """
         self.pop(u)
         self.push(v, d)
-        return self.read(1)
+        return self.read(1.)
 
     @abstractmethod
     def pop(self, strength):

@@ -1,7 +1,3 @@
-"""
-Implementation of simple neural data structures, including the neural
-stack and the neural queue.
-"""
 from abc import ABCMeta, abstractmethod
 
 import torch
@@ -126,7 +122,7 @@ class SimpleStruct(Struct):
         is used to decrease the strength of the next item. The order in
         which the items are popped is determined by self._pop_indices.
 
-        :type strength: float
+        :type strength: Variable
         :param strength: The total amount of items to pop, measured by
             strength
 
@@ -151,7 +147,7 @@ class SimpleStruct(Struct):
         new item in self.contents and self.strengths after the push
         operation is complete.
 
-        :type value: torch.FloatTensor
+        :type value: Variable
         :param value: The vector to be pushed to the SimpleStruct
 
         :type strength: Variable
@@ -160,7 +156,9 @@ class SimpleStruct(Struct):
         :return: None
         """
         v = value.view(1, self.batch_size, self.embedding_size)
-        s = Variable(torch.ones(1, self.batch_size) * strength.data)
+        s = Variable(torch.FloatTensor(1, self.batch_size))
+        s[0, :] = strength
+
         if self._t == 0:
             self.contents = v
             self.strengths = s
@@ -195,7 +193,7 @@ class SimpleStruct(Struct):
         operation is computed by taking the sum of all the vectors
         looked at, weighted by their strengths.
 
-        :type strength: torch.FloatTensor
+        :type strength: float
         :param strength: The total amount of vectors to look at,
             measured by their strengths
 
@@ -203,13 +201,14 @@ class SimpleStruct(Struct):
         :return: The output of the read operation, described above
         """
         r = Variable(torch.zeros([self.batch_size, self.embedding_size]))
-        s = Variable(torch.ones(self.batch_size) * strength)
+        str_used = Variable(torch.zeros(self.batch_size))
         for i in self._read_indices():
-            s_i = torch.min(self.strengths[i, :], relu(s))
-            s = relu(s - s_i)
-            s_i = s_i.view(self.batch_size, 1).data
-            r += Variable(s_i.repeat(1, self.embedding_size) *
-                          self.contents[i, :, :])
+            str_i = self.strengths[i, :]
+            str_weights = torch.min(str_i, relu(1 - str_used))
+            str_weights = str_weights.view(self.batch_size, 1)
+            str_weights = str_weights.repeat(1, self.embedding_size)
+            r += str_weights * self.contents[i, :, :]
+            str_used = str_used + str_i
 
         return r
 
