@@ -20,6 +20,23 @@ def tensor_to_string(tensor):
     return "\t".join("{:.4f} ".format(x) for x in tensor)
 
 
+def to_string(obj):
+    """
+    Formats a PyTorch object as a string.
+
+    :param obj: A PyTorch object (tensor or Variable)
+
+    :rtype: str
+    :return: A string description of obj
+    """
+    if type(obj) is torch.FloatTensor:
+        return tensor_to_string(obj)
+    elif type(obj) is Variable:
+        return tensor_to_string(obj.data)
+    else:
+        return str(obj)
+
+
 def first_to_last(num_steps):
     return xrange(num_steps)
 
@@ -229,7 +246,7 @@ class SimpleStruct(Struct):
         print "\t|\t\t\t|"
 
         for t in reversed(xrange(self._t)):
-            v_str = tensor_to_string(self.contents[t, batch, :])
+            v_str = to_string(self.contents[t, batch, :])
             s = self.strengths[t, batch].data[0]
             print "{}\t|{:.4f}\t\t|{}".format(t, s, v_str)
 
