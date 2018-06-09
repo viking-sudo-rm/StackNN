@@ -1,5 +1,7 @@
 from __future__ import print_function
+import sys
 import traceback
+import StringIO
 
 class testcase(object):
 
@@ -15,8 +17,9 @@ class testcase(object):
 
     """
 
-    def __init__(self, struct_type):
+    def __init__(self, struct_type, always_print=False):
         self._struct_type = struct_type
+        self._always_print = always_print
 
     @property
     def struct_type(self):
@@ -27,15 +30,30 @@ class testcase(object):
         def wrap_test():
             try:
                 print("Running {}..".format(name), end="")
+                stdout = StringIO.StringIO()
+                old_stdout = sys.stdout
+                sys.stdout = stdout
                 test()
             except AssertionError:
+                sys.stdout = old_stdout
                 print(" FAILED!")
                 if test.__doc__ is not None:
                     print("Documentation:")
                     print(test.__doc__)
+                output = stdout.getvalue()
+                if output:
+                    print("Stdout:")
+                    print(stdout.getvalue().strip())
                 traceback.print_exc()
             else:
+                sys.stdout = old_stdout
                 print(" PASSED!")
+                if self._always_print:
+                    print("Stdout:")
+                    print(stdout.getvalue().strip())
+            finally:
+                stdout.close()
+        test.__name__ = name
         wrap_test.__name__ = name
         wrap_test._is_test_case = True
         return wrap_test
@@ -58,3 +76,6 @@ def test_module(module):
     for obj in d.values():
         if getattr(obj, "_is_test_case", False):
             obj()
+
+# Can be useful to avoid roundoff error in PyTorch.
+EPSILON = .00001
