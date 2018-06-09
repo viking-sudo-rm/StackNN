@@ -77,5 +77,5 @@ def test_module(module):
         if getattr(obj, "_is_test_case", False):
             obj()
 
-# Can be useful to avoid roundoff error in PyTorch.
-EPSILON = .00001
+def is_close(a, b):
+    return abs(a - b) <= .0001
