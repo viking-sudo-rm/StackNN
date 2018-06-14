@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 
 from model import Controller as AbstractController
-from structs.queue import Queue
+from structs.legacy.queue import Queue
 
 
 class Controller(AbstractController):
