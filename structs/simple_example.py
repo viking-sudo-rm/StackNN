@@ -5,6 +5,7 @@ import torch
 from torch.autograd import Variable
 
 from simple import Stack, Queue, to_string
+from testing import testcase
 
 
 def test_push(s_struct, value, strength):

@@ -96,7 +96,7 @@ class Stack(nn.Module):
 
 if __name__ == "__main__":
 	print "Simulating example stack.."
-	stack = Stack(1, 1, k=2)
+	stack = Stack(1, 1)
 	stack.log()
 	out = stack.forward(
 		Variable(torch.FloatTensor([[1]])),
