@@ -5,7 +5,7 @@ Please report any bugs in the GitHub issues tracker.
 
 ## Models
 
-Models implement the high-level controllers that interact with the stack. There are several different types of models, but the simplest one is, as the name implies, the `vanilla` one.
+Models implement the high-level controllers that use a stack for recurrent memory. You can think of these networks like LSTMs with a more sophisticated storage mechanism to pass data between time steps. There are several different types of models, but the simplest one is, as the name implies, the `vanilla` one.
 
 To use a model, call `model.forward()` on every input and `model.init_stack()` whenever you want to reset the stack between inputs.
 
