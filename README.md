@@ -44,9 +44,8 @@ python run.py CFGTask --config dijk_config
 
 ### Tree automata evaluation
 
-Yiding is working on implementing a task where the stack is used to evaluate the largest spanned constituent for strings according to a tree automata. This will let us train a network to evaluate Polish notion boolean formulae, which is an especially interesting novel task to try.
+Yiding is working on implementing a task where the stack is used to evaluate the largest spanned constituent for strings according to a tree automata. This will let us train a network to evaluate Polish notion boolean formulae.
 
 ### Other tasks
 
-As far as more linguistically interesting tasks, there's also a dataset for agreement in the
-folder rnn_agr_simple. We discussed other tasks in CLAY meetings that I will write down here at some point.
+The data folder contains several real datasets that the stack could be useful in modelling.
