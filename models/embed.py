@@ -7,7 +7,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import random
 
-from model import Controller as AbstractController
+from legacy.model import Controller as AbstractController
 
 torch.manual_seed(1)
 
