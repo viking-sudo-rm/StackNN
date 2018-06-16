@@ -106,7 +106,7 @@ class SimpleStructNetwork(Network):
 
         # Initialize reporting tools
         self._logging = False  # Whether or not to log data
-        self._log_data = None  # A numpy array containing logged data
+        self.log_data = None  # A numpy array containing logged data
         self._log_data_size = 0  # The maximum number of entries to log
         self._curr_log_entry = 0  # The number of entries logged already
 
@@ -123,7 +123,7 @@ class SimpleStructNetwork(Network):
 
         :return: None
         """
-        self._log_data = np.zeros([2 + self._read_size, log_data_size])
+        self.log_data = np.zeros([2 + self._read_size, log_data_size])
         self._log_data_size = log_data_size
         self._curr_log_entry = 0
         return
@@ -176,9 +176,9 @@ class SimpleStructNetwork(Network):
         elif self._curr_log_entry >= self._log_data_size:
             return
 
-        self._log_data[2, self._curr_log_entry] = v.data.numpy()
-        self._log_data[0, self._curr_log_entry] = u.data.numpy()
-        self._log_data[1, self._curr_log_entry] = d.data.numpy()
+        self.log_data[2, self._curr_log_entry] = v.data.numpy()
+        self.log_data[0, self._curr_log_entry] = u.data.numpy()
+        self.log_data[1, self._curr_log_entry] = d.data.numpy()
 
         self._curr_log_entry += 1
 
