@@ -1,7 +1,5 @@
 # StackNN
-A PyTorch implementation of differentiable stacks for use in neural networks. Inspired by https://arxiv.org/pdf/1506.02516.pdf.
-
-## Reporting bugs
+A PyTorch implementation of differentiable stacks for use in neural networks. Inspired by [Grefenstette et al., 2016](https://arxiv.org/pdf/1506.02516.pdf).
 
 Please report any bugs in the GitHub issues tracker.
 
