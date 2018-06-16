@@ -1,34 +1,39 @@
 # StackNN
 A PyTorch implementation of differentiable stacks for use in neural networks. Inspired by https://arxiv.org/pdf/1506.02516.pdf.
 
-## How to use
-
-To train the stack model
-on various tasks, here is what you need to know:
-
-* `structs.stack.Stack` implements the stack data structure. You will probably not be interacting with this object directly.
-* Each file in the `models` package implements a different type of `Controller` network for the stack. The interface for all of these controllers is the same: call `forward()` on every input and `init_stack()` whenever you want to
-reset the stack between inputs. Since the model is implemented according to the standard PyTorch object-oriented paradigm, it might be useful to look at a PyTorch hello world example to see how to use it.
-
-## Model
+## Reporting bugs
 
 Please report any bugs in the GitHub issues tracker.
 
-Some planned changes are:
-* Initialize stack memory block to a parameterized constant size rather than concating repeatedly.
-* Fix the LSTM controller (see [PyTorch documentation on LSTMs](http://pytorch.org/docs/master/nn.html)).
+## Models
+
+Models implement the high-level controllers that interact with the stack. There are several different types of models, but the simplest one is, as the name implies, the `vanilla` one.
+
+To use a model, call `forward()` on every input and `init_stack()` whenever you want to reset the stack between inputs.
+
+## Data structures
+
+* `structs.Stack` implements the stack data structure.
+* `structs.Queue` implements the queue data structure.
 
 ## Tasks
 
+Tasks can be run using run.py. For example:
+
+~~~bash
+python run.py ReverseTask
+python run.py CFGTask --config agreement_config
+~~~
+
 ### String reversal
 
-Use `reverse_experiment.py` to train a feed-forward controller network to do string reversal. The code generates a list of 800 Python strings on the alphabet {0, 1} with length normally distributed around 10. The task is as follows:
+The `ReverseTask` trains a feed-forward controller network to do string reversal. The code generates a list of 800 Python strings on the alphabet {0, 1} with length normally distributed around 10. The task is as follows:
 
-~~~~
+~~~
 i:       0 1 2 3 4 5 6 7
 x:       1 1 0 1 - - - -
 y:       - - - - 1 0 1 1
-~~~~
+~~~
 
 In 10 epochs, the model tends to achieve 100% accuracy. Since the dataset it is learning is randomly generated each run, the model will sometimes get stuck around 60%. Note that these results were achieved before we refactored some of the code to be more object-oriented. If you are unable to replicate these results, please let us know.
 
