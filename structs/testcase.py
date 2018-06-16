@@ -2,6 +2,9 @@ from __future__ import print_function
 import sys
 import traceback
 import StringIO
+import torch
+from torch.autograd import Variable
+
 
 class testcase(object):
 
@@ -12,6 +15,7 @@ class testcase(object):
         @testcase(structs.Stack)
         def test_push(...):
             ...
+            assert CONDITION
 
     More example test cases in structs.tests.
 
@@ -78,4 +82,7 @@ def test_module(module):
             obj()
 
 def is_close(a, b):
+    diff = a - b
+    if isinstance(diff, Variable) or isinstance(diff, torch.Tensor):
+        abs = torch.abs
     return abs(a - b) <= .0001
