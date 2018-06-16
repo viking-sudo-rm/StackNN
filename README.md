@@ -18,13 +18,6 @@ To use a model, call `forward()` on every input and `init_stack()` whenever you 
 
 ## Tasks
 
-Tasks can be run using run.py. For example:
-
-~~~bash
-python run.py ReverseTask
-python run.py CFGTask --config agreement_config
-~~~
-
 ### String reversal
 
 The `ReverseTask` trains a feed-forward controller network to do string reversal. The code generates a list of 800 Python strings on the alphabet {0, 1} with length normally distributed around 10. The task is as follows:
@@ -35,11 +28,19 @@ x:       1 1 0 1 - - - -
 y:       - - - - 1 0 1 1
 ~~~
 
-In 10 epochs, the model tends to achieve 100% accuracy. Since the dataset it is learning is randomly generated each run, the model will sometimes get stuck around 60%. Note that these results were achieved before we refactored some of the code to be more object-oriented. If you are unable to replicate these results, please let us know.
+In 10 epochs, the model tends to achieve 100% accuracy. Since the dataset it is learning is randomly generated each run, the model will sometimes get stuck around 60%. To run the task for yourself, you can do:
+
+~~~bash
+python run.py ReverseTask
+~~~
 
 ### Context-free language modelling
 
-We also have an experiment that trains a context-free language model. This can be used to probe interesting questions about structure. For example, it can be used to predict closing parentheses in a Dijk language. On this task, our stack model converges to 100% accuracy.
+`CFGTask` can be used to train a context-free language model. Many interesting questions probing linguistic structure can be reduced to special cases of this general task. For example, the task can be used to predict closing parentheses in a Dijk language, which requires some notion of recursive depth. On this task, our stack model converges to 100% accuracy fairly quickly. You can run the Dijk task with:
+
+~~~bash
+python run.py CFGTask --config dijk_config
+~~~
 
 ### Tree automata evaluation
 
