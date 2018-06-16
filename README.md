@@ -28,7 +28,7 @@ x:       1 1 0 1 - - - -
 y:       - - - - 1 0 1 1
 ~~~
 
-In 10 epochs, the model tends to achieve 100% accuracy. Since the dataset it is learning is randomly generated each run, the model will sometimes get stuck around 60%. To run the task for yourself, you can do:
+In 5 epochs, the model tends to achieve 100% accuracy. To run the task for yourself, you can do:
 
 ~~~bash
 python run.py ReverseTask
