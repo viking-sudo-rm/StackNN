@@ -1,29 +1,22 @@
 # StackNN
-A PyTorch implementation of differentiable stacks for use in neural networks. Inspired by https://arxiv.org/pdf/1506.02516.pdf.
-
-## Reporting bugs
+A PyTorch implementation of differentiable stacks for use in neural networks. Inspired by [Grefenstette et al., 2015](https://arxiv.org/pdf/1506.02516.pdf).
 
 Please report any bugs in the GitHub issues tracker.
 
 ## Models
 
-Models implement the high-level controllers that interact with the stack. There are several different types of models, but the simplest one is, as the name implies, the `vanilla` one.
+Models implement the high-level controllers that use a stack for recurrent memory. You can think of these networks like LSTMs with a more sophisticated storage mechanism to pass data between time steps. There are several different types of models, but the simplest one is, as the name implies, the `vanilla` one.
 
-To use a model, call `forward()` on every input and `init_stack()` whenever you want to reset the stack between inputs.
+To use a model, call `model.forward()` on every input and `model.init_stack()` whenever you want to reset the stack between inputs.
 
 ## Data structures
 
-* `structs.Stack` implements the stack data structure.
-* `structs.Queue` implements the queue data structure.
+* `structs.Stack` implements the differentiable stack data structure.
+* `structs.Queue` implements the differentiable queue data structure.
+
+The buffered models use read-only and write-only versions of the differentiable queue for their input and output buffers.
 
 ## Tasks
-
-Tasks can be run using run.py. For example:
-
-~~~bash
-python run.py ReverseTask
-python run.py CFGTask --config agreement_config
-~~~
 
 ### String reversal
 
@@ -35,17 +28,24 @@ x:       1 1 0 1 - - - -
 y:       - - - - 1 0 1 1
 ~~~
 
-In 10 epochs, the model tends to achieve 100% accuracy. Since the dataset it is learning is randomly generated each run, the model will sometimes get stuck around 60%. Note that these results were achieved before we refactored some of the code to be more object-oriented. If you are unable to replicate these results, please let us know.
+In 5 epochs, the model tends to achieve 100% accuracy. To run the task for yourself, you can do:
+
+~~~bash
+python run.py ReverseTask
+~~~
 
 ### Context-free language modelling
 
-We also have an experiment that trains a context-free language model. This can be used to probe interesting questions about structure. For example, it can be used to predict closing parentheses in a Dijk language. On this task, our stack model converges to 100% accuracy.
+`CFGTask` can be used to train a context-free language model. Many interesting questions probing linguistic structure can be reduced to special cases of this general task. For example, the task can be used to predict closing parentheses in a Dijk language, which requires some notion of recursive depth. On this task, our stack model converges to 100% accuracy fairly quickly. You can run the Dijk task with:
+
+~~~bash
+python run.py CFGTask --config dijk_config
+~~~
 
 ### Tree automata evaluation
 
-Yiding is working on implementing a task where the stack is used to evaluate the largest spanned constituent for strings according to a tree automata. This will let us train a network to evaluate Polish notion boolean formulae, which is an especially interesting novel task to try.
+Yiding is working on implementing a task where the stack is used to evaluate the largest spanned constituent for strings according to a tree automata. This will let us train a network to evaluate Polish notion boolean formulae.
 
 ### Other tasks
 
-As far as more linguistically interesting tasks, there's also a dataset for agreement in the
-folder rnn_agr_simple. We discussed other tasks in CLAY meetings that I will write down here at some point.
+The data folder contains several real datasets that the stack can be applied to.

@@ -109,3 +109,9 @@ class Controller(nn.Module):
             data[2:, j] = self.v.data.numpy()
         plt.imshow(data, cmap="hot", interpolation="nearest")
         plt.show()
+
+    """ Compatibility """
+
+    def init_struct(self, *args, **kwargs):
+        self.init_stack(*args, **kwargs)
+        return

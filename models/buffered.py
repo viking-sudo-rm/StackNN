@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 
-from model import Controller as AbstractController
+from legacy.model import Controller as AbstractController
 from structs.legacy.queue import Queue
 
 
