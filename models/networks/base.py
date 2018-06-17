@@ -33,6 +33,8 @@ class Network(nn.Module):
         self._read_size = read_size
         self._output_size = output_size
 
+        return
+
     @abstractmethod
     def forward(self, x, r):
         """
@@ -82,7 +84,7 @@ class SimpleStructNetwork(Network):
     time step.
     """
 
-    def __init__(self, input_size, read_size, output_size):
+    def __init__(self, input_size, read_size, output_size, n_args=2):
         """
         Constructor for the SimpleStructNetwork object. In addition to
         calling the base class constructor, this constructor initializes
@@ -100,15 +102,25 @@ class SimpleStructNetwork(Network):
 
         :type output_size: int
         :param output_size: The size of vectors output from this Network
+
+        :type n_args: int
+        :param n_args: The number of struct instructions, apart from the
+            value to push onto the struct, that will be computed by the
+            network. By default, this value is 2: the push strength and
+            the pop strength
         """
         super(SimpleStructNetwork, self).__init__(input_size, read_size,
                                                   output_size)
+
+        self._n_args = 2
 
         # Initialize reporting tools
         self._logging = False  # Whether or not to log data
         self.log_data = None  # A numpy array containing logged data
         self._log_data_size = 0  # The maximum number of entries to log
         self._curr_log_entry = 0  # The number of entries logged already
+
+        return
 
     """ Reporting """
 
@@ -123,7 +135,8 @@ class SimpleStructNetwork(Network):
 
         :return: None
         """
-        self.log_data = np.zeros([2 + self._read_size, log_data_size])
+        self.log_data = np.zeros([self._n_args + self._read_size,
+                                  log_data_size])
         self._log_data_size = log_data_size
         self._curr_log_entry = 0
         return
@@ -154,20 +167,15 @@ class SimpleStructNetwork(Network):
         self._logging = False
         return
 
-    def _log(self, v, u, d):
+    def _log(self, v, *instructions):
         """
-        Records a set of SimpleSet instructions to self._log_data.
+        Records a set of SimpleStruct instructions to self._log_data.
 
         :type v: Variable
         :param v: The value that will be pushed to the data structure
 
-        :type u: Variable
-        :param u: The total strength of values that will be popped from
-            the data structure
-
-        :type d: Variable
-        :param d: The strength with which v will be pushed to the data
-            structure
+        :type instructions: list
+        :param instructions: Other data structure instructions
 
         :return: None
         """
@@ -176,9 +184,10 @@ class SimpleStructNetwork(Network):
         elif self._curr_log_entry >= self._log_data_size:
             return
 
-        self.log_data[2, self._curr_log_entry] = v.data.numpy()
-        self.log_data[0, self._curr_log_entry] = u.data.numpy()
-        self.log_data[1, self._curr_log_entry] = d.data.numpy()
+        self.log_data[self._n_args:, self._curr_log_entry] = v.data.numpy()
+        for j in xrange(self._n_args):
+            instruction = instructions[j].data.numpy()
+            self.log_data[j, self._curr_log_entry] = instruction
 
         self._curr_log_entry += 1
 

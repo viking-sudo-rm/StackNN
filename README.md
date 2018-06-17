@@ -5,9 +5,13 @@ Please report any bugs in the GitHub issues tracker.
 
 ## Models
 
-Models implement the high-level controllers that use a stack for recurrent memory. You can think of these networks like LSTMs with a more sophisticated storage mechanism to pass data between time steps. There are several different types of models, but the simplest one is, as the name implies, the `vanilla` one.
+Models implement the high-level controllers that use a stack for recurrent memory. You can think of these networks like LSTMs with a more sophisticated storage mechanism to pass data between time steps.
 
-To use a model, call `model.forward()` on every input and `model.init_stack()` whenever you want to reset the stack between inputs.
+* `models.VanillaController` is the simplest controller network.
+* `models.EmbeddingController` is a controller with an initial embedding layer.
+* `models.BufferedController` implements the more complicated buffered architecture.
+
+To use a model, call `model.forward()` on every input and `model.init_stack()` whenever you want to reset the stack between inputs. You can find example training logic in the `tasks` package.
 
 ## Data structures
 
@@ -28,7 +32,7 @@ x:       1 1 0 1 - - - -
 y:       - - - - 1 0 1 1
 ~~~
 
-In 5 epochs, the model tends to achieve 100% accuracy. To run the task for yourself, you can do:
+By 10 epochs, the model tends to achieve 100% accuracy. To run the task for yourself, you can do:
 
 ~~~bash
 python run.py ReverseTask

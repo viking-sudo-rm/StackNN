@@ -18,7 +18,7 @@ class LinearSimpleStructNetwork(SimpleStructNetwork):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 discourage_pop=True):
+                 n_args=2, discourage_pop=True):
         """
         Constructor for the LinearSimpleStruct object.
 
@@ -32,16 +32,24 @@ class LinearSimpleStructNetwork(SimpleStructNetwork):
         :type output_size: int
         :param output_size: The size of vectors output from this Network
 
+        :type n_args: int
+        :param n_args: The number of struct instructions, apart from the
+            value to push onto the struct, that will be computed by the
+            network. By default, this value is 2: the push strength and
+            the pop strength
+
         :type discourage_pop: bool
         :param discourage_pop: If True, then weights will be initialized
             to discourage popping
         """
-        super(LinearSimpleStructNetwork, self).__init__(input_size, read_size,
-                                                        output_size)
+        super(LinearSimpleStructNetwork, self).__init__(input_size,
+                                                        read_size,
+                                                        output_size,
+                                                        n_args=n_args)
 
         # Create a Linear Module object
         nn_input_size = self._input_size + self._read_size
-        nn_output_size = 2 + self._read_size + self._output_size
+        nn_output_size = self._n_args + self._read_size + self._output_size
         self._linear = nn.Linear(nn_input_size, nn_output_size)
 
         # Initialize Module weights
@@ -72,13 +80,13 @@ class LinearSimpleStructNetwork(SimpleStructNetwork):
         """
         nn_output = self._linear(torch.cat([x, r], 1))
 
-        output = nn_output[:, 2 + self._read_size:]
+        output = nn_output[:, self._n_args + self._read_size:]
 
-        read_params = sigmoid(nn_output[:, :2 + self._read_size])
-        v = read_params[:, 2:].contiguous()
-        u = read_params[:, 0].contiguous()
-        d = read_params[:, 1].contiguous()
+        read_params = sigmoid(nn_output[:, :self._n_args + self._read_size])
+        v = read_params[:, self._n_args:].contiguous()
+        instructions = tuple(read_params[:, j].contiguous()
+                             for j in xrange(self._n_args))
 
-        self._log(v, u, d)
+        self._log(v, *instructions)
 
-        return output, (v, u, d)
+        return output, ((v,) + instructions)
