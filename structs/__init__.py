@@ -1,1 +1,1 @@
-from simple import Stack, Queue
+from simple import Stack, Queue, Operation

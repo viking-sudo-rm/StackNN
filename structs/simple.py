@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+from enum import Enum
 
 import torch
 from torch.autograd import Variable
@@ -53,6 +54,11 @@ def bottom(num_steps):
     return 0
 
 
+class Operation(Enum):
+    push = 0
+    pop = 1
+
+
 class SimpleStruct(Struct):
     """
     Abstract class that subsumes the stack and the queue. This class is
@@ -87,6 +93,25 @@ class SimpleStruct(Struct):
         """
         super(SimpleStruct, self).__init__(batch_size, embedding_size)
         self._t = 0
+        self._reg_trackers = [None for _ in Operation]
+
+    def set_reg_tracker(self, reg_tracker, operation):
+        """
+        Regularize an operation on this struct.
+
+        :type reg_tracker: regularization.InterfaceRegTracker
+        :param reg_tracker: Tracker that should be used to regularize.
+
+        :type operation: Operation
+        :param operation: Enum specifying which operation should be regularized.
+
+        """
+        self._reg_trackers[operation.value] = reg_tracker
+
+    def _track_reg(self, strength, operation):
+        reg_tracker = self._reg_trackers[operation.value]
+        if reg_tracker is not None:
+            reg_tracker.regularize(strength)
 
     @abstractmethod
     def _pop_indices(self):
@@ -145,6 +170,9 @@ class SimpleStruct(Struct):
 
         :return: None
         """
+
+        self._track_reg(strength, Operation.pop)
+
         u = strength
         s = Variable(torch.FloatTensor(self._t, self.batch_size))
         for i in self._pop_indices():
@@ -165,13 +193,16 @@ class SimpleStruct(Struct):
         operation is complete.
 
         :type value: Variable
-        :param value: The vector to be pushed to the SimpleStruct
+        :param value: [batch_size x embedding_size] tensor to be pushed to the SimpleStruct
 
         :type strength: Variable
-        :param strength: The strength with which value will be pushed
+        :param strength: [batch_size] tensor of strengths with which value will be pushed
 
         :return: None
         """
+
+        self._track_reg(strength, Operation.push)
+
         v = value.view(1, self.batch_size, self.embedding_size)
         s = Variable(torch.FloatTensor(1, self.batch_size))
         s[0, :] = strength
