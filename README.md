@@ -40,10 +40,10 @@ python run.py ReverseTask
 
 ### Context-free language modelling
 
-`CFGTask` can be used to train a context-free language model. Many interesting questions probing linguistic structure can be reduced to special cases of this general task. For example, the task can be used to predict closing parentheses in a Dijk language, which requires some notion of recursive depth. On this task, our stack model converges to 100% accuracy fairly quickly. You can run the Dijk task with:
+`CFGTask` can be used to train a context-free language model. Many interesting questions probing linguistic structure can be reduced to special cases of this general task. For example, the task can be used to predict closing parentheses in a Dyck language (matching parentheses), which requires some notion of recursive depth. On this task, our stack model converges to 100% accuracy fairly quickly. You can run the Dyck task with:
 
 ~~~bash
-python run.py CFGTask --config dijk_config
+python run.py CFGTask --config dyck_config
 ~~~
 
 ### Tree automata evaluation
