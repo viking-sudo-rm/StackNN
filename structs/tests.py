@@ -2,15 +2,15 @@ from __future__ import print_function
 import torch
 from torch.autograd import Variable
 
-from testcase import testcase, test_module, is_close
 from simple import Stack, Queue
+from testcase import testcase, test_module, is_close
+
 
 """
 
 Unit test cases for the neural data structures.
 
 """
-
 
 @testcase(Stack)
 def test_stack():

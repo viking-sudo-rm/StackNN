@@ -29,9 +29,9 @@ def to_string(obj):
     :rtype: str
     :return: A string description of obj
     """
-    if type(obj) is torch.FloatTensor:
+    if isinstance(obj, torch.FloatTensor):
         return tensor_to_string(obj)
-    elif type(obj) is Variable:
+    elif isinstance(obj, Variable):
         return tensor_to_string(obj.data)
     else:
         return str(obj)

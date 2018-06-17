@@ -11,15 +11,15 @@ from legacy.model import Controller as AbstractController
 
 torch.manual_seed(1)
 
-class Controller(AbstractController):
+class EmbeddingController(AbstractController):
 
 	def __init__(self, num_embeddings, embedding_size, read_size, output_size, **args):
 		
-		super(Controller, self).__init__(read_size, **args)
+		super(EmbeddingController, self).__init__(read_size, **args)
 
 		# Initialize the embedding parameters
 		self.embed = nn.Embedding(num_embeddings, embedding_size)
-		AbstractController.init_normal(self.embed.weight)
+		self.init_normal(self.embed.weight)
 
 		# Initialize the linear parameters
 		self.linear = nn.Linear(embedding_size + self.get_read_size(), 2 + self.get_read_size() + output_size)

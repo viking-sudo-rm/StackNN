@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from models.vanilla import Controller as FFStackController
+from models import VanillaController
 
 
 class Task(object):
@@ -29,7 +29,7 @@ class Task(object):
                  max_x_length=10,
                  max_y_length=10,
                  model=None,
-                 model_type=FFStackController,
+                 model_type=VanillaController,
                  read_size=1,
                  verbose=True):
 

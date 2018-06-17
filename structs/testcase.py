@@ -2,6 +2,9 @@ from __future__ import print_function
 import sys
 import traceback
 import StringIO
+import torch
+from torch.autograd import Variable
+
 
 class testcase(object):
 
@@ -12,6 +15,7 @@ class testcase(object):
         @testcase(structs.Stack)
         def test_push(...):
             ...
+            assert CONDITION
 
     More example test cases in structs.tests.
 
@@ -62,8 +66,10 @@ class testcase(object):
     def _rename(f, struct_type):
         return "{}::{}".format(struct_type.__name__, f.__name__)
 
+
 def type_has_tests(struct_type):
     return hasattr(struct_type, "__tests__")
+
 
 def test_module(module):
     """ Run all the tests defined within a class, module, or dictionary. """
@@ -77,5 +83,11 @@ def test_module(module):
         if getattr(obj, "_is_test_case", False):
             obj()
 
+
 def is_close(a, b):
-    return abs(a - b) <= .0001
+    diff = a - b
+    if isinstance(diff, Variable) or isinstance(diff, torch.Tensor):
+        abs_fn = torch.abs
+    else:
+        abs_fn = abs
+    return abs_fn(a - b) <= .0001

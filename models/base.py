@@ -5,7 +5,7 @@ from abc import ABCMeta, abstractmethod
 import torch.nn as nn
 
 
-class Controller(nn.Module):
+class AbstractController(nn.Module):
     """
     Abstract class for creating policy networks (controllers) that
     operate a neural data structure, such as a neural stack or a neural
@@ -26,7 +26,7 @@ class Controller(nn.Module):
         :param struct_type: The type of neural data structure that this
             Controller will operate
         """
-        super(Controller, self).__init__()
+        super(AbstractController, self).__init__()
         self._struct_type = struct_type
         self._struct = None
 

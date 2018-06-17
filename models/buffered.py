@@ -5,15 +5,15 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 
-from model import Controller as AbstractController
+from legacy.model import Controller as AbstractController
 from structs.legacy.queue import Queue
 
 
-class Controller(AbstractController):
+class BufferedController(AbstractController):
     N_ARGS = 4
 
     def __init__(self, input_size, read_size, output_size, **args):
-        super(Controller, self).__init__(read_size, **args)
+        super(BufferedController, self).__init__(read_size, **args)
         self.input_size = input_size
 
         # initialize the controller parameters
@@ -22,8 +22,7 @@ class Controller(AbstractController):
                                 output_size)
 
         # Careful! The way we initialize weights seems to really matter
-        # self.linear.weight.data.uniform_(-.1, .1) # THIS ONE WORKS
-        AbstractController.init_normal(self.linear.weight)
+        self.init_normal(self.linear.weight)
         self.linear.bias.data.fill_(0)
         self.linear.bias.data[0] = -1.  # Discourage popping
         self.linear.bias.data[2] = 1.  # Encourage reading
