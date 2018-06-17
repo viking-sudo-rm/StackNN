@@ -95,24 +95,6 @@ class SimpleStruct(Struct):
         self._t = 0
         self._reg_trackers = [None for _ in Operation]
 
-    def set_reg_tracker(self, reg_tracker, operation):
-        """
-        Regularize an operation on this struct.
-
-        :type reg_tracker: regularization.InterfaceRegTracker
-        :param reg_tracker: Tracker that should be used to regularize.
-
-        :type operation: Operation
-        :param operation: Enum specifying which operation should be regularized.
-
-        """
-        self._reg_trackers[operation.value] = reg_tracker
-
-    def _track_reg(self, strength, operation):
-        reg_tracker = self._reg_trackers[operation.value]
-        if reg_tracker is not None:
-            reg_tracker.regularize(strength)
-
     @abstractmethod
     def _pop_indices(self):
         """
@@ -259,6 +241,34 @@ class SimpleStruct(Struct):
             str_used = str_used + str_i
 
         return r
+
+    def set_reg_tracker(self, reg_tracker, operation):
+        """
+        Regularize an operation on this struct.
+
+        :type reg_tracker: regularization.InterfaceRegTracker
+        :param reg_tracker: Tracker that should be used to regularize.
+
+        :type operation: Operation
+        :param operation: Enum specifying which operation should be regularized.
+
+        """
+        self._reg_trackers[operation.value] = reg_tracker
+
+    def _track_reg(self, strength, operation):
+        """
+        Private method to track regularization on interface calls.
+
+        :type strength: Variable
+        :param strength: Strength vector given to pop/push call.
+
+        :type operation: Operation
+        :param operation: Operation type specified by enum.
+
+        """
+        reg_tracker = self._reg_trackers[operation.value]
+        if reg_tracker is not None:
+            reg_tracker.regularize(strength)
 
     def print_summary(self, batch):
         """
