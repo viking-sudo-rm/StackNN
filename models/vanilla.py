@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 import torch
 from torch.autograd import Variable
 
-from models.base import Controller
+from base import AbstractController
 from networks.feedforward import LinearSimpleStructNetwork
 from structs.simple import Stack
 
 
-class VanillaController(Controller):
+class VanillaController(AbstractController):
     """
     A simple Controller that uses a SimpleStruct as its data structure.
     """

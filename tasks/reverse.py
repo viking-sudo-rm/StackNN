@@ -7,7 +7,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 from base import Task
-from models.vanilla import Controller as FFStackController
+from models import VanillaController
 
 
 class ReverseTask(Task):
@@ -27,7 +27,7 @@ class ReverseTask(Task):
                  learning_rate=0.01,
                  l2_weight=0.01,
                  model=None,
-                 model_type=FFStackController,
+                 model_type=VanillaController,
                  read_size=2,
                  verbose=True):
         """

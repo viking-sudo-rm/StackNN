@@ -22,7 +22,7 @@ from nltk.parse.generate import generate
 from torch.autograd import Variable
 
 from base import Task
-from models.vanilla import Controller
+from models import VanillaController
 
 
 class CFGTask(Task):
@@ -36,7 +36,7 @@ class CFGTask(Task):
                  grammar,
                  to_predict,
                  sample_depth,
-                 model_type=Controller,
+                 model_type=VanillaController,
                  batch_size=10,
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
