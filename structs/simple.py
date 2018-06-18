@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
-from enum import Enum
 
 import torch
+from enum import Enum
 from torch.autograd import Variable
 from torch.nn.functional import relu
 
@@ -38,11 +38,11 @@ def to_string(obj):
         return str(obj)
 
 
-def first_to_last(num_steps):
+def bottom_to_top(num_steps):
     return xrange(num_steps)
 
 
-def last_to_first(num_steps):
+def top_to_bottom(num_steps):
     return reversed(xrange(num_steps))
 
 
@@ -198,10 +198,12 @@ class SimpleStruct(Struct):
         operation is complete.
 
         :type value: Variable
-        :param value: [batch_size x embedding_size] tensor to be pushed to the SimpleStruct
+        :param value: [batch_size x embedding_size] tensor to be pushed to
+        the SimpleStruct
 
         :type strength: Variable
-        :param strength: [batch_size] tensor of strengths with which value will be pushed
+        :param strength: [batch_size] tensor of strengths with which value
+        will be pushed
 
         :return: None
         """
@@ -273,7 +275,8 @@ class SimpleStruct(Struct):
         :param reg_tracker: Tracker that should be used to regularize.
 
         :type operation: Operation
-        :param operation: Enum specifying which operation should be regularized.
+        :param operation: Enum specifying which operation should be
+        regularized.
 
         """
         self._reg_trackers[operation.value] = reg_tracker
@@ -335,13 +338,13 @@ class Stack(SimpleStruct):
     """
 
     def _pop_indices(self):
-        return last_to_first(self._t)
+        return top_to_bottom(self._t)
 
     def _push_index(self):
         return top(self._t)
 
     def _read_indices(self):
-        return last_to_first(self._t)
+        return top_to_bottom(self._t)
 
 
 class Queue(SimpleStruct):
@@ -351,10 +354,10 @@ class Queue(SimpleStruct):
     """
 
     def _pop_indices(self):
-        return last_to_first(self._t)
+        return bottom_to_top(self._t)
 
     def _push_index(self):
-        return bottom(self._t)
+        return top(self._t)
 
     def _read_indices(self):
-        return last_to_first(self._t)
+        return bottom_to_top(self._t)
