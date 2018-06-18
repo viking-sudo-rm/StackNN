@@ -18,7 +18,7 @@ class LinearSimpleStructNetwork(SimpleStructNetwork):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 n_args=2, discourage_pop=True):
+                 n_args=2, discourage_pop=False):
         """
         Constructor for the LinearSimpleStruct object.
 
@@ -80,7 +80,7 @@ class LinearSimpleStructNetwork(SimpleStructNetwork):
         """
         nn_output = self._linear(torch.cat([x, r], 1))
 
-        output = nn_output[:, self._n_args + self._read_size:]
+        output = nn_output[:, self._n_args + self._read_size:].contiguous()
 
         read_params = sigmoid(nn_output[:, :self._n_args + self._read_size])
         v = read_params[:, self._n_args:].contiguous()

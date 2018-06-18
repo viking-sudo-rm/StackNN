@@ -49,7 +49,7 @@ class BufferedController(AbstractController):
         self._e_in = None
 
         self._network = network_type(input_size, read_size, output_size,
-                                     n_args=4)
+                                     n_args=4, discourage_pop=True)
         self._buffer_in = None
         self._buffer_out = None
 
