@@ -1,9 +1,9 @@
 """ Defines parameters for various CFG experiment configurations that we have experimented with.
 
-These parameters are 
+The values in a config dictionary are used to populate the parameters of the Task class constructor.
 
 Example usage:
-  CFGTask(**tasks.config.dyck_config).run_experiment()
+  CFGTask(**tasks.configs.dyck_config).run_experiment()
 
 """
 

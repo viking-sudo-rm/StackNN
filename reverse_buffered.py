@@ -7,26 +7,25 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
 
-# from models.lstm import Controller
-# from models.vanilla import Controller
-from models.buffered import Controller
+from models import BufferedController
+
 
 # Language parameters
 MIN_LENGTH = 1
 MEAN_LENGTH = 10
 STD_LENGTH = 2
 MAX_LENGTH = 12
+TIME_FN = lambda n: n # Number of iterations as a function of input size.
 
 # Hyperparameters
 LEARNING_RATE = .01  # .01 is baseline -- .1 doesn't work!
 LAMBDA = .01
 BATCH_SIZE = 10  # 10 is baseline
 READ_SIZE = 2  # 2 is baseline
-PAD = 24
 
 EPOCHS = 30
 
-model = Controller(3, READ_SIZE, 3)
+model = BufferedController(3, READ_SIZE, 3)
 try:
     model.cuda()
 except AssertionError:
@@ -105,8 +104,9 @@ def train(train_X, train_Y):
 
         # # Buffered model
         zero = Variable(torch.zeros(BATCH_SIZE, 3))
-        model.init_stack_and_buffer(BATCH_SIZE, X, PAD)
-        for j in xrange(PAD):
+        num_iterations = TIME_FN(2 * MAX_LENGTH)
+        model.init_stack_and_buffer(BATCH_SIZE, X, num_iterations)
+        for j in xrange(num_iterations):
             model.forward()
         for j in xrange(MAX_LENGTH):
             a = model.buffer_out.forward(zero, 1., 0.)
@@ -126,6 +126,9 @@ def train(train_X, train_Y):
             digits_total += len(valid_a)
             digits_correct += len(torch.nonzero((valid_y_ == valid_Y).data))
             batch_loss += criterion(valid_a, valid_Y)
+
+        # Add regularization loss and reset the tracker.
+        batch_loss += model.reg_tracker.reset()
 
         # update the weights
         optimizer.zero_grad()
@@ -152,8 +155,9 @@ def evaluate(test_X, test_Y):
 
     # # Buffered model
     zero = Variable(torch.zeros(len_X, 3))
-    model.init_stack_and_buffer(len_X, test_X, PAD)
-    for j in xrange(PAD):
+    num_iterations = TIME_FN(2 * MAX_LENGTH)
+    model.init_stack_and_buffer(len_X, test_X, num_iterations)
+    for j in xrange(num_iterations):
         model.forward()
     for j in xrange(MAX_LENGTH):
         a = model.buffer_out.forward(zero, 1., 0.)
