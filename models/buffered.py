@@ -6,7 +6,7 @@ from torch.autograd import Variable
 from base import AbstractController
 from networks.feedforward import LinearSimpleStructNetwork
 from structs.buffers import InputBuffer, OutputBuffer
-from structs.simple import Stack
+from structs import Stack
 
 
 class BufferedController(AbstractController):
@@ -114,17 +114,11 @@ class BufferedController(AbstractController):
         :return: The output of the neural network
         """
         x = self._buffer_in(self._e_in)
-
+        
         output, (v, u, d, e_in, e_out) = self._network(x, self._read)
         self._e_in = e_in
         self._read = self._struct(v, u, d)
 
         self._buffer_out(output, e_out)
 
-        return
-
-    """ Compatibility """
-
-    def init_stack_and_buffer(self, *args, **kwargs):
-        self.init_struct_and_buffer(*args, **kwargs)
         return

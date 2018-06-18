@@ -112,7 +112,7 @@ class SimpleStructNetwork(Network):
         super(SimpleStructNetwork, self).__init__(input_size, read_size,
                                                   output_size)
 
-        self._n_args = 2
+        self._n_args = n_args
 
         # Initialize reporting tools
         self._logging = False  # Whether or not to log data
