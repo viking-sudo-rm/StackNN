@@ -109,7 +109,8 @@ def train(train_X, train_Y):
         for j in xrange(num_iterations):
             model.forward()
         for j in xrange(MAX_LENGTH):
-            a = model.buffer_out.forward(zero, 1., 0.)
+            model._buffer_out.pop(1.)
+            a = model._buffer_out.read(1.)
 
             # # Normal seq2seq
             # model.init_stack(BATCH_SIZE)
@@ -128,7 +129,7 @@ def train(train_X, train_Y):
             batch_loss += criterion(valid_a, valid_Y)
 
         # Add regularization loss and reset the tracker.
-        batch_loss += model.reg_tracker.reset()
+        # batch_loss += model.reg_tracker.reset()
 
         # update the weights
         optimizer.zero_grad()
@@ -160,7 +161,8 @@ def evaluate(test_X, test_Y):
     for j in xrange(num_iterations):
         model.forward()
     for j in xrange(MAX_LENGTH):
-        a = model.buffer_out.forward(zero, 1., 0.)
+        model._buffer_out.pop(1.)
+        a = model._buffer_out.read(1.)
 
         # # Normal seq2seq
         # model.init_stack(len(test_X.data))
