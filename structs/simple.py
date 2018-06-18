@@ -87,6 +87,29 @@ class SimpleStruct(Struct):
         """
         super(SimpleStruct, self).__init__(batch_size, embedding_size)
         self._t = 0
+        return
+
+    def init_contents(self, xs):
+        """
+        Initialize the SimpleStruct's contents to a specified collection
+        of values. Each value will have a strength of 1.
+
+        :type xs: Variable
+        :param xs: An array of values that will be placed on the
+            SimpleStruct. The dimensions should be [t, batch size,
+            read size], where t is the number of values that will be
+            placed on the SimpleStruct
+
+        :return: None
+        """
+        self._t = xs.size(0)
+
+        self.contents = xs
+        self.strengths = Variable(torch.ones(self._t, self.batch_size))
+
+        return
+
+    """ Struct Operations """
 
     @abstractmethod
     def _pop_indices(self):
@@ -228,6 +251,8 @@ class SimpleStruct(Struct):
             str_used = str_used + str_i
 
         return r
+
+    """ Reporting """
 
     def print_summary(self, batch):
         """

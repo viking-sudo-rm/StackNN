@@ -47,6 +47,8 @@ class Struct(nn.Module):
         self.contents = Variable(torch.FloatTensor(0))
         self.strengths = Variable(torch.FloatTensor(0))
 
+        return
+
     def forward(self, v, u, d):
         """
         Performs the following three operations:
