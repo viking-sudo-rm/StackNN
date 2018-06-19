@@ -5,8 +5,9 @@ from torch.autograd import Variable
 
 from base import AbstractController
 from networks.feedforward import LinearSimpleStructNetwork
+from structs import Stack, Operation
 from structs.buffers import InputBuffer, OutputBuffer
-from structs import Stack
+from structs.regularization import InterfaceRegTracker
 
 
 class BufferedController(AbstractController):
@@ -53,6 +54,11 @@ class BufferedController(AbstractController):
         self._buffer_in = None
         self._buffer_out = None
 
+        # TODO:
+        #   * To disable regularization, can set this to None.
+        #   * The weight of the regularization should a Model and Task parameter.
+        self._reg_tracker = InterfaceRegTracker(1.)
+
         return
 
     def init_struct(self, batch_size):
@@ -93,6 +99,8 @@ class BufferedController(AbstractController):
         self._buffer_out = OutputBuffer(batch_size, self._input_size)
 
         self._buffer_in.init_contents(xs.permute(1, 0, 2))
+        self._buffer_in.set_reg_tracker(self._reg_tracker, Operation.pop)
+        self._buffer_out.set_reg_tracker(self._reg_tracker, Operation.push)
 
         return
 
@@ -122,3 +130,8 @@ class BufferedController(AbstractController):
         self._buffer_out(output, e_out)
 
         return
+
+    def get_and_reset_reg_loss(self):
+        if self._reg_tracker is None:
+            return 0.
+        return self._reg_tracker.get_and_reset()
