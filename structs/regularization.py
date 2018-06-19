@@ -22,7 +22,7 @@ class InterfaceRegTracker(object):
         Constructor for StructInterfaceLoss.
 
         :type weight_decay: float
-        :param weight_decay: Weight for regularization.
+        :param weight_decay: Linear weight for regularization loss.
 
         :type reg_fn: function
         :param reg_fn: Regularization function to apply over 1D tensor
@@ -42,7 +42,7 @@ class InterfaceRegTracker(object):
         self._loss += torch.sum(losses)
         self._count += len(losses)
 
-    def reset(self):
+    def get_and_reset(self):
         loss = self.loss
         self._loss = Variable(torch.zeros([1]))
         self._count = 0

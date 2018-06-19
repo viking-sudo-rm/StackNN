@@ -129,7 +129,7 @@ def train(train_X, train_Y):
             batch_loss += criterion(valid_a, valid_Y)
 
         # Add regularization loss and reset the tracker.
-        # batch_loss += model.reg_tracker.reset()
+        batch_loss += model.get_and_reset_reg_loss()
 
         # update the weights
         optimizer.zero_grad()
