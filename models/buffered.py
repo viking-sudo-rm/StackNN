@@ -1,12 +1,13 @@
 from __future__ import division
 
+import matplotlib.pyplot as plt
 import torch
 from torch.autograd import Variable
 
 from base import AbstractController
 from networks.feedforward import LinearSimpleStructNetwork
-from structs.buffers import InputBuffer, OutputBuffer
 from structs import Stack
+from structs.buffers import InputBuffer, OutputBuffer
 
 
 class BufferedController(AbstractController):
@@ -53,8 +54,6 @@ class BufferedController(AbstractController):
         self._buffer_in = None
         self._buffer_out = None
 
-        return
-
     def init_struct(self, batch_size):
         """
         Initializes the neural data structure to an empty state.
@@ -67,8 +66,6 @@ class BufferedController(AbstractController):
         """
         self._read = Variable(torch.zeros([batch_size, self._read_size]))
         self._struct = self._struct_type(batch_size, self._read_size)
-
-        return
 
     def init_buffer(self, batch_size, xs):
         """
@@ -94,12 +91,9 @@ class BufferedController(AbstractController):
 
         self._buffer_in.init_contents(xs.permute(1, 0, 2))
 
-        return
-
     def init_struct_and_buffer(self, batch_size, xs):
         self.init_struct(batch_size)
         self.init_buffer(batch_size, xs)
-        return
 
     """ Neural Network Computation """
 
@@ -114,11 +108,37 @@ class BufferedController(AbstractController):
         :return: The output of the neural network
         """
         x = self._buffer_in(self._e_in)
-        
+
         output, (v, u, d, e_in, e_out) = self._network(x, self._read)
         self._e_in = e_in
         self._read = self._struct(v, u, d)
 
         self._buffer_out(output, e_out)
 
-        return
+    """ Analytical Tools """
+
+    def trace(self, trace_x, num_steps):
+        """
+        Draws a graphic representation of the neural data structure
+        instructions produced by the Controller's Network at each time
+        step for a single input.
+
+        :type trace_x: Variable
+        :param trace_x: An input string
+
+        :type num_steps: int
+        :param num_steps: The number of computation steps to perform on
+            the input
+
+        :return: None
+        """
+        self.eval()
+        self.init_struct_and_buffer(1, trace_x)
+
+        self._network.start_log(num_steps)
+        for j in xrange(num_steps):
+            self.forward()
+        self._network.stop_log()
+
+        plt.imshow(self._network.log_data, cmap="hot", interpolation="nearest")
+        plt.show()
