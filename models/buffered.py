@@ -102,7 +102,7 @@ class BufferedController(AbstractController):
         self._buffer_in.set_reg_tracker(self._reg_tracker, Operation.pop)
         self._buffer_out.set_reg_tracker(self._reg_tracker, Operation.push)
 
-    def init_struct_and_buffer(self, batch_size, xs):
+    def init_controller(self, batch_size, xs):
         self.init_struct(batch_size)
         self.init_buffer(batch_size, xs)
 
@@ -126,6 +126,19 @@ class BufferedController(AbstractController):
 
         self._buffer_out(output, e_out)
 
+    """ Public Accessors """
+
+    def read_output(self):
+        """
+        Returns the next symbol from the output buffer.
+
+        :rtype: Variable
+        :return: The value read from the output buffer after popping
+            with strength 1
+        """
+        self._buffer_out.pop(1.)
+        return self._buffer_out.read(1.)
+
     """ Analytical Tools """
 
     def trace(self, trace_x, num_steps):
@@ -144,7 +157,7 @@ class BufferedController(AbstractController):
         :return: None
         """
         self.eval()
-        self.init_struct_and_buffer(1, trace_x)
+        self.init_controller(1, trace_x)
 
         self._network.start_log(num_steps)
         for j in xrange(num_steps):

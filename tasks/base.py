@@ -233,7 +233,7 @@ class Task(object):
         for batch, i in enumerate(xrange(0, last_trial, self.batch_size)):
             x = self.train_x[i:i + self.batch_size, :, :]
             y = self.train_y[i:i + self.batch_size, :]
-            self.model.init_stack(self.batch_size)
+            self.model.init_controller(self.batch_size, x)
             self._evaluate_batch(x, y, batch, True)
 
         return
@@ -249,7 +249,7 @@ class Task(object):
             raise ValueError("Missing testing data")
 
         self.model.eval()
-        self.model.init_stack(len(self.test_x.data))
+        self.model.init_controller(len(self.test_x.data), self.test_x)
         self._evaluate_batch(self.test_x, self.test_y, epoch, False)
 
         return
@@ -278,8 +278,10 @@ class Task(object):
         batch_total = 0
 
         # Read the input from left to right and evaluate the output
+        for j in xrange(30):
+            self.model()
         for j in xrange(self.max_x_length):
-            a = self.model.forward(x[:, j, :])
+            a = self.model.read_output()
             loss, correct, total = self._evaluate_step(x, y, a, j)
             if loss is None or correct is None or total is None:
                 continue
