@@ -265,3 +265,45 @@ class ReverseTask(Task):
         :return: The one-hot encoding of b
         """
         return torch.FloatTensor([float(i == b) for i in xrange(3)])
+
+
+class CopyTask(ReverseTask):
+    """
+    String Copying
+    """
+
+    def get_tensors(self, b):
+        """
+        Like ReverseTask.get_tensors, but the output is not reversed,
+        and the output is produced immediately.
+
+        For example, the following is a valid input-output pair.
+            input: [0., 1., 0.], [1., 0., 0.],
+                    [0., 0., 1.], [0., 0., 1.]
+            output: 1, 0, null, null
+
+        :type b: int
+        :param b: The number of examples in the dataset
+
+        :rtype: tuple
+        :return: A Variable containing the input values and a Variable
+            containing the output values
+        """
+        x_raw = [self.randstr() for _ in xrange(b)]
+
+        # Initialize x to one-hot encodings of NULL
+        x = torch.FloatTensor(b, 2 * self.max_length, 3)
+        x[:, :, :2].fill_(0)
+        x[:, :, 2].fill_(1)
+
+        # Initialize y to NULL
+        y = torch.LongTensor(b, 8 * self.max_length)
+        y.fill_(2)
+
+        for i, s in enumerate(x_raw):
+            t = s
+            for j, char in enumerate(s):
+                x[i, j, :] = ReverseTask.one_hot(char)
+                y[i, j] = t[j]
+
+        return Variable(x), Variable(y)
