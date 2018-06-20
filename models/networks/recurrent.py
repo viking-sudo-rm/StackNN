@@ -11,6 +11,7 @@ from torch.autograd import Variable
 
 from base import SimpleStructNetwork
 
+# https://pytorch.org/docs/stable/nn.html#lstmcell
 
 class LSTMSimpleStructNetwork(SimpleStructNetwork):
     """
@@ -21,7 +22,7 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
     def __init__(self, input_size, read_size, output_size,
                  n_args=2, discourage_pop=True):
         """
-        Constructor for the LinearSimpleStruct object.
+        Constructor for the LSTMSimpleStructNetwork object.
 
         :type input_size: int
         :param input_size: The size of input vectors to this Network
@@ -51,23 +52,22 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
         # Create an LSTM Module object
         nn_input_size = self._input_size + self._read_size
         nn_output_size = self._n_args + self._read_size + self._output_size
-        self._lstm = nn.LSTM(nn_input_size, nn_output_size)
-
-        # Initialize hidden state
-        lstm_hidden_shape = (
-            1, batch_size, 2 + self.output_size + self.read_size)
-        self.hidden = (autograd.Variable(torch.zeros(lstm_hidden_shape)),
-                       autograd.Variable(torch.zeros(lstm_hidden_shape)))
+        self._lstm = nn.LSTMCell(nn_input_size, nn_output_size)
 
         # Initialize Module weights
-        LSTMSimpleStructNetwork.init_normal(self._lstm.weight_hh_l0)
-        LSTMSimpleStructNetwork.init_normal(self._lstm.weight_ih_l0)
-        self._lstm.bias_hh_l0.data.fill_(0)
-        self._lstm.bias_ih_l0.data.fill_(0)
+        LSTMSimpleStructNetwork.init_normal(self._lstm.weight_hh)
+        LSTMSimpleStructNetwork.init_normal(self._lstm.weight_ih)
+        self._lstm.bias_hh.data.fill_(0)
+        self._lstm.bias_ih.data.fill_(0)
+
         if discourage_pop:
             pass
 
-        return
+    def init_hidden(self, batch_size):
+        # Initialize hidden state
+        lstm_hidden_shape = (batch_size, self._lstm.hidden_size)
+        self._hidden = Variable(torch.zeros(lstm_hidden_shape))
+        self._cell_state = Variable(torch.zeros(lstm_hidden_shape))
 
     def forward(self, x, r):
         """
@@ -87,11 +87,12 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
                 - pop a strength u from the data structure
                 - push v with strength d to the data structure
         """
-        nn_output, self._state = self._lstm(torch.cat([x, r], 1), self._state)
+        self._hidden, self._cell_state = self._lstm(
+            torch.cat([x, r], 1), (self._hidden, self._cell_state))
 
-        output = nn_output[:, self._n_args + self._read_size:].squeeze()
+        output = self._hidden[:, self._n_args + self._read_size:].squeeze()
 
-        read_params = nn_output[:, :self._n_args + self._read_size]
+        read_params = self._hidden[:, :self._n_args + self._read_size]
         read_params = sigmoid(read_params.squeeze())
         v = read_params[:, self._n_args:].contiguous()
         instructions = tuple(read_params[:, j].contiguous()

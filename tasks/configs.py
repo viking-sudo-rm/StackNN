@@ -11,6 +11,7 @@ import inspect
 
 from tasks import *
 from formalisms.cfg import *
+from models.lstm import LSTMController
 
 
 dyck_config = {
@@ -26,6 +27,10 @@ reverse_config = {
     "sample_depth": 12,
 }
 
+reverse_LSTM = {
+    "model_type": LSTMController
+
+}
 
 agreement_config = {
     "grammar": agreement_grammar,
