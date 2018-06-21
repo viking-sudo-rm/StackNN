@@ -7,6 +7,9 @@ import torch.nn as nn
 import torch.optim as optim
 
 from models import VanillaController
+from models.base import AbstractController
+from models.networks.feedforward import LinearSimpleStructNetwork
+from structs.simple import Stack
 
 
 class Task(object):
@@ -30,7 +33,10 @@ class Task(object):
                  max_y_length=10,
                  model=None,
                  model_type=VanillaController,
+                 network_type=LinearSimpleStructNetwork,
+                 struct_type=Stack,
                  read_size=1,
+                 time_function=lambda x: x,
                  verbose=True):
 
         """
@@ -63,15 +69,23 @@ class Task(object):
         :type max_y_length: int
         :param max_y_length: The maximum length of a neural net output
 
+        :type model: AbstractController
         :param model: The model that will be trained and evaluated.
             This parameter is being kept for compatibility with older
             code. Please use the model_type parameter instead in order
-            to automatically instantiate models.
+            to automatically instantiate models
 
         :type model_type: type
-        :param model_type: The model that will be trained and evaluated.
-            Please pass the *type* of the model to the constructor, not
-            an instance of the model class
+        :param model_type: The type of model that will be trained and
+            evaluated
+
+        :type network_type: type
+        :param network_type: The type of neural network that will drive
+            the controller
+
+        :type struct_type: type
+        :param struct_type: The type of neural data structure that will
+            be used by the model
 
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
@@ -89,14 +103,16 @@ class Task(object):
         self.epochs = epochs
         self.learning_rate = learning_rate
         self.read_size = read_size
+        self.time_function = time_function
 
-        # Model settings
+        # Model settings (compatibility)
         if model is None:
             self.model = None
-            self.reset_model(model_type)
+            self.reset_model(model_type, network_type, struct_type)
         else:
             self.model = model
 
+        # Backpropagation settings
         self.criterion = criterion
         self.optimizer = optim.Adam(self.model.parameters(),
                                     lr=self.learning_rate,
@@ -112,10 +128,8 @@ class Task(object):
         self.test_x = None
         self.test_y = None
 
-        return
-
     @abstractmethod
-    def reset_model(self, model_type):
+    def reset_model(self, model_type, network_type, struct_type):
         """
         Instantiates a neural network model of a given type that is
         compatible with this Task.
@@ -147,8 +161,6 @@ class Task(object):
         for epoch in xrange(self.epochs):
             self.run_epoch(epoch)
 
-        return
-
     def run_epoch(self, epoch):
         """
         Trains the model on all examples in the training data set.
@@ -165,8 +177,6 @@ class Task(object):
         self.train()
         self.evaluate(epoch)
 
-        return
-
     def _shuffle_training_data(self):
         """
         Shuffles the training data.
@@ -177,8 +187,6 @@ class Task(object):
         shuffled_indices = torch.randperm(num_examples)
         self.train_x = self.train_x[shuffled_indices]
         self.train_y = self.train_y[shuffled_indices]
-
-        return
 
     def _print_experiment_start(self):
         """
@@ -194,8 +202,6 @@ class Task(object):
         print "Batch Size: " + str(self.batch_size)
         print "Read Size: " + str(self.read_size)
 
-        return
-
     def _print_epoch_start(self, epoch):
         """
         Prints a header with the epoch name at the beginning of each
@@ -210,8 +216,6 @@ class Task(object):
             return
 
         print "\n-- Epoch " + str(epoch) + " --\n"
-
-        return
 
     """ Model Training """
 
@@ -236,8 +240,6 @@ class Task(object):
             self.model.init_controller(self.batch_size, x)
             self._evaluate_batch(x, y, batch, True)
 
-        return
-
     def evaluate(self, epoch):
         """
         Evaluates the model given by self.model using the testing data
@@ -251,8 +253,6 @@ class Task(object):
         self.model.eval()
         self.model.init_controller(len(self.test_x.data), self.test_x)
         self._evaluate_batch(self.test_x, self.test_y, epoch, False)
-
-        return
 
     def _evaluate_batch(self, x, y, name, is_batch):
         """
@@ -278,7 +278,8 @@ class Task(object):
         batch_total = 0
 
         # Read the input from left to right and evaluate the output
-        for j in xrange(30):
+        num_steps = self.time_function(self.max_x_length)
+        for j in xrange(num_steps):
             self.model()
         for j in xrange(self.max_x_length):
             a = self.model.read_output()
@@ -300,8 +301,6 @@ class Task(object):
         self._print_batch_summary(name, is_batch, batch_loss, batch_correct,
                                   batch_total)
 
-        return
-
     @abstractmethod
     def _evaluate_step(self, x, y, a, j):
         """
@@ -322,6 +321,21 @@ class Task(object):
             of guesses
         """
         raise NotImplementedError("Missing implementation for _evaluate_step")
+
+    """ Data Generation """
+
+    @abstractmethod
+    def get_data(self):
+        """
+        Populates self.train_x, self.train_y, self.test_x, and
+        self.test_y by generating or loading data sets for training and
+        testing.
+
+        :return: None
+        """
+        raise NotImplementedError("Missing implementation for get_data")
+
+    """ Reporting """
 
     def _print_batch_summary(self, name, is_batch, batch_loss, batch_correct,
                              batch_total):
@@ -364,18 +378,3 @@ class Task(object):
         accuracy = (batch_correct * 1.0) / batch_total
         message += "Loss = {:.4f}, Accuracy = {:.2f}".format(loss, accuracy)
         print message
-
-        return
-
-    """ Data Generation """
-
-    @abstractmethod
-    def get_data(self):
-        """
-        Populates self.train_x, self.train_y, self.test_x, and
-        self.test_y by generating or loading data sets for training and
-        testing.
-
-        :return: None
-        """
-        raise NotImplementedError("Missing implementation for get_data")
