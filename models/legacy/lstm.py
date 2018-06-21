@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 import torch
 from torch.autograd import Variable
 
-from base import AbstractController
-from networks.recurrent import LSTMSimpleStructNetwork
+from models.base import AbstractController
+from models.networks.recurrent import LSTMSimpleStructNetwork
 from structs.simple import Stack
 
-from vanilla import VanillaController
+from models.vanilla import VanillaController
 
 class LSTMController(VanillaController):
 	"""
