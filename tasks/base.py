@@ -34,16 +34,16 @@ class Task(object):
                  model=None,
                  model_type=VanillaController,
                  network_type=LinearSimpleStructNetwork,
-                 struct_type=Stack,
                  read_size=1,
-                 time_function=lambda x: x,
+                 struct_type=Stack,
+                 time_function=lambda t: t,
                  verbose=True):
 
         """
         Constructor for the Task object.
 
         :type batch_size: int
-        :param batch_size: The number of trials in each batch
+        :param batch_size: The number of trials in each mini-batch
 
         :type criterion: nn.modules.loss._Loss
         :param criterion: The error function used for training the model
@@ -76,20 +76,25 @@ class Task(object):
             to automatically instantiate models
 
         :type model_type: type
-        :param model_type: The type of model that will be trained and
-            evaluated
+        :param model_type: The type of Controller that will be trained
+            and evaluated
 
         :type network_type: type
         :param network_type: The type of neural network that will drive
-            the controller
+            the Controller
+
+        :type read_size: int
+        :param read_size: The length of the vectors stored on the neural
+            data structure
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
             be used by the model
 
-        :type read_size: int
-        :param read_size: The length of the vectors stored on the neural
-            data structure
+        :type time_function: function
+        :param time_function: A function mapping the length of an input
+            to the number of computational steps the network will
+            perform on that input
 
         :type verbose: bool
         :param verbose: If True, the progress of the experiment will be

@@ -23,6 +23,8 @@ from torch.autograd import Variable
 
 from base import Task
 from models import VanillaController
+from models.networks.feedforward import LinearSimpleStructNetwork
+from structs import Stack
 
 
 class CFGTask(Task):
@@ -36,7 +38,6 @@ class CFGTask(Task):
                  grammar,
                  to_predict,
                  sample_depth,
-                 model_type=VanillaController,
                  batch_size=10,
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
@@ -44,8 +45,12 @@ class CFGTask(Task):
                  learning_rate=0.01,
                  l2_weight=0.01,
                  max_length=25,
+                 model_type=VanillaController,
+                 network_type=LinearSimpleStructNetwork,
                  null=u"#",
                  read_size=2,
+                 struct_type=Stack,
+                 time_function=lambda t: t,
                  train_set_size=800,
                  test_set_size=100,
                  verbose=True):
@@ -57,9 +62,9 @@ class CFGTask(Task):
         training and testing data sets, and the type of neural network
         model that will be trained and evaluated.
 
-        :type grammar: cfg.CFG
-        :param grammar: A context-free grammar from which sentences will
-            be drawn
+        :type grammar: gr.CFG
+        :param grammar: The context-free grammar that will generate
+            training and testing data
 
         :type to_predict: list
         :param to_predict: The words that will be predicted in this task
@@ -68,13 +73,8 @@ class CFGTask(Task):
         :param sample_depth: The maximum depth to which sentences will
             be sampled from the grammar
 
-        :type model_type: type
-        :param model_type: The model that will be trained and evaluated.
-            For this task, please pass the *type* of the model to the
-            constructor, not an instance of the model class
-
         :type batch_size: int
-        :param batch_size: The number of trials in each batch
+        :param batch_size: The number of trials in each mini-batch
 
         :type criterion: nn.modules.loss._Loss
         :param criterion: The error function used for training the model
@@ -94,8 +94,16 @@ class CFGTask(Task):
             training
 
         :type max_length: int
-        :param max_length: The maximum length of a string that will
+        :param max_length: The maximum length of a sentence that will
             appear in the input training and testing data
+
+        :type model_type: type
+        :param model_type: The type of Controller that will be trained
+            and evaluated
+
+        :type network_type: type
+        :param network_type: The type of neural network that will drive
+            the Controller
 
         :type null: unicode
         :param null: The "null" symbol used in this CFGTask
@@ -103,6 +111,15 @@ class CFGTask(Task):
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
             data structure
+
+        :type struct_type: type
+        :param struct_type: The type of neural data structure that will
+            be used by the Controller
+
+        :type time_function: function
+        :param time_function: A function mapping the length of an input
+            to the number of computational steps the network will
+            perform on that input
 
         :type train_set_size: int
         :param train_set_size: The number of examples to include in the
@@ -129,7 +146,10 @@ class CFGTask(Task):
                                       max_x_length=max_length,
                                       max_y_length=max_length,
                                       model_type=model_type,
+                                      network_type=network_type,
                                       read_size=read_size,
+                                      struct_type=struct_type,
+                                      time_function=time_function,
                                       verbose=verbose)
 
         self.to_predict_code = self.words_to_code(*to_predict)
