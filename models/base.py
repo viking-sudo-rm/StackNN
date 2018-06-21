@@ -73,7 +73,6 @@ class AbstractController(nn.Module):
         """
         raise NotImplementedError("Missing implementation for _init_buffer")
 
-    @abstractmethod
     def _init_network(self, batch_size):
         """
         Initializes the network.

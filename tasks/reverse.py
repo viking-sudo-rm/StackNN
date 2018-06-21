@@ -106,7 +106,7 @@ class ReverseTask(Task):
         self.std_length = std_length
         self.max_length = max_length
 
-    def reset_model(self, model_type):
+    def reset_model(self, model_type, network_type, struct_type):
         """
         Instantiates a neural network model of a given type that is
         compatible with this Task. This function must set self.model to
@@ -117,9 +117,19 @@ class ReverseTask(Task):
             the desired model's *type* to this parameter, not an
             instance thereof
 
+        :type network_type: type
+        :param network_type: The type of the Network that will perform
+            the neural network computations
+
+        :type struct_type: type
+        :param struct_type: The type of neural data structure that this
+            Controller will operate
+
         :return: None
         """
-        self.model = model_type(3, self.read_size, 3)
+        self.model = model_type(3, self.read_size, 3,
+                                network_type=network_type,
+                                struct_type=struct_type)
 
     """ Model Training """
 
