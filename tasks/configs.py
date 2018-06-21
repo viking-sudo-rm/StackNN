@@ -7,12 +7,8 @@ Example usage:
 
 """
 
-import inspect
-
-from tasks import *
 from formalisms.cfg import *
-from models.lstm import LSTMController
-
+from models.networks.recurrent import LSTMSimpleStructNetwork
 
 dyck_config = {
     "grammar": dyck_grammar,
@@ -28,8 +24,7 @@ reverse_config = {
 }
 
 reverse_LSTM = {
-    "model_type": LSTMController
-
+    "network_type": LSTMSimpleStructNetwork
 }
 
 agreement_config = {
