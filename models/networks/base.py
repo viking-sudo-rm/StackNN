@@ -75,6 +75,18 @@ class Network(nn.Module):
         n = tensor.data.shape[0]
         tensor.data.normal_(0, 1. / np.sqrt(n))
 
+    def init_network(self, batch_size):
+        """
+        Initializes various components of the network.
+
+        :type batch_size: int
+        :param batch_size: The number of trials in each mini-batch where
+            this Controller is used
+
+        :return: None
+        """
+        pass
+
 
 class SimpleStructNetwork(Network):
     """

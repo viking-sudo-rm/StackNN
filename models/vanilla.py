@@ -1,7 +1,6 @@
 from __future__ import division
 
 import matplotlib.pyplot as plt
-import torch
 from torch.autograd import Variable
 
 from base import AbstractController
@@ -42,23 +41,6 @@ class VanillaController(AbstractController):
         super(VanillaController, self).__init__(read_size, struct_type)
         self._read = None
         self._network = network_type(input_size, read_size, output_size)
-
-        return
-
-    def init_struct(self, batch_size):
-        """
-        Initializes the neural data structure to an empty state.
-
-        :type batch_size: int
-        :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
-
-        :return: None
-        """
-        self._read = Variable(torch.zeros([batch_size, self._read_size]))
-        self._struct = self._struct_type(batch_size, self._read_size)
-
-        return
 
     """ Neural Network Computation """
 
@@ -107,5 +89,3 @@ class VanillaController(AbstractController):
 
         plt.imshow(self._network.log_data, cmap="hot", interpolation="nearest")
         plt.show()
-
-        return

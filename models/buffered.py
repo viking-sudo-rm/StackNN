@@ -63,20 +63,7 @@ class BufferedController(AbstractController):
 
         return
 
-    def init_struct(self, batch_size):
-        """
-        Initializes the neural data structure to an empty state.
-
-        :type batch_size: int
-        :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
-
-        :return: None
-        """
-        self._read = Variable(torch.zeros([batch_size, self._read_size]))
-        self._struct = self._struct_type(batch_size, self._read_size)
-
-    def init_buffer(self, batch_size, xs):
+    def _init_buffer(self, batch_size, xs):
         """
         Initializes the input and output buffers. The input buffer will
         contain a specified collection of values. The output buffer will
@@ -101,10 +88,6 @@ class BufferedController(AbstractController):
         self._buffer_in.init_contents(xs.permute(1, 0, 2))
         self._buffer_in.set_reg_tracker(self._reg_tracker, Operation.pop)
         self._buffer_out.set_reg_tracker(self._reg_tracker, Operation.push)
-
-    def init_controller(self, batch_size, xs):
-        self.init_struct(batch_size)
-        self.init_buffer(batch_size, xs)
 
     """ Neural Network Computation """
 
