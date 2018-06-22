@@ -43,6 +43,8 @@ class VanillaController(AbstractController):
         self._read = None
         self._network = network_type(input_size, read_size, output_size)
         self._input_size = input_size
+        self._output_size = output_size
+        self._read_size = read_size
 
         self._buffer_in = None
         self._buffer_out = None
@@ -147,14 +149,25 @@ class VanillaController(AbstractController):
         :return: None
         """
         self.eval()
-        self.init_struct(1)
+        self.init_controller(1, trace_x)
 
         max_length = trace_x.data.shape[1]
 
         self._network.start_log(max_length)
         for j in xrange(max_length):
-            self.forward(trace_x[:, j, :])
+            self.forward()
         self._network.stop_log()
 
-        plt.imshow(self._network.log_data, cmap="hot", interpolation="nearest")
+        x_labels = ["x_" + str(i) for i in xrange(self._input_size)]
+        y_labels = ["y_" + str(i) for i in xrange(self._output_size)]
+        i_labels = ["Pop", "Push"]
+        v_labels = ["v_" + str(i) for i in xrange(self._read_size)]
+        labels = x_labels + y_labels + i_labels + v_labels
+
+        plt.imshow(self._network.log_data, cmap="Greys",
+                   interpolation="nearest")
+        plt.title("Trace")
+        plt.yticks(range(len(labels)), labels)
+        plt.xlabel("Time")
+        plt.ylabel("Value")
         plt.show()

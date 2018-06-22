@@ -47,6 +47,9 @@ class BufferedController(AbstractController):
         """
         super(BufferedController, self).__init__(read_size, struct_type)
         self._input_size = input_size
+        self._output_size = output_size
+        self._read_size = read_size
+
         self._read = None
         self._e_in = None
 
@@ -147,7 +150,18 @@ class BufferedController(AbstractController):
             self.forward()
         self._network.stop_log()
 
-        plt.imshow(self._network.log_data, cmap="hot", interpolation="nearest")
+        x_labels = ["x_" + str(i) for i in xrange(self._input_size)]
+        y_labels = ["y_" + str(i) for i in xrange(self._output_size)]
+        i_labels = ["Pop", "Push", "Input", "Output"]
+        v_labels = ["v_" + str(i) for i in xrange(self._read_size)]
+        labels = x_labels + y_labels + i_labels + v_labels
+
+        plt.imshow(self._network.log_data, cmap="Greys",
+                   interpolation="nearest")
+        plt.title("Trace")
+        plt.yticks(range(len(labels)), labels)
+        plt.xlabel("Time")
+        plt.ylabel("Value")
         plt.show()
 
     def get_and_reset_reg_loss(self):
