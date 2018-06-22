@@ -21,7 +21,7 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 n_args=2, discourage_pop=True):
+                 n_args=2, hidden_size=10, discourage_pop=True):
         """
         Constructor for the LSTMSimpleStructNetwork object.
 
@@ -56,13 +56,17 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
         # Create an LSTM Module object
         nn_input_size = self._input_size + self._read_size
         nn_output_size = self._n_args + self._read_size + self._output_size
-        self._lstm = nn.LSTMCell(nn_input_size, nn_output_size)
+        self._lstm = nn.LSTMCell(nn_input_size, hidden_size)
+        self._linear = nn.Linear(hidden_size, nn_output_size)
 
         # Initialize Module weights
         LSTMSimpleStructNetwork.init_normal(self._lstm.weight_hh)
         LSTMSimpleStructNetwork.init_normal(self._lstm.weight_ih)
         self._lstm.bias_hh.data.fill_(0)
         self._lstm.bias_ih.data.fill_(0)
+
+        LSTMSimpleStructNetwork.init_normal(self._linear.weight)
+        self._linear.bias.data.fill_(0)
 
         if discourage_pop:
             pass
@@ -104,16 +108,15 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
         """
         self._hidden, self._cell_state = self._lstm(
             torch.cat([x, r], 1), (self._hidden, self._cell_state))
+        nn_output = self._linear(self._hidden)
 
-        output = self._hidden[:, self._n_args + self._read_size:].contiguous()
-        output = output.squeeze()
+        output = nn_output[:, self._n_args + self._read_size:].contiguous()
 
-        read_params = self._hidden[:, :self._n_args + self._read_size]
-        read_params = sigmoid(read_params.squeeze())
+        read_params = sigmoid(nn_output[:, :self._n_args + self._read_size])
         v = read_params[:, self._n_args:].contiguous()
         instructions = tuple(read_params[:, j].contiguous()
                              for j in xrange(self._n_args))
 
-        self._log(v, *instructions)
+        self._log(x, sigmoid(output), v, *instructions)
 
         return output, ((v,) + instructions)
