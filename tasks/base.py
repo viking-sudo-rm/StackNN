@@ -387,12 +387,6 @@ class Task(object):
         else:
             message = "Epoch {}: ".format(name)
             loss = sum(batch_loss.data) / len(self.train_x)
-            '''print self.model._network._lstm.weight_hh[:1,:3]
-            print self.model._network._lstm.weight_ih[:1,:3]
-            print self.model._network._lstm.bias_hh[:3]
-            print self.model._network._lstm.bias_ih[:3]
-            print self.model._network._linear.weight[:1,:3]
-            print self.model._network._linear.bias[:3]'''
 
         accuracy = (batch_correct * 1.0) / batch_total
         message += "Loss = {:.4f}, Accuracy = {:.2f}".format(loss, accuracy)
