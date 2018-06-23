@@ -24,7 +24,9 @@ reverse_config = {
 }
 
 reverse_LSTM = {
-    "network_type": LSTMSimpleStructNetwork
+    "network_type": LSTMSimpleStructNetwork,
+    "learning_rate": 0.01,
+    "epochs": 100
 }
 
 agreement_config = {

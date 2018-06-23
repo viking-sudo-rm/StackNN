@@ -20,6 +20,8 @@ def get_args():
     parser = argparse.ArgumentParser(description="Run a task and customize hyperparameters.")
     parser.add_argument("task", type=str)
     parser.add_argument("--config", type=str, default=None)
+    parser.add_argument("--loadpath", type=str, default=None)
+    parser.add_argument("--savepath", type=str, default=None)
     return parser.parse_args()
 
 
@@ -32,7 +34,7 @@ if __name__ == "__main__":
     task = globals()[args.task]
     if not issubclass(task, Task):
         raise ValueError("{} is not Task".format(args.task))
-    
+
     if args.config is None:
         config = {}
     else:
@@ -41,5 +43,10 @@ if __name__ == "__main__":
         config = globals()[args.config]
         if not isinstance(config, dict):
             raise ValueError("{} is not a dictionary".format(args.config))
+
+    if(args.loadpath):
+        config['load_path'] = args.loadpath
+    if(args.savepath):
+        config['save_path'] = args.savepath
 
     task(**config).run_experiment()

@@ -50,7 +50,9 @@ class CFGTask(Task):
                  null=u"#",
                  read_size=2,
                  struct_type=Stack,
-                 time_function=lambda t: t,
+                 time_function=(lambda t: t),
+                 save_path=None,
+                 load_path=None,
                  train_set_size=800,
                  test_set_size=100,
                  verbose=True):
@@ -150,6 +152,8 @@ class CFGTask(Task):
                                       read_size=read_size,
                                       struct_type=struct_type,
                                       time_function=time_function,
+                                      save_path=save_path,
+                                      load_path=load_path,
                                       verbose=verbose)
 
         self.to_predict_code = self.words_to_code(*to_predict)

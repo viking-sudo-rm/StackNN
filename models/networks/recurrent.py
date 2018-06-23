@@ -56,7 +56,7 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
         # Create an LSTM Module object
         nn_input_size = self._input_size + self._read_size
         nn_output_size = self._n_args + self._read_size + self._output_size
-        self._lstm = nn.LSTMCell(nn_input_size, hidden_size)
+        self._lstm = nn.RNNCell(nn_input_size, hidden_size)
         self._linear = nn.Linear(hidden_size, nn_output_size)
 
         # Initialize Module weights
@@ -83,7 +83,7 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
         """
         lstm_hidden_shape = (batch_size, self._lstm.hidden_size)
         self._hidden = Variable(torch.zeros(lstm_hidden_shape))
-        self._cell_state = Variable(torch.zeros(lstm_hidden_shape))
+        #self._cell_state = Variable(torch.zeros(lstm_hidden_shape))
 
     def init_network(self, batch_size):
         self._init_hidden(batch_size)
@@ -106,8 +106,9 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
                 - pop a strength u from the data structure
                 - push v with strength d to the data structure
         """
-        self._hidden, self._cell_state = self._lstm(
-            torch.cat([x, r], 1), (self._hidden, self._cell_state))
+        #self._hidden, self._cell_state = self._lstm(
+            #torch.cat([x, r], 1), (self._hidden, self._cell_state))
+        self._hidden = self._lstm(torch.cat([x, r], 1), self._hidden)
         nn_output = self._linear(self._hidden)
 
         output = nn_output[:, self._n_args + self._read_size:].contiguous()
