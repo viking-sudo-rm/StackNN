@@ -374,11 +374,11 @@ class Task(object):
             return
 
         if is_batch:
-            message = "Batch {}-{}: ".format(name - 9, name)
+            message = "Batch {}: ".format(name)
             loss = sum(batch_loss.data) / self.batch_size
         else:
-            message = "Epoch {}: ".format(name)
-            loss = sum(batch_loss.data) / len(self.train_x)
+            message = "Epoch {} Test: ".format(name)
+            loss = sum(batch_loss.data) / self.test_x.size(0)
 
         accuracy = (batch_correct * 1.0) / batch_total
         message += "Loss = {:.4f}, Accuracy = {:.2f}".format(loss, accuracy)
