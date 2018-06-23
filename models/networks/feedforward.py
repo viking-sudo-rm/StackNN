@@ -87,6 +87,6 @@ class LinearSimpleStructNetwork(SimpleStructNetwork):
         instructions = tuple(read_params[:, j].contiguous()
                              for j in xrange(self._n_args))
 
-        self._log(x, output, v, *instructions)
+        self._log(x, sigmoid(output), v, *instructions)
 
         return output, ((v,) + instructions)
