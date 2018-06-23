@@ -32,7 +32,9 @@ class ReverseTask(Task):
                  network_type=LinearSimpleStructNetwork,
                  read_size=2,
                  struct_type=Stack,
-                 time_function=lambda t: t,
+                 time_function=(lambda t: t),
+                 save_path=None,
+                 load_path=None,
                  verbose=True):
         """
         Constructor for the ReverseTask object. The only information
@@ -118,6 +120,8 @@ class ReverseTask(Task):
                                           read_size=read_size,
                                           struct_type=struct_type,
                                           time_function=time_function,
+                                          save_path=save_path,
+                                          load_path=load_path,
                                           verbose=verbose)
 
         self.min_length = min_length

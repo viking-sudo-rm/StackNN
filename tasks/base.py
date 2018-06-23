@@ -36,7 +36,9 @@ class Task(object):
                  network_type=LinearSimpleStructNetwork,
                  read_size=1,
                  struct_type=Stack,
-                 time_function=lambda t: t,
+                 time_function=(lambda t: t),
+                 save_path=None,
+                 load_path=None,
                  verbose=True):
 
         """
@@ -109,6 +111,7 @@ class Task(object):
         self.learning_rate = learning_rate
         self.read_size = read_size
         self.time_function = time_function
+        self.save_path = save_path
 
         # Model settings (compatibility)
         if model is None:
@@ -116,6 +119,9 @@ class Task(object):
             self.reset_model(model_type, network_type, struct_type)
         else:
             self.model = model
+
+        if load_path:
+            self.model.load_state_dict(torch.load(load_path))
 
         # Backpropagation settings
         self.criterion = criterion
@@ -181,6 +187,8 @@ class Task(object):
         self._shuffle_training_data()
         self.train()
         self.evaluate(epoch)
+        if self.save_path:
+            torch.save(self.model.state_dict(), self.save_path)
 
     def _shuffle_training_data(self):
         """

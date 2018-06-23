@@ -22,6 +22,29 @@ The buffered models use read-only and write-only versions of the differentiable 
 
 ## Tasks
 
+To run a task, give the name of the task's class as an argument to `run.py`:
+
+~~~
+python run.py ReverseTask
+~~~
+
+Configurations allow you to set parameters of the task. To create a configuration, add it as a dictionary to `configs.py`, then use the
+`--config` argument when running the task:
+~~~
+python run.py ReverseTask --config reverse_LSTM
+~~~
+
+You can pass a file path in which to save the model parameters:
+~~~
+python run.py ReverseTask --savepath "saved_models/my_run_parameters"
+~~~
+Parameters are saved at the end of each epoch.
+
+You can also pass a file path to load model parameters from a previous run:
+~~~
+python run.py ReverseTask --loadpath "saved_models/previous_run"
+~~~
+
 ### String reversal
 
 The `ReverseTask` trains a feed-forward controller network to do string reversal. The code generates a list of 800 Python strings on the alphabet {0, 1} with length normally distributed around 10. The task is as follows:
