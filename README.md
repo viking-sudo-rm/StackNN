@@ -3,6 +3,14 @@ A PyTorch implementation of differentiable stacks for use in neural networks. In
 
 Please report any bugs in the GitHub issues tracker.
 
+## Dependencies
+
+Python 2.7 is supported. A possibly incomplete list of dependencies is:
+* pytorch
+* numpy
+* matplotlib
+* enum
+
 ## Models
 
 Models implement the high-level controllers that use a stack for recurrent memory. You can think of these networks like LSTMs with a more sophisticated storage mechanism to pass data between time steps.
