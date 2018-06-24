@@ -19,7 +19,7 @@ Models implement the high-level controllers that use a stack for recurrent memor
 * `models.EmbeddingController` is a controller with an initial embedding layer.
 * `models.BufferedController` implements the more complicated buffered architecture.
 
-To use a model, call `model.forward()` on every input and `model.init_stack()` whenever you want to reset the stack between inputs. You can find example training logic in the `tasks` package.
+To use a model, call `model.forward()` on every input and `model.init_controller()` whenever you want to reset the stack between inputs. You can find example training logic in the `tasks` package.
 
 ## Data structures
 
