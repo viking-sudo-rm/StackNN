@@ -3,6 +3,14 @@ A PyTorch implementation of differentiable stacks for use in neural networks. In
 
 Please report any bugs in the GitHub issues tracker.
 
+## Dependencies
+
+Python 2.7 is supported. A possibly incomplete list of dependencies is:
+* pytorch
+* numpy
+* matplotlib
+* enum
+
 ## Models
 
 Models implement the high-level controllers that use a stack for recurrent memory. You can think of these networks like LSTMs with a more sophisticated storage mechanism to pass data between time steps.
@@ -11,7 +19,7 @@ Models implement the high-level controllers that use a stack for recurrent memor
 * `models.EmbeddingController` is a controller with an initial embedding layer.
 * `models.BufferedController` implements the more complicated buffered architecture.
 
-To use a model, call `model.forward()` on every input and `model.init_stack()` whenever you want to reset the stack between inputs. You can find example training logic in the `tasks` package.
+To use a model, call `model.forward()` on every input and `model.init_controller()` whenever you want to reset the stack between inputs. You can find example training logic in the `tasks` package.
 
 ## Data structures
 
