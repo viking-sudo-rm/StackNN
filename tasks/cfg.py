@@ -168,7 +168,7 @@ class CFGTask(Task):
 
         return
 
-    def reset_model(self, model_type):
+    def reset_model(self, model_type, network_type, struct_type):
         """
         Instantiates a neural network model of a given type that is
         compatible with this Task. This function must set self.model to
@@ -179,9 +179,19 @@ class CFGTask(Task):
             the desired model's *type* to this parameter, not an
             instance thereof
 
+        :type network_type: type
+        :param network_type: The type of the Network that will perform
+            the neural network computations
+
+        :type struct_type: type
+        :param struct_type: The type of neural data structure that this
+            Controller will operate
+
         :return: None
         """
-        self.model = model_type(self.num_words, self.read_size, self.num_words)
+        self.model = model_type(self.num_words, self.read_size, self.num_words,
+                                network_type=network_type,
+                                struct_type=struct_type)
 
     def _get_code_for(self, null):
         """
