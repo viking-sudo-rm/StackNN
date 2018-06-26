@@ -25,16 +25,17 @@ class ReverseTask(Task):
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
                  epochs=30,
+                 hidden_size=10,
                  learning_rate=0.01,
+                 load_path=None,
                  l2_weight=0.01,
                  model=None,
                  model_type=VanillaController,
                  network_type=LinearSimpleStructNetwork,
                  read_size=2,
+                 save_path=None,
                  struct_type=Stack,
                  time_function=(lambda t: t),
-                 save_path=None,
-                 load_path=None,
                  verbose=True):
         """
         Constructor for the ReverseTask object. The only information
@@ -69,8 +70,16 @@ class ReverseTask(Task):
         :param epochs: The number of training epochs that will be
             performed when executing an experiment
 
+        :type hidden_size: int
+        :param hidden_size: The size of state vectors
+
         :type learning_rate: float
         :param learning_rate: The learning rate used for training
+
+        :type load_path: str
+        :param load_path: The neural network will be initialized to a
+            saved network located in this path. If load_path is set to
+            None, then the network will be initialized to an empty state
 
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
@@ -93,6 +102,11 @@ class ReverseTask(Task):
         :param read_size: The length of the vectors stored on the neural
             data structure
 
+        :type save_path: str
+        :param save_path: If this param is not set to None, then the
+            neural network will be saved to the path specified by this
+            save_path
+
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
             be used by the Controller
@@ -110,6 +124,7 @@ class ReverseTask(Task):
                                           criterion=criterion,
                                           cuda=cuda,
                                           epochs=epochs,
+                                          hidden_size=hidden_size,
                                           learning_rate=learning_rate,
                                           l2_weight=l2_weight,
                                           max_x_length=max_length * 2,
@@ -129,7 +144,7 @@ class ReverseTask(Task):
         self.std_length = std_length
         self.max_length = max_length
 
-    def reset_model(self, model_type, network_type, struct_type):
+    def reset_model(self, model_type, network_type, struct_type, **kwargs):
         """
         Instantiates a neural network model of a given type that is
         compatible with this Task. This function must set self.model to
@@ -152,7 +167,8 @@ class ReverseTask(Task):
         """
         self.model = model_type(3, self.read_size, 3,
                                 network_type=network_type,
-                                struct_type=struct_type)
+                                struct_type=struct_type,
+                                **kwargs)
 
     """ Model Training """
 

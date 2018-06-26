@@ -42,19 +42,20 @@ class CFGTask(Task):
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
                  epochs=30,
+                 hidden_size=10,
                  learning_rate=0.01,
+                 load_path=None,
                  l2_weight=0.01,
                  max_length=25,
                  model_type=VanillaController,
                  network_type=LinearSimpleStructNetwork,
                  null=u"#",
                  read_size=2,
-                 struct_type=Stack,
-                 time_function=(lambda t: t),
                  save_path=None,
-                 load_path=None,
-                 train_set_size=800,
+                 struct_type=Stack,
                  test_set_size=100,
+                 time_function=(lambda t: t),
+                 train_set_size=800,
                  verbose=True):
         """
         Constructor for the CFGTask object. To create a CFGTask, the
@@ -88,8 +89,16 @@ class CFGTask(Task):
         :param epochs: The number of training epochs that will be
             performed when executing an experiment
 
+        :type hidden_size: int
+        :param hidden_size: The size of state vectors
+
         :type learning_rate: float
         :param learning_rate: The learning rate used for training
+
+        :type load_path: str
+        :param load_path: The neural network will be initialized to a
+            saved network located in this path. If load_path is set to
+            None, then the network will be initialized to an empty state
 
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
@@ -114,9 +123,18 @@ class CFGTask(Task):
         :param read_size: The length of the vectors stored on the neural
             data structure
 
+        :type save_path: str
+        :param save_path: If this param is not set to None, then the
+            neural network will be saved to the path specified by this
+            save_path
+
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
             be used by the Controller
+
+        :type test_set_size: int
+        :param test_set_size: The number of examples to include in the
+            testing data
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
@@ -126,10 +144,6 @@ class CFGTask(Task):
         :type train_set_size: int
         :param train_set_size: The number of examples to include in the
             training data
-
-        :type test_set_size: int
-        :param test_set_size: The number of examples to include in the
-            testing data
 
         :type verbose: bool
         :param verbose: If True, the progress of the experiment will be
@@ -143,17 +157,18 @@ class CFGTask(Task):
                                       criterion=criterion,
                                       cuda=cuda,
                                       epochs=epochs,
+                                      hidden_size=hidden_size,
                                       learning_rate=learning_rate,
+                                      load_path=load_path,
                                       l2_weight=l2_weight,
                                       max_x_length=max_length,
                                       max_y_length=max_length,
                                       model_type=model_type,
                                       network_type=network_type,
                                       read_size=read_size,
+                                      save_path=save_path,
                                       struct_type=struct_type,
                                       time_function=time_function,
-                                      save_path=save_path,
-                                      load_path=load_path,
                                       verbose=verbose)
 
         self.to_predict_code = self.words_to_code(*to_predict)
@@ -168,7 +183,7 @@ class CFGTask(Task):
 
         return
 
-    def reset_model(self, model_type, network_type, struct_type):
+    def reset_model(self, model_type, network_type, struct_type, **kwargs):
         """
         Instantiates a neural network model of a given type that is
         compatible with this Task. This function must set self.model to
@@ -191,7 +206,8 @@ class CFGTask(Task):
         """
         self.model = model_type(self.num_words, self.read_size, self.num_words,
                                 network_type=network_type,
-                                struct_type=struct_type)
+                                struct_type=struct_type,
+                                **kwargs)
 
     def _get_code_for(self, null):
         """

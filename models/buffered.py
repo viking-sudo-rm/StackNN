@@ -21,7 +21,8 @@ class BufferedController(AbstractController):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 network_type=LinearSimpleStructNetwork, struct_type=Stack):
+                 network_type=LinearSimpleStructNetwork, struct_type=Stack,
+                 **kwargs):
         """
         Constructor for the VanillaController object.
 
@@ -54,7 +55,7 @@ class BufferedController(AbstractController):
         self._e_in = None
 
         self._network = network_type(input_size, read_size, output_size,
-                                     n_args=4, discourage_pop=True)
+                                     n_args=4, discourage_pop=True, **kwargs)
         self._buffer_in = None
         self._buffer_out = None
 
@@ -156,8 +157,7 @@ class BufferedController(AbstractController):
         v_labels = ["v_" + str(i) for i in xrange(self._read_size)]
         labels = x_labels + y_labels + i_labels + v_labels
 
-        plt.imshow(self._network.log_data, cmap="Greys",
-                   interpolation="nearest")
+        plt.imshow(self._network.log_data, cmap="hot", interpolation="nearest")
         plt.title("Trace")
         plt.yticks(range(len(labels)), labels)
         plt.xlabel("Time")

@@ -27,18 +27,19 @@ class Task(object):
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
                  epochs=100,
+                 hidden_size=10,
                  learning_rate=0.01,
+                 load_path=None,
                  l2_weight=.01,
                  max_x_length=10,
                  max_y_length=10,
                  model=None,
                  model_type=VanillaController,
                  network_type=LinearSimpleStructNetwork,
-                 read_size=1,
+                 read_size=2,
+                 save_path=None,
                  struct_type=Stack,
                  time_function=(lambda t: t),
-                 save_path=None,
-                 load_path=None,
                  verbose=True):
 
         """
@@ -57,8 +58,16 @@ class Task(object):
         :param epochs: The number of training epochs that will be
             performed when executing an experiment
 
+        :type hidden_size: int
+        :param hidden_size: The size of state vectors
+
         :type learning_rate: float
         :param learning_rate: The learning rate used for training
+
+        :type load_path: str
+        :param load_path: The neural network will be initialized to a
+            saved network located in this path. If load_path is set to
+            None, then the network will be initialized to an empty state
 
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
@@ -89,6 +98,11 @@ class Task(object):
         :param read_size: The length of the vectors stored on the neural
             data structure
 
+        :type save_path: str
+        :param save_path: If this param is not set to None, then the
+            neural network will be saved to the path specified by this
+            save_path
+
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
             be used by the model
@@ -116,7 +130,8 @@ class Task(object):
         # Model settings (compatibility)
         if model is None:
             self.model = None
-            self.reset_model(model_type, network_type, struct_type)
+            self.reset_model(model_type, network_type, struct_type,
+                             hidden_size=hidden_size)
         else:
             self.model = model
 

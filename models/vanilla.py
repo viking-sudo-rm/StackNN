@@ -15,7 +15,8 @@ class VanillaController(AbstractController):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 network_type=LinearSimpleStructNetwork, struct_type=Stack):
+                 network_type=LinearSimpleStructNetwork, struct_type=Stack,
+                 **kwargs):
         """
         Constructor for the VanillaController object.
 
@@ -41,7 +42,8 @@ class VanillaController(AbstractController):
         """
         super(VanillaController, self).__init__(read_size, struct_type)
         self._read = None
-        self._network = network_type(input_size, read_size, output_size)
+        self._network = network_type(input_size, read_size, output_size,
+                                     **kwargs)
         self._input_size = input_size
         self._output_size = output_size
         self._read_size = read_size
@@ -164,8 +166,7 @@ class VanillaController(AbstractController):
         v_labels = ["v_" + str(i) for i in xrange(self._read_size)]
         labels = x_labels + y_labels + i_labels + v_labels
 
-        plt.imshow(self._network.log_data, cmap="Greys",
-                   interpolation="nearest")
+        plt.imshow(self._network.log_data, cmap="hot", interpolation="nearest")
         plt.title("Trace")
         plt.yticks(range(len(labels)), labels)
         plt.xlabel("Time")

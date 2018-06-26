@@ -1,7 +1,6 @@
 """
 Recurrent networks for use in Controllers.
 """
-
 from __future__ import division
 
 import torch
@@ -10,9 +9,8 @@ from torch.autograd import Variable
 from torch.nn.functional import sigmoid
 
 from base import SimpleStructNetwork
+from stacknn_utils.errors import unused_init_param
 
-
-# https://pytorch.org/docs/stable/nn.html#lstmcell
 
 class RNNSimpleStructNetwork(SimpleStructNetwork):
     """
@@ -21,9 +19,9 @@ class RNNSimpleStructNetwork(SimpleStructNetwork):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 n_args=2, hidden_size=10, discourage_pop=True):
+                 discourage_pop=True, hidden_size=10, n_args=2, **kwargs):
         """
-        Constructor for the LSTMSimpleStructNetwork object.
+        Constructor for the RNNSimpleStructNetwork object.
 
         :type input_size: int
         :param input_size: The size of input vectors to this Network
@@ -35,20 +33,26 @@ class RNNSimpleStructNetwork(SimpleStructNetwork):
         :type output_size: int
         :param output_size: The size of vectors output from this Network
 
+        :type discourage_pop: bool
+        :param discourage_pop: If True, then weights will be initialized
+            to discourage popping
+
+        :type hidden_size: int
+        :param hidden_size: The size of the hidden state vector
+
         :type n_args: int
         :param n_args: The number of struct instructions, apart from the
             value to push onto the struct, that will be computed by the
             network. By default, this value is 2: the push strength and
             the pop strength
-
-        :type discourage_pop: bool
-        :param discourage_pop: If True, then weights will be initialized
-            to discourage popping
         """
         super(RNNSimpleStructNetwork, self).__init__(input_size,
-                                                      read_size,
-                                                      output_size,
-                                                      n_args=n_args)
+                                                     read_size,
+                                                     output_size,
+                                                     n_args=n_args)
+
+        for param_name, arg_value in kwargs.iteritems():
+            unused_init_param(param_name, arg_value, self)
 
         self._hidden = None
 
@@ -59,12 +63,12 @@ class RNNSimpleStructNetwork(SimpleStructNetwork):
         self._linear = nn.Linear(hidden_size, nn_output_size)
 
         # Initialize Module weights
-        LSTMSimpleStructNetwork.init_normal(self._rnn.weight_hh)
-        LSTMSimpleStructNetwork.init_normal(self._rnn.weight_ih)
+        RNNSimpleStructNetwork.init_normal(self._rnn.weight_hh)
+        RNNSimpleStructNetwork.init_normal(self._rnn.weight_ih)
         self._rnn.bias_hh.data.fill_(0)
         self._rnn.bias_ih.data.fill_(0)
 
-        LSTMSimpleStructNetwork.init_normal(self._linear.weight)
+        RNNSimpleStructNetwork.init_normal(self._linear.weight)
         self._linear.bias.data.fill_(0)
 
         if discourage_pop:
@@ -118,14 +122,17 @@ class RNNSimpleStructNetwork(SimpleStructNetwork):
 
         return output, ((v,) + instructions)
 
+
 class LSTMSimpleStructNetwork(SimpleStructNetwork):
     """
     An LSTM producing instructions compatible with SimpleStructs (see
     structs.Simple.SimpleStruct).
+
+    https://pytorch.org/docs/stable/nn.html#lstmcell
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 n_args=2, hidden_size=10, discourage_pop=True):
+                 discourage_pop=True, hidden_size=10, n_args=2, **kwargs):
         """
         Constructor for the LSTMSimpleStructNetwork object.
 
@@ -139,20 +146,26 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
         :type output_size: int
         :param output_size: The size of vectors output from this Network
 
+        :type discourage_pop: bool
+        :param discourage_pop: If True, then weights will be initialized
+            to discourage popping
+
+        :type hidden_size: int
+        :param hidden_size: The size of state vectors
+
         :type n_args: int
         :param n_args: The number of struct instructions, apart from the
             value to push onto the struct, that will be computed by the
             network. By default, this value is 2: the push strength and
             the pop strength
-
-        :type discourage_pop: bool
-        :param discourage_pop: If True, then weights will be initialized
-            to discourage popping
         """
         super(LSTMSimpleStructNetwork, self).__init__(input_size,
                                                       read_size,
                                                       output_size,
                                                       n_args=n_args)
+
+        for param_name, arg_value in kwargs.iteritems():
+            unused_init_param(param_name, arg_value, self)
 
         self._hidden = None
         self._cell_state = None

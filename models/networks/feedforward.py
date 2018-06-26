@@ -9,6 +9,7 @@ import torch.nn as nn
 from torch.nn.functional import sigmoid
 
 from base import SimpleStructNetwork
+from stacknn_utils.errors import unused_init_param
 
 
 class LinearSimpleStructNetwork(SimpleStructNetwork):
@@ -18,7 +19,7 @@ class LinearSimpleStructNetwork(SimpleStructNetwork):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 n_args=2, discourage_pop=False):
+                 n_args=2, discourage_pop=False, **kwargs):
         """
         Constructor for the LinearSimpleStruct object.
 
@@ -46,6 +47,9 @@ class LinearSimpleStructNetwork(SimpleStructNetwork):
                                                         read_size,
                                                         output_size,
                                                         n_args=n_args)
+
+        for param_name, arg_value in kwargs.iteritems():
+            unused_init_param(param_name, arg_value, self)
 
         # Create a Linear Module object
         nn_input_size = self._input_size + self._read_size
