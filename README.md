@@ -3,6 +3,14 @@ A PyTorch implementation of differentiable stacks for use in neural networks. In
 
 Please report any bugs in the GitHub issues tracker.
 
+## Dependencies
+
+Python 2.7 is supported. A possibly incomplete list of dependencies is:
+* pytorch
+* numpy
+* matplotlib
+* enum
+
 ## Models
 
 Models implement the high-level controllers that use a stack for recurrent memory. You can think of these networks like LSTMs with a more sophisticated storage mechanism to pass data between time steps.
@@ -11,7 +19,7 @@ Models implement the high-level controllers that use a stack for recurrent memor
 * `models.EmbeddingController` is a controller with an initial embedding layer.
 * `models.BufferedController` implements the more complicated buffered architecture.
 
-To use a model, call `model.forward()` on every input and `model.init_stack()` whenever you want to reset the stack between inputs. You can find example training logic in the `tasks` package.
+To use a model, call `model.forward()` on every input and `model.init_controller()` whenever you want to reset the stack between inputs. You can find example training logic in the `tasks` package.
 
 ## Data structures
 
@@ -21,6 +29,29 @@ To use a model, call `model.forward()` on every input and `model.init_stack()` w
 The buffered models use read-only and write-only versions of the differentiable queue for their input and output buffers.
 
 ## Tasks
+
+To run a task, give the name of the task's class as an argument to `run.py`:
+
+~~~
+python run.py ReverseTask
+~~~
+
+Configurations allow you to set parameters of the task. To create a configuration, add it as a dictionary to `configs.py`, then use the
+`--config` argument when running the task:
+~~~
+python run.py ReverseTask --config reverse_LSTM
+~~~
+
+You can pass a file path in which to save the model parameters:
+~~~
+python run.py ReverseTask --savepath "saved_models/my_run_parameters"
+~~~
+Parameters are saved at the end of each epoch.
+
+You can also pass a file path to load model parameters from a previous run:
+~~~
+python run.py ReverseTask --loadpath "saved_models/previous_run"
+~~~
 
 ### String reversal
 

@@ -2,7 +2,11 @@ from __future__ import division
 
 from abc import ABCMeta, abstractmethod
 
+import torch
 import torch.nn as nn
+from torch.autograd import Variable
+
+from structs.simple import SimpleStruct
 
 
 class AbstractController(nn.Module):
@@ -35,8 +39,7 @@ class AbstractController(nn.Module):
         self._read_size = read_size
         self._read = None
 
-    @abstractmethod
-    def init_struct(self, batch_size):
+    def _init_struct(self, batch_size):
         """
         Initializes the neural data structure to an empty state.
 
@@ -46,7 +49,57 @@ class AbstractController(nn.Module):
 
         :return: None
         """
-        raise NotImplementedError("Missing implementation for init_struct")
+        if issubclass(self._struct_type, SimpleStruct):
+            self._read = Variable(torch.zeros([batch_size, self._read_size]))
+            self._struct = self._struct_type(batch_size, self._read_size)
+
+    @abstractmethod
+    def _init_buffer(self, batch_size, xs):
+        """
+        Initializes the input and output buffers. The input buffer will
+        contain a specified collection of values. The output buffer will
+        be empty.
+
+        :type batch_size: int
+        :param batch_size: The number of trials in each mini-batch where
+            this Controller is used
+
+        :type xs: Variable
+        :param xs: An array of values that will be placed on the input
+            buffer. The dimensions should be [batch size, t, read size],
+            where t is the maximum length of a string represented in xs
+
+        :return: None
+        """
+        raise NotImplementedError("Missing implementation for _init_buffer")
+
+    def _init_network(self, batch_size):
+        """
+        Initializes the network.
+
+        :type batch_size: int
+        :param batch_size: The number of trials in each mini-batch where
+            this Controller is used
+
+        :return: None
+        """
+        self._network.init_network(batch_size)
+
+    def init_controller(self, batch_size, xs):
+        """
+        Resets the neural data structure and other Controller components
+        to an initial state. This function is called at the beginning of
+        each mini-batch.
+
+        :type batch_size: int
+        :param batch_size: The number of trials in each mini-batch where
+            this Controller is used
+
+        :return: None
+        """
+        self._init_struct(batch_size)
+        self._init_buffer(batch_size, xs)
+        self._init_network(batch_size)
 
     """ Neural Network Computation """
 
@@ -81,10 +134,9 @@ class AbstractController(nn.Module):
 
         :return: None
         """
-        return
+        pass
 
     """ Compatibility """
 
     def init_stack(self, batch_size, **kwargs):
-        self.init_struct(batch_size, **kwargs)
-        return
+        self.init_controller(batch_size, **kwargs)

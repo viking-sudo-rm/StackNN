@@ -1,5 +1,6 @@
 from __future__ import division
 
+import matplotlib.pyplot as plt
 import torch
 from torch.autograd import Variable
 
@@ -20,7 +21,8 @@ class BufferedController(AbstractController):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 network_type=LinearSimpleStructNetwork, struct_type=Stack, reg_weight=1.):
+                 network_type=LinearSimpleStructNetwork, struct_type=Stack,
+                 reg_weight=1., **kwargs):
         """
         Constructor for the VanillaController object.
 
@@ -46,11 +48,14 @@ class BufferedController(AbstractController):
         """
         super(BufferedController, self).__init__(read_size, struct_type)
         self._input_size = input_size
+        self._output_size = output_size
+        self._read_size = read_size
+
         self._read = None
         self._e_in = None
 
         self._network = network_type(input_size, read_size, output_size,
-                                     n_args=4, discourage_pop=True)
+                                     n_args=4, discourage_pop=True, **kwargs)
         self._buffer_in = None
         self._buffer_out = None
 
@@ -59,20 +64,7 @@ class BufferedController(AbstractController):
         else:
             self._reg_tracker = InterfaceRegTracker(reg_weight)
 
-    def init_struct(self, batch_size):
-        """
-        Initializes the neural data structure to an empty state.
-
-        :type batch_size: int
-        :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
-
-        :return: None
-        """
-        self._read = Variable(torch.zeros([batch_size, self._read_size]))
-        self._struct = self._struct_type(batch_size, self._read_size)
-
-    def init_buffer(self, batch_size, xs):
+    def _init_buffer(self, batch_size, xs):
         """
         Initializes the input and output buffers. The input buffer will
         contain a specified collection of values. The output buffer will
@@ -98,9 +90,6 @@ class BufferedController(AbstractController):
         self._buffer_in.set_reg_tracker(self._reg_tracker, Operation.pop)
         self._buffer_out.set_reg_tracker(self._reg_tracker, Operation.push)
 
-    def init_struct_and_buffer(self, batch_size, xs):
-        self.init_struct(batch_size)
-        self.init_buffer(batch_size, xs)
 
     """ Neural Network Computation """
 
@@ -115,12 +104,64 @@ class BufferedController(AbstractController):
         :return: The output of the neural network
         """
         x = self._buffer_in(self._e_in)
-        
+
         output, (v, u, d, e_in, e_out) = self._network(x, self._read)
         self._e_in = e_in
         self._read = self._struct(v, u, d)
 
         self._buffer_out(output, e_out)
+
+
+    """ Public Accessors """
+
+    def read_output(self):
+        """
+        Returns the next symbol from the output buffer.
+
+        :rtype: Variable
+        :return: The value read from the output buffer after popping
+            with strength 1
+        """
+        self._buffer_out.pop(1.)
+        return self._buffer_out.read(1.)
+
+    """ Analytical Tools """
+
+    def trace(self, trace_x, num_steps):
+        """
+        Draws a graphic representation of the neural data structure
+        instructions produced by the Controller's Network at each time
+        step for a single input.
+
+        :type trace_x: Variable
+        :param trace_x: An input string
+
+        :type num_steps: int
+        :param num_steps: The number of computation steps to perform on
+            the input
+
+        :return: None
+        """
+        self.eval()
+        self.init_controller(1, trace_x)
+
+        self._network.start_log(num_steps)
+        for j in xrange(num_steps):
+            self.forward()
+        self._network.stop_log()
+
+        x_labels = ["x_" + str(i) for i in xrange(self._input_size)]
+        y_labels = ["y_" + str(i) for i in xrange(self._output_size)]
+        i_labels = ["Pop", "Push", "Input", "Output"]
+        v_labels = ["v_" + str(i) for i in xrange(self._read_size)]
+        labels = x_labels + y_labels + i_labels + v_labels
+
+        plt.imshow(self._network.log_data, cmap="hot", interpolation="nearest")
+        plt.title("Trace")
+        plt.yticks(range(len(labels)), labels)
+        plt.xlabel("Time")
+        plt.ylabel("Value")
+        plt.show()
 
     def get_and_reset_reg_loss(self):
         if self._reg_tracker is None:

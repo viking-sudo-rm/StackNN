@@ -8,7 +8,8 @@ from torch.autograd import Variable
 
 from base import Task
 from models import VanillaController
-
+from models.networks.feedforward import LinearSimpleStructNetwork
+from structs import Stack
 
 class ReverseTask(Task):
     """
@@ -24,11 +25,17 @@ class ReverseTask(Task):
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
                  epochs=30,
+                 hidden_size=10,
                  learning_rate=0.01,
+                 load_path=None,
                  l2_weight=0.01,
                  model=None,
                  model_type=VanillaController,
+                 network_type=LinearSimpleStructNetwork,
                  read_size=2,
+                 save_path=None,
+                 struct_type=Stack,
+                 time_function=(lambda t: t),
                  verbose=True):
         """
         Constructor for the ReverseTask object. The only information
@@ -51,7 +58,7 @@ class ReverseTask(Task):
             input string
 
         :type batch_size: int
-        :param batch_size: The number of trials in each batch
+        :param batch_size: The number of trials in each mini-batch
 
         :type criterion: nn.modules.loss._Loss
         :param criterion: The error function used for training the model
@@ -63,8 +70,16 @@ class ReverseTask(Task):
         :param epochs: The number of training epochs that will be
             performed when executing an experiment
 
+        :type hidden_size: int
+        :param hidden_size: The size of state vectors
+
         :type learning_rate: float
         :param learning_rate: The learning rate used for training
+
+        :type load_path: str
+        :param load_path: The neural network will be initialized to a
+            saved network located in this path. If load_path is set to
+            None, then the network will be initialized to an empty state
 
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
@@ -73,16 +88,33 @@ class ReverseTask(Task):
         :param model: The model that will be trained and evaluated.
             This parameter is being kept for compatibility with older
             code. Please use the model_type parameter instead in order
-            to automatically instantiate models.
+            to automatically instantiate models
 
         :type model_type: type
-        :param model_type: The model that will be trained and evaluated.
-            For this task, please pass the *type* of the model to the
-            constructor, not an instance of the model class
+        :param model_type: The type of Controller that will be trained
+            and evaluated
+
+        :type network_type: type
+        :param network_type: The type of neural network that will drive
+            the Controller
 
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
             data structure
+
+        :type save_path: str
+        :param save_path: If this param is not set to None, then the
+            neural network will be saved to the path specified by this
+            save_path
+
+        :type struct_type: type
+        :param struct_type: The type of neural data structure that will
+            be used by the Controller
+
+        :type time_function: function
+        :param time_function: A function mapping the length of an input
+            to the number of computational steps the network will
+            perform on that input
 
         :type verbose: bool
         :param verbose: If True, the progress of the experiment will be
@@ -92,13 +124,19 @@ class ReverseTask(Task):
                                           criterion=criterion,
                                           cuda=cuda,
                                           epochs=epochs,
+                                          hidden_size=hidden_size,
                                           learning_rate=learning_rate,
                                           l2_weight=l2_weight,
                                           max_x_length=max_length * 2,
                                           max_y_length=max_length * 8,
                                           model=model,
                                           model_type=model_type,
+                                          network_type=network_type,
                                           read_size=read_size,
+                                          struct_type=struct_type,
+                                          time_function=time_function,
+                                          save_path=save_path,
+                                          load_path=load_path,
                                           verbose=verbose)
 
         self.min_length = min_length
@@ -106,7 +144,7 @@ class ReverseTask(Task):
         self.std_length = std_length
         self.max_length = max_length
 
-    def reset_model(self, model_type):
+    def reset_model(self, model_type, network_type, struct_type, **kwargs):
         """
         Instantiates a neural network model of a given type that is
         compatible with this Task. This function must set self.model to
@@ -117,9 +155,20 @@ class ReverseTask(Task):
             the desired model's *type* to this parameter, not an
             instance thereof
 
+        :type network_type: type
+        :param network_type: The type of the Network that will perform
+            the neural network computations
+
+        :type struct_type: type
+        :param struct_type: The type of neural data structure that this
+            Controller will operate
+
         :return: None
         """
-        self.model = model_type(3, self.read_size, 3)
+        self.model = model_type(3, self.read_size, 3,
+                                network_type=network_type,
+                                struct_type=struct_type,
+                                **kwargs)
 
     """ Model Training """
 
@@ -265,3 +314,45 @@ class ReverseTask(Task):
         :return: The one-hot encoding of b
         """
         return torch.FloatTensor([float(i == b) for i in xrange(3)])
+
+
+class CopyTask(ReverseTask):
+    """
+    String Copying
+    """
+
+    def get_tensors(self, b):
+        """
+        Like ReverseTask.get_tensors, but the output is not reversed,
+        and the output is produced immediately.
+
+        For example, the following is a valid input-output pair.
+            input: [0., 1., 0.], [1., 0., 0.],
+                    [0., 0., 1.], [0., 0., 1.]
+            output: 1, 0, null, null
+
+        :type b: int
+        :param b: The number of examples in the dataset
+
+        :rtype: tuple
+        :return: A Variable containing the input values and a Variable
+            containing the output values
+        """
+        x_raw = [self.randstr() for _ in xrange(b)]
+
+        # Initialize x to one-hot encodings of NULL
+        x = torch.FloatTensor(b, 2 * self.max_length, 3)
+        x[:, :, :2].fill_(0)
+        x[:, :, 2].fill_(1)
+
+        # Initialize y to NULL
+        y = torch.LongTensor(b, 8 * self.max_length)
+        y.fill_(2)
+
+        for i, s in enumerate(x_raw):
+            t = s
+            for j, char in enumerate(s):
+                x[i, j, :] = ReverseTask.one_hot(char)
+                y[i, j] = t[j]
+
+        return Variable(x), Variable(y)

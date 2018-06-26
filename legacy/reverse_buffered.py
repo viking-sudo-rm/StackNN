@@ -105,7 +105,7 @@ def train(train_X, train_Y):
         # # Buffered model
         zero = Variable(torch.zeros(BATCH_SIZE, 3))
         num_iterations = TIME_FN(2 * MAX_LENGTH)
-        model.init_struct_and_buffer(BATCH_SIZE, X)
+        model.init_controller(BATCH_SIZE, X)
         for j in xrange(num_iterations):
             model.forward()
         for j in xrange(MAX_LENGTH):
@@ -157,7 +157,7 @@ def evaluate(test_X, test_Y):
     # # Buffered model
     zero = Variable(torch.zeros(len_X, 3))
     num_iterations = TIME_FN(2 * MAX_LENGTH)
-    model.init_struct_and_buffer(len_X, test_X)
+    model.init_controller(len_X, test_X)
     for j in xrange(num_iterations):
         model.forward()
     for j in xrange(MAX_LENGTH):

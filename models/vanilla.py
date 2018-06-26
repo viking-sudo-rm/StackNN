@@ -15,7 +15,8 @@ class VanillaController(AbstractController):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 network_type=LinearSimpleStructNetwork, struct_type=Stack):
+                 network_type=LinearSimpleStructNetwork, struct_type=Stack,
+                 **kwargs):
         """
         Constructor for the VanillaController object.
 
@@ -41,28 +42,44 @@ class VanillaController(AbstractController):
         """
         super(VanillaController, self).__init__(read_size, struct_type)
         self._read = None
-        self._network = network_type(input_size, read_size, output_size)
+        self._network = network_type(input_size, read_size, output_size,
+                                     **kwargs)
+        self._input_size = input_size
+        self._output_size = output_size
+        self._read_size = read_size
 
-        return
+        self._buffer_in = None
+        self._buffer_out = None
 
-    def init_struct(self, batch_size):
+        self._t = 0
+        self._zeros = None
+
+    def _init_buffer(self, batch_size, xs):
         """
-        Initializes the neural data structure to an empty state.
+        Initializes the input and output buffers. The input buffer will
+        contain a specified collection of values. The output buffer will
+        be empty.
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
             this Controller is used
 
+        :type xs: Variable
+        :param xs: An array of values that will be placed on the input
+            buffer. The dimensions should be [batch size, t, read size],
+            where t is the maximum length of a string represented in xs
+
         :return: None
         """
-        self._read = Variable(torch.zeros([batch_size, self._read_size]))
-        self._struct = self._struct_type(batch_size, self._read_size)
+        self._buffer_in = xs
+        self._buffer_out = []
 
-        return
+        self._t = 0
+        self._zeros = Variable(torch.zeros(batch_size, self._input_size))
 
     """ Neural Network Computation """
 
-    def forward(self, x):
+    def forward(self):
         """
         Computes the output of the neural network given an input. The
         network should push a value onto the neural data structure and
@@ -70,17 +87,55 @@ class VanillaController(AbstractController):
         produce an output based on this information and recurrent state
         if available.
 
-        :param x: The input to the neural network
-
-        :return: The output of the neural network
+        :return: None
         """
         if self._read is None:
             raise RuntimeError("The data structure has not been initialized.")
 
+        x = self._read_input()
+
         output, (v, u, d) = self._network(x, self._read)
         self._read = self._struct(v, u, d)
 
-        return output
+        self._write_output(output)
+
+    """ Accessors """
+
+    def _read_input(self):
+        """
+        Returns the next vector from the input buffer.
+
+        :rtype: Variable
+        :return: The next vector from the input buffer
+        """
+        if self._t < self._buffer_in.size(1):
+            self._t += 1
+            return self._buffer_in[:, self._t - 1, :]
+        else:
+            return self._zeros
+
+    def read_output(self):
+        """
+        Returns the next vector from the output buffer.
+
+        :rtype: Variable
+        :return: The next vector from the output buffer
+        """
+        if len(self._buffer_out) > 0:
+            return self._buffer_out.pop(0)
+        else:
+            return None
+
+    def _write_output(self, value):
+        """
+        Adds a symbol to the output buffer.
+
+        :type value: Variable
+        :param value: The value to add to the output buffer
+
+        :return: None
+        """
+        self._buffer_out.append(value)
 
     """ Analytical Tools """
 
@@ -96,16 +151,24 @@ class VanillaController(AbstractController):
         :return: None
         """
         self.eval()
-        self.init_struct(1)
+        self.init_controller(1, trace_x)
 
         max_length = trace_x.data.shape[1]
 
         self._network.start_log(max_length)
         for j in xrange(max_length):
-            self.forward(trace_x[:, j, :])
+            self.forward()
         self._network.stop_log()
 
-        plt.imshow(self._network.log_data, cmap="hot", interpolation="nearest")
-        plt.show()
+        x_labels = ["x_" + str(i) for i in xrange(self._input_size)]
+        y_labels = ["y_" + str(i) for i in xrange(self._output_size)]
+        i_labels = ["Pop", "Push"]
+        v_labels = ["v_" + str(i) for i in xrange(self._read_size)]
+        labels = x_labels + y_labels + i_labels + v_labels
 
-        return
+        plt.imshow(self._network.log_data, cmap="hot", interpolation="nearest")
+        plt.title("Trace")
+        plt.yticks(range(len(labels)), labels)
+        plt.xlabel("Time")
+        plt.ylabel("Value")
+        plt.show()

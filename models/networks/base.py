@@ -75,6 +75,18 @@ class Network(nn.Module):
         n = tensor.data.shape[0]
         tensor.data.normal_(0, 1. / np.sqrt(n))
 
+    def init_network(self, batch_size):
+        """
+        Initializes various components of the network.
+
+        :type batch_size: int
+        :param batch_size: The number of trials in each mini-batch where
+            this Controller is used
+
+        :return: None
+        """
+        pass
+
 
 class SimpleStructNetwork(Network):
     """
@@ -135,7 +147,8 @@ class SimpleStructNetwork(Network):
 
         :return: None
         """
-        self.log_data = np.zeros([self._n_args + self._read_size,
+        self.log_data = np.zeros([self._n_args + self._read_size +
+                                  self._input_size + self._output_size,
                                   log_data_size])
         self._log_data_size = log_data_size
         self._curr_log_entry = 0
@@ -167,9 +180,16 @@ class SimpleStructNetwork(Network):
         self._logging = False
         return
 
-    def _log(self, v, *instructions):
+    def _log(self, x, y, v, *instructions):
         """
-        Records a set of SimpleStruct instructions to self._log_data.
+        Records the action of the Network at a particular time step to
+        self._log_data.
+
+        :type x: Variable
+        :param x: The input to the Network
+
+        :type y: Variable
+        :praam y: The output of the Network
 
         :type v: Variable
         :param v: The value that will be pushed to the data structure
@@ -179,15 +199,25 @@ class SimpleStructNetwork(Network):
 
         :return: None
         """
+        t = self._curr_log_entry
         if not self._logging:
             return
-        elif self._curr_log_entry >= self._log_data_size:
+        elif t >= self._log_data_size:
             return
 
-        self.log_data[self._n_args:, self._curr_log_entry] = v.data.numpy()
+        x_start = 0
+        x_end = self._input_size
+        y_start = self._input_size
+        y_end = self._input_size + self._output_size
+        i_start = self._input_size + self._output_size
+        v_start = self._input_size + self._output_size + self._n_args
+
+        self.log_data[x_start:x_end, t] = x.data.numpy()
+        self.log_data[y_start:y_end, t] = y.data.numpy()
+        self.log_data[v_start:, t] = v.data.numpy()
         for j in xrange(self._n_args):
             instruction = instructions[j].data.numpy()
-            self.log_data[j, self._curr_log_entry] = instruction
+            self.log_data[i_start + j, self._curr_log_entry] = instruction
 
         self._curr_log_entry += 1
 
