@@ -17,7 +17,8 @@ from tasks.configs import *
 
 
 def get_args():
-    parser = argparse.ArgumentParser(description="Run a task and customize hyperparameters.")
+    parser = argparse.ArgumentParser(
+        description="Run a task and customize hyperparameters.")
     parser.add_argument("task", type=str)
     parser.add_argument("--config", type=str, default=None)
 
@@ -43,8 +44,8 @@ def get_object_from_arg(arg, superclass, default=None):
     if arg not in globals():
         raise ValueError("Invalid argument {}".format(arg))
     obj = globals()[arg]
-    if not issubclass(obj, superclass):
-        raise ValueError("{} is not a {}".format(arg, str(superclass)))
+    if not (isinstance(obj, superclass) or issubclass(obj, superclass)):
+        raise TypeError("{} is not a {}".format(arg, str(superclass)))
     return obj
 
 
