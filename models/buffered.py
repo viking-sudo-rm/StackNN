@@ -20,7 +20,7 @@ class BufferedController(AbstractController):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 network_type=LinearSimpleStructNetwork, struct_type=Stack):
+                 network_type=LinearSimpleStructNetwork, struct_type=Stack, reg_weight=1.):
         """
         Constructor for the VanillaController object.
 
@@ -54,12 +54,10 @@ class BufferedController(AbstractController):
         self._buffer_in = None
         self._buffer_out = None
 
-        # TODO:
-        #   * To disable regularization, can set this to None.
-        #   * The weight of the regularization should a Model and Task parameter.
-        self._reg_tracker = InterfaceRegTracker(1.)
-
-        return
+        if reg_weight == 0:
+            self._reg_tracker = None
+        else:
+            self._reg_tracker = InterfaceRegTracker(reg_weight)
 
     def init_struct(self, batch_size):
         """
@@ -73,8 +71,6 @@ class BufferedController(AbstractController):
         """
         self._read = Variable(torch.zeros([batch_size, self._read_size]))
         self._struct = self._struct_type(batch_size, self._read_size)
-
-        return
 
     def init_buffer(self, batch_size, xs):
         """
@@ -102,12 +98,9 @@ class BufferedController(AbstractController):
         self._buffer_in.set_reg_tracker(self._reg_tracker, Operation.pop)
         self._buffer_out.set_reg_tracker(self._reg_tracker, Operation.push)
 
-        return
-
     def init_struct_and_buffer(self, batch_size, xs):
         self.init_struct(batch_size)
         self.init_buffer(batch_size, xs)
-        return
 
     """ Neural Network Computation """
 
@@ -128,8 +121,6 @@ class BufferedController(AbstractController):
         self._read = self._struct(v, u, d)
 
         self._buffer_out(output, e_out)
-
-        return
 
     def get_and_reset_reg_loss(self):
         if self._reg_tracker is None:

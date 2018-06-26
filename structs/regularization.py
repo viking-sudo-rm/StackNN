@@ -17,25 +17,25 @@ class InterfaceRegTracker(object):
     Compute arbitrary regularization function on struct interface.
     """
 
-    def __init__(self, weight_decay, reg_fn=binary_reg_fn):
+    def __init__(self, reg_weight, reg_fn=binary_reg_fn):
         """
         Constructor for StructInterfaceLoss.
 
-        :type weight_decay: float
-        :param weight_decay: Linear weight for regularization loss.
+        :type reg_weight: float
+        :param reg_weight: Linear weight for regularization loss.
 
         :type reg_fn: function
         :param reg_fn: Regularization function to apply over 1D tensor
 
         """
-        self._weight_decay = weight_decay
+        self._reg_weight = reg_weight
         self._reg_fn = reg_fn
         self._loss = Variable(torch.zeros([1]))
         self._count = 0
 
     @property
     def loss(self):
-        return self._weight_decay * self._loss / self._count
+        return self._reg_weight * self._loss / self._count
 
     def regularize(self, strengths):
         losses = self._reg_fn(strengths)
