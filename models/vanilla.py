@@ -6,6 +6,7 @@ from torch.autograd import Variable
 
 from base import AbstractController
 from networks.feedforward import LinearSimpleStructNetwork
+from stacknn_utils.errors import unused_init_param
 from structs.simple import Stack
 
 
@@ -139,7 +140,7 @@ class VanillaController(AbstractController):
 
     """ Analytical Tools """
 
-    def trace(self, trace_x):
+    def trace(self, trace_x, *args):
         """
         Draws a graphic representation of the neural data structure
         instructions produced by the Controller's Network at each time
@@ -150,6 +151,9 @@ class VanillaController(AbstractController):
 
         :return: None
         """
+        for arg in args:
+            unused_init_param("num_steps", arg, self)
+
         self.eval()
         self.init_controller(1, trace_x)
 
