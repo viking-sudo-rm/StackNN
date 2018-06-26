@@ -30,9 +30,13 @@ class OutputBuffer(Queue):
         """
         Only perform the push step.
 
-        :param v:
-        :param d:
-        :return:
+        :type v: torch.FloatTensor
+        :param v: The value that will be pushed to the data structure
+
+        :type d: float
+        :param d: The strength with which v will be pushed to the data
+            structure
+
+        :return: None
         """
         self.push(v, d)
-        return

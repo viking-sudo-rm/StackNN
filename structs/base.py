@@ -25,7 +25,7 @@ class Struct(nn.Module):
         Constructor for the Struct object. The data of the Struct are
         stored in two parts. self.contents is a matrix containing a list
         of vectors. Each of these vectors is assigned a number known as
-        its "strength," which his stored in self.strengths. For an item
+        its "strength," which is stored in self.strengths. For an item
         in self.contents to be assigned a strength of 1 means that it is
         fully in the data structure, and for it to have a strength of 0
         means it is deleted (but perhaps was previously in the

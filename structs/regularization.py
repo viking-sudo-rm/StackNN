@@ -2,6 +2,7 @@ from __future__ import print_function, division
 
 import torch
 from torch.autograd import Variable
+
 from testcase import testcase, test_module, is_close
 
 
@@ -12,7 +13,6 @@ def binary_reg_fn(strengths):
 
 
 class InterfaceRegTracker(object):
-
     """
     Compute arbitrary regularization function on struct interface.
     """
@@ -53,12 +53,13 @@ class InterfaceRegTracker(object):
 def test_simple_reg_fn():
     """ Test whether regularization is correctly calculated. """
     reg_fn = lambda strengths: 2 * strengths
-    reg_tracker= InterfaceRegTracker(1., reg_fn=reg_fn)
+    reg_tracker = InterfaceRegTracker(1., reg_fn=reg_fn)
     strengths = Variable(torch.ones([10]))
     reg_tracker.regularize(strengths)
     result = sum(reg_tracker.loss.data)
-    assert result == 2.,  \
+    assert result == 2., \
         "{} != {}".format(result, 2.)
+
 
 @testcase(binary_reg_fn)
 def test_binary_reg_fn():
