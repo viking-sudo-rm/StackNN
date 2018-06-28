@@ -154,6 +154,8 @@ class VanillaController(AbstractController):
         for arg in args:
             unused_init_param("num_steps", arg, self)
 
+        print trace_x
+
         self.eval()
         self.init_controller(1, trace_x)
 

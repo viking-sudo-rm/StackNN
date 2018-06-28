@@ -145,6 +145,8 @@ class BufferedController(AbstractController):
         self.eval()
         self.init_controller(1, trace_x)
 
+        print trace_x
+
         self._network.start_log(num_steps)
         for j in xrange(num_steps):
             self.forward()
