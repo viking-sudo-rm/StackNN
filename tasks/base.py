@@ -125,7 +125,10 @@ class Task(object):
         self.learning_rate = learning_rate
         self.read_size = read_size
         self.time_function = time_function
-        self.save_path = save_path
+        if save_path.endswith(".dat"):
+            self.save_path = save_path
+        else:
+            self.save_path = save_path + ".dat"
 
         # Model settings (compatibility)
         if model is None:
