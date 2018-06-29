@@ -8,7 +8,7 @@ Example usage:
 """
 
 from formalisms.cfg import *
-from models.networks.recurrent import LSTMSimpleStructNetwork, RNNSimpleStructNetwork
+from models.networks.recurrent import LSTMSimpleStructNetwork, RNNSimpleStructNetwork, GRUSimpleStructNetwork
 
 dyck_config = {
     "grammar": dyck_grammar,
@@ -31,6 +31,12 @@ reverse_RNN = {
 
 reverse_LSTM = {
     "network_type": LSTMSimpleStructNetwork,
+    "learning_rate": 0.01,
+    "epochs": 100
+}
+
+reverse_GRU = {
+    "network_type": GRUSimpleStructNetwork,
     "learning_rate": 0.01,
     "epochs": 100
 }
