@@ -46,3 +46,8 @@ agreement_config = {
     "to_predict": [u"Auxsing", u"Auxplur"],
     "sample_depth": 8,
 }
+
+xor_clipping = {
+    "clipping_norm": 0.5,
+}
+

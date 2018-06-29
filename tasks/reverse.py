@@ -22,6 +22,7 @@ class ReverseTask(Task):
                  mean_length=10,
                  std_length=2.,
                  batch_size=10,
+                 clipping_norm=None,
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
                  epochs=30,
@@ -121,6 +122,7 @@ class ReverseTask(Task):
             displayed in the console
         """
         super(ReverseTask, self).__init__(batch_size=batch_size,
+                                          clipping_norm=clipping_norm,
                                           criterion=criterion,
                                           cuda=cuda,
                                           epochs=epochs,

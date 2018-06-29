@@ -24,6 +24,7 @@ class EvaluationTask(Task):
 
     def __init__(self,
                  batch_size=10,
+                 clipping_norm=None,
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
                  epochs=30,
@@ -98,23 +99,24 @@ class EvaluationTask(Task):
             displayed in the console
         """
         super(EvaluationTask, self).__init__(batch_size=batch_size,
-                                          criterion=criterion,
-                                          cuda=cuda,
-                                          epochs=epochs,
-                                          hidden_size=hidden_size,
-                                          learning_rate=learning_rate,
-                                          load_path=load_path,
-                                          l2_weight=l2_weight,
-                                          max_x_length=max_length,
-                                          max_y_length=max_length,
-                                          model=model,
-                                          model_type=model_type,
-                                          network_type=network_type,
-                                          read_size=read_size,
-                                          save_path=save_path,
-                                          struct_type=struct_type,
-                                          time_function=time_function,
-                                          verbose=verbose)
+                                             clipping_norm=clipping_norm,
+                                             criterion=criterion,
+                                             cuda=cuda,
+                                             epochs=epochs,
+                                             hidden_size=hidden_size,
+                                             learning_rate=learning_rate,
+                                             load_path=load_path,
+                                             l2_weight=l2_weight,
+                                             max_x_length=max_length,
+                                             max_y_length=max_length,
+                                             model=model,
+                                             model_type=model_type,
+                                             network_type=network_type,
+                                             read_size=read_size,
+                                             save_path=save_path,
+                                             struct_type=struct_type,
+                                             time_function=time_function,
+                                             verbose=verbose)
 
         self.max_length = max_length
 

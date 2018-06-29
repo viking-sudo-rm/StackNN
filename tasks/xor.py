@@ -41,8 +41,8 @@ class XORTask(EvaluationTask):
     """
 
     def __init__(self,
-                 std_length=2.,
                  batch_size=10,
+                 clipping_norm=None,
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
                  epochs=30,
@@ -55,7 +55,7 @@ class XORTask(EvaluationTask):
                  network_type=RNNSimpleStructNetwork,
                  read_size=2,
                  save_path=None,
-                 str_length=10,
+                 str_length=12,
                  struct_type=Stack,
                  verbose=True):
         """
@@ -117,6 +117,7 @@ class XORTask(EvaluationTask):
             displayed in the console
         """
         super(XORTask, self).__init__(batch_size=batch_size,
+                                      clipping_norm=clipping_norm,
                                       criterion=criterion,
                                       cuda=cuda,
                                       epochs=epochs,
