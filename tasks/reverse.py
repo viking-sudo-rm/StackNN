@@ -22,6 +22,7 @@ class ReverseTask(Task):
                  max_length=12,
                  mean_length=10,
                  std_length=2.,
+                 num_symbols=2,
                  batch_size=10,
                  clipping_norm=None,
                  criterion=nn.CrossEntropyLoss(),
@@ -31,7 +32,6 @@ class ReverseTask(Task):
                  learning_rate=0.01,
                  load_path=None,
                  l2_weight=0.01,
-                 model=None,
                  model_type=VanillaController,
                  network_type=LinearSimpleStructNetwork,
                  read_size=2,
@@ -60,8 +60,15 @@ class ReverseTask(Task):
         :param std_length: The standard deviation of the length of an
             input string
 
+        :type num_symbols: int
+        :param num_symbols: The number of possible symbols appearing in
+            input and output strings, not including NULL
+
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch
+
+        :type clipping_norm:
+        :param clipping_norm:
 
         :type criterion: nn.modules.loss._Loss
         :param criterion: The error function used for training the model
@@ -87,11 +94,6 @@ class ReverseTask(Task):
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
             training
-
-        :param model: The model that will be trained and evaluated.
-            This parameter is being kept for compatibility with older
-            code. Please use the model_type parameter instead in order
-            to automatically instantiate models
 
         :type model_type: type
         :param model_type: The type of Controller that will be trained
@@ -123,6 +125,7 @@ class ReverseTask(Task):
         :param verbose: If True, the progress of the experiment will be
             displayed in the console
         """
+        self.num_symbols = num_symbols
         super(ReverseTask, self).__init__(batch_size=batch_size,
                                           clipping_norm=clipping_norm,
                                           criterion=criterion,
@@ -134,10 +137,9 @@ class ReverseTask(Task):
                                           l2_weight=l2_weight,
                                           max_x_length=max_length * 2,
                                           max_y_length=max_length * 8,
-                                          model=model,
                                           model_type=model_type,
                                           network_type=network_type,
-                                          null=u"2",
+                                          null=unicode(num_symbols),
                                           read_size=read_size,
                                           save_path=save_path,
                                           struct_type=struct_type,
@@ -151,33 +153,15 @@ class ReverseTask(Task):
         self.max_length = max_length
 
     def reset_model(self, model_type, network_type, struct_type, **kwargs):
-        """
-        Instantiates a neural network model of a given type that is
-        compatible with this Task. This function must set self.model to
-        an instance of model_type
-
-        :type model_type: type
-        :param model_type: A type from the models package. Please pass
-            the desired model's *type* to this parameter, not an
-            instance thereof
-
-        :type network_type: type
-        :param network_type: The type of the Network that will perform
-            the neural network computations
-
-        :type struct_type: type
-        :param struct_type: The type of neural data structure that this
-            Controller will operate
-
-        :return: None
-        """
-        self.model = model_type(3, self.read_size, 3,
+        self.model = model_type(self.alphabet_size,
+                                self.read_size,
+                                self.alphabet_size,
                                 network_type=network_type,
                                 struct_type=struct_type,
                                 **kwargs)
 
     def _init_alphabet(self, null):
-        return {"0": 0, "1": 1, "2": 2}
+        return {unicode(i): i for i in xrange(self.num_symbols + 1)}
 
     """ Model Training """
 
@@ -213,7 +197,7 @@ class ReverseTask(Task):
             total guesses at the jth time step
         """
         indices = (y[:, j] != 2)
-        valid_a = a[indices.view(-1, 1)].view(-1, 3)
+        valid_a = a[indices.view(-1, 1)].view(-1, self.alphabet_size)
         valid_y = y[:, j][indices]
         if len(valid_a) == 0:
             return None, None, None
@@ -241,44 +225,47 @@ class ReverseTask(Task):
 
     def randstr(self):
         """
-        Generates a random string of 0s and 1s. The length of the string
-        is between self.min_length and self.max_length. The average
-        length of the string is self.mean_length. The standard deviation
-        of the length of the string is self.std_length.
+        Generates a random string over self.alphabet, not including
+        NULLs. The lengths of the strings generated by this function
+        have a Gaussian distribution with the following properties.
+            Minimum Length: self.min_length
+            Maximum Length: self.max_length
+            Average Length: self.mean_length
+            Standard Deviation: self.std_length
 
         :rtype: list
         :return: A sequence of "0"s and "1"s
         """
         length = int(random.gauss(self.mean_length, self.std_length))
         length = min(max(self.min_length, length), self.max_length)
-        s = [random.randint(0, 1) for _ in xrange(length)]
-        return [str(w) for w in s]
+        s = [random.randint(0, self.num_symbols - 1) for _ in xrange(length)]
+        return [unicode(w) for w in s]
 
-    def get_tensors(self, b):
+    def get_tensors(self, num_tensors):
         """
         Generates a dataset containing correct input and output values
-        for the reversal task. An input value is a sequence of 0s and 1s
-        in one-hot encoding, followed by "null"s. An output value is a
-        sequence of "null"s of the same length as the input, followed by
-        the reverse of the input string, as a sequence of raw characters.
+        for the reversal task. An input value is a sequence of n-many
+        symbols for some n. An output value is a sequence of n-many
+        NULLs, followed by the input value backwards. Input and output
+        values are padded to their maximum lengths with NULLs.
 
-        For example, the following is a valid input-output pair.
-            input: [0., 1., 0.], [1., 0., 0.],
-                    [0., 0., 1.], [0., 0., 1.]
-            output: null, null, 0, 1
+        For example, the following is a valid input-output pair,
+        assuming that u"2" is the null symbol.
+            Input: [u"1", u"0", u"2", u"2"]
+            Output: [u"2", u"2", u"0", u"1"]
 
-        :type b: int
-        :param b: The number of examples in the dataset
+        :type num_tensors: int
+        :param num_tensors: The number of examples in the dataset
 
         :rtype: tuple
         :return: A Variable containing the input values and a Variable
             containing the output values
         """
-        x_raw = [self.randstr() for _ in xrange(b)]
+        x_raw = [self.randstr() for _ in xrange(num_tensors)]
         y_raw = [[self.null for _ in xrange(len(s))] + s[::-1] for s in x_raw]
 
         x_var = self.sentences_to_one_hot(2 * self.max_length, *x_raw)
-        y_var = self.sentences_to_codes(2 * self.max_length, *y_raw)
+        y_var = self.sentences_to_codes(8 * self.max_length, *y_raw)
 
         return x_var, y_var
 
@@ -288,24 +275,19 @@ class CopyTask(ReverseTask):
     String Copying
     """
 
-    def get_tensors(self, b):
+    def get_tensors(self, num_tensors):
         """
-        Like ReverseTask.get_tensors, but the output is not reversed,
-        and the output is produced immediately.
+        Generates a dataset containing correct input and output values
+        for the copy task. The input and output values are identical.
 
-        For example, the following is a valid input-output pair.
-            input: [0., 1., 0.], [1., 0., 0.],
-                    [0., 0., 1.], [0., 0., 1.]
-            output: 1, 0, null, null
-
-        :type b: int
-        :param b: The number of examples in the dataset
+        :type num_tensors: int
+        :param num_tensors: The number of examples in the dataset
 
         :rtype: tuple
         :return: A Variable containing the input values and a Variable
             containing the output values
         """
-        x_raw = [self.randstr() for _ in xrange(b)]
+        x_raw = [self.randstr() for _ in xrange(num_tensors)]
 
         x_var = self.sentences_to_one_hot(2 * self.max_length, *x_raw)
         y_var = self.sentences_to_codes(2 * self.max_length, *x_raw)

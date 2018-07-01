@@ -34,7 +34,6 @@ class Task(object):
                  l2_weight=.01,
                  max_x_length=10,
                  max_y_length=10,
-                 model=None,
                  model_type=VanillaController,
                  network_type=LinearSimpleStructNetwork,
                  null=u"#",
@@ -50,6 +49,9 @@ class Task(object):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch
+
+        :type clipping_norm:
+        :param clipping_norm:
 
         :type criterion: nn.modules.loss._Loss
         :param criterion: The error function used for training the model
@@ -146,12 +148,9 @@ class Task(object):
         self.code_to_word = {c: w for w, c in self.alphabet.iteritems()}
         self.alphabet_size = len(self.alphabet)
 
-        if model is None:
-            self.model = None
-            self.reset_model(model_type, network_type, struct_type,
-                             hidden_size=hidden_size)
-        else:
-            self.model = model
+        self.model = None
+        self.reset_model(model_type, network_type, struct_type,
+                         hidden_size=hidden_size)
 
         if load_path:
             self.model.load_state_dict(torch.load(load_path))
