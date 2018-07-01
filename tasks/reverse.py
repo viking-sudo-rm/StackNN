@@ -37,7 +37,6 @@ class ReverseTask(Task):
                  read_size=2,
                  save_path=None,
                  struct_type=Stack,
-                 testing_mode=False,
                  time_function=(lambda t: t),
                  verbose=True):
         """
@@ -143,7 +142,6 @@ class ReverseTask(Task):
                                           read_size=read_size,
                                           save_path=save_path,
                                           struct_type=struct_type,
-                                          testing_mode=testing_mode,
                                           time_function=time_function,
                                           verbose=verbose)
 

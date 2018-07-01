@@ -11,7 +11,7 @@ from torch.autograd import Variable
 from models import VanillaController
 from models.base import AbstractController
 from models.networks.feedforward import LinearSimpleStructNetwork
-from stacknn_utils import testing_mode_no_model_warning, check_extension
+from stacknn_utils import *
 from structs.simple import Stack
 
 
@@ -40,7 +40,6 @@ class Task(object):
                  read_size=2,
                  save_path=None,
                  struct_type=Stack,
-                 testing_mode=False,
                  time_function=(lambda t: t),
                  verbose=True):
 
@@ -115,9 +114,6 @@ class Task(object):
         :param struct_type: The type of neural data structure that will
             be used by the model
 
-        :type testing_mode: bool
-        :param testing_mode:
-
         :type time_function: function
         :param time_function: A function mapping the length of an input
             to the number of computational steps the network will
@@ -132,7 +128,6 @@ class Task(object):
         self.clipping_norm = clipping_norm
 
         # Hyperparameters
-        self.testing_mode = testing_mode
         self.batch_size = batch_size
         self.epochs = epochs
         self.learning_rate = learning_rate
@@ -157,8 +152,9 @@ class Task(object):
 
         if load_path:
             self.model.load_state_dict(torch.load(load_path))
-        elif self.testing_mode:
-            testing_mode_no_model_warning()
+            self._has_trained_model = True
+        else:
+            self._has_trained_model = False
 
         # Backpropagation settings
         self.criterion = criterion
@@ -566,6 +562,7 @@ class Task(object):
         self.get_data()
         for epoch in xrange(self.epochs):
             self.run_epoch(epoch)
+        self._has_trained_model = True
 
     def run_epoch(self, epoch):
         """
@@ -643,11 +640,12 @@ class Task(object):
 
         :return: None
         """
+        if not self._has_trained_model:
+            testing_mode_no_model_warning()
+        self.load_testing_data(data_file)
         if log_file is not None:
             check_extension(log_file, "csv")
             self.start_log()
-        self.load_testing_data(data_file)
-        if self._logging:
             self.reset_log()
         self.evaluate(-1)
         self.stop_log()
@@ -704,9 +702,8 @@ class Task(object):
         x_var = self.sentences_to_one_hot(self.max_x_length, *x_sentences)
         y_var = self.sentences_to_codes(self.max_y_length, *y_sentences)
 
-        if self._logging:
-            self._logged_x_text = x_text
-            self._logged_y_text = y_text
+        self._logged_x_text = x_text
+        self._logged_y_text = y_text
 
         return x_var, y_var
 

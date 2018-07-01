@@ -63,7 +63,6 @@ class LanguageModellingTask(Task):
                  read_size=2,
                  save_path=None,
                  struct_type=Stack,
-                 testing_mode=False,
                  time_function=(lambda t: t),
                  verbose=True):
         """
@@ -127,9 +126,6 @@ class LanguageModellingTask(Task):
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
             be used by the Controller
-
-        :type testing_mode: bool
-        :param testing_mode:
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
@@ -235,7 +231,6 @@ class CFGTask(LanguageModellingTask):
                  read_size=2,
                  save_path=None,
                  struct_type=Stack,
-                 testing_mode=False,
                  test_set_size=100,
                  time_function=(lambda t: t),
                  train_set_size=800,
@@ -310,9 +305,6 @@ class CFGTask(LanguageModellingTask):
         :param struct_type: The type of neural data structure that will
             be used by the Controller
 
-        :type testing_mode: bool
-        :param testing_mode:
-
         :type test_set_size: int
         :param test_set_size: The number of examples to include in the
             testing data
@@ -349,7 +341,6 @@ class CFGTask(LanguageModellingTask):
                                       read_size=read_size,
                                       save_path=save_path,
                                       struct_type=struct_type,
-                                      testing_mode=testing_mode,
                                       time_function=time_function,
                                       verbose=verbose)
 
