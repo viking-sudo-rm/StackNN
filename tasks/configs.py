@@ -8,7 +8,7 @@ Example usage:
 """
 
 from formalisms.cfg import *
-from models.networks.recurrent import LSTMSimpleStructNetwork, RNNSimpleStructNetwork
+from models.networks.recurrent import LSTMSimpleStructNetwork, RNNSimpleStructNetwork, GRUSimpleStructNetwork
 
 dyck_config = {
     "grammar": dyck_grammar,
@@ -35,26 +35,19 @@ reverse_LSTM = {
     "epochs": 100
 }
 
+reverse_GRU = {
+    "network_type": GRUSimpleStructNetwork,
+    "learning_rate": 0.01,
+    "epochs": 100
+}
+
 agreement_config = {
     "grammar": agreement_grammar,
     "to_predict": [u"Auxsing", u"Auxplur"],
     "sample_depth": 8,
 }
 
-padded_xor_config = {
-    "grammar": padded_xor_string_grammar,
-    "to_predict": [u"a", u"b"],
-    "sample_depth": 8,
+xor_clipping = {
+    "clipping_norm": 0.5,
 }
 
-unpadded_xor_config = {
-    "grammar": xor_exp_eval_grammar,
-    "to_predict": [u"1", u"0"],
-    "sample_depth": 5,
-}
-
-exp_eval = {
-    "grammar": exp_eval_grammar,
-    "to_predict": [u"1", u"0"],
-    "sample_depth": 5,
-}

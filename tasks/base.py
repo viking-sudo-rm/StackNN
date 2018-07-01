@@ -27,6 +27,7 @@ class Task(object):
 
     def __init__(self,
                  batch_size=10,
+                 clipping_norm=None,
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
                  epochs=100,
@@ -126,6 +127,7 @@ class Task(object):
         """
         self.max_x_length = max_x_length
         self.max_y_length = max_y_length
+        self.clipping_norm = clipping_norm
 
         # Hyperparameters
         self.testing_mode = testing_mode
@@ -486,6 +488,10 @@ class Task(object):
         if is_batch:
             self.optimizer.zero_grad()
             batch_loss.backward()
+
+            if self.clipping_norm:
+                nn.utils.clip_grad_norm(self.model.parameters(), self.clipping_norm)
+
             self.optimizer.step()
 
         # Log the results

@@ -39,6 +39,7 @@ class CFGTask(Task):
                  to_predict,
                  sample_depth,
                  batch_size=10,
+                 clipping_norm=None,
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
                  epochs=30,
@@ -152,6 +153,7 @@ class CFGTask(Task):
         self.grammar = grammar
 
         super(CFGTask, self).__init__(batch_size=batch_size,
+                                      clipping_norm=clipping_norm,
                                       criterion=criterion,
                                       cuda=cuda,
                                       epochs=epochs,

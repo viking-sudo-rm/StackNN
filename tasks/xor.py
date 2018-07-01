@@ -18,15 +18,31 @@ import operator
 
 class XORTask(EvaluationTask):
     """
-    XOR evaluation task
+    XOR evaluation task: network is fed strings of length n and is given
+    2n time steps to output a string whose ith bit is the xor of the first
+    i bits in the input string.  (We define the xor of single bit inputs to
+    be equal to the input bit.)  e.g., if the input is
+
+        1 0 1 0 1 1 0
+
+    the network will have to output
+
+        xor(1)
+        xor(1, 0)
+        xor(1, 0, 1)
+        xor(1, 0, 1, 0)
+        xor(1, 0, 1, 0, 1)
+        xor(1, 0, 1, 0, 1, 1)
+        xor(1, 0, 1, 0, 1, 1, 0)
+
+    which is equivalent to
+
+        1 1 0 0 1 0 0.
     """
 
     def __init__(self,
-                 min_length=1,
-                 max_length=12,
-                 mean_length=10,
-                 std_length=2.,
                  batch_size=10,
+                 clipping_norm=None,
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
                  epochs=30,
@@ -39,27 +55,13 @@ class XORTask(EvaluationTask):
                  network_type=RNNSimpleStructNetwork,
                  read_size=2,
                  save_path=None,
+                 str_length=12,
                  struct_type=Stack,
                  verbose=True):
         """
-        Constructor for the ReverseTask object. The only information
-        that needs to be specified by the user is information about the
-        distribution of the strings appearing in the input data.
-
-        :type min_length: int
-        :param min_length: The shortest possible length of an input
-            string
-
-        :type max_length: int
-        :param max_length: The longest possible length of an input
-            string
-
-        :type mean_length: int
-        :param mean_length: The average length of an input string
-
-        :type std_length: float
-        :param std_length: The standard deviation of the length of an
-            input string
+        Constructor for the XORTask object. The only information
+        that needs to be specified by the user is how long the input
+        strings are.
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch
@@ -98,6 +100,9 @@ class XORTask(EvaluationTask):
         :param read_size: The length of the vectors stored on the neural
             data structure
 
+        :type str_length: int
+        :param str_length: The number of bits in each input string
+
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
             be used by the Controller
@@ -112,6 +117,7 @@ class XORTask(EvaluationTask):
             displayed in the console
         """
         super(XORTask, self).__init__(batch_size=batch_size,
+                                      clipping_norm=clipping_norm,
                                       criterion=criterion,
                                       cuda=cuda,
                                       epochs=epochs,
@@ -119,7 +125,7 @@ class XORTask(EvaluationTask):
                                       learning_rate=learning_rate,
                                       load_path=load_path,
                                       l2_weight=l2_weight,
-                                      max_length=max_length,
+                                      max_length=str_length,
                                       model=model,
                                       model_type=model_type,
                                       network_type=network_type,
@@ -129,9 +135,7 @@ class XORTask(EvaluationTask):
                                       time_function=(lambda t: 2*t),
                                       verbose=verbose)
 
-        self.min_length = min_length
-        self.mean_length = mean_length
-        self.std_length = std_length
+        self.str_length = str_length
 
     """ Model Training """
 
@@ -145,9 +149,7 @@ class XORTask(EvaluationTask):
         :rtype: list
         :return: A sequence of "0"s and "1"s
         """
-        length = int(random.gauss(self.mean_length, self.std_length))
-        length = min(max(self.min_length, length), self.max_length)
-        return [random.randint(0, 1) for _ in xrange(length)]
+        return [random.randint(0, 1) for _ in xrange(self.str_length)]
 
     def eval_func(self, s):
         return reduce(operator.xor, s, 0)
