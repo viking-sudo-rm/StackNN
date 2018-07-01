@@ -832,14 +832,12 @@ class Task(object):
 
         if is_batch:
             message = "Batch {}: ".format(name)
-            loss = sum(batch_loss.data) / self.batch_size
         elif name >= 0:
             message = "Epoch {} Test: ".format(name)
-            loss = sum(batch_loss.data) / self.test_x.size(0)
         else:
             message = "Test Results: "
-            loss = sum(batch_loss.data) / self.test_x.size(0)
+        loss = sum(batch_loss.data)
 
-        accuracy = (batch_correct * 1.0) / batch_total
-        message += "Loss = {:.4f}, Accuracy = {:.2f}".format(loss, accuracy)
+        accuracy = 100. * (batch_correct * 1.0) / batch_total
+        message += "Loss = {:.4f}, Accuracy = {:.1f}%".format(loss, accuracy)
         print message
