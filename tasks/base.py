@@ -18,10 +18,7 @@ from structs.simple import Stack
 class Task(object):
     """
     Abstract class for creating experiments that train and evaluate a
-    neural network model with a neural stack or queue. To create a
-    custom task, create a class inheriting from this one that overrides
-    the constructor self.__init__ and the functions self.get_data and
-    self._evaluate_step.
+    neural network model with a neural stack or queue.
     """
     __metaclass__ = ABCMeta
 
@@ -179,8 +176,8 @@ class Task(object):
 
         # Reporting
         self._logging = False
-        self._logged_x_text = []
-        self._logged_y_text = []
+        self._logged_x_text = None
+        self._logged_y_text = None
         self._logged_a = None
         self._logged_loss = None
         self._logged_correct = None
@@ -347,10 +344,30 @@ class Task(object):
 
     @staticmethod
     def text_to_sentences(*lines):
+        """
+        Converts lines of text to sentence objects.
+
+        :type lines: str
+        :param lines: Each line is a " "-delimited string representing a
+            sentence
+
+        :rtype: list
+        :return: A list containing the lines in sentence form
+        """
         return [l.strip().split(" ") for l in lines]
 
     @staticmethod
     def sentences_to_text(*sentences):
+        """
+        Converts sentences to lines of text.
+
+        :type sentences: list
+        :param sentences: One or more sentences
+
+        :rtype: list
+        :return: A list of " "-delimited strings representing the
+            sentences
+        """
         return [" ".join(s) for s in sentences]
 
     @staticmethod
@@ -490,7 +507,8 @@ class Task(object):
             batch_loss.backward()
 
             if self.clipping_norm:
-                nn.utils.clip_grad_norm(self.model.parameters(), self.clipping_norm)
+                nn.utils.clip_grad_norm(self.model.parameters(),
+                                        self.clipping_norm)
 
             self.optimizer.step()
 
@@ -614,12 +632,18 @@ class Task(object):
 
     def run_test(self, data_file, log_file=None):
         """
+        Evaluates the model based on testing data loaded from a file.
 
-        :param data_file:
-        :param log_file:
-        :return:
+        :type data_file: str
+        :param data_file: A CSV file containing the testing data
+
+        :type log_file: str
+        :param log_file: If a filename is provided, then the input,
+            correct output, and output predicted by the network for each
+            example are saved to the path provided
+
+        :return: None
         """
-
         if log_file is not None:
             check_extension(log_file, "csv")
             self.start_log()
@@ -653,7 +677,7 @@ class Task(object):
         examples should be represented as " "-delimited strings. For
         example, the following is a possible data file for ReverseTask.
             0 1 0 0 1 2 2 2 2 2,2 2 2 2 2 1 0 0 1 0
-            1 1 1 1 1 0 0 1 1 2,2 1 1 0 0 1 1 1 1 1
+            0 0 1 1 2 2 2 2 2 2,2 2 2 2 1 1 0 0 2 2
             1 0 0 0 0 2 2 2 2 2,2 2 2 2 2 0 0 0 0 1
 
         :type filename: str
@@ -688,25 +712,61 @@ class Task(object):
         return x_var, y_var
 
     def _print_test_start(self):
+        """
+        Prints information about this Task's hyperparameters at the
+        start of each test.
+
+        :return: None
+        """
+        print "Starting Test"
         print "Read Size: " + str(self.read_size)
 
     """ Reporting """
 
     def start_log(self):
+        """
+        Sets self._logging to True, so that data will be logged the next
+        time self.run_test is called. For each item in self.test_x and
+        self.test_y, the neural network's predicted output will be
+        recorded.
+
+        :return: None
+        """
         if self.testing_mode:
             self._logging = True
         else:
             self._logging = False
 
     def stop_log(self):
+        """
+        Sets self._logging to False, so that data will no longer be
+        logged.
+
+        :return: None
+        """
         self._logging = False
 
     def reset_log(self):
+        """
+        Resets the logged predictions to a blank state. The testing data
+        are not reset.
+
+        :return: None
+        """
         num_strings = self.test_y.size(0)
         self._curr_log_index = 0
         self._logged_a = Variable(torch.zeros(num_strings, self.max_y_length))
 
     def export_log(self, filename):
+        """
+        Saves the logged testing inputs, correct outputs, and predicted
+        outputs to a file.
+
+        :type filename: str
+        :param filename: A CSV file to save the logged data to
+
+        :return: None
+        """
         if filename is None:
             return
         check_extension(filename, "csv")
@@ -724,6 +784,17 @@ class Task(object):
         f.close()
 
     def _log_prediction(self, a):
+        """
+        Records a predicted output of the neural network.
+
+        :type a: Variable
+        :param a: The predicted output of the neural network. The value
+            passed to this param should be a Variable containing the
+            network's prediction for the jth symbol of each string in
+            the current testing batch, for some j.
+
+        :return: None
+        """
         if self._logging:
             _, y_pred = torch.max(a, 1)
             self._logged_a[:, self._curr_log_index] = y_pred
