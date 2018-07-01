@@ -119,10 +119,15 @@ class AbstractController(nn.Module):
     """ Public Accessors and Properties """
 
     def get_read_size(self):
-        """
-        Public accessor for self._read_size.
-        """
         return self._read_size
+
+    @property
+    def network_type(self):
+        return type(self._network)
+
+    @property
+    def struct_type(self):
+        return self._struct_type
 
     """ Analytical Tools """
 

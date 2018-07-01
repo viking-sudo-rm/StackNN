@@ -11,6 +11,7 @@ from models import VanillaController
 from models.networks.feedforward import LinearSimpleStructNetwork
 from structs import Stack
 
+
 class ReverseTask(Task):
     """
     String Reversal
@@ -35,6 +36,7 @@ class ReverseTask(Task):
                  read_size=2,
                  save_path=None,
                  struct_type=Stack,
+                 testing_mode=False,
                  time_function=(lambda t: t),
                  verbose=True):
         """
@@ -126,17 +128,19 @@ class ReverseTask(Task):
                                           epochs=epochs,
                                           hidden_size=hidden_size,
                                           learning_rate=learning_rate,
+                                          load_path=load_path,
                                           l2_weight=l2_weight,
                                           max_x_length=max_length * 2,
                                           max_y_length=max_length * 8,
                                           model=model,
                                           model_type=model_type,
                                           network_type=network_type,
+                                          null=u"2",
                                           read_size=read_size,
-                                          struct_type=struct_type,
-                                          time_function=time_function,
                                           save_path=save_path,
-                                          load_path=load_path,
+                                          struct_type=struct_type,
+                                          testing_mode=testing_mode,
+                                          time_function=time_function,
                                           verbose=verbose)
 
         self.min_length = min_length
@@ -169,6 +173,9 @@ class ReverseTask(Task):
                                 network_type=network_type,
                                 struct_type=struct_type,
                                 **kwargs)
+
+    def _init_alphabet(self, null):
+        return {"0": 0, "1": 1, "2": 2}
 
     """ Model Training """
 
@@ -242,7 +249,8 @@ class ReverseTask(Task):
         """
         length = int(random.gauss(self.mean_length, self.std_length))
         length = min(max(self.min_length, length), self.max_length)
-        return [random.randint(0, 1) for _ in xrange(length)]
+        s = [random.randint(0, 1) for _ in xrange(length)]
+        return [str(w) for w in s]
 
     def get_tensors(self, b):
         """
@@ -265,55 +273,12 @@ class ReverseTask(Task):
             containing the output values
         """
         x_raw = [self.randstr() for _ in xrange(b)]
+        y_raw = [[self.null for _ in xrange(len(s))] + s[::-1] for s in x_raw]
 
-        # Initialize x to one-hot encodings of NULL
-        x = torch.FloatTensor(b, 2 * self.max_length, 3)
-        x[:, :, :2].fill_(0)
-        x[:, :, 2].fill_(1)
+        x_var = self.sentences_to_one_hot(2 * self.max_length, *x_raw)
+        y_var = self.sentences_to_codes(2 * self.max_length, *y_raw)
 
-        # Initialize y to NULL
-        y = torch.LongTensor(b, 8 * self.max_length)
-        y.fill_(2)
-
-        for i, s in enumerate(x_raw):
-            t = ReverseTask.reverse(s)
-            for j, char in enumerate(s):
-                x[i, j, :] = ReverseTask.one_hot(char)
-                y[i, j + len(s)] = t[j]
-
-        return Variable(x), Variable(y)
-
-    @staticmethod
-    def reverse(s):
-        """
-        Reverses a string.
-
-        :type s: str
-        :param s: A string
-
-        :rtype: str
-        :return: s, backwards
-        """
-        return s[::-1]
-
-    @staticmethod
-    def one_hot(b):
-        """
-        Computes the following one-hot encoding:
-            0 -> [1., 0., 0.]
-            1 -> [0., 1., 0.]
-            2 -> [0., 0., 1.]
-
-        0 and 1 represent alphabet symbols.
-        2 represents "null."
-
-        :type b: int
-        :param b: 0, 1, or 2
-
-        :rtype: torch.FloatTensor
-        :return: The one-hot encoding of b
-        """
-        return torch.FloatTensor([float(i == b) for i in xrange(3)])
+        return x_var, y_var
 
 
 class CopyTask(ReverseTask):
@@ -340,19 +305,7 @@ class CopyTask(ReverseTask):
         """
         x_raw = [self.randstr() for _ in xrange(b)]
 
-        # Initialize x to one-hot encodings of NULL
-        x = torch.FloatTensor(b, 2 * self.max_length, 3)
-        x[:, :, :2].fill_(0)
-        x[:, :, 2].fill_(1)
+        x_var = self.sentences_to_one_hot(2 * self.max_length, *x_raw)
+        y_var = self.sentences_to_codes(2 * self.max_length, *x_raw)
 
-        # Initialize y to NULL
-        y = torch.LongTensor(b, 8 * self.max_length)
-        y.fill_(2)
-
-        for i, s in enumerate(x_raw):
-            t = s
-            for j, char in enumerate(s):
-                x[i, j, :] = ReverseTask.one_hot(char)
-                y[i, j] = t[j]
-
-        return Variable(x), Variable(y)
+        return x_var, y_var

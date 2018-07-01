@@ -2,13 +2,16 @@ from __future__ import division
 
 from abc import ABCMeta, abstractmethod
 
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from torch.autograd import Variable
 
 from models import VanillaController
 from models.base import AbstractController
 from models.networks.feedforward import LinearSimpleStructNetwork
+from stacknn_utils import testing_mode_no_model_warning, check_extension
 from structs.simple import Stack
 
 
@@ -36,9 +39,11 @@ class Task(object):
                  model=None,
                  model_type=VanillaController,
                  network_type=LinearSimpleStructNetwork,
+                 null=u"#",
                  read_size=2,
                  save_path=None,
                  struct_type=Stack,
+                 testing_mode=False,
                  time_function=(lambda t: t),
                  verbose=True):
 
@@ -94,6 +99,9 @@ class Task(object):
         :param network_type: The type of neural network that will drive
             the Controller
 
+        :type null: unicode
+        :param null: The "null" symbol used in this Task
+
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
             data structure
@@ -120,17 +128,25 @@ class Task(object):
         self.max_y_length = max_y_length
 
         # Hyperparameters
+        self.testing_mode = testing_mode
         self.batch_size = batch_size
         self.epochs = epochs
         self.learning_rate = learning_rate
         self.read_size = read_size
         self.time_function = time_function
-        if save_path.endswith(".dat"):
+        if not (isinstance(save_path, str) or isinstance(save_path, unicode)):
+            self.save_path = None
+        elif save_path.endswith(".dat"):
             self.save_path = save_path
         else:
             self.save_path = save_path + ".dat"
 
-        # Model settings (compatibility)
+        # Model settings
+        self.null = null
+        self.alphabet = self._init_alphabet(null)
+        self.code_to_word = {c: w for w, c in self.alphabet.iteritems()}
+        self.alphabet_size = len(self.alphabet)
+
         if model is None:
             self.model = None
             self.reset_model(model_type, network_type, struct_type,
@@ -140,6 +156,8 @@ class Task(object):
 
         if load_path:
             self.model.load_state_dict(torch.load(load_path))
+        elif self.testing_mode:
+            testing_mode_no_model_warning()
 
         # Backpropagation settings
         self.criterion = criterion
@@ -157,98 +175,239 @@ class Task(object):
         self.test_x = None
         self.test_y = None
 
+        # Reporting
+        self._logging = False
+        self._logged_x_text = []
+        self._logged_y_text = []
+        self._logged_a = None
+        self._logged_loss = None
+        self._logged_correct = None
+        self._curr_log_index = 0
+
     @abstractmethod
     def reset_model(self, model_type, network_type, struct_type):
         """
         Instantiates a neural network model of a given type that is
-        compatible with this Task.
+        compatible with this Task. This function must set self.model to
+        an instance of model_type.
 
         :type model_type: type
-        :param model_type: A type from the models package. Please pass
-            the desired model's *type* to this parameter, not an
-            instance thereof
+        :param model_type: The type of the Controller used in this Task
+
+        :type network_type: type
+        :param network_type: The type of the Network that will perform
+            the neural network computations
+
+        :type struct_type: type
+        :param struct_type: The type of neural data structure that this
+            Controller will operate
 
         :return: None
         """
         raise NotImplementedError("Missing implementation for construct_model")
 
-    """ Experiments """
+    """ Data """
 
-    def run_experiment(self):
+    @abstractmethod
+    def get_data(self):
         """
-        Runs an experiment that evaluates the performance of the model
-        described by this Task. In the experiment, a number of training
-        epochs are run, and each epoch is divided into batches. The
-        number of epochs is self.epochs, and the number of examples in
-        each batch is self.batch_size. Loss and accuracy are computed
-        for each batch and each epoch.
+        Populates self.train_x, self.train_y, self.test_x, and
+        self.test_y by generating or loading data sets for training and
+        testing.
 
         :return: None
         """
-        self._print_experiment_start()
-        self.get_data()
-        for epoch in xrange(self.epochs):
-            self.run_epoch(epoch)
+        raise NotImplementedError("Missing implementation for get_data")
 
-    def run_epoch(self, epoch):
+    @abstractmethod
+    def _init_alphabet(self, null):
         """
-        Trains the model on all examples in the training data set.
-        Training examples are divided into batches. The number of
-        examples in each batch is given by self.batch_size.
+        Creates the alphabet over which strings in this Task are
+        defined.
 
-        :type epoch: int
-        :param epoch: The name of the current epoch
+        :type null: unicode
+        :param null: A special "null" symbol
 
-        :return: None
+        :rtype: dict
+        :return: A dict mapping each alphabet symbol to a unique number
         """
-        self._print_epoch_start(epoch)
-        self._shuffle_training_data()
-        self.train()
-        self.evaluate(epoch)
-        if self.save_path:
-            torch.save(self.model.state_dict(), self.save_path)
+        raise NotImplementedError("Missing implementation for _init_alphabet")
 
-    def _shuffle_training_data(self):
+    def sentences_to_one_hot(self, max_length, *sentences):
         """
-        Shuffles the training data.
+        Converts one or more sentences to one-hot representation.
 
-        :return: None
+        :type max_length: int
+        :param max_length: The maximum length of a sentence
+
+        :type sentences: list
+        :param sentences: A list of sentences
+
+        :rtype: Variable
+        :return: A Variable containing each sentence of sentences in
+            one-hot representation. Each sentence is padded to length
+            max_length with null symbols. Entry x[i, j, k] of the output
+            Variable x represents the kth component of the one-hot
+            representation of the jth word of the ith sentence
         """
-        num_examples = len(self.train_x)
-        shuffled_indices = torch.randperm(num_examples)
-        self.train_x = self.train_x[shuffled_indices]
-        self.train_y = self.train_y[shuffled_indices]
+        s_codes = [[self.alphabet[w] for w in s] for s in sentences]
+        num_strings = len(s_codes)
 
-    def _print_experiment_start(self):
+        # Initialize output to NULLs
+        null_code = self.alphabet[self.null]
+        x = torch.FloatTensor(num_strings, max_length, self.alphabet_size)
+        x[:, :, :].fill_(0)
+        x[:, :, null_code].fill_(1)
+
+        # Fill in values
+        for i, s in enumerate(s_codes):
+            for j, w in enumerate(s):
+                x[i, j, :] = Task.one_hot(w, self.alphabet_size)
+
+        return Variable(x)
+
+    def sentences_to_codes(self, max_length, *sentences):
         """
-        Prints information about this Task's hyperparameters at the
-        start of each experiment.
+        Converts one or more sentences to numerical representation based
+        on self.alphabet.
 
-        :return: None
+        :type max_length: int
+        :param max_length: The maximum length of a sentence
+
+        :type sentences: list
+        :param sentences: A list of sentences
+
+        :rtype: Variable
+        :return: A Variable containing each sentence of sentences in
+            numerical representation. Each sentence is padded to length
+            max_length with null symbols. Entry y[i, j] of the output
+            Variable y is the number representing the jth word of the
+            ith sentence
         """
-        if not self.verbose:
-            return
+        s_codes = [[self.alphabet[w] for w in s] for s in sentences]
+        num_strings = len(s_codes)
 
-        print "Learning Rate: " + str(self.learning_rate)
-        print "Batch Size: " + str(self.batch_size)
-        print "Read Size: " + str(self.read_size)
+        # Initialize output to NULLs
+        null_code = self.alphabet[self.null]
+        y = torch.LongTensor(num_strings, max_length)
+        y.fill_(null_code)
 
-    def _print_epoch_start(self, epoch):
+        # Fill in values
+        for i, s in enumerate(s_codes):
+            for j, w in enumerate(s):
+                y[i, j] = w
+
+        return Variable(y)
+
+    def one_hot_to_sentences(self, max_length, one_hots):
         """
-        Prints a header with the epoch name at the beginning of each
-            epoch.
+        Converts a one_hot tensor to sentence form.
 
-        :type epoch: int
-        :param epoch: The name of the current epoch
+        :type max_length: int
+        :param max_length: If this param is set to a positive number,
+            then the sentences produced will be padded to this length
+            with NULL symbols. Otherwise, trailing NULL symbols will be
+            removed
 
-        :return: None
+        :type one_hots: Variable
+        :param one_hots: A Variable containing a number of sentences in
+            one-hot representation. See self.sentences_to_one_hot for
+            the format of the Variable. If the vector corresponding to a
+            word contains numbers other than 0 or 1, then the largest
+            component will be treated as a 1, and all other components
+            will be treated as 0s
+
+        :rtype: list
+        :return: The list of sentences represented in one_hots
         """
-        if not self.verbose:
-            return
+        _, codes_var = torch.max(one_hots, 2)
+        codes_array = codes_var.data.numpy()
+        return self._codes_array_to_sentences(max_length, codes_array)
 
-        print "\n-- Epoch " + str(epoch) + " --\n"
+    def codes_to_sentences(self, max_length, codes):
+        """
+        Converts a numerical tensor to sentence form.
 
-    """ Model Training """
+        :type max_length: int
+        :param max_length: If this param is set to a positive number,
+            then the sentences produced will be padded to this length
+            with NULL symbols. Otherwise, trailing NULL symbols will be
+            removed
+
+        :type codes: Variable
+        :param codes: A Variable containing a number of sentences in
+            numerical representation based on self.alphabet
+
+        :rtype: list
+        :return: The list of sentences represented in codes
+        """
+        return self._codes_array_to_sentences(max_length, codes.data.numpy())
+
+    @staticmethod
+    def text_to_sentences(*lines):
+        return [l.strip().split(" ") for l in lines]
+
+    @staticmethod
+    def sentences_to_text(*sentences):
+        return [" ".join(s) for s in sentences]
+
+    @staticmethod
+    def one_hot(number, size):
+        """
+        Computes the following one-hot encoding:
+            0 -> [1., 0., 0., ..., 0.]
+            1 -> [0., 1., 0., ..., 0.]
+            2 -> [0., 0., 1., ..., 0.]
+        etc.
+
+        :type number: int
+        :param number: A number
+
+        :type size: int
+        :param size: The number of dimensions of the one-hot vector.
+            There should be at least one dimension corresponding to each
+            possible value for number
+
+        :rtype: torch.FloatTensor
+        :return: The one-hot encoding of number
+        """
+        return torch.FloatTensor([float(i == number) for i in xrange(size)])
+
+    def _codes_array_to_sentences(self, max_length, codes_array):
+        """
+        Converts a numerical NumPy array to sentence form.
+
+        :type max_length: int
+        :param max_length: If this param is set to a positive number,
+            then the sentences produced will be padded to this length
+            with NULL symbols. Otherwise, trailing NULL symbols will be
+            removed
+
+        :type codes_array: np.ndarray
+        :param codes_array: A NumPy array containing a number of
+            sentences in numerical representation based on self.alphabet
+
+        :rtype: list
+        :return: The list of sentences represented in codes
+        """
+        if max_length > 0:
+            codes = [list(s) for s in codes_array[:, :max_length]]
+        else:
+            codes = [list(s) for s in codes_array]
+            null_code = self.alphabet[self.null]
+            for i, s in enumerate(codes):
+                trailing_null_ind = -1
+                for j, c in enumerate(s):
+                    if c == null_code and trailing_null_ind < 0:
+                        trailing_null_ind = j
+                    elif c != null_code:
+                        trailing_null_ind = -1
+
+                codes[i] = s[:trailing_null_ind]
+
+        return [[self.code_to_word[c] for c in s] for s in codes]
+
+    """ Backpropagation """
 
     def train(self):
         """
@@ -314,6 +473,7 @@ class Task(object):
             self.model()
         for j in xrange(self.max_x_length):
             a = self.model.read_output()
+            self._log_prediction(a)
             loss, correct, total = self._evaluate_step(x, y, a, j)
             if loss is None or correct is None or total is None:
                 continue
@@ -338,35 +498,230 @@ class Task(object):
         Computes the loss, number of guesses correct, and total number
         of guesses when reading the jth symbol of the input string.
 
-        :param x: The input training data
+        :type x: Variable
+        :param x: The input data, represented as a 3D tensor. For each
+            i and j, x[i, j, :] is the jth symbol of the ith sentence of
+            the batch, represented as a one-hot vector
 
-        :param y: The output training data
+        :type y: Variable
+        :param y: The output data, represented as a 2D tensor. For each
+            i and j, y[i, j] is the (j + 1)st symbol of the ith sentence
+            of the batch, represented numerically according to
+            self.code_for. If the length of the sentence is less than
+            j, then y[i, j] is "null"
 
-        :param a: The output of the neural network
+        :type a: Variable
+        :param a: The output of the neural network after reading the jth
+            word of the sentence, represented as a 2D vector. For each
+            i, a[i, :] is the network's prediction for the (j + 1)st
+            word of the sentence, in one-hot representation
 
         :type j: int
-        :param j: The position of the input string being read
+        :param j: The jth word of a sentence is being read by the neural
+            network when this function is called
 
         :rtype: tuple
-        :return: The loss, number of correct guesses, and total number
-            of guesses
+        :return: The loss, number of correct guesses, and number of
+            total guesses after reading the jth word of the sentence
         """
         raise NotImplementedError("Missing implementation for _evaluate_step")
 
-    """ Data Generation """
+    """ Training Mode """
 
-    @abstractmethod
-    def get_data(self):
+    def run_experiment(self):
         """
-        Populates self.train_x, self.train_y, self.test_x, and
-        self.test_y by generating or loading data sets for training and
-        testing.
+        Runs an experiment that evaluates the performance of the model
+        described by this Task. In the experiment, a number of training
+        epochs are run, and each epoch is divided into batches. The
+        number of epochs is self.epochs, and the number of examples in
+        each batch is self.batch_size. Loss and accuracy are computed
+        for each batch and each epoch.
 
         :return: None
         """
-        raise NotImplementedError("Missing implementation for get_data")
+        self._print_experiment_start()
+        self.get_data()
+        for epoch in xrange(self.epochs):
+            self.run_epoch(epoch)
+
+    def run_epoch(self, epoch):
+        """
+        Trains the model on all examples in the training data set.
+        Training examples are divided into batches. The number of
+        examples in each batch is given by self.batch_size.
+
+        :type epoch: int
+        :param epoch: The name of the current epoch
+
+        :return: None
+        """
+        self._print_epoch_start(epoch)
+        self._shuffle_training_data()
+        self.train()
+        self.evaluate(epoch)
+        if self.save_path:
+            torch.save(self.model.state_dict(), self.save_path)
+
+    def _shuffle_training_data(self):
+        """
+        Shuffles the training data.
+
+        :return: None
+        """
+        num_examples = len(self.train_x)
+        shuffled_indices = torch.randperm(num_examples)
+        self.train_x = self.train_x[shuffled_indices]
+        self.train_y = self.train_y[shuffled_indices]
+
+    def _print_experiment_start(self):
+        """
+        Prints information about this Task's hyperparameters at the
+        start of each experiment.
+
+        :return: None
+        """
+        if not self.verbose:
+            return
+
+        print "Starting {} Experiment".format(type(self).__name__)
+        print "Model Type: " + str(type(self.model).__name__)
+        print "Network Type: " + str(self.model.network_type.__name__)
+        print "Struct Type: " + str(self.model.struct_type.__name__)
+        print "Learning Rate: " + str(self.learning_rate)
+        print "Batch Size: " + str(self.batch_size)
+        print "Read Size: " + str(self.read_size)
+
+    def _print_epoch_start(self, epoch):
+        """
+        Prints a header with the epoch name at the beginning of each
+            epoch.
+
+        :type epoch: int
+        :param epoch: The name of the current epoch
+
+        :return: None
+        """
+        if self.verbose:
+            print "\n-- Epoch {} of {} --\n".format(epoch, self.epochs - 1)
+
+    """ Testing Mode """
+
+    def run_test(self, data_file, log_file=None):
+        """
+
+        :param data_file:
+        :param log_file:
+        :return:
+        """
+
+        if log_file is not None:
+            check_extension(log_file, "csv")
+            self.start_log()
+        self.load_testing_data(data_file)
+        if self._logging:
+            self.reset_log()
+        self.evaluate(-1)
+        self.stop_log()
+        self.export_log(log_file)
+
+    def load_testing_data(self, filename):
+        """
+        Loads a testing dataset from a file and saves it to self.test_x
+        and self.test_y. See self._load_data_from_file for the format of
+        the data file.
+
+        :type filename: str
+        :param filename: A CSV file containing the data
+
+        :return: None
+        """
+        xs, ys = self._load_data_from_file(filename)
+        self.test_x = xs
+        self.test_y = ys
+
+    def _load_data_from_file(self, filename):
+        """
+        Converts data stored in a CSV file to PyTorch Variables. Each
+        line of the CSV file should contain two items: a testing input
+        and its corresponding output, in that order. Input and output
+        examples should be represented as " "-delimited strings. For
+        example, the following is a possible data file for ReverseTask.
+            0 1 0 0 1 2 2 2 2 2,2 2 2 2 2 1 0 0 1 0
+            1 1 1 1 1 0 0 1 1 2,2 1 1 0 0 1 1 1 1 1
+            1 0 0 0 0 2 2 2 2 2,2 2 2 2 2 0 0 0 0 1
+
+        :type filename: str
+        :param filename: A CSV file containing the data
+
+        :rtype: tuple
+        :return: Variables containing the input and output data,
+            respectively
+        """
+        check_extension(filename, "csv")
+
+        f = open(filename, "r")
+        raw_strings = f.readlines()
+        f.close()
+
+        if len(raw_strings) % 2 != 0:
+            raise ValueError("The file must have an even number of lines!")
+
+        x_text = [line.split(",")[0].strip() for line in raw_strings]
+        y_text = [line.split(",")[1].strip() for line in raw_strings]
+
+        x_sentences = Task.text_to_sentences(*x_text)
+        y_sentences = Task.text_to_sentences(*y_text)
+
+        x_var = self.sentences_to_one_hot(self.max_x_length, *x_sentences)
+        y_var = self.sentences_to_codes(self.max_y_length, *y_sentences)
+
+        if self._logging:
+            self._logged_x_text = x_text
+            self._logged_y_text = y_text
+
+        return x_var, y_var
+
+    def _print_test_start(self):
+        print "Read Size: " + str(self.read_size)
 
     """ Reporting """
+
+    def start_log(self):
+        if self.testing_mode:
+            self._logging = True
+        else:
+            self._logging = False
+
+    def stop_log(self):
+        self._logging = False
+
+    def reset_log(self):
+        num_strings = self.test_y.size(0)
+        self._curr_log_index = 0
+        self._logged_a = Variable(torch.zeros(num_strings, self.max_y_length))
+
+    def export_log(self, filename):
+        if filename is None:
+            return
+        check_extension(filename, "csv")
+
+        a_sent = self.codes_to_sentences(self.max_y_length, self._logged_a)
+        a_text = self.sentences_to_text(*a_sent)
+        num_strings = len(a_text)
+
+        f = open(filename, "w")
+        f.write("Input,Correct Output,Predicted Output\n")
+        for i in xrange(num_strings):
+            line = ",".join([self._logged_x_text[i], self._logged_y_text[i],
+                             a_text[i]]) + "\n"
+            f.write(line)
+        f.close()
+
+    def _log_prediction(self, a):
+        if self._logging:
+            _, y_pred = torch.max(a, 1)
+            self._logged_a[:, self._curr_log_index] = y_pred
+            self._curr_log_index += 1
 
     def _print_batch_summary(self, name, is_batch, batch_loss, batch_correct,
                              batch_total):
@@ -402,8 +757,11 @@ class Task(object):
         if is_batch:
             message = "Batch {}: ".format(name)
             loss = sum(batch_loss.data) / self.batch_size
-        else:
+        elif name >= 0:
             message = "Epoch {} Test: ".format(name)
+            loss = sum(batch_loss.data) / self.test_x.size(0)
+        else:
+            message = "Test Results: "
             loss = sum(batch_loss.data) / self.test_x.size(0)
 
         accuracy = (batch_correct * 1.0) / batch_total

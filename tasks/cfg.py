@@ -150,8 +150,6 @@ class CFGTask(Task):
             displayed in the console
         """
         self.grammar = grammar
-        self.code_for = self._get_code_for(null)
-        self.num_words = len(self.code_for)
 
         super(CFGTask, self).__init__(batch_size=batch_size,
                                       criterion=criterion,
@@ -164,6 +162,7 @@ class CFGTask(Task):
                                       max_x_length=max_length,
                                       max_y_length=max_length,
                                       model_type=model_type,
+                                      null=null,
                                       network_type=network_type,
                                       read_size=read_size,
                                       save_path=save_path,
@@ -171,9 +170,8 @@ class CFGTask(Task):
                                       time_function=time_function,
                                       verbose=verbose)
 
-        self.to_predict_code = self.words_to_code(*to_predict)
+        self.to_predict_code = [self.alphabet[c] for c in to_predict]
         self.sample_depth = sample_depth
-        self.null = null
         self.max_length = max_length
 
         self.train_set_size = train_set_size
@@ -187,12 +185,10 @@ class CFGTask(Task):
         """
         Instantiates a neural network model of a given type that is
         compatible with this Task. This function must set self.model to
-        an instance of model_type
+        an instance of model_type.
 
         :type model_type: type
-        :param model_type: A type from the models package. Please pass
-            the desired model's *type* to this parameter, not an
-            instance thereof
+        :param model_type: The type of the Controller used in this Task
 
         :type network_type: type
         :param network_type: The type of the Network that will perform
@@ -204,12 +200,13 @@ class CFGTask(Task):
 
         :return: None
         """
-        self.model = model_type(self.num_words, self.read_size, self.num_words,
+        self.model = model_type(self.alphabet_size, self.read_size,
+                                self.alphabet_size,
                                 network_type=network_type,
                                 struct_type=struct_type,
                                 **kwargs)
 
-    def _get_code_for(self, null):
+    def _init_alphabet(self, null):
         """
         Creates an encoding of a CFG's terminal symbols as numbers.
 
@@ -225,10 +222,10 @@ class CFGTask(Task):
         rhs_symbols.update(*rhss)
         rhs_symbols = set(x for x in rhs_symbols if gr.is_terminal(x))
 
-        code_for = {x: i for i, x in enumerate(rhs_symbols)}
-        code_for[null] = len(code_for)
+        alphabet = {x: i for i, x in enumerate(rhs_symbols)}
+        alphabet[null] = len(alphabet)
 
-        return code_for
+        return alphabet
 
     """ Model Training """
 
@@ -269,18 +266,18 @@ class CFGTask(Task):
         _, y_pred = torch.max(a, 1)
 
         # Find the batch trials where we make a prediction
-        null = self.code_for[self.null]
+        null = self.alphabet[self.null]
         valid_x = (y[:, j] != null).type(torch.FloatTensor)
         for k in xrange(len(valid_x)):
             if y[k, j].data[0] not in self.to_predict_code:
                 valid_x[k] = 0
 
         correct_trials = (y_pred == y[:, j]).type(torch.FloatTensor)
-        correct = sum((valid_x * correct_trials).data)
+        correct = (valid_x * correct_trials).data
         total = sum(valid_x.data)
-        loss = torch.mean(valid_x * self.criterion(a, y[:, j]))
+        loss = valid_x * self.criterion(a, y[:, j])
 
-        return loss, correct, total
+        return torch.mean(loss), sum(correct), total
 
     """ Data Generation """
 
@@ -339,28 +336,10 @@ class CFGTask(Task):
         x_raw = [self.get_random_sample_string() for _ in xrange(num_tensors)]
         y_raw = [s[1:] for s in x_raw]
 
-        # Initialize x to all nulls
-        x = torch.FloatTensor(num_tensors, self.max_length, len(self.code_for))
-        x[:, :, :-1].fill_(0)
-        x[:, :, -1].fill_(1)
+        x_var = self.sentences_to_one_hot(self.max_x_length, *x_raw)
+        y_var = self.sentences_to_codes(self.max_y_length, *y_raw)
 
-        # Fill in x values
-        for i, words in enumerate(x_raw):
-            words_one_hot = self.words_to_one_hot(*words)
-            for j, word in enumerate(words_one_hot[:self.max_length]):
-                x[i, j, :] = word
-
-        # Initialize y to all nulls
-        y = torch.LongTensor(num_tensors, self.max_length)
-        y[:, :].fill_(self.code_for[self.null])
-
-        # Fill in y values
-        for i, words in enumerate(y_raw):
-            words_code = self.words_to_code(*words)
-            for j, word in enumerate(words_code[:self.max_length]):
-                y[i, j] = word
-
-        return Variable(x), Variable(y)
+        return x_var, y_var
 
     def get_random_sample_string(self):
         """
@@ -371,53 +350,3 @@ class CFGTask(Task):
         :return: A sentence from self.sample_strings
         """
         return random.choice(self.sample_strings)
-
-    def words_to_code(self, *words):
-        """
-        Converts one or more words to numerical representation according
-        to self.code_for.
-
-        :type words: unicode
-        :param words: One or more words
-
-        :rtype: list
-        :return: A list containing the numerical encodings of words
-        """
-        return [self.code_for[word] for word in words]
-
-    def words_to_one_hot(self, *words):
-        """
-        Converts one or more words to one-hot representation.
-
-        :type words: unicode
-        :param words: One or more words
-
-        :rtype: list
-        :return: A list containing the one-hot encodings of words
-        """
-        size = len(self.code_for)
-        codes = [self.code_for[x] for x in words]
-
-        return [CFGTask.one_hot(x, size) for x in codes]
-
-    @staticmethod
-    def one_hot(number, size):
-        """
-        Computes the following one-hot encoding:
-            0 -> [1., 0., 0., ..., 0.]
-            1 -> [0., 1., 0., ..., 0.]
-            2 -> [0., 0., 1., ..., 0.]
-        etc.
-
-        :type number: int
-        :param number: A number
-
-        :type size: int
-        :param size: The number of dimensions of the one-hot vector.
-            There should be at least one dimension corresponding to each
-            possible value for number
-
-        :rtype: torch.FloatTensor
-        :return: The one-hot encoding of number
-        """
-        return torch.FloatTensor([float(i == number) for i in xrange(size)])

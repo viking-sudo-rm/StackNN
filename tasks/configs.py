@@ -40,3 +40,21 @@ agreement_config = {
     "to_predict": [u"Auxsing", u"Auxplur"],
     "sample_depth": 8,
 }
+
+padded_xor_config = {
+    "grammar": padded_xor_string_grammar,
+    "to_predict": [u"a", u"b"],
+    "sample_depth": 8,
+}
+
+unpadded_xor_config = {
+    "grammar": xor_exp_eval_grammar,
+    "to_predict": [u"1", u"0"],
+    "sample_depth": 5,
+}
+
+exp_eval = {
+    "grammar": exp_eval_grammar,
+    "to_predict": [u"1", u"0"],
+    "sample_depth": 5,
+}

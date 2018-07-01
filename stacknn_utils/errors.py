@@ -20,3 +20,14 @@ def unused_init_param(param_name, arg_value, obj):
         msg = "Parameter {} is set to {}, ".format(param_name, arg_value)
         msg += "but it is not used in {}.".format(class_name)
         warnings.warn(msg, RuntimeWarning)
+
+
+def testing_mode_no_model_warning():
+    """
+    Displays a warning message saying that a Task is in testing mode but
+    no load_path has been specified.
+
+    :return: None
+    """
+    msg = "This Task is in testing mode, but no load path has been specified."
+    warnings.warn(msg, RuntimeWarning)
