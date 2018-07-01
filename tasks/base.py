@@ -9,7 +9,6 @@ import torch.optim as optim
 from torch.autograd import Variable
 
 from models import VanillaController
-from models.base import AbstractController
 from models.networks.feedforward import LinearSimpleStructNetwork
 from stacknn_utils import *
 from structs.simple import Stack
@@ -83,12 +82,6 @@ class Task(object):
 
         :type max_y_length: int
         :param max_y_length: The maximum length of a neural net output
-
-        :type model: AbstractController
-        :param model: The model that will be trained and evaluated.
-            This parameter is being kept for compatibility with older
-            code. Please use the model_type parameter instead in order
-            to automatically instantiate models
 
         :type model_type: type
         :param model_type: The type of Controller that will be trained
