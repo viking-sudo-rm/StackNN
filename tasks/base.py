@@ -115,6 +115,9 @@ class Task(object):
         :param struct_type: The type of neural data structure that will
             be used by the model
 
+        :type testing_mode: bool
+        :param testing_mode:
+
         :type time_function: function
         :param time_function: A function mapping the length of an input
             to the number of computational steps the network will
@@ -530,14 +533,11 @@ class Task(object):
         :param y: The output data, represented as a 2D tensor. For each
             i and j, y[i, j] is the (j + 1)st symbol of the ith sentence
             of the batch, represented numerically according to
-            self.code_for. If the length of the sentence is less than
-            j, then y[i, j] is "null"
+            self.alphabet
 
         :type a: Variable
         :param a: The output of the neural network after reading the jth
-            word of the sentence, represented as a 2D vector. For each
-            i, a[i, :] is the network's prediction for the (j + 1)st
-            word of the sentence, in one-hot representation
+            word of the sentence, represented as a 2D vector
 
         :type j: int
         :param j: The jth word of a sentence is being read by the neural
