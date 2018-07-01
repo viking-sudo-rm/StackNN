@@ -19,7 +19,7 @@ class LinearSimpleStructNetwork(SimpleStructNetwork):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 n_args=2, discourage_pop=False, **kwargs):
+                 n_args=2, discourage_pop=True, **kwargs):
         """
         Constructor for the LinearSimpleStruct object.
 
@@ -61,8 +61,9 @@ class LinearSimpleStructNetwork(SimpleStructNetwork):
         self._linear.bias.data.fill_(0)
         if discourage_pop:
             self._linear.bias.data[0] = -1.  # Discourage popping
-            self._linear.bias.data[2] = 1.  # Encourage reading
-            self._linear.bias.data[3] = 1.  # Encourage writing
+            if n_args >= 4:
+                self._linear.bias.data[2] = 1.  # Encourage reading
+                self._linear.bias.data[3] = 1.  # Encourage writing
 
     def forward(self, x, r):
         """

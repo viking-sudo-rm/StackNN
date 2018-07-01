@@ -72,7 +72,10 @@ class RNNSimpleStructNetwork(SimpleStructNetwork):
         self._linear.bias.data.fill_(0)
 
         if discourage_pop:
-            pass
+            self._linear.bias.data[0] = -1.  # Discourage popping
+            if n_args >= 4:
+                self._linear.bias.data[2] = 1.  # Encourage reading
+                self._linear.bias.data[3] = 1.  # Encourage writing
 
     def _init_hidden(self, batch_size):
         """
@@ -186,7 +189,10 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
         self._linear.bias.data.fill_(0)
 
         if discourage_pop:
-            pass
+            self._linear.bias.data[0] = -1.  # Discourage popping
+            if n_args >= 4:
+                self._linear.bias.data[2] = 1.  # Encourage reading
+                self._linear.bias.data[3] = 1.  # Encourage writing
 
     def _init_hidden(self, batch_size):
         """
@@ -299,7 +305,10 @@ class GRUSimpleStructNetwork(SimpleStructNetwork):
         self._linear.bias.data.fill_(0)
 
         if discourage_pop:
-            pass
+            self._linear.bias.data[0] = -1.  # Discourage popping
+            if n_args >= 4:
+                self._linear.bias.data[2] = 1.  # Encourage reading
+                self._linear.bias.data[3] = 1.  # Encourage writing
 
     def _init_hidden(self, batch_size):
         """
