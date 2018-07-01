@@ -29,5 +29,5 @@ def testing_mode_no_model_warning():
 
     :return: None
     """
-    msg = "This Task is in testing mode, but no load path has been specified."
+    msg = "This Task is being used in testing mode with no trained model!"
     warnings.warn(msg, RuntimeWarning)
