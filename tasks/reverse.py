@@ -194,7 +194,7 @@ class ReverseTask(Task):
         :return: The loss, number of correct guesses, and number of
             total guesses at the jth time step
         """
-        indices = (y[:, j] != 2)
+        indices = (y[:, j] != self.alphabet[self.null])
         valid_a = a[indices.view(-1, 1)].view(-1, self.alphabet_size)
         valid_y = y[:, j][indices]
         if len(valid_a) == 0:
