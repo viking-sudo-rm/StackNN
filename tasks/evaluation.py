@@ -227,7 +227,7 @@ class EvaluationTask(Task):
             containing the output values
         """
         x_raw = [self.sample_str() for _ in xrange(num_tensors)]
-        y_raw = [[self.eval_func(s[:j]) for j in xrange(len(s))]
+        y_raw = [[self.eval_func(s[:j + 1]) for j in xrange(len(s))]
                  for s in x_raw]
 
         x_sent = [[unicode(w) for w in s] for s in x_raw]
@@ -316,7 +316,7 @@ class XORTask(EvaluationTask):
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch
 
-        :type clipping_norm: int
+        :type clipping_norm: float
         :param clipping_norm:
 
         :type criterion: nn.modules.loss._Loss
