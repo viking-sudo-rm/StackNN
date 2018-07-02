@@ -138,7 +138,7 @@ class VanillaController(AbstractController):
         """
         self._buffer_out.append(value)
 
-    """ Analytical Tools """
+    """ Reporting """
 
     def trace(self, trace_x, *args):
         """
@@ -153,8 +153,6 @@ class VanillaController(AbstractController):
         """
         for arg in args:
             unused_init_param("num_steps", arg, self)
-
-        print trace_x
 
         self.eval()
         self.init_controller(1, trace_x)
@@ -178,3 +176,65 @@ class VanillaController(AbstractController):
         plt.xlabel("Time")
         plt.ylabel("Value")
         plt.show()
+
+    def trace_step(self, trace_x, num_steps=None, step=True):
+        """
+        Steps through the neural network's computation. The network will
+        read an input and produce an output. At each time step, a
+        summary of the network's state and actions will be printed to
+        the console.
+
+        :type trace_x: Variable
+        :param trace_x: A single input string
+
+        :type num_steps: int
+        :param num_steps: Please do not pass anything to this param
+
+        :type step: bool
+        :param step: If True, the user will need to press Enter in the
+            console after each computation step
+
+        :return: None
+        """
+        if num_steps is not None:
+            unused_init_param("num_steps", num_steps, self)
+        if trace_x.data.shape[0] != 1:
+            raise ValueError("You can only trace one input at a time!")
+
+        self.eval()
+        self.init_controller(1, trace_x)
+
+        x_end = self._input_size
+        y_end = x_end + self._output_size
+        push = y_end + 1
+        v_start = push + 1
+
+        max_length = trace_x.data.shape[1]
+        self._network.start_log(max_length)
+        for j in xrange(max_length):
+            print "\n-- Step {} of {} --".format(j, max_length)
+
+            self.forward()
+
+            i = self._network.log_data[:x_end, j]
+            o = self._network.log_data[x_end:y_end, j].round(decimals=4)
+            u = self._network.log_data[y_end, j].round(decimals=4)
+            d = self._network.log_data[push, j].round(decimals=4)
+            v = self._network.log_data[v_start:, j].round(decimals=4)
+            r = self._struct.read(1).data.numpy()[0].round(decimals=4)
+
+            print "\nInput: " + str(i)
+            print "Output: " + str(o)
+
+            print "\nPop Strength: " + str(u)
+
+            print "\nPush Vector: " + str(v)
+            print "Push Strength: " + str(d)
+
+            print "\nRead Vector: " + str(r)
+            print "Struct Contents: "
+            self._struct.print_summary(0)
+
+            if step:
+                raw_input("\nPress Enter to continue\n")
+        self._network.stop_log()

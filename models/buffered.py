@@ -90,7 +90,6 @@ class BufferedController(AbstractController):
         self._buffer_in.set_reg_tracker(self._reg_tracker, Operation.pop)
         self._buffer_out.set_reg_tracker(self._reg_tracker, Operation.push)
 
-
     """ Neural Network Computation """
 
     def forward(self):
@@ -111,7 +110,6 @@ class BufferedController(AbstractController):
 
         self._buffer_out(output, e_out)
 
-
     """ Public Accessors """
 
     def read_output(self):
@@ -125,7 +123,7 @@ class BufferedController(AbstractController):
         self._buffer_out.pop(1.)
         return self._buffer_out.read(1.)
 
-    """ Analytical Tools """
+    """ Reporting """
 
     def trace(self, trace_x, num_steps):
         """
@@ -145,8 +143,6 @@ class BufferedController(AbstractController):
         self.eval()
         self.init_controller(1, trace_x)
 
-        print trace_x
-
         self._network.start_log(num_steps)
         for j in xrange(num_steps):
             self.forward()
@@ -164,6 +160,71 @@ class BufferedController(AbstractController):
         plt.xlabel("Time")
         plt.ylabel("Value")
         plt.show()
+
+    def trace_step(self, trace_x, num_steps, step=True):
+        """
+        Steps through the neural network's computation. The network will
+        read an input and produce an output. At each time step, a
+        summary of the network's state and actions will be printed to
+        the console.
+
+        :type trace_x: Variable
+        :param trace_x: A single input string
+
+        :type num_steps: int
+        :param num_steps: The number of computation steps to perform
+
+        :type step: bool
+        :param step: If True, the user will need to press Enter in the
+            console after each computation step
+
+        :return: None
+        """
+        if trace_x.data.shape[0] != 1:
+            raise ValueError("You can only trace one input at a time!")
+
+        self.eval()
+        self.init_controller(1, trace_x)
+
+        x_end = self._input_size
+        y_end = x_end + self._output_size
+        push = y_end + 1
+        e_in = push + 1
+        e_out = e_in + 1
+        v_start = e_out + 1
+
+        self._network.start_log(num_steps)
+        for j in xrange(num_steps):
+            print "\n-- Step {} of {} --".format(j, num_steps)
+
+            self.forward()
+
+            i = self._network.log_data[:x_end, j]
+            o = self._network.log_data[x_end:y_end, j].round(decimals=4)
+            u = self._network.log_data[y_end, j].round(decimals=4)
+            d = self._network.log_data[push, j].round(decimals=4)
+            e_in = self._network.log_data[e_in, j].round(decimals=4)
+            e_out = self._network.log_data[e_out, j].round(decimals=4)
+            v = self._network.log_data[v_start:, j].round(decimals=4)
+            r = self._struct.read(1).data.numpy()[0].round(decimals=4)
+
+            print "\nInput: " + str(i)
+            print "Input Strength: " + str(e_in)
+            print "Output: " + str(o)
+            print "Output Strength: " + str(e_out)
+
+            print "\nPop Strength: " + str(u)
+
+            print "\nPush Vector: " + str(v)
+            print "Push Strength: " + str(d)
+
+            print "\nRead Vector: " + str(r)
+            print "Struct Contents: "
+            self._struct.print_summary(0)
+
+            if step:
+                raw_input("\nPress Enter to continue\n")
+        self._network.stop_log()
 
     def get_and_reset_reg_loss(self):
         if self._reg_tracker is None:

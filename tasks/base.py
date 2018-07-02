@@ -644,6 +644,68 @@ class Task(object):
         self.stop_log()
         self.export_log(log_file)
 
+    def trace_step(self, x, step=True):
+        """
+        Steps through the neural network's computation. The network will
+        read an input and produce an output. At each time step, a
+        summary of the network's state and actions will be printed to
+        the console.
+
+        :type x: str
+        :param x: A single input string in text form
+
+        :type step: bool
+        :param step: If True, the user will need to press Enter in the
+            console after each computation step
+
+        :return: None
+        """
+        x_sent = self.text_to_sentences(x)
+        x_var = self.sentences_to_one_hot(self.max_x_length, *x_sent)
+        x_code = self.sentences_to_codes(self.max_y_length, *x_sent)
+        num_steps = self.time_function(len(x_sent))
+
+        print "Begin computation on input " + x
+        if step:
+            raw_input("Press Enter to continue\n")
+
+        self.model.trace_step(x_var, num_steps, step=step)
+
+        # Get the output of the network
+        self.test_x = x_var
+        self.test_y = x_code
+        self.reset_log()
+        self.start_log()
+        for j in xrange(self.max_x_length):
+            a = self.model.read_output()
+            self._log_prediction(a)
+        self.stop_log()
+
+        a_sent = self.codes_to_sentences(self.max_y_length, self._logged_a)
+        a_text = self.sentences_to_text(*a_sent)[0]
+
+        print "Input: " + x
+        print "Output: " + a_text
+
+    def trace_console(self, step=True):
+        """
+        Allows the user to call trace_step using inputs entered in the
+        console.
+
+        :type step: bool
+        :param step: If True, the user will need to press Enter in the
+            console after each computation step
+
+        :return: None
+        """
+        x = "x"
+        while x != "":
+            print ""
+            x = raw_input("Please enter an input, or enter nothing to quit.\n")
+            x = x.strip()
+            if x != "":
+                self.trace_step(x, step=step)
+
     def _load_testing_data(self, filename):
         """
         Loads a testing dataset from a file and saves it to self.test_x
@@ -800,6 +862,7 @@ class Task(object):
         :param is_batch: If True, this function is being called during a
             batch; otherwise, it is being called during an epoch
 
+        :type batch_loss: Variable
         :param batch_loss: The total loss incurred during the batch or
             epoch
 
