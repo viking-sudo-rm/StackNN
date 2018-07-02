@@ -34,7 +34,6 @@ class EvaluationTask(Task):
                  load_path=None,
                  l2_weight=0.01,
                  max_length=10,
-                 model=None,
                  model_type=BufferedController,
                  network_type=LinearSimpleStructNetwork,
                  read_size=2,
@@ -68,11 +67,6 @@ class EvaluationTask(Task):
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
             training
-
-        :param model: The model that will be trained and evaluated.
-            This parameter is being kept for compatibility with older
-            code. Please use the model_type parameter instead in order
-            to automatically instantiate models
 
         :type model_type: type
         :param model_type: The type of Controller that will be trained

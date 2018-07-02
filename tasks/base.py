@@ -519,14 +519,14 @@ class Task(object):
             the batch, represented as a one-hot vector
 
         :type y: Variable
-        :param y: The output data, represented as a 2D tensor. For each
+        :param y: The output data, represented as a 2D matrix. For each
             i and j, y[i, j] is the (j + 1)st symbol of the ith sentence
             of the batch, represented numerically according to
             self.alphabet
 
         :type a: Variable
         :param a: The output of the neural network after reading the jth
-            word of the sentence, represented as a 2D vector
+            word of the sentence, represented as a 1D vector
 
         :type j: int
         :param j: The jth word of a sentence is being read by the neural
@@ -635,7 +635,7 @@ class Task(object):
         """
         if not self._has_trained_model:
             testing_mode_no_model_warning()
-        self.load_testing_data(data_file)
+        self._load_testing_data(data_file)
         if log_file is not None:
             check_extension(log_file, "csv")
             self.start_log()
@@ -644,7 +644,7 @@ class Task(object):
         self.stop_log()
         self.export_log(log_file)
 
-    def load_testing_data(self, filename):
+    def _load_testing_data(self, filename):
         """
         Loads a testing dataset from a file and saves it to self.test_x
         and self.test_y. See self._load_data_from_file for the format of
@@ -666,6 +666,7 @@ class Task(object):
         and its corresponding output, in that order. Input and output
         examples should be represented as " "-delimited strings. For
         example, the following is a possible data file for ReverseTask.
+
             0 1 0 0 1 2 2 2 2 2,2 2 2 2 2 1 0 0 1 0
             0 0 1 1 2 2 2 2 2 2,2 2 2 2 1 1 0 0 2 2
             1 0 0 0 0 2 2 2 2 2,2 2 2 2 2 0 0 0 0 1
@@ -721,10 +722,7 @@ class Task(object):
 
         :return: None
         """
-        if self.testing_mode:
-            self._logging = True
-        else:
-            self._logging = False
+        self._logging = True
 
     def stop_log(self):
         """
