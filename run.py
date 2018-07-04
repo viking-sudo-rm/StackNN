@@ -12,9 +12,11 @@ Example usage:
 import argparse
 
 from models import *
+from models.networks.base import SimpleStructNetwork
+from models.networks.feedforward import LinearSimpleStructNetwork
+from models.networks.recurrent import *
 from tasks import *
 from tasks.configs import *
-
 
 def get_args():
     parser = argparse.ArgumentParser(
@@ -27,6 +29,7 @@ def get_args():
 
     # Manually specified parameters override those in configs.
     parser.add_argument("--controller", type=str, default=None)
+    parser.add_argument("--network", type=str, default=None)
 
     return parser.parse_args()
 
@@ -51,6 +54,7 @@ def get_object_from_arg(arg, superclass, default=None):
 if __name__ == "__main__":
 
     args = get_args()
+    print("Loading {} Config".format(args.config))
 
     # Parse config.
     config = get_object_from_arg(args.config, dict)
@@ -59,9 +63,12 @@ if __name__ == "__main__":
     del config["task"]
 
     controller = get_object_from_arg(args.controller, AbstractController)
+    network = get_object_from_arg(args.network, SimpleStructNetwork)
 
     if controller is not None:
         config["model_type"] = controller
+    if network is not None:
+        config["network_type"] = network
 
     if args.loadpath is not None:
         config['load_path'] = args.loadpath

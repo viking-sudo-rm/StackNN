@@ -3,7 +3,7 @@
 Notes:
     * A "task" MUST be specified in the config dictionary.
     * Other values are optional and task-specific. They are used to specify values for parameters in a Task constructor.
-
+    * Network and controller should not be specified here.
 A config can be run with:
 
     python run.py CONFIG_NAME
@@ -15,17 +15,17 @@ from models.networks.recurrent import LSTMSimpleStructNetwork, RNNSimpleStructNe
 from tasks import *
 
 
+# Reverse task.
+reverse_config = {
+    "task": ReverseTask,
+}
+
 # Dyck language task.
 dyck_config = {
     "task": CFGTask,
     "grammar": dyck_grammar,
     "to_predict": [u")", u"]"],
     "sample_depth": 5,
-}
-
-# Reverse task.
-reverse_config = {
-    "task": ReverseTask,
 }
 
 # Reverse task formulated as CFG.
@@ -49,5 +49,13 @@ parity_config = {
     "task": XORTask,
     "read_size": 6,
     "epochs": 30,
+}
+
+# Buffered parity evaluation with t steps.
+parity_config_t = {
+    "task": XORTask,
+    "read_size": 6,
+    "epochs": 30,
+    "time_function": lambda t: t,
 }
 
