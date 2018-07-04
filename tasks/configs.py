@@ -44,16 +44,10 @@ agreement_config = {
     "sample_depth": 8,
 }
 
-# IDK what this is.
-xor_clipping = {
-    "clipping_norm": 0.5,
-}
-
 # Parity evaluation task with BufferedController.
 parity_config = {
     "task": XORTask,
     "read_size": 6,
     "epochs": 30,
-    # "time_function": lambda t: 2 * t,
 }
 
