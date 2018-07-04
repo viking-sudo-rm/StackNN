@@ -33,7 +33,8 @@ class EvaluationTask(Task):
                  learning_rate=0.01,
                  load_path=None,
                  l2_weight=0.01,
-                 max_length=10,
+                 max_length=12,
+                 # TODO: strings are len 12 regardless.
                  model_type=BufferedController,
                  network_type=LinearSimpleStructNetwork,
                  read_size=2,
@@ -307,54 +308,42 @@ class XORTask(EvaluationTask):
                  save_path=None,
                  struct_type=Stack,
                  str_length=12,
+                 time_function=(lambda t: 2 * t),
                  verbose=True):
         """
         Constructor for the XORTask object. The only information that
         needs to be specified by the user is how long the input strings
         are.
-
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch
-
         :type clipping_norm: float
         :param clipping_norm:
-
         :type criterion: nn.modules.loss._Loss
         :param criterion: The error function used for training the model
-
         :type cuda: bool
         :param cuda: If True, CUDA functionality will be used
-
         :type epochs: int
         :param epochs: The number of training epochs that will be
             performed when executing an experiment
-
         :type learning_rate: float
         :param learning_rate: The learning rate used for training
-
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
             training
-
         :type model_type: type
         :param model_type: The type of Controller that will be trained
             and evaluated
-
         :type network_type: type
         :param network_type: The type of neural network that will drive
             the Controller
-
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
             data structure
-
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
             be used by the Controller
-
         :type str_length: int
         :param str_length: The number of bits in each input string
-
         :type verbose: bool
         :param verbose: If True, the progress of the experiment will be
             displayed in the console
@@ -374,10 +363,12 @@ class XORTask(EvaluationTask):
                                       read_size=read_size,
                                       save_path=save_path,
                                       struct_type=struct_type,
-                                      time_function=(lambda t: 2 * t),
+                                      time_function=time_function,
                                       verbose=verbose)
 
         self.str_length = str_length
+
+        # TIME_FN = n??
 
     """ Model Training """
 

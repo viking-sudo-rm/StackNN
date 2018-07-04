@@ -252,7 +252,7 @@ class Task(object):
         # Fill in values
         for i, s in enumerate(s_codes):
             for j, w in enumerate(s):
-                x[i, j, :] = Task.one_hot(w, self.alphabet_size)
+                x[i, j, :] = self.one_hot(w, self.alphabet_size)
 
         return Variable(x)
 
@@ -381,7 +381,10 @@ class Task(object):
         :rtype: torch.FloatTensor
         :return: The one-hot encoding of number
         """
-        return torch.FloatTensor([float(i == number) for i in xrange(size)])
+        one_hot_tensor = torch.zeros([size])
+        one_hot_tensor[number] = 1.
+        return one_hot_tensor
+        # return torch.FloatTensor([float(i == number) for i in xrange(size)])
 
     def _codes_array_to_sentences(self, max_length, codes_array):
         """

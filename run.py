@@ -3,9 +3,9 @@
 Run a task defined in tasks.
 
 Example usage:
-  python run.py ReverseTask
-  python run.py CFGTask --config dyck_config
-  python run.py CFGTask --agreement_config --controller BufferedController
+  python run.py reverse_config
+  python run.py dyck_config
+  python run.py dyck_config --controller BufferedController
 
 """
 
@@ -19,8 +19,7 @@ from tasks.configs import *
 def get_args():
     parser = argparse.ArgumentParser(
         description="Run a task and customize hyperparameters.")
-    parser.add_argument("task", type=str)
-    parser.add_argument("--config", type=str, default=None)
+    parser.add_argument("config", type=str)
 
     # Path arguments for loading and saving models.
     parser.add_argument("--loadpath", type=str, default=None)
@@ -52,8 +51,13 @@ def get_object_from_arg(arg, superclass, default=None):
 if __name__ == "__main__":
 
     args = get_args()
-    task = get_object_from_arg(args.task, Task)
-    config = get_object_from_arg(args.config, dict, default={})
+
+    # Parse config.
+    config = get_object_from_arg(args.config, dict)
+    config = dict(config) # Get copy of config.
+    task = config["task"]
+    del config["task"]
+
     controller = get_object_from_arg(args.controller, AbstractController)
 
     if controller is not None:
