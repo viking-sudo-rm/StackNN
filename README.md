@@ -30,27 +30,21 @@ The buffered models use read-only and write-only versions of the differentiable 
 
 ## Tasks
 
-To run a task, give the name of the task's class as an argument to `run.py`:
+To run a task, specify a config name defined in `tasks.configs`:
 
-~~~
-python run.py ReverseTask
-~~~
-
-Configurations allow you to set parameters of the task. To create a configuration, add it as a dictionary to `configs.py`, then use the
-`--config` argument when running the task:
-~~~
-python run.py ReverseTask --config reverse_LSTM
+~~~bash
+python run.py reverse_config
 ~~~
 
 You can pass a file path in which to save the model parameters:
-~~~
-python run.py ReverseTask --savepath "saved_models/my_run_parameters"
+~~~bash
+python run.py reverse_config --savepath "saved_models/my_run_parameters"
 ~~~
 Parameters are saved at the end of each epoch.
 
 You can also pass a file path to load model parameters from a previous run:
-~~~
-python run.py ReverseTask --loadpath "saved_models/previous_run"
+~~~bash
+python run.py reverse_Config --loadpath "saved_models/previous_run"
 ~~~
 
 ### String reversal
@@ -66,7 +60,7 @@ y:       - - - - 1 0 1 1
 By 10 epochs, the model tends to achieve 100% accuracy. To run the task for yourself, you can do:
 
 ~~~bash
-python run.py ReverseTask
+python run.py reverse_config
 ~~~
 
 ### Context-free language modelling
@@ -74,7 +68,7 @@ python run.py ReverseTask
 `CFGTask` can be used to train a context-free language model. Many interesting questions probing linguistic structure can be reduced to special cases of this general task. For example, the task can be used to predict closing parentheses in a Dyck language (matching parentheses), which requires some notion of recursive depth. On this task, our stack model converges to 100% accuracy fairly quickly. You can run the Dyck task with:
 
 ~~~bash
-python run.py CFGTask --config dyck_config
+python run.py dyck_config
 ~~~
 
 ### Tree automata evaluation
