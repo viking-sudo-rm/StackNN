@@ -71,10 +71,10 @@ python run.py reverse_config
 python run.py dyck_config
 ~~~
 
-### Tree automata evaluation
+### Evaluation tasks
 
-Yiding is working on implementing a task where the stack is used to evaluate the largest spanned constituent for strings according to a tree automata. This will let us train a network to evaluate Polish notion boolean formulae.
+We also have a class for evaluation tasks. These are tasks where output i can be succintly expressed as some function of inputs 0, .., i. Some applications of this are evaluation of parity and reverse polish boolean formulae.
 
-### Other tasks
+### Real datasets
 
-The data folder contains several real datasets that the stack can be applied to.
+The data folder contains several real datasets that the stack can be trained on. We should implement a task for reading in these datasets.
