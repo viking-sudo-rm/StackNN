@@ -13,6 +13,7 @@ A config can be run with:
 from formalisms.cfg import *
 from models.networks.recurrent import LSTMSimpleStructNetwork, RNNSimpleStructNetwork, GRUSimpleStructNetwork
 from tasks import *
+from structs import *
 
 
 # Reverse task.
@@ -57,5 +58,12 @@ parity_config_t = {
     "read_size": 6,
     "epochs": 30,
     "time_function": lambda t: t,
+}
+
+null_parity_config = {
+    "task": XORTask,
+    "read_size": 6,
+    "epochs": 30,
+    "struct_type": NullStruct,
 }
 
