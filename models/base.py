@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
-from structs.simple import SimpleStruct
+from structs.base import Struct
 
 
 class AbstractController(nn.Module):
@@ -49,7 +49,7 @@ class AbstractController(nn.Module):
 
         :return: None
         """
-        if issubclass(self._struct_type, SimpleStruct):
+        if issubclass(self._struct_type, Struct):
             self._read = Variable(torch.zeros([batch_size, self._read_size]))
             self._struct = self._struct_type(batch_size, self._read_size)
 
