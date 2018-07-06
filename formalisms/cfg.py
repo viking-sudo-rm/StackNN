@@ -44,6 +44,28 @@ agreement_grammar = CFG.fromstring("""
     VP -> "Vtrans" NP
 """)
 
+unambig_agreement_grammar = CFG.fromstring("""
+    S -> NPsing "Auxsing"
+    S -> NPplur "Auxplur"
+    NP -> NPsing
+    NP -> NPplur
+    NPsing -> "Det" "Nsing" PP
+    NPplur -> "Det" "Nplur" PP
+    NPsing -> "Det" "Nsing" Relsing
+    NPplur -> "Det" "Nplur" Relplur
+    NPsing -> "Det" "Nsing"
+    NPplur -> "Det" "Nplur"
+    PP -> "Prep" NP
+    Relsing -> "Rel" "Auxsing" VP
+    Relsing -> Relobj
+    Relplur -> "Rel" "Auxplur" VP
+    Relplur -> Relobj
+    Relobj -> "Rel" NPsing "Auxsing" "Vtrans"
+    Relobj -> "Rel" NPplur "Auxplur" "Vtrans"
+    VP -> "Vintrans"
+    VP -> "Vtrans" NP
+""")
+
 """ XOR Grammars """
 
 exp_eval_grammar = CFG.fromstring("""
