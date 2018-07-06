@@ -1,11 +1,11 @@
 # StackNN
-A PyTorch implementation of several differentiable datastructures for use in neural networks. A differentiable datastructure is a version of a conventional datastructure whose interface can be connected to a neural network. Our stacks, queues, and dequeues are inspired by the formalism presented by [Grefenstette et al., 2015](https://arxiv.org/pdf/1506.02516.pdf). We also implement several different neural network architectures using these datastructures and provide code for tasks that they can be trained on.
-
-Please report any bugs in the GitHub issues tracker.
+A PyTorch implementation of several differentiable datastructures for use in neural networks. A differentiable datastructure is a version of a conventional datastructure whose interface can be connected to a neural network. Our stacks, queues, and dequeues are inspired by the formalism presented by [Grefenstette et al., 2015](https://arxiv.org/pdf/1506.02516.pdf). We also implement several different models using these datastructures and tasks that the models can be trained on.
 
 ## Contributing
 
 This project is managed by Computational Linguistics at Yale. We welcome contributions from outside in the form of pull requests.
+
+Please report any bugs in the GitHub issues tracker.
 
 ## Dependencies
 
