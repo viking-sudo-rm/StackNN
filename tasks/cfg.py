@@ -351,6 +351,10 @@ class CFGTask(LanguageModellingTask):
         self.test_set_size = test_set_size
 
         self.sample_strings = self.generate_sample_strings()
+        print "{} strings generated".format(len(self.sample_strings))
+        max_sample_length = max([len(x) for x in self.sample_strings])
+        print "Maximum sample length: " + str(max_sample_length)
+        print "Maximum input length: " + str(self.max_x_length)
 
         return
 
@@ -410,6 +414,7 @@ class CFGTask(LanguageModellingTask):
         :return: None
         """
         self.train_x, self.train_y = self.get_tensors(self.train_set_size)
+
         self.test_x, self.test_y = self.get_tensors(self.test_set_size)
 
         return
