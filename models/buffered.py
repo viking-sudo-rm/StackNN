@@ -227,6 +227,11 @@ class BufferedController(AbstractController):
         self._network.stop_log()
 
     def get_and_reset_reg_loss(self):
+        """If there is a regularization tracker, return the loss term from it."""
+
+        if self._reg_tracker is None:
+            return super(BufferedController, self).get_and_reset_reg_loss()
+
         loss = self._reg_tracker.loss
         self._reg_tracker.reset()
         return loss

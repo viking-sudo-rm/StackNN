@@ -148,7 +148,7 @@ class AbstractController(nn.Module):
 
     def get_and_reset_reg_loss(self):
         """Method overriden for buffered regularization."""
-        pass
+        return 0.
 
     def print_experiment_start(self):
         """Print model-specific hyperparameters at the start of an experiment."""

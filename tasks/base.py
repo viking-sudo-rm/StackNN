@@ -496,7 +496,8 @@ class Task(object):
             batch_total += total
 
         # Get regularization loss term.
-        loss += self.model.get_and_reset_reg_loss()
+        if loss is not None:
+            loss += self.model.get_and_reset_reg_loss()
 
         # Update the model parameters.
         if is_batch:
