@@ -46,7 +46,7 @@ class InterfaceRegTracker(object):
 
     def regularize(self, strengths):
         assert self._count < _MAX_COUNT, \
-            "Max regularization count exceeded. Are you calling reset() on the tracker?"
+            "Max regularization count exceeded. Are you calling reg_tracker.reset()?"
         losses = self._reg_fn(strengths)
         self._loss += torch.sum(losses)
         self._count += len(losses)
