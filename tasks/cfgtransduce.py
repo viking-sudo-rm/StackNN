@@ -54,9 +54,9 @@ class CFGTransduceTask(Task):
                  read_size=2,
                  save_path=None,
                  struct_type=Stack,
-                 test_set_size=800,
+                 test_set_size=100,
                  time_function=(lambda t: t),
-                 train_set_size=100,
+                 train_set_size=800,
                  verbose=True,
                  test=False):
         """

@@ -45,6 +45,13 @@ agreement_config = {
     "sample_depth": 8,
 }
 
+unambig_agreement_config = {
+    "task": CFGTask,
+    "grammar": unambig_agreement_grammar,
+    "to_predict": [u"Auxsing", u"Auxplur"],
+    "sample_depth": 8,
+}
+    
 # Parity evaluation task with BufferedController.
 parity_config = {
     "task": XORTask,
