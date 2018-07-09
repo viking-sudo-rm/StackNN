@@ -49,7 +49,7 @@ unambig_agreement_config = {
     "task": CFGTask,
     "grammar": unambig_agreement_grammar,
     "to_predict": [u"Auxsing", u"Auxplur"],
-    "sample_depth": 8,
+    "sample_depth": 16,
 }
     
 # Parity evaluation task with BufferedController.
