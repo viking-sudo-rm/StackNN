@@ -384,3 +384,37 @@ class XORTask(EvaluationTask):
 
     def eval_func(self, s):
         return reduce(operator.xor, s, 0)
+
+
+class DelayedXORTask(XORTask):
+    def get_tensors(self, num_tensors):
+        """
+        Generates a dataset containing correct input and output values
+        for the EvaluationTask. An input value is a sequence of 0s and
+        1s in one-hot encoding. An output value is a sequence of
+        integers such that the ith integer is the result of computing
+        eval_func on the first i elements of the input sequence.
+
+        For example, the following is a valid input-output pair.
+            Input: [1, 0, 1]
+            Output: [eval_func([1]), eval_func([1, 0]),
+                     eval_func([1, 0, 1])]
+
+        :type num_tensors: int
+        :param num_tensors: The number of examples in the dataset
+
+        :rtype: tuple
+        :return: A Variable containing the input values and a Variable
+            containing the output values
+        """
+        x_raw = [self.sample_str() for _ in xrange(num_tensors)]
+        y_raw = [[self.eval_func(s[:j]) for j in xrange(len(s))]
+                 for s in x_raw]
+
+        x_sent = [[unicode(w) for w in s] for s in x_raw]
+        y_sent = [[unicode(w) for w in s] for s in y_raw]
+
+        x_var = self.sentences_to_one_hot(self.max_length, *x_sent)
+        y_var = self.sentences_to_codes(self.max_length, *y_sent)
+
+        return x_var, y_var
