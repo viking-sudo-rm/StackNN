@@ -227,6 +227,11 @@ class BufferedController(AbstractController):
         self._network.stop_log()
 
     def get_and_reset_reg_loss(self):
-        if self._reg_tracker is None:
-            return 0.
-        return self._reg_tracker.get_and_reset()
+        loss = self._reg_tracker.loss
+        self._reg_tracker.reset()
+        return loss
+
+    def print_experiment_start(self):
+        """Overriden to print buffered-specific params."""
+        super(BufferedController, self).print_experiment_start()
+        print "Reg Weight: " + str(self._reg_tracker.reg_weight)

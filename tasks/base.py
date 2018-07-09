@@ -495,7 +495,10 @@ class Task(object):
             batch_correct += correct
             batch_total += total
 
-        # Update the model parameters
+        # Get regularization loss term.
+        loss += self.model.get_and_reset_reg_loss()
+
+        # Update the model parameters.
         if is_batch:
             self.optimizer.zero_grad()
             batch_loss.backward()
@@ -506,7 +509,7 @@ class Task(object):
 
             self.optimizer.step()
 
-        # Log the results
+        # Log the results.
         self._print_batch_summary(name, is_batch, batch_loss, batch_correct,
                                   batch_total)
 
@@ -600,9 +603,7 @@ class Task(object):
             return
 
         print "Starting {} Experiment".format(type(self).__name__)
-        print "Model Type: " + str(type(self.model).__name__)
-        print "Network Type: " + str(self.model.network_type.__name__)
-        print "Struct Type: " + str(self.model.struct_type.__name__)
+        self.model.print_experiment_start()
         print "Learning Rate: " + str(self.learning_rate)
         print "Batch Size: " + str(self.batch_size)
         print "Read Size: " + str(self.read_size)

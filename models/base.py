@@ -145,3 +145,13 @@ class AbstractController(nn.Module):
 
     def init_stack(self, batch_size, **kwargs):
         self.init_controller(batch_size, **kwargs)
+
+    def get_and_reset_reg_loss(self):
+        """Method overriden for buffered regularization."""
+        pass
+
+    def print_experiment_start(self):
+        """Print model-specific hyperparameters at the start of an experiment."""
+        print "Model Type: " + str(type(self).__name__)
+        print "Network Type: " + str(self.network_type.__name__)
+        print "Struct Type: " + str(self.struct_type.__name__)
