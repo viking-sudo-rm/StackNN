@@ -40,7 +40,7 @@ class InterfaceRegTracker(object):
 
         assert self._count < _MAX_COUNT, \
             "Max regularization count exceeded. Are you calling reg_tracker.reset()?"
-        
+
         if reg_weight == 0:
             return
 

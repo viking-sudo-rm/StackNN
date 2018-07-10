@@ -6,6 +6,7 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
+from structs import Operation
 from structs.base import Struct
 
 
@@ -18,7 +19,9 @@ class AbstractController(nn.Module):
     """
     __metaclass__ = ABCMeta
 
-    def __init__(self, read_size, struct_type):
+    def __init__(self, read_size, struct_type,
+                 push_reg_weight=1.,
+                 pop_reg_weight=1.):
         """
         Constructor for the Controller object.
 
@@ -29,6 +32,15 @@ class AbstractController(nn.Module):
         :type struct_type: type
         :param struct_type: The type of neural data structure that this
             Controller will operate
+
+        :type push_reg_weight: float
+        :param push_reg_weight: Regularization weight for pushing to the
+            stack
+
+        :type pop_reg_weight: float
+        :param pop_reg_weight: Regularization weight for popping from the
+            stack
+
         """
         super(AbstractController, self).__init__()
         self._struct_type = struct_type
@@ -38,6 +50,12 @@ class AbstractController(nn.Module):
 
         self._read_size = read_size
         self._read = None
+
+        self._reg_tracker = InterfaceRegTracker()
+
+        # Regularization weights for the struct.
+        self._push_reg_weight = push_reg_weight
+        self._pop_reg_weight = pop_reg_weight
 
     def _init_struct(self, batch_size):
         """
@@ -49,9 +67,15 @@ class AbstractController(nn.Module):
 
         :return: None
         """
-        if issubclass(self._struct_type, Struct):
-            self._read = Variable(torch.zeros([batch_size, self._read_size]))
-            self._struct = self._struct_type(batch_size, self._read_size)
+
+        if not issubclass(self._struct_type, Struct):
+            raise ValueError("%s is not a Struct" % self._struct_type)
+
+        self._read = Variable(torch.zeros([batch_size, self._read_size]))
+        self._struct = self._struct_type(batch_size, self._read_size)
+        self._struct.set_reg_tracker(self._reg_tracker)
+        self._struct.set_reg_weight(Operation.push, self._push_reg_weight)
+        self._struct.set_reg_weight(Operation.pop, self._pop_reg_weight)
 
     @abstractmethod
     def _init_buffer(self, batch_size, xs):

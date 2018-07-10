@@ -16,7 +16,8 @@ class VanillaController(AbstractController):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 network_type=LinearSimpleStructNetwork, struct_type=Stack,
+                 network_type=LinearSimpleStructNetwork,
+                 struct_type=Stack,
                  **kwargs):
         """
         Constructor for the VanillaController object.

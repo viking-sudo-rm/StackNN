@@ -93,7 +93,8 @@ class SimpleStruct(Struct):
         """
         super(SimpleStruct, self).__init__(batch_size, embedding_size)
         self._t = 0
-        self._reg_trackers = [None for _ in Operation]
+        self._reg_tracker = None
+        self._reg_weights = [0. for _ in Operation]
         return
 
     def init_contents(self, xs):
@@ -267,19 +268,11 @@ class SimpleStruct(Struct):
 
         return r
 
-    def set_reg_tracker(self, reg_tracker, operation):
-        """
-        Regularize an operation on this struct.
+    def set_reg_tracker(self, reg_tracker):
+        self._reg_tracker = reg_tracker
 
-        :type reg_tracker: regularization.InterfaceRegTracker
-        :param reg_tracker: Tracker that should be used to regularize.
-
-        :type operation: Operation
-        :param operation: Enum specifying which operation should be
-        regularized.
-
-        """
-        self._reg_trackers[operation.value] = reg_tracker
+    def set_reg_weight(self, operation, reg_weight):
+        self._reg_weights[operation.value] = reg_weight
 
     def _track_reg(self, strength, operation):
         """
@@ -292,9 +285,9 @@ class SimpleStruct(Struct):
         :param operation: Operation type specified by enum.
 
         """
-        reg_tracker = self._reg_trackers[operation.value]
-        if reg_tracker is not None:
-            reg_tracker.regularize(strength)
+        if self._reg_tracker is not None:
+            reg_weight = self._reg_weights[operation.value]
+            reg_tracker.regularize(reg_weight, strength)
 
     """ Reporting """
 

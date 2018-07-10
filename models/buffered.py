@@ -59,16 +59,8 @@ class BufferedController(AbstractController):
         :param write_reg_weight: Regularization weight for writing to the
             output buffer
 
-        :type push_reg_weight: float
-        :param push_reg_weight: Regularization weight for pushing to the
-            stack
-
-        :type read_reg_weight: float
-        :param read_reg_weight: Regularization weight for popping from the
-            stack
-
         """
-        super(BufferedController, self).__init__(read_size, struct_type)
+        super(BufferedController, self).__init__(read_size, struct_type, push_reg_weight, pop_reg_weight)
         self._input_size = input_size
         self._output_size = output_size
         self._read_size = read_size
@@ -81,11 +73,9 @@ class BufferedController(AbstractController):
         self._buffer_in = None
         self._buffer_out = None
 
-        self._reg_tracker = InterfaceRegTracker()
+        # Regularization weights for the buffers.
         self._read_reg_weight = read_reg_weight
         self._write_reg_weight = write_reg_weight
-        self._push_reg_weight = push_reg_weight
-        self._pop_reg_weight = pop_reg_weight
 
     def _init_buffer(self, batch_size, xs):
         """
@@ -107,11 +97,13 @@ class BufferedController(AbstractController):
         self._e_in = Variable(torch.zeros(batch_size))
 
         self._buffer_in = InputBuffer(batch_size, self._input_size)
-        self._buffer_out = OutputBuffer(batch_size, self._input_size)
-
         self._buffer_in.init_contents(xs.permute(1, 0, 2))
-        self._buffer_in.set_reg_tracker(self._reg_tracker, Operation.pop)
-        self._buffer_out.set_reg_tracker(self._reg_tracker, Operation.push)
+        self._buffer_in.set_reg_tracker(self._reg_tracker)
+        self._buffer_in.set_reg_weight(Operation.pop, self._read_reg_weight)
+        
+        self._buffer_out = OutputBuffer(batch_size, self._input_size)
+        self._buffer_out.set_reg_tracker(self._reg_tracker)
+        self._buffer_out.set_reg_weight(Operation.push, self._write_reg_weight)
 
     """ Neural Network Computation """
 
