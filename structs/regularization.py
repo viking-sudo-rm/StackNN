@@ -20,35 +20,32 @@ class InterfaceRegTracker(object):
     Compute arbitrary regularization function on struct interface.
     """
 
-    def __init__(self, reg_weight, reg_fn=binary_reg_fn):
+    def __init__(self, reg_fn=binary_reg_fn):
         """
         Constructor for StructInterfaceLoss.
-
-        :type reg_weight: float
-        :param reg_weight: Linear weight for regularization loss.
 
         :type reg_fn: function
         :param reg_fn: Regularization function to apply over 1D tensor
 
         """
-        self._reg_weight = reg_weight
         self._reg_fn = reg_fn
         self._loss = Variable(torch.zeros([1]))
         self._count = 0
-
-    @property
-    def reg_weight(self):
-        return self._reg_weight
     
     @property
     def loss(self):
-        return self._reg_weight * self._loss / self._count
+        return self._loss / self._count
 
-    def regularize(self, strengths):
+    def regularize(self, reg_weight, strengths):
+
         assert self._count < _MAX_COUNT, \
             "Max regularization count exceeded. Are you calling reg_tracker.reset()?"
+        
+        if reg_weight == 0:
+            return
+
         losses = self._reg_fn(strengths)
-        self._loss += torch.sum(losses)
+        self._loss += reg_weight * torch.sum(losses)
         self._count += len(losses)
 
     def reset(self):
@@ -60,7 +57,7 @@ class InterfaceRegTracker(object):
 def test_simple_reg_fn():
     """ Test whether regularization is correctly calculated. """
     reg_fn = lambda strengths: 2 * strengths
-    reg_tracker = InterfaceRegTracker(1., reg_fn=reg_fn)
+    reg_tracker = InterfaceRegTracker(reg_fn=reg_fn)
     strengths = Variable(torch.ones([10]))
     reg_tracker.regularize(strengths)
     result = sum(reg_tracker.loss.data)

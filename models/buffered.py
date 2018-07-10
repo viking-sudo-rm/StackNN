@@ -21,8 +21,13 @@ class BufferedController(AbstractController):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 network_type=LinearSimpleStructNetwork, struct_type=Stack,
-                 reg_weight=1., **kwargs):
+                 network_type=LinearSimpleStructNetwork,
+                 struct_type=Stack,
+                 read_reg_weight=1.,
+                 write_reg_weight=1.,
+                 push_reg_weight=1.,
+                 pop_reg_weight=1.,
+                 **kwargs):
         """
         Constructor for the VanillaController object.
 
@@ -45,6 +50,23 @@ class BufferedController(AbstractController):
         :type network_type: type
         :param network_type: The type of the Network that will perform
             the neural network computations
+
+        :type read_reg_weight: float
+        :param read_reg_weight: Regularization weight for reading from
+            the input buffer
+
+        :type write_reg_weight: float
+        :param write_reg_weight: Regularization weight for writing to the
+            output buffer
+
+        :type push_reg_weight: float
+        :param push_reg_weight: Regularization weight for pushing to the
+            stack
+
+        :type read_reg_weight: float
+        :param read_reg_weight: Regularization weight for popping from the
+            stack
+
         """
         super(BufferedController, self).__init__(read_size, struct_type)
         self._input_size = input_size
@@ -59,10 +81,11 @@ class BufferedController(AbstractController):
         self._buffer_in = None
         self._buffer_out = None
 
-        if reg_weight == 0:
-            self._reg_tracker = None
-        else:
-            self._reg_tracker = InterfaceRegTracker(reg_weight)
+        self._reg_tracker = InterfaceRegTracker()
+        self._read_reg_weight = read_reg_weight
+        self._write_reg_weight = write_reg_weight
+        self._push_reg_weight = push_reg_weight
+        self._pop_reg_weight = pop_reg_weight
 
     def _init_buffer(self, batch_size, xs):
         """
