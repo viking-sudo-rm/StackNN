@@ -23,10 +23,10 @@ class BufferedController(AbstractController):
     def __init__(self, input_size, read_size, output_size,
                  network_type=LinearSimpleStructNetwork,
                  struct_type=Stack,
-                 read_reg_weight=1.,
-                 write_reg_weight=1.,
-                 push_reg_weight=1.,
-                 pop_reg_weight=1.,
+                 read_reg_weight=0.,
+                 write_reg_weight=0.,
+                 push_reg_weight=0.,
+                 pop_reg_weight=0.,
                  **kwargs):
         """
         Constructor for the VanillaController object.

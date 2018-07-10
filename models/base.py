@@ -20,8 +20,8 @@ class AbstractController(nn.Module):
     __metaclass__ = ABCMeta
 
     def __init__(self, read_size, struct_type,
-                 push_reg_weight=1.,
-                 pop_reg_weight=1.):
+                 push_reg_weight=0.,
+                 pop_reg_weight=0.):
         """
         Constructor for the Controller object.
 
