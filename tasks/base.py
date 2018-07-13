@@ -27,6 +27,7 @@ class Task(object):
                  criterion=nn.CrossEntropyLoss(),
                  cuda=False,
                  epochs=100,
+                 early_stopping_steps=5,
                  hidden_size=10,
                  learning_rate=0.01,
                  load_path=None,
@@ -60,6 +61,10 @@ class Task(object):
         :type epochs: int
         :param epochs: The number of training epochs that will be
             performed when executing an experiment
+
+        :type early_stopping_steps: int
+        :param early_stopping_steps: the number of epochs that training can 
+            continue without an improvement in loss
 
         :type hidden_size: int
         :param hidden_size: The size of state vectors
@@ -123,6 +128,7 @@ class Task(object):
         # Hyperparameters
         self.batch_size = batch_size
         self.epochs = epochs
+        self.early_stopping_steps = early_stopping_steps
         self.learning_rate = learning_rate
         self.read_size = read_size
         self.time_function = time_function
@@ -174,6 +180,7 @@ class Task(object):
         self._logged_correct = None
         self._curr_log_index = 0
 
+        self.batch_acc = None
     @abstractmethod
     def reset_model(self, model_type, network_type, struct_type):
         """
@@ -509,10 +516,11 @@ class Task(object):
                                         self.clipping_norm)
 
             self.optimizer.step()
-
         # Log the results.
         self._print_batch_summary(name, is_batch, batch_loss, batch_correct,
                                   batch_total)
+        #add a parameter in order to make the accuracy accessible for early stopping
+        self.batch_acc = batch_correct / batch_total
 
     @abstractmethod
     def _evaluate_step(self, x, y, a, j):
@@ -554,14 +562,25 @@ class Task(object):
         epochs are run, and each epoch is divided into batches. The
         number of epochs is self.epochs, and the number of examples in
         each batch is self.batch_size. Loss and accuracy are computed
-        for each batch and each epoch.
+        for each batch and each epoch. Early stopping takes place if accuracy
+        on the dev set does not show improvement for self.early_stopping_steps.
 
         :return: None
         """
         self._print_experiment_start()
         self.get_data()
+        no_improvement_batches = 0
+        best_acc = 0
         for epoch in xrange(self.epochs):
             self.run_epoch(epoch)
+#            print best_acc, self.batch_acc, no_improvement_batches
+            if self.batch_acc <= best_acc:
+                no_improvement_batches += 1
+            else:
+                best_acc = self.batch_acc
+                no_improvement_batches = 0
+            if no_improvement_batches == self.early_stopping_steps:
+                break
         self._has_trained_model = True
 
     def run_epoch(self, epoch):
