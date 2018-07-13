@@ -74,3 +74,9 @@ null_parity_config = {
     "struct_type": NullStruct,
 }
 
+formula_config = {
+    "task": CFGTransduceTask,
+    "grammar": exp_eval_grammar,
+    "sample_depth": 6,
+    "to_predict": [u"0", u"1"]
+}
