@@ -38,6 +38,7 @@ class EvaluationTask(Task):
                  model_type=BufferedController,
                  network_type=LinearSimpleStructNetwork,
                  read_size=2,
+                 reg_weight=1.,
                  save_path=None,
                  struct_type=Stack,
                  time_function=(lambda t: t),
@@ -109,6 +110,7 @@ class EvaluationTask(Task):
                                              network_type=network_type,
                                              null=u"2",
                                              read_size=read_size,
+                                             reg_weight=reg_weight,
                                              save_path=save_path,
                                              struct_type=struct_type,
                                              time_function=time_function,
@@ -116,7 +118,8 @@ class EvaluationTask(Task):
 
         self.max_length = max_length
 
-    def reset_model(self, model_type, network_type, struct_type, **kwargs):
+    def reset_model(self, model_type, network_type, struct_type,
+                    reg_weight=1., **kwargs):
         """
         Instantiates a neural network model of a given type that is
         compatible with this Task. This function must set self.model to
@@ -139,7 +142,8 @@ class EvaluationTask(Task):
                                 self.read_size,
                                 self.alphabet_size,
                                 network_type=network_type,
-                                struct_type=struct_type)
+                                struct_type=struct_type,
+                                reg_weight=reg_weight)
 
     def _init_alphabet(self, null):
         return {u"0": 0, u"1": 1, u"2": 2}
@@ -305,6 +309,7 @@ class XORTask(EvaluationTask):
                  model_type=BufferedController,
                  network_type=RNNSimpleStructNetwork,
                  read_size=2,
+                 reg_weight=1.,
                  save_path=None,
                  struct_type=Stack,
                  str_length=12,
@@ -361,6 +366,7 @@ class XORTask(EvaluationTask):
                                       model_type=model_type,
                                       network_type=network_type,
                                       read_size=read_size,
+                                      reg_weight=reg_weight,
                                       save_path=save_path,
                                       struct_type=struct_type,
                                       time_function=time_function,
