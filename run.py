@@ -1,6 +1,4 @@
-"""
-
-Run a task defined in tasks.
+"""Run a task defined in tasks.
 
 Example usage:
   python run.py reverse_config
@@ -10,28 +8,28 @@ Example usage:
 """
 
 import argparse
+from copy import copy
 
 from models import *
-from models.networks.base import SimpleStructNetwork
-from models.networks.feedforward import LinearSimpleStructNetwork
-from models.networks.recurrent import *
+from models.networks import *
 from structs import *
 from tasks import *
 from tasks.configs import *
+
 
 def get_args():
     parser = argparse.ArgumentParser(
         description="Run a task and customize hyperparameters.")
     parser.add_argument("config", type=str)
 
-    # Path arguments for loading and saving models.
-    parser.add_argument("--loadpath", type=str, default=None)
-    parser.add_argument("--savepath", type=str, default=None)
-
     # Manually specified parameters override those in configs.
     parser.add_argument("--controller", type=str, default=None)
     parser.add_argument("--network", type=str, default=None)
     parser.add_argument("--struct", type=str, default=None)
+
+    # Path arguments for loading and saving models.
+    parser.add_argument("--loadpath", type=str, default=None)
+    parser.add_argument("--savepath", type=str, default=None)
 
     return parser.parse_args()
 
@@ -53,21 +51,15 @@ def get_object_from_arg(arg, superclass, default=None):
     return obj
 
 
-if __name__ == "__main__":
+def main(config, controller_type=None,
+                 network_type=None,
+                 struct_type=None,
+                 load_path=None,
+                 save_path=None):
+    config = copy(config)
 
-    args = get_args()
-    print("Loading {} Config".format(args.config))
-
-    # Parse config.
-    config = get_object_from_arg(args.config, dict)
-    config = dict(config) # Get copy of config.
     task = config["task"]
     del config["task"]
-
-    # Override controller, network, and struct type.
-    controller_type = get_object_from_arg(args.controller, AbstractController)
-    network_type = get_object_from_arg(args.network, SimpleStructNetwork)
-    struct_type = get_object_from_arg(args.struct, Struct)
 
     if controller_type is not None:
         config["model_type"] = controller_type
@@ -76,9 +68,23 @@ if __name__ == "__main__":
     if struct_type is not None:
         config["struct_type"] = struct_type
 
-    if args.loadpath is not None:
-        config['load_path'] = args.loadpath
-    if args.savepath is not None:
-        config['save_path'] = args.savepath
+    if load_path is not None:
+        config["load_path"] = args.loadpath
+    if save_path is not None:
+        config["save_path"] = args.savepath
 
     task(**config).run_experiment()
+
+
+if __name__ == "__main__":
+
+    args = get_args()
+    print("Loading {}".format(args.config))
+    config = get_object_from_arg(args.config, dict)
+    controller_type = get_object_from_arg(args.controller, AbstractController)
+    network_type = get_object_from_arg(args.network, SimpleStructNetwork)
+    struct_type = get_object_from_arg(args.struct, Struct)
+
+    main(config, controller_type, network_type, struct_type, args.loadpath, args.savepath)
+
+    
