@@ -13,6 +13,8 @@ from structs import *
 from tasks.configs import *
 
 
+N_TRIALS = 10
+
 # TODO: These should be set by flags or something.
 results_dir = "stacknn-experiments"
 
@@ -52,7 +54,7 @@ for config_name, config in configs:
                 config_dir = os.path.join(results_dir, experiment_name)
                 os.makedirs(config_dir)
 
-                for i in range(N_ITERATIONS):
+                for i in range(N_TRIALS):
                     # TODO: Should export figures, results, logs here too.
                     save_path = os.path.join(config_dir, "%i.dat" % i)
                     run.main(config, controller_type, network_type, struct_type, save_path=save_path)
