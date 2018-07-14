@@ -21,7 +21,7 @@ reverse_config = {
     "task": ReverseTask,
 }
 
-# Dyck language task.
+# Dyck language modeling task.
 dyck_config = {
     "task": CFGTask,
     "grammar": dyck_grammar,
@@ -45,6 +45,7 @@ agreement_config = {
     "sample_depth": 8,
 }
 
+# Unambiguous agreement grammar task.
 unambig_agreement_config = {
     "task": CFGTask,
     "grammar": unambig_agreement_grammar,
@@ -56,21 +57,18 @@ unambig_agreement_config = {
 parity_config = {
     "task": XORTask,
     "read_size": 6,
-    "epochs": 30,
 }
 
 # Buffered parity evaluation with t steps.
 parity_config_t = {
     "task": XORTask,
     "read_size": 6,
-    "epochs": 30,
     "time_function": lambda t: t,
 }
 
 null_parity_config = {
     "task": XORTask,
     "read_size": 6,
-    "epochs": 30,
     "struct_type": NullStruct,
 }
 

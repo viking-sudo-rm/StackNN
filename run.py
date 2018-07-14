@@ -15,6 +15,7 @@ from models import *
 from models.networks.base import SimpleStructNetwork
 from models.networks.feedforward import LinearSimpleStructNetwork
 from models.networks.recurrent import *
+from structs import *
 from tasks import *
 from tasks.configs import *
 
@@ -30,6 +31,7 @@ def get_args():
     # Manually specified parameters override those in configs.
     parser.add_argument("--controller", type=str, default=None)
     parser.add_argument("--network", type=str, default=None)
+    parser.add_argument("--struct", type=str, default=None)
 
     return parser.parse_args()
 
@@ -62,13 +64,17 @@ if __name__ == "__main__":
     task = config["task"]
     del config["task"]
 
-    controller = get_object_from_arg(args.controller, AbstractController)
-    network = get_object_from_arg(args.network, SimpleStructNetwork)
+    # Override controller, network, and struct type.
+    controller_type = get_object_from_arg(args.controller, AbstractController)
+    network_type = get_object_from_arg(args.network, SimpleStructNetwork)
+    struct_type = get_object_from_arg(args.struct, Struct)
 
-    if controller is not None:
-        config["model_type"] = controller
-    if network is not None:
-        config["network_type"] = network
+    if controller_type is not None:
+        config["model_type"] = controller_type
+    if network_type is not None:
+        config["network_type"] = network_type
+    if struct_Type is not None:
+        config["struct_type"] = struct_type
 
     if args.loadpath is not None:
         config['load_path'] = args.loadpath
