@@ -38,6 +38,7 @@ class Task(object):
                  network_type=LinearSimpleStructNetwork,
                  null=u"#",
                  read_size=2,
+                 reg_weight=1.,
                  save_path=None,
                  struct_type=Stack,
                  time_function=(lambda t: t),
@@ -147,7 +148,7 @@ class Task(object):
 
         self.model = None
         self.reset_model(model_type, network_type, struct_type,
-                         hidden_size=hidden_size)
+                         hidden_size=hidden_size, reg_weight=reg_weight)
 
         if load_path:
             self.model.load_state_dict(torch.load(load_path))
