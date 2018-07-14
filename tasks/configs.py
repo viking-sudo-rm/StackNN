@@ -3,9 +3,9 @@
 Notes:
     * A "task" MUST be specified in the config dictionary.
     * Other values are optional and task-specific. They are used to specify values for parameters in a Task constructor.
-    * Network and controller should not be specified here.
-A config can be run with:
+    * Network_type, model_type, and struct_type should not be specified here. They can be set with command-line arguments.
 
+A config can be run with:
     python run.py CONFIG_NAME
 
 """
@@ -16,18 +16,50 @@ from tasks import *
 from structs import *
 
 
-# Reverse task.
+# 1) Reverse task.
 reverse_config = {
     "task": ReverseTask,
 }
 
-# Dyck language modeling task.
+# 2) XOR/parity evaluation task.
+parity_config = {
+    "task": XORTask,
+    "read_size": 6,
+}
+
+# 3) Delayed XOR/parity evaluation task.
+delayed_parity_config = {
+    # TODO: Specify this.
+}
+
+# 4) Dyck language modeling task.
 dyck_config = {
     "task": CFGTask,
     "grammar": dyck_grammar,
     "to_predict": [u")", u"]"],
     "sample_depth": 5,
 }
+
+# 5) Agreement grammar task.
+agreement_config = {
+    "task": CFGTask,
+    "grammar": agreement_grammar,
+    "to_predict": [u"Auxsing", u"Auxplur"],
+    "sample_depth": 8,
+}
+
+# 6) Reverse Polish notation formula task.
+formula_config = {
+    "task": CFGTransduceTask,
+    "grammar": exp_eval_grammar,
+    "sample_depth": 6,
+    "to_predict": [u"0", u"1"]
+}
+
+
+# =====================================================
+# The following configs are not included in the paper.
+
 
 # Reverse task formulated as CFG.
 reverse_cfg = {
@@ -37,14 +69,6 @@ reverse_cfg = {
     "sample_depth": 12,
 }
 
-# Agreement grammar task.
-agreement_config = {
-    "task": CFGTask,
-    "grammar": agreement_grammar,
-    "to_predict": [u"Auxsing", u"Auxplur"],
-    "sample_depth": 8,
-}
-
 # Unambiguous agreement grammar task.
 unambig_agreement_config = {
     "task": CFGTask,
@@ -52,29 +76,10 @@ unambig_agreement_config = {
     "to_predict": [u"Auxsing", u"Auxplur"],
     "sample_depth": 16,
 }
-    
-# Parity evaluation task with BufferedController.
-parity_config = {
-    "task": XORTask,
-    "read_size": 6,
-}
 
 # Buffered parity evaluation with t steps.
 parity_config_t = {
     "task": XORTask,
     "read_size": 6,
     "time_function": lambda t: t,
-}
-
-null_parity_config = {
-    "task": XORTask,
-    "read_size": 6,
-    "struct_type": NullStruct,
-}
-
-formula_config = {
-    "task": CFGTransduceTask,
-    "grammar": exp_eval_grammar,
-    "sample_depth": 6,
-    "to_predict": [u"0", u"1"]
 }

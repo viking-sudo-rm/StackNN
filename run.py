@@ -73,7 +73,7 @@ if __name__ == "__main__":
         config["model_type"] = controller_type
     if network_type is not None:
         config["network_type"] = network_type
-    if struct_Type is not None:
+    if struct_type is not None:
         config["struct_type"] = struct_type
 
     if args.loadpath is not None:
