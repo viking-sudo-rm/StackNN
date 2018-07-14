@@ -1,4 +1,4 @@
 from base import Task
 from cfg import CFGTask, CFGTransduceTask
 from reverse import ReverseTask
-from evaluation import EvaluationTask, XORTask
+from evaluation import EvaluationTask, XORTask, DelayedXORTask
