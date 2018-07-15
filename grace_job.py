@@ -24,7 +24,7 @@ from models.networks import *
 from structs import Stack, NullStruct
 from tasks.configs import *
 
-n_trials = 2
+n_trials = 10
 
 # TODO: These should be set by flags or something.
 results_dir = "stacknn-experiments"
