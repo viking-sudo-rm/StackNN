@@ -12,7 +12,7 @@ from copy import copy
 
 from models import *
 from models.networks import *
-from tasks.configs import *
+from structs import *
 
 
 def get_args():
