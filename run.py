@@ -12,8 +12,6 @@ from copy import copy
 
 from models import *
 from models.networks import *
-from structs import *
-from tasks import *
 from tasks.configs import *
 
 
@@ -51,11 +49,12 @@ def get_object_from_arg(arg, superclass, default=None):
     return obj
 
 
-def main(config, controller_type=None,
-                 network_type=None,
-                 struct_type=None,
-                 load_path=None,
-                 save_path=None):
+def main(config,
+         controller_type=None,
+         network_type=None,
+         struct_type=None,
+         load_path=None,
+         save_path=None):
     config = copy(config)
 
     task = config["task"]
@@ -69,15 +68,14 @@ def main(config, controller_type=None,
         config["struct_type"] = struct_type
 
     if load_path is not None:
-        config["load_path"] = args.loadpath
+        config["load_path"] = load_path
     if save_path is not None:
-        config["save_path"] = args.savepath
+        config["save_path"] = save_path
 
     task(**config).run_experiment()
 
 
 if __name__ == "__main__":
-
     args = get_args()
     print("Loading {}".format(args.config))
     config = get_object_from_arg(args.config, dict)
@@ -85,6 +83,5 @@ if __name__ == "__main__":
     network_type = get_object_from_arg(args.network, SimpleStructNetwork)
     struct_type = get_object_from_arg(args.struct, Struct)
 
-    main(config, controller_type, network_type, struct_type, args.loadpath, args.savepath)
-
-    
+    main(config, controller_type, network_type, struct_type, args.loadpath,
+         args.savepath)
