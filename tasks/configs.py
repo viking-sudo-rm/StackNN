@@ -1,65 +1,81 @@
-""" Defines Task parameters for notable experiment configurations.
+"""
+Defines Task parameters for notable experiment configurations.
 
 Notes:
     * A "task" MUST be specified in the config dictionary.
-    * Other values are optional and task-specific. They are used to specify values for parameters in a Task constructor.
-    * Network_type, model_type, and struct_type should not be specified here. They can be set with command-line arguments.
+    * Other values are optional and task-specific. They are used to
+      specify values for parameters in a Task constructor.
+    * Network_type, model_type, and struct_type should not be specified
+      here. They can be set with command-line arguments.
 
 A config can be run with:
     python run.py CONFIG_NAME
-
 """
 
 from formalisms.cfg import *
-from models.networks.recurrent import LSTMSimpleStructNetwork, RNNSimpleStructNetwork, GRUSimpleStructNetwork
 from tasks import *
-from structs import *
 
+""" Configs for the Final Paper """
 
 # 1) Reverse task.
-reverse_config = {
+final_reverse_config = {
     "task": ReverseTask,
+    "epochs": 100,
+    "early_stopping_steps": 5,
+    "read_size": 2
 }
 
 # 2) XOR/parity evaluation task.
-parity_config = {
+final_parity_config = {
     "task": XORTask,
-    "read_size": 6,
+    "epochs": 100,
+    "early_stopping_steps": 5,
+    "read_size": 6
 }
 
 # 3) Delayed XOR/parity evaluation task.
-delayed_parity_config = {
-    # TODO: Specify this.
+final_delayed_parity_config = {
+    "task": XORTask,
+    "epochs": 100,
+    "early_stopping_steps": 5,
+    "read_size": 6
 }
 
 # 4) Dyck language modeling task.
-dyck_config = {
+final_dyck_config = {
     "task": CFGTask,
+    "epochs": 100,
+    "early_stopping_steps": 5,
     "grammar": dyck_grammar,
     "to_predict": [u")", u"]"],
     "sample_depth": 5,
+    "read_size": 2
 }
 
 # 5) Agreement grammar task.
-agreement_config = {
+final_agreement_config = {
     "task": CFGTask,
-    "grammar": agreement_grammar,
+    "epochs": 100,
+    "early_stopping_steps": 5,
+    "grammar": unambig_agreement_grammar,
     "to_predict": [u"Auxsing", u"Auxplur"],
-    "sample_depth": 8,
+    "sample_depth": 16,
+    "read_size": 2
 }
 
 # 6) Reverse Polish notation formula task.
-formula_config = {
+final_formula_config = {
     "task": CFGTransduceTask,
+    "epochs": 100,
+    "early_stopping_steps": 5,
     "grammar": exp_eval_grammar,
+    "to_predict": [u"0", u"1"],
     "sample_depth": 6,
-    "to_predict": [u"0", u"1"]
+    "read_size": 2,
+    "max_length": 32
 }
 
-
-# =====================================================
-# The following configs are not included in the paper.
-
+""" Configs Not Included in the Paper """
 
 # Reverse task formulated as CFG.
 reverse_cfg = {

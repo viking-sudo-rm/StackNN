@@ -10,20 +10,23 @@ import os
 import run
 from models import *
 from models.networks import *
+from structs import Stack, NullStruct
 from tasks.configs import *
 
-N_TRIALS = 10
+n_trials = 10
 
 # TODO: These should be set by flags or something.
 results_dir = "stacknn-experiments"
 
+# README: Please comment out all items below except for the tasks you
+# are running.
 configs = [
-    ("reverse", reverse_config),
-    ("parity", parity_config),
-    ("delayed_parity", delayed_parity_config),
-    ("dyck", dyck_config),
-    ("agreement", agreement_config),
-    ("formula", formula_config),
+    ("reverse", final_reverse_config),
+    ("parity", final_parity_config),
+    ("delayed_parity", final_delayed_parity_config),
+    ("dyck", final_dyck_config),
+    ("agreement", final_agreement_config),
+    ("formula", final_formula_config)
 ]
 
 controller_types = [
@@ -55,7 +58,7 @@ for config_name, config in configs:
                 config_dir = os.path.join(results_dir, experiment_name)
                 os.makedirs(config_dir)
 
-                for i in range(N_TRIALS):
+                for i in xrange(n_trials):
                     # TODO: Should export figures, results, logs here too.
                     save_path = os.path.join(config_dir, "%i.dat" % i)
                     run.main(config, controller_type, network_type,
