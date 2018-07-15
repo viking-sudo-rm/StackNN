@@ -1,8 +1,19 @@
-"""Template for Grace job to automate experiments.
+"""
+Template for automating experiments on your own computer or on the Grace
+high-performance computing cluster (https://research.computing.yale.edu/
+support/hpc/clusters/grace)
 
-Should run parallel instances of this script to do different configs
+You should run parallel instances of this script to do different configs
 simultaneously.
 
+INSTRUCTIONS: This script runs experimental trials for all conditions
+specified in the configurations in lines 36 to 64. Please comment out
+all items in the configurations except for those pertaining to the
+trials you are running. Then, run this script from the terminal. Please
+report the testing accuracy for the last epoch from each trial in the
+"Task Results (Last Epoch)" sheet and upload the saved models, found in
+the directory "stacknn-experiments," to the "StackNN Trained Models"
+Google Drive folder.
 """
 
 import os
@@ -13,13 +24,17 @@ from models.networks import *
 from structs import Stack, NullStruct
 from tasks.configs import *
 
-n_trials = 10
+n_trials = 2
 
 # TODO: These should be set by flags or something.
 results_dir = "stacknn-experiments"
 
-# README: Please comment out all items below except for the tasks you
-# are running.
+"""
+EXPERIMENTAL CONDITIONS: Please comment out all items below except for
+those corresponding to the experimental trials that you are running.
+"""
+
+# Task config dicts
 configs = [
     ("reverse", final_reverse_config),
     ("parity", final_parity_config),
@@ -29,22 +44,25 @@ configs = [
     ("formula", final_formula_config)
 ]
 
+# Vanilla vs. Buffered Controller
 controller_types = [
     VanillaController,
     BufferedController,
 ]
 
+# Linear vs. LSTM Network
 network_types = [
     LinearSimpleStructNetwork,
-    RNNSimpleStructNetwork,
     LSTMSimpleStructNetwork,
-    GRUSimpleStructNetwork,
 ]
 
+# Stack vs. no Stack
 struct_types = [
     Stack,
     NullStruct,
 ]
+
+""" PLEASE DO NOT EDIT BELOW THIS LINE """
 
 for config_name, config in configs:
     for controller_type in controller_types:
