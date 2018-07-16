@@ -46,7 +46,7 @@ final_dyck_config = {
     "task": CFGTask,
     "epochs": 100,
     "early_stopping_steps": 5,
-    "grammar": dyck_grammar,
+    "grammar": dyck_grammar_2,
     "to_predict": [u")", u"]"],
     "sample_depth": 5,
     "read_size": 2
@@ -76,6 +76,16 @@ final_formula_config = {
 }
 
 """ Configs Not Included in the Paper """
+
+old_inal_dyck_config = {
+    "task": CFGTask,
+    "epochs": 100,
+    "early_stopping_steps": 5,
+    "grammar": dyck_grammar,
+    "to_predict": [u")", u"]"],
+    "sample_depth": 5,
+    "read_size": 2
+}
 
 # Reverse task formulated as CFG.
 reverse_cfg = {
