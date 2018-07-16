@@ -41,6 +41,7 @@ configs = [
     ("delayed_parity", final_delayed_parity_config),
     ("dyck", final_dyck_config),
     ("agreement", final_agreement_config),
+    ("agreement10", final_agreement_config_10),
     ("formula", final_formula_config)
 ]
 
