@@ -48,7 +48,7 @@ final_dyck_config = {
     "early_stopping_steps": 5,
     "grammar": dyck_grammar_2,
     "to_predict": [u")", u"]"],
-    "sample_depth": 5,
+    "sample_depth": 6,
     "read_size": 2
 }
 
