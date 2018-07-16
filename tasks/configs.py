@@ -35,7 +35,7 @@ final_parity_config = {
 
 # 3) Delayed XOR/parity evaluation task.
 final_delayed_parity_config = {
-    "task": XORTask,
+    "task": DelayedXORTask,
     "epochs": 100,
     "early_stopping_steps": 5,
     "read_size": 6
