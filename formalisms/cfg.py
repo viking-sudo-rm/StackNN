@@ -16,6 +16,12 @@ dyck_grammar = CFG.fromstring("""
     S -> '[' S ']' | '[' ']'
 """)
 
+dyck_grammar_2 = CFG.fromstring("""
+    S -> S T | T S | T
+    T -> '(' T ')' | '(' ')'
+    T -> '[' T ']' | '[' ']'
+""")
+
 reverse_grammar = CFG.fromstring("""
     S -> "a" S "a1"
     S -> "b" S "b1"
