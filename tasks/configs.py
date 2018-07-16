@@ -63,6 +63,17 @@ final_agreement_config = {
     "read_size": 2
 }
 
+# 5b) Agreement grammar task with longer early stopping 
+final_agreement_config_10 = {
+    "task": CFGTask,
+    "epochs": 100,
+    "early_stopping_steps": 10,
+    "grammar": unambig_agreement_grammar,
+    "to_predict": [u"Auxsing", u"Auxplur"],
+    "sample_depth": 16,
+    "read_size": 2
+}
+    
 # 6) Reverse Polish notation formula task.
 final_formula_config = {
     "task": CFGTransduceTask,
