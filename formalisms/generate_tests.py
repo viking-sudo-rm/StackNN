@@ -6,7 +6,6 @@ random_sentences.
 from __future__ import division
 
 from depth_generate import *
-import random
 
 
 def random_cfg_test(count, depth, gr, savepath):
@@ -20,7 +19,6 @@ def random_cfg_test(count, depth, gr, savepath):
     where input is the generated string and output
     is the generated string with first symbol removed.
     """
-    random.seed(552)
     print "number of sentences: " + str(count)
     print "nltk depth: " + str(depth + 1)  # nltk depth is 1+depth
 
@@ -37,6 +35,8 @@ def random_cfg_test(count, depth, gr, savepath):
 
 
 if __name__ == "__main__":
+    random.seed(552)
+
     dyck_grammar_2 = CFG.fromstring("""
         S -> S T | T S | T
         T -> '(' T ')' | '(' ')'
