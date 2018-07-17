@@ -74,7 +74,7 @@ config = final_delayed_parity_config
 del config["task"]
 config["str_length"] = 24
 
-xs, ys = generate_data_set(XORTask(**config))
+xs, ys = generate_data_set(DelayedXORTask(**config))
 save_data_set(xs, ys, "delayed_parity.csv")
 
 end_time = time.time()
