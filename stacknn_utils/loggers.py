@@ -1,4 +1,5 @@
 import sys
+from StringIO import StringIO
 
 
 class FileLogger(object):
@@ -19,9 +20,9 @@ class FileLogger(object):
         self._file.flush()
 
 
-class ListLogger(object):
+class StringLogger(object):
     def __init__(self):
-        self.data = []
+        self.logger = StringIO()
         self._stdout = sys.stdout
         sys.stdout = self
 
@@ -29,8 +30,8 @@ class ListLogger(object):
         sys.stdout = self._stdout
 
     def write(self, data):
-        self.data.append(data)
+        self.logger.write(data)
         self._stdout.write(data)
 
     def flush(self):
-        self.data = []
+        self.logger.flush()
