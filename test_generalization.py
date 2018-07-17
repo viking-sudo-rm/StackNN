@@ -1,5 +1,6 @@
 import os
 import re
+import time
 
 from models import VanillaController, BufferedController
 from models.networks import LinearSimpleStructNetwork, LSTMSimpleStructNetwork
@@ -59,8 +60,10 @@ if __name__ == "__main__":
     logger = Logger()
 
     print "Begin testing"
+    start_time = time.time()
 
     for folder in folders:
+        folder_start_time = time.time()
         conditions = parse_folder_name(folder)
         task_name, controller_name, network_name, struct_name = conditions
 
@@ -74,6 +77,7 @@ if __name__ == "__main__":
         print "Conditions:" + ",".join(conditions)
 
         for i in xrange(10):
+            trial_start_time = time.time()
             print "Trial {}".format(i)
             filename = "stacknn-experiments/" + folder + "/" + str(i) + ".dat"
             if os.path.exists(filename) and os.path.isfile(filename):
@@ -89,14 +93,24 @@ if __name__ == "__main__":
                 task = task_type(**configs)
                 task.run_test(testing_data)
 
+            end_time = time.time()
+            print "Trial time: {:.3f} seconds".format(end_time -
+                                                      trial_start_time)
+
+        end_time = time.time()
+        print "Condition time: {:.3f} seconds".format(end_time -
+                                                      folder_start_time)
+
     print "Testing complete!"
+    end_time = time.time()
+    print "Time elapsed: {:.3f} seconds".format(end_time - start_time)
 
     # Parse the logs
     string_io = logger.logger
     del logger
     log = string_io.getvalue().split("\n")
 
-    condition_re = r"^Conditions:[.]+,[.]+,[.]+,[.]+$"
+    condition_re = r"^Conditions:.+,.+,.+,.+$"
     trial_re = r"^Trial \d$"
     result_re = r"^Test Results: Loss = [\d\.]+, Accuracy = [\d\.]+%$"
     result_sub_re = r"^Test Results: Loss = [\d\.]+, Accuracy = "
@@ -108,6 +122,7 @@ if __name__ == "__main__":
     for line in log:
         if re.match(condition_re, line):
             # Start a new row
+            results.append(curr_condition + curr_trials)
             curr_condition = re.sub(r"^Conditions:", "", line).split(",")
             curr_trials = ["" for _ in xrange(10)]
         elif re.match(trial_re, line):
