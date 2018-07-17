@@ -15,11 +15,10 @@ def generate_data_set(task):
     x_text = task.sentences_to_text(*x_sent)
     y_text = task.sentences_to_text(*y_sent)
 
-    x_text = list(set(list(x_text)))
-    y_text = list(set(list(y_text)))
-
-    random.shuffle(x_text)
-    random.shuffle(y_text)
+    combined = list(zip(x_text, y_text))
+    combined = list(set(list(combined)))
+    random.shuffle(combined)
+    x_text[:], y_text[:] = zip(*combined)
 
     return x_text[:1000], y_text[:1000]
 
@@ -38,11 +37,8 @@ random.seed(8597)
 print "Generating testing data for Reverse..."
 start_time = time.time()
 
-config = final_reverse_config
+config = testing_reverse_config
 del config["task"]
-config["max_length"] = 24
-config["mean_length"] = 20
-config["std_length"] = 4
 
 xs, ys = generate_data_set(ReverseTask(**config))
 save_data_set(xs, ys, "reverse.csv")
