@@ -16,12 +16,11 @@ the directory "stacknn-experiments," to the "StackNN Trained Models"
 Google Drive folder.
 """
 import os
-import sys
 
 import run
 from models import *
 from models.networks import *
-from stacknn_utils import Logger
+from stacknn_utils import FileLogger as Logger
 from structs import Stack, NullStruct
 from tasks.configs import *
 
@@ -71,7 +70,7 @@ output_file_name = "-".join([c[0] for c in configs] +
                             [n.__name__ for n in network_types] +
                             [s.__name__ for s in struct_types])
 output_file_name = "stacknn-experiments/log-" + output_file_name + ".txt"
-sys.stdout = Logger(output_file_name)
+logger = Logger(output_file_name)
 
 for config_name, config in configs:
     for controller_type in controller_types:
@@ -90,3 +89,5 @@ for config_name, config in configs:
                     save_path = os.path.join(config_dir, "%i.dat" % i)
                     run.main(config, controller_type, network_type,
                              struct_type, save_path=save_path)
+
+del logger
