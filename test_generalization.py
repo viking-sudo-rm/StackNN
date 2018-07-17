@@ -96,7 +96,7 @@ if __name__ == "__main__":
     del logger
     log = string_io.getvalue().split("\n")
 
-    condition_re = r"^Conditions:[a-zA-Z]+,[a-zA-Z]+,[a-zA-Z]+,[a-zA-Z]+$"
+    condition_re = r"^Conditions:[.]+,[.]+,[.]+,[.]+$"
     trial_re = r"^Trial \d$"
     result_re = r"^Test Results: Loss = [\d\.]+, Accuracy = [\d\.]+%$"
     result_sub_re = r"^Test Results: Loss = [\d\.]+, Accuracy = "
@@ -108,7 +108,6 @@ if __name__ == "__main__":
     for line in log:
         if re.match(condition_re, line):
             # Start a new row
-            results.append(curr_condition + curr_trials)
             curr_condition = re.sub(r"^Conditions:", "", line).split(",")
             curr_trials = ["" for _ in xrange(10)]
         elif re.match(trial_re, line):
@@ -118,6 +117,8 @@ if __name__ == "__main__":
             # Save the current trial result
             result = float(re.sub(result_sub_re, "", line)[:-1]) / 100.
             curr_trials[curr_trial] = result
+
+    results.append(curr_condition + curr_trials)
 
     # Save logs as a CSV file
     f = open("stacknn-experiments/generalization_results.csv", "w")
