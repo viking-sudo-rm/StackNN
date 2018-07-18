@@ -90,8 +90,10 @@ if __name__ == "__main__":
                 configs["network_type"] = network
                 configs["struct_type"] = struct
 
+                log_filename = filename[:-4] + "_log.csv"
+
                 task = task_type(**configs)
-                task.run_test(testing_data)
+                task.run_test(testing_data, log_file=log_filename)
 
             end_time = time.time()
             print "Trial time: {:.3f} seconds".format(end_time -
