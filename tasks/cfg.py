@@ -201,7 +201,21 @@ class LanguageModellingTask(Task):
         correct_trials = (y_pred == y[:, j]).type(torch.FloatTensor)
         correct = (valid_x * correct_trials).data
         total = sum(valid_x.data)
-        loss = valid_x * self.criterion(a, y[:, j])
+
+        if total == 0:
+            return 0, 0, 0
+
+        valid_a = Variable(torch.zeros(int(total), len(self.alphabet)))
+        valid_y = Variable(torch.zeros(int(total)).type(torch.LongTensor))
+
+        k = 0
+        for i in xrange(self.batch_size):
+            if valid_x[i].data.numpy() == 1:
+                valid_a[k, :] = valid_a[k, :] + a[k, :]
+                valid_y[k] = valid_y[k] + y[k, j]
+                k += 1
+
+        loss = self.criterion(valid_a, valid_y)
 
         return torch.mean(loss), sum(correct), total
 
