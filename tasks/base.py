@@ -571,7 +571,7 @@ class Task(object):
         self._print_experiment_start()
         self.get_data()
         no_improvement_batches = 0
-        best_acc = 0
+        best_acc = 0.
         for epoch in xrange(self.epochs):
             self.run_epoch(epoch)
 #            print best_acc, self.batch_acc, no_improvement_batches
@@ -583,6 +583,11 @@ class Task(object):
             if no_improvement_batches == self.early_stopping_steps:
                 break
         self._has_trained_model = True
+
+        return {
+            "best_acc": best_acc,
+            "final_acc": self.batch_acc,
+        }
 
     def run_epoch(self, epoch):
         """

@@ -15,6 +15,8 @@ report the testing accuracy for the last epoch from each trial in the
 the directory "stacknn-experiments," to the "StackNN Trained Models"
 Google Drive folder.
 """
+from __future__ import print_function
+
 import os
 import sys
 
@@ -36,18 +38,18 @@ those corresponding to the experimental trials that you are running.
 
 # Task config dicts
 configs = [
-    ("reverse", final_reverse_config),
-    ("parity", final_parity_config),
-    ("delayed_parity", final_delayed_parity_config),
-    ("dyck", final_dyck_config),
+    # ("reverse", final_reverse_config),
+    # ("parity", final_parity_config),
+    # ("delayed_parity", final_delayed_parity_config),
+    # ("dyck", final_dyck_config),
     ("agreement", final_agreement_config),
-    ("formula", final_formula_config)
+    # ("formula", final_formula_config)
 ]
 
 # Vanilla vs. Buffered Controller
 controller_types = [
     VanillaController,
-    BufferedController,
+    # BufferedController,
 ]
 
 # Linear vs. LSTM Network
@@ -59,7 +61,7 @@ network_types = [
 # Stack vs. no Stack
 struct_types = [
     Stack,
-    NullStruct,
+    # NullStruct,
 ]
 
 """ PLEASE DO NOT EDIT BELOW THIS LINE """
@@ -101,9 +103,13 @@ for config_name, config in configs:
                                             struct_type.__name__])
                 config_dir = os.path.join(results_dir, experiment_name)
                 os.makedirs(config_dir)
+                final_accs = []
 
                 for i in xrange(n_trials):
                     # TODO: Should export figures, results, logs here too.
                     save_path = os.path.join(config_dir, "%i.dat" % i)
-                    run.main(config, controller_type, network_type,
-                             struct_type, save_path=save_path)
+                    results = run.main(config, controller_type, network_type,
+                                       struct_type, save_path=save_path)
+                    final_accs.append(results["final_acc"])
+
+                print("Trial accuracies:", ["{:.1f}".format(acc) for acc in final_accs])
