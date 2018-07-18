@@ -201,7 +201,7 @@ class LanguageModellingTask(Task):
         correct_trials = (y_pred == y[:, j]).type(torch.FloatTensor)
         correct = (valid_x * correct_trials).data
         total = sum(valid_x.data)
-        loss = valid_x * self.criterion(a, y[:, j])
+        loss = (valid_x * self.criterion(a, y[:, j])).sum()
 
         return torch.mean(loss), sum(correct), total
 
@@ -219,7 +219,7 @@ class CFGTask(LanguageModellingTask):
                  sample_depth,
                  batch_size=10,
                  clipping_norm=None,
-                 criterion=nn.CrossEntropyLoss(),
+                 criterion=nn.CrossEntropyLoss(reduce=False),
                  cuda=False,
                  epochs=100,
                  early_stopping_steps=5,
