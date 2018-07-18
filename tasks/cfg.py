@@ -201,9 +201,9 @@ class LanguageModellingTask(Task):
         correct_trials = (y_pred == y[:, j]).type(torch.FloatTensor)
         correct = (valid_x * correct_trials).data
         total = sum(valid_x.data)
-        loss = (valid_x * self.criterion(a, y[:, j])).sum()
+        loss = valid_x * self.criterion(a, y[:, j])
 
-        return torch.mean(loss), sum(correct), total
+        return loss.sum(), sum(correct), total
 
 
 class CFGTask(LanguageModellingTask):
