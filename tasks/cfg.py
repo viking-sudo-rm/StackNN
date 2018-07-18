@@ -160,6 +160,8 @@ class LanguageModellingTask(Task):
                              verbose=verbose)
 
         self.to_predict_code = [self.alphabet[c] for c in to_predict]
+        self.to_predict_index = {k: v for v, k in
+                                 enumerate(self.to_predict_code)}
 
     def _evaluate_step(self, x, y, a, j):
         """
@@ -205,14 +207,17 @@ class LanguageModellingTask(Task):
         if total == 0:
             return 0, 0, 0
 
-        valid_a = Variable(torch.zeros(int(total), len(self.alphabet)))
+        valid_a = Variable(torch.zeros(int(total), len(self.to_predict_code)))
         valid_y = Variable(torch.zeros(int(total)).type(torch.LongTensor))
 
         k = 0
         for i in xrange(self.batch_size):
             if valid_x[i].data.numpy() == 1:
-                valid_a[k, :] = valid_a[k, :] + a[k, :]
-                valid_y[k] = valid_y[k] + y[k, j]
+                for c in self.to_predict_code:
+                    tpi = self.to_predict_index[c]
+                    valid_a[k, tpi] = valid_a[k, tpi] + a[i, c]
+                yij = self.to_predict_index[y[i, j].data[0]]
+                valid_y[k] = valid_y[k] + yij
                 k += 1
 
         loss = self.criterion(valid_a, valid_y)
