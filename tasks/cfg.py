@@ -203,7 +203,7 @@ class LanguageModellingTask(Task):
         total = sum(valid_x.data)
         loss = valid_x * self.criterion(a, y[:, j])
 
-        return torch.mean(loss), sum(correct), total
+        return loss.sum(), sum(correct), total
 
 
 class CFGTask(LanguageModellingTask):
@@ -219,7 +219,7 @@ class CFGTask(LanguageModellingTask):
                  sample_depth,
                  batch_size=10,
                  clipping_norm=None,
-                 criterion=nn.CrossEntropyLoss(),
+                 criterion=nn.CrossEntropyLoss(reduce=False),
                  cuda=False,
                  epochs=100,
                  early_stopping_steps=5,
@@ -356,7 +356,10 @@ class CFGTask(LanguageModellingTask):
 
         self.sample_strings = self.generate_sample_strings()
         print "{} strings generated".format(len(self.sample_strings))
-        max_sample_length = max([len(x) for x in self.sample_strings])
+        if len(self.sample_strings) > 0:
+            max_sample_length = max([len(x) for x in self.sample_strings])
+        else:
+            max_sample_length = 0
         print "Maximum sample length: " + str(max_sample_length)
         print "Maximum input length: " + str(self.max_x_length)
 
