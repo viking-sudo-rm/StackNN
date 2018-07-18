@@ -51,7 +51,7 @@ final_dyck_config = {
     "to_predict": [u")", u"]"],
     "sample_depth": 6,
     "read_size": 2,
-    "criterion": CrossEntropyLoss(size_average=False)
+    "criterion": CrossEntropyLoss(reduce=False)
 }
 
 # 5) Agreement grammar task.
@@ -63,7 +63,7 @@ final_agreement_config = {
     "to_predict": [u"Auxsing", u"Auxplur"],
     "sample_depth": 16,
     "read_size": 2,
-    "criterion": CrossEntropyLoss(size_average=False)
+    "criterion": CrossEntropyLoss(reduce=False)
 }
 
 # 5b) Agreement grammar task with longer early stopping 
@@ -75,7 +75,7 @@ final_agreement_config_10 = {
     "to_predict": [u"Auxsing", u"Auxplur"],
     "sample_depth": 16,
     "read_size": 2,
-    "criterion": CrossEntropyLoss(size_average=False)
+    "criterion": CrossEntropyLoss(reduce=False)
 }
     
 # 6) Reverse Polish notation formula task.
@@ -88,7 +88,7 @@ final_formula_config = {
     "sample_depth": 6,
     "read_size": 2,
     "max_length": 32,
-    "criterion": CrossEntropyLoss(size_average=False)
+    "criterion": CrossEntropyLoss(reduce=False)
 }
 
 """ Testing Configs """
@@ -133,7 +133,7 @@ testing_dyck_config = {
     "sample_depth": 0,
     "read_size": 2,
     "max_length": 128,
-    "criterion": CrossEntropyLoss(size_average=False)
+    "criterion": CrossEntropyLoss(reduce=False)
 }
 
 # 5) Agreement grammar task.
@@ -146,7 +146,7 @@ testing_agreement_config = {
     "sample_depth": 0,
     "read_size": 2,
     "max_length": 64,
-    "criterion": CrossEntropyLoss(size_average=False)
+    "criterion": CrossEntropyLoss(reduce=False)
 }
 
 # 5b) Agreement grammar task with longer early stopping
@@ -159,7 +159,7 @@ testing_agreement_config_10 = {
     "sample_depth": 0,
     "read_size": 2,
     "max_length": 64,
-    "criterion": CrossEntropyLoss(size_average=False)
+    "criterion": CrossEntropyLoss(reduce=False)
 }
 
 # 6) Reverse Polish notation formula task.
@@ -172,7 +172,7 @@ testing_formula_config = {
     "sample_depth": 0,
     "read_size": 2,
     "max_length": 48,
-    "criterion": CrossEntropyLoss(size_average=False)
+    "criterion": CrossEntropyLoss(reduce=False)
 }
 
 """ Configs Not Included in the Paper """
