@@ -48,7 +48,7 @@ Parameters are saved at the end of each epoch.
 
 You can also pass a file path to load model parameters from a previous run:
 ~~~bash
-python run.py reverse_Config --loadpath "saved_models/previous_run"
+python run.py reverse_config --loadpath "saved_models/previous_run"
 ~~~
 
 ### String reversal
