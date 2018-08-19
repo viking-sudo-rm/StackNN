@@ -73,7 +73,7 @@ def main(config,
     if save_path is not None:
         config["save_path"] = save_path
 
-    task(**config).run_experiment()
+    return task(**config).run_experiment()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,1000 @@
+T T and T F and or F T and T F or or or T F T or or F F and T and or or,1 1 1 1 0 0 1 0 1 0 1 0 1 1 1 1 0 1 1 1 0 0 0 1 0 1 1
+F F and T T or and T T and T T or and or F F and F T and and T T and T F or and or or,0 0 0 1 1 1 0 1 1 1 1 1 1 1 1 0 0 0 0 1 0 0 1 1 1 1 0 1 1 1 1
+F T and T or F F or F F and and and T F or F F and or F F and F T or or or and,0 1 0 1 1 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 0 0 0 0 1 1 1 1 0
+F F and T and T F or T T and or or T F and T and T F and T T or or or and,0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 1 0 1 0 0 1 1 1 1 1 1
+F T and F F or and T T or T T and and or T T and T F and and T F or T T or or and and,0 1 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 0 1 1 1 1 1 0 0
+T T or F T or and T T or T T and or or T T or F F or and F T or and and,1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 1 1 0 0
+F F or T T or or F F or F F or and and F F or T F and or T F F or or or and,0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 1 1 0
+F F and F T and or T F or F F or and and T T or T T and and F F or or or,0 0 0 0 1 0 0 1 0 1 0 0 0 0 0 1 1 1 1 1 1 1 0 0 0 1 1
+T F and T T or and F F or T and or T F and F and F F or F F or or and or,1 0 0 1 1 1 0 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0
+T F F and and T F and T T or and or T T and F F and and F T and T or or and,1 0 0 0 0 1 0 0 1 1 1 0 0 1 1 1 0 0 0 0 0 1 0 1 1 1 0
+F F and T T and and F T and T or and F F F or and F F or T F or and and and,0 0 0 1 1 1 0 0 1 0 1 1 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0
+F F or T and F F or F F or and and F T and F or F T T or and or or,0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 1 1 0 0 0
+T T and T F and or T F and and F F and T T or or T T T and or or or,1 1 1 1 0 0 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1
+F T and T or T T and T F or and and T T or T T or or T or or,0 1 0 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1
+F T and T F and and T T or T F and and and T F F and or F F or T T or and and and,0 1 0 1 0 0 0 1 1 1 1 0 0 0 0 1 0 0 0 1 0 0 0 1 1 1 0 0 0
+T T or T F or and F F or F T or and or T T and T or F F and F and and or,1 1 1 1 0 1 1 0 0 0 0 1 1 0 1 1 1 1 1 1 0 0 0 0 0 0 1
+T F and T F and or T T or T T or or or T T and F F and and T T and T F or and or or,1 0 0 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 1 1 1 1 0 1 1 1 1
+F T F and and T T or F F or and or F T or F F and and F T and T or or or,0 1 0 0 0 1 1 1 0 0 0 0 0 0 1 1 0 0 0 0 0 1 0 1 1 1 1
+F F or T or T F or F or and F F and T or T T or F T or and and or,0 0 0 1 1 1 0 1 0 1 1 0 0 0 1 1 1 1 1 0 1 1 1 1 1
+F F and T or F F or T F or or or F T or T F or and F F and T F and and or or,0 0 0 1 1 0 0 0 1 0 1 1 1 0 1 1 1 0 1 1 0 0 0 1 0 0 0 1 1
+T F T or and F F and F and or F T and T F or or T T and F T and and and and,1 0 1 1 1 0 0 0 0 0 1 0 1 0 1 0 1 1 1 1 1 0 1 0 0 0 0
+F F F or or T T and T T or and and F T and T and F F and F T or and or and,0 0 0 0 0 1 1 1 1 1 1 1 0 0 1 0 1 0 0 0 0 0 1 1 0 0 0
+F F or T or T T or T F or and and F F and T or F F or F T or and or and,0 0 0 1 1 1 1 1 1 0 1 1 1 0 0 0 1 1 0 0 0 0 1 1 0 1 1
+F T and F T or or F T and T T and or and F T and T T or and T T or T and and and,0 1 0 0 1 1 1 0 1 0 1 1 1 1 1 0 1 0 1 1 1 0 1 1 1 1 1 0 0
+F F and F T and or T F and F T and and or F T or F T or and T F and T T and and and or,0 0 0 0 1 0 0 1 0 0 0 1 0 0 0 0 1 1 0 1 1 1 1 0 0 1 1 1 0 0 0
+T F and F T and or T T or F and and F F or T T or and F T or F F and and or and,1 0 0 0 1 0 0 1 1 1 0 0 0 0 0 0 1 1 1 0 0 1 1 0 0 0 0 0 0
+F F and T T and or T F or T F and and or F T and F or F T or F F and or or and,0 0 0 1 1 1 1 1 0 1 1 0 0 0 1 0 1 0 0 0 0 1 1 0 0 0 1 1 1
+F F or T F and or T T and F T and or and T F and T F or or F T and F T and or or and,0 0 0 1 0 0 0 1 1 1 0 1 0 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 0 1 0
+F T or T T or and T F T or and or T T and T or F T and T F or or or or,0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 0 1 0 1 0 1 1 1 1
+T T and T F or F F or or and T F or T and F T and T T and and or or,1 1 1 1 0 1 0 0 0 1 1 1 0 1 1 1 0 1 0 1 1 1 0 1 1
+F T or F F or or F T and F T or or or F F and T T and or T T and T T or and and or,0 1 1 0 0 0 1 0 1 0 0 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1
+T F or T T and or F F or T T or and and F F and F T and and T T or T T or and or and,1 0 1 1 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 1 0 0 1 1 1 1 1 1 1 1 0
+T F F or or T T and F T and and or F F and F F or or F T or and or,1 0 0 0 1 1 1 1 0 1 0 0 1 0 0 0 0 0 0 0 0 1 1 0 1
+F F or T F T and or or F F or T or T F and T F and and and and,0 0 0 1 0 1 0 1 1 0 0 0 1 1 1 0 0 1 0 0 0 0 0
+T F and T F and or T F F and and and T T F F and and and or,1 0 0 1 0 0 0 1 0 0 0 0 0 1 1 0 0 0 0 0 0
+T T and T T and or F F or F and and T T and T T and or F F and T T and or and and,1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 0
+F F and F F and and F F and F T or and and T F T or or T T or T and and and,0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 1 0 1 1 1 1 1 1 1 1 1 0
+T T or T T and and T T or T F and or and T T and F F and or T F and T T or or and and,1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 0 0 0 1 1 0 0 1 1 1 1 1 1
+T F and F F or and F T and F and or T T or T F or or T F or F T or or and or,1 0 0 0 0 0 0 0 1 0 0 0 0 1 1 1 1 0 1 1 1 0 1 0 1 1 1 1 1
+F F T and or T F T or or or T F F and or T F and T or and and,0 0 1 0 0 1 0 1 1 1 1 1 0 0 0 1 1 0 0 1 1 1 1
+T F or F and T F and T and and F F and F F and F F and and and or,1 0 1 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+T T and F F and and T F or F F or or and F T or T F or or T F and T F and or and or,1 1 1 0 0 0 0 1 0 1 0 0 0 1 0 0 1 1 1 0 1 1 1 0 0 1 0 0 0 0 0
+T T or F T and and F T and F F and and and T T or F F or or F T and F T or and or and,1 1 1 0 1 0 0 0 1 0 0 0 0 0 0 1 1 1 0 0 0 1 0 1 0 0 1 1 0 1 0
+T T and F F or and T F F and or or F T T or or T T and T T or or or and,1 1 1 0 0 0 0 1 0 0 0 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1
+T F and T F and and T T and F T and or or F F or T T and or F T T and or and and,1 0 0 1 0 0 0 1 1 1 0 1 0 1 1 0 0 0 1 1 1 1 0 1 1 1 1 1 1
+F F and F F and and T F and and T F or F and F F and F or and or,0 0 0 0 0 0 0 1 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0
+F T or T or F F and T and and T T or F and T T and F or and and,0 1 1 1 1 0 0 0 1 0 0 1 1 1 0 0 1 1 1 0 1 0 0
+T F and F T or or T T and and F T and T T or or F T or F F or and and or,1 0 0 0 1 1 1 1 1 1 1 0 1 0 1 1 1 1 0 1 1 0 0 0 0 0 1
+F T and F F and or F F and T or and T T and T F or and T T and F and or or,0 1 0 0 0 0 0 0 0 0 1 1 0 1 1 1 1 0 1 1 1 1 1 0 0 1 1
+F F or T F or or F F or T T or and or T T and T F or and F T and F and and and,0 0 0 1 0 1 1 0 0 0 1 1 1 0 1 1 1 1 1 0 1 1 0 1 0 0 0 0 0
+T F or F T or and T T and F T or or and F T or F T and or T F or T F and and and or,1 0 1 0 1 1 1 1 1 1 0 1 1 1 1 0 1 1 0 1 0 1 1 0 1 1 0 0 0 0 1
+F T T or or T T and T T or or or F T F or or F T and T T and and or or,0 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 0 1 0 1 1 1 0 1 1
+F F and F F and and F F and T and or F T F or and F T and F F or and and or,0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 1 0 0 1 0 0 0 0 0 0 0
+F T F and or T T and F or or T T F and or F T or T T or and and and,0 1 0 0 0 1 1 1 0 1 1 1 1 0 0 1 0 1 1 1 1 1 1 1 1
+T T or F T or T T and and and T T T and T F and and and and,1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0
+T F or F and F T T or and or T F and T F and or T T or T T and or or or,1 0 1 0 0 0 1 1 1 0 0 1 0 0 1 0 0 0 1 1 1 1 1 1 1 1 1
+F T F or or F T and F T and or and T F T and and F T or T F or and and and,0 1 0 1 1 0 1 0 0 1 0 0 0 1 0 1 0 0 0 1 1 1 0 1 1 0 0
+T T and T F or or T T or T T or and and F F F and or F F and F F and and or and,1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+F F F or and F F and F or and T F or F F or and F F or T F and and and and,0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0
+T F or T F or or F F or T T and or or T T and F T and and F T or F T or or and or,1 0 1 1 0 1 1 0 0 0 1 1 1 1 1 1 1 1 0 1 0 0 0 1 1 0 1 1 1 0 1
+T F or T T and and F T and T F and or and T F or F F or or F T and T T or or or or,1 0 1 1 1 1 1 0 1 0 1 0 0 0 0 1 0 1 0 0 0 1 0 1 0 1 1 1 1 1 1
+T T and F F and and T F or F F and or or T F or T T and or F F and T T or or and and,1 1 1 0 0 0 0 1 0 1 0 0 0 1 1 1 0 1 1 1 1 1 0 0 0 1 1 1 1 1 1
+T F and F F or and T T and F F or and and F T and F F and and T F and F or and and,1 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0
+F T and T F or or T T and T F or and and T T and T T or or F T or F F or or or and,0 1 0 1 0 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 0 1 1 0 0 0 1 1 1
+F T and T and F F or F and or F T or F T and F F or and or or,0 1 0 1 0 0 0 0 0 0 0 0 1 1 0 1 0 0 0 0 0 1 1
+F T or T F and and F F and T F and and and F T or T T and and F T F or and or or,0 1 1 1 0 0 0 0 0 0 1 0 0 0 0 0 1 1 1 1 1 1 0 1 0 1 0 1 1
+T F or F F or and T F or T or and T F or F T or and T T or and and,1 0 1 0 0 0 0 1 0 1 1 1 0 1 0 1 0 1 1 1 1 1 1 1 0
+F T and T T and or T F and T T or and or F F and F T and and T F F or or and and,0 1 0 1 1 1 1 1 0 0 1 1 1 0 1 0 0 0 0 1 0 0 1 0 0 0 1 0 0
+T F T or or T F F and and and T T and F F or or T F and and or,1 0 1 1 1 1 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 0 0
+F F F or and F F and F T and or or F F and T F or and F F T and or and or,0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 1 0 0 0 1 0 0 0 0
+T T and F F and and T T or F T and and and T T or F F and or F T and T or and or,1 1 1 0 0 0 0 1 1 1 0 1 0 0 0 1 1 1 0 0 0 1 0 1 0 1 1 1 1
+F T F and and T F or F F and or and F T and T T and and F F and T or and or,0 1 0 0 0 1 0 1 0 0 0 1 0 0 1 0 1 1 1 0 0 0 0 1 1 0 0
+F T or T F and and T F or F T or or and T F or F T and or T T or F T and or or or,0 1 1 1 0 0 0 1 0 1 0 1 1 1 0 1 0 1 0 1 0 1 1 1 1 0 1 0 1 1 1
+F F T or or F F and F F or or or F F or T T or or F T and T F and or or or,0 0 1 1 1 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 0 1 0 1 0 0 0 1 1
+T F and F T and or F F or F or or F F and T and T T or T T and and or or,1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0 1 1 1 1 1 1 1 1 1
+T T and T T or or T T or T T or or or T T and F T and and F T and T or and and,1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 0 0 1 0 1 1 0 0
+F F and T T or and T F and T T and and or T F or T or T T F or or and and,0 0 0 1 1 1 0 1 0 0 1 1 1 0 0 1 0 1 1 1 1 1 0 1 1 1 0
+T F T and and T F or F or or T T T or or F T and F T and and or or,1 0 1 0 0 1 0 1 0 1 1 1 1 1 1 1 0 1 0 0 1 0 0 1 1
+F T and T F and and F T or F F or or or F F and F F and or F F and F T or or or and,0 1 0 1 0 0 0 0 1 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+F F or F T and and T T and F or or T T and F T or F T or or and or,0 0 0 0 1 0 0 1 1 1 0 1 1 1 1 1 0 1 1 0 1 1 1 1 1
+T F and T F or or F F and F F or and and F T and F T and or T T or F F and and and and,1 0 0 1 0 1 1 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 1 1 1 0 0 0 0 0 0
+T T or T T and or F F or F T or or or F T F or and T F T and and and or,1 1 1 1 1 1 1 0 0 0 0 1 1 1 1 0 1 0 1 0 1 0 1 0 0 0 1
+T F or T F or and F F or T T and or or F F and F T or and T T and F T or and and and,1 0 1 1 0 1 1 0 0 0 1 1 1 1 1 0 0 0 0 1 1 0 1 1 1 0 1 1 1 0 0
+F F or F T or and F T or T F and and and F F F or or F T or T T or and and and,0 0 0 0 1 1 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0
+F T and F F or and T T or T F and or or T T or F F or or F F and F T or and or or,0 1 0 0 0 0 0 1 1 1 1 0 0 1 1 1 1 1 0 0 0 1 0 0 0 0 1 1 0 1 1
+F F and F T or T F or or and F T and T T or or F T and T F and or or or,0 0 0 0 1 1 1 0 1 1 0 0 1 0 1 1 1 1 0 1 0 1 0 0 0 1 1
+F T and T or T F F and or and T T or T T and and T T or F T or or or or,0 1 0 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1
+F F or T F and or T F and T F or or and T T and T T and and F T and T F and or and and,0 0 0 1 0 0 0 1 0 0 1 0 1 1 0 1 1 1 1 1 1 1 0 1 0 1 0 0 0 0 0
+T F or T F and or T T and F F and or or T T or T F and and F T or F T and and or and,1 0 1 1 0 0 1 1 1 1 0 0 0 1 1 1 1 1 1 0 0 0 0 1 1 0 1 0 0 0 0
+F F or F and F and F T and T T or or T T or T T or or and or,0 0 0 0 0 0 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1
+F T or T T and and T F or T T and or and T F F or and F T or T F or and and and,0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 0 0 0 0 0 1 1 1 0 1 1 0 0
+F T or T F or or F F and T F or and or T F or T T or and F T F or and and and,0 1 1 1 0 1 1 0 0 0 1 0 1 0 1 1 0 1 1 1 1 1 0 1 0 1 0 0 0
+F T and T F and or F T or F T or and or T F F and or T T and F or or and,0 1 0 1 0 0 0 0 1 1 0 1 1 1 1 1 0 0 0 1 1 1 1 0 1 1 1
+T F or T F and and F F and F T or or or F F and F F or and F F or F F and or and and,1 0 1 1 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+F T and T T and or F T and and F T and F T and or F T or T or or or,0 1 0 1 1 1 1 0 1 0 0 0 1 0 0 1 0 0 0 1 1 1 1 1 1
+T T and F F and or F F and T T and and and T T T or and F F and F F and or or or,1 1 1 0 0 0 1 0 0 0 1 1 1 0 0 1 1 1 1 1 0 0 0 0 0 0 0 1 1
+F T or F or F T or T F or or and F T F or and T F and F F or and and and,0 1 1 0 1 0 1 1 1 0 1 1 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0
+F T F and and F F and T and and F F and T T and or F T or T T and and or or,0 1 0 0 0 0 0 0 1 0 0 0 0 0 1 1 1 1 0 1 1 1 1 1 1 1 1
+T T T and and F T and F F or or or F F T or and F F F and and or or,1 1 1 1 1 0 1 0 0 0 0 0 1 0 0 1 1 0 0 0 0 0 0 0 1
+F T and F T or and F F or F F or and or F T and T and F F or F F or and and and,0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0
+F F or T T and and F F or T or and T F and F T and and T T and T F and or and and,0 0 0 1 1 1 0 0 0 0 1 1 0 1 0 0 0 1 0 0 1 1 1 1 0 0 1 0 0
+T T T F and or and F T and F T or or T or and,1 1 1 0 0 1 1 0 1 0 0 1 1 1 1 1 1
+F F or F T or and F F and or T F or T T or and F F or T F and and and or,0 0 0 0 1 1 0 0 0 0 0 1 0 1 1 1 1 1 0 0 0 1 0 0 0 0 0
+F T or T T or and F T and T F and or and T F T or or T T F or or or and,0 1 1 1 1 1 1 0 1 0 1 0 0 0 0 1 0 1 1 1 1 1 0 1 1 1 0
+F F or F F or and F T or T F or or and T F F and and F T and F F or and or or,0 0 0 0 0 0 0 0 1 1 1 0 1 1 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0
+T F T or and T F or F F and and or T F and T and F F and F T or or and and,1 0 1 1 1 1 0 1 0 0 0 0 1 1 0 0 1 0 0 0 0 0 1 1 1 0 0
+T T and F F or and F T or F F and and and T T or T T and and F T and or or,1 1 1 0 0 0 0 0 1 1 0 0 0 0 0 1 1 1 1 1 1 1 0 1 0 1 1
+F T and T and T T and T or and T T F and and F F and F T or or or or,0 1 0 1 0 1 1 1 1 1 0 1 1 0 0 0 0 0 0 0 1 1 1 1 1
+F F F and or F T T or or or T T or F T or and T T and F T or and or and,0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 1 1
+F F or T F and or F F or F T or or and T F F and F F or or or and,0 0 0 1 0 0 0 0 0 0 0 1 1 1 0 1 0 0 0 0 0 0 0 1 0
+T F or F F or or F T or T F and and or F F T or and F F or T or and or,1 0 1 0 0 0 1 0 1 1 1 0 0 0 1 0 0 1 1 0 0 0 0 1 1 0 1
+F F and T T or and T F and T T and and or F T and F T and or F F or and or,0 0 0 1 1 1 0 1 0 0 1 1 1 0 0 0 1 0 0 1 0 0 0 0 0 0 0
+T F and T F or and F T or T T and or and T T and F T or and F T and T F and or and and,1 0 0 1 0 1 0 0 1 1 1 1 1 1 0 1 1 1 0 1 1 1 0 1 0 1 0 0 0 0 0
+F T or F T and or F F T or or or T T T and and F T or or and,0 1 1 0 1 0 1 0 0 1 1 1 1 1 1 1 1 1 0 1 1 1 1
+T T or T T or or T F or F T and and and T T or T or F T or and or,1 1 1 1 1 1 1 1 0 1 0 1 0 0 0 1 1 1 1 1 0 1 1 1 1
+F F and F and T T T or and or T T or F F and and F F and F and or or,0 0 0 0 0 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1
+T T T and and F F and T T and and and F T or F or T F and T F and or and or,1 1 1 1 1 0 0 0 1 1 1 0 0 0 1 1 0 1 1 0 0 1 0 0 0 0 0
+F T T or or T T and T or and F T or F T or or T T and T T and or and or,0 1 1 1 1 1 1 1 1 1 1 0 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1
+T F T or or T T and F T and or or T F F or T or or and,1 0 1 1 1 1 1 1 0 1 0 1 1 1 0 0 0 1 1 1 1
+F F and T T or and F and F F and F F or T and or or,0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 1 0 0 0
+T T or T T and and T T or F T and and or T F or F F or and F T and F T and and and or,1 1 1 1 1 1 1 1 1 1 0 1 0 0 1 1 0 1 0 0 0 0 0 1 0 0 1 0 0 0 1
+F F and T T and and T F T or and or F F T and and T F and T F and and and and,0 0 0 1 1 1 0 1 0 1 1 1 1 0 0 1 0 0 1 0 0 1 0 0 0 0 0
+F F and T T or or F F and F F or or and T F or F F or or F F or F F or or or or,0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 0 0 0 0 0 0 0 1 1
+T T F or or T F F and and or F T and F T or and F F or F T and and or or,1 1 0 1 1 1 0 0 0 0 1 0 1 0 0 1 1 0 0 0 0 0 1 0 0 0 1
+F T or T and F T F and or or F T or F F or and F F and T or and and,0 1 1 1 1 0 1 0 0 0 1 0 1 1 0 0 0 0 0 0 0 1 1 0 0
+T T F or or F T or F F or and or F F or T F and or T T or F F and or or or,1 1 0 1 1 0 1 1 0 0 0 0 1 0 0 0 1 0 0 0 1 1 1 0 0 0 1 1 1
+F F and F T or and T F or and F T and T T or or F F F or and or or,0 0 0 0 1 1 0 1 0 1 0 0 1 0 1 1 1 1 0 0 0 0 0 1 1
+T T and T F or and T F or T T and and or F F F and or F T or F T and or and and,1 1 1 1 0 1 1 1 0 1 1 1 1 1 1 0 0 0 0 0 0 1 1 0 1 0 1 0 0
+T T T or or F F or F F and and and F T or T F and or F F and F F and or or and,1 1 1 1 1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 1 0 0 0 0 0 0 0 1 0
+F F or T T and or T T and T or or F T and T F and or F T F and or or or,0 0 0 1 1 1 1 1 1 1 1 1 1 0 1 0 1 0 0 0 0 1 0 0 0 0 1
+T T T and or F T and T F and and and T F and T F or or F or and,1 1 1 1 1 0 1 0 1 0 0 0 0 1 0 0 1 0 1 1 0 1 0
+F T and T F and or T T or T T or or or T T or T or F T and T and or or,0 1 0 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 0 1 1
+F F or T T and and T T or T T or or and T T or T F or and F T or and and,0 0 0 1 1 1 0 1 1 1 1 1 1 1 0 1 1 1 1 0 1 1 0 1 1 1 0
+F T and T or F T and T F and and and T F and F T or and T T or T F and and or or,0 1 0 1 1 0 1 0 1 0 0 0 0 1 0 0 0 1 1 0 1 1 1 1 0 0 0 0 0
+F F and F F or or T F F and and or F T and T or T F or T T and and or and,0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 1 1 1 0 1 1 1 1 1 1 0
+T T and T F or or T F and F F and and or T F or F T or and F F T or or or or,1 1 1 1 0 1 1 1 0 0 0 0 0 0 1 1 0 1 0 1 1 1 0 0 1 1 1 1 1
+T T F or or F F and T T or or or T T or F or F F T and and and or,1 1 0 1 1 0 0 0 1 1 1 1 1 1 1 1 0 1 0 0 1 0 0 0 1
+F F F and and T T and T F and and or T T F or or T F F or and or and,0 0 0 0 0 1 1 1 1 0 0 0 0 1 1 0 1 1 1 0 0 0 0 1 0
+F T and T F and T T and or and T T and F T T or or and or,0 1 0 1 0 0 1 1 1 1 0 1 1 1 0 1 1 1 1 1 1
+F T T or and F F or F F and and and F F or F T or and F T T and and and and,0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 1 1 1 0 0 0
+F F or F T or and T F or T T and and or T T or F F or and T T or T T or and and and,0 0 0 0 1 1 0 1 0 1 1 1 1 1 1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 0 0
+T F or F T or and F or F T T and or T F F or and or and,1 0 1 0 1 1 1 0 1 0 1 1 1 1 1 0 0 0 0 1 1
+T F or T F or and T F and T F and and and F T or T T and or F T and T F or and or or,1 0 1 1 0 1 1 1 0 0 1 0 0 0 0 0 1 1 1 1 1 1 0 1 0 1 0 1 0 1 1
+F F and F T or or F T and and T F and T and F F or T and and and,0 0 0 0 1 1 1 0 1 0 0 1 0 0 1 0 0 0 0 1 0 0 0
+F F and T T or or F T F and or or T T or T F or or F T or T F and or and or,0 0 0 1 1 1 1 0 1 0 0 0 1 1 1 1 1 0 1 1 0 1 1 1 0 0 1 1 1
+F T F and or F F and T and or T F or T F and and T F and T F and or or and,0 1 0 0 0 0 0 0 1 0 0 1 0 1 1 0 0 0 1 0 0 1 0 0 0 0 0
+F T and T F or F F or or or F F and F T or and F T or T or and or,0 1 0 1 0 1 0 0 0 1 1 0 0 0 0 1 1 0 0 1 1 1 1 0 1
+T T or T T or and F T or F or and T T or T F or and F F and F T or and or and,1 1 1 1 1 1 1 0 1 1 0 1 1 1 1 1 1 0 1 1 0 0 0 0 1 1 0 1 1
+T T T and or F F or F F and and and T F and T T and or F T and T or or and,1 1 1 1 1 0 0 0 0 0 0 0 0 1 0 0 1 1 1 1 0 1 0 1 1 1 0
+T F F or F T or and or F T and T or T F T or and and or,1 0 0 0 0 1 1 0 1 0 1 0 1 1 1 0 1 1 1 1 1
+T F or T T and or F F and F T or or and T F and F and F F F or or and and,1 0 1 1 1 1 1 0 0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0
+T T and F T or and T T and T T or or and F F and T or T T T or or and or,1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1
+T F and T and T F or T F or and and T T T and or T T and F T and or or and,1 0 0 1 0 1 0 1 1 0 1 1 0 1 1 1 1 1 1 1 1 0 1 0 1 1 0
+F T or T or T F F and or and F T or F F or and T T and T T and and and and,0 1 1 1 1 1 0 0 0 1 1 0 1 1 0 0 0 0 1 1 1 1 1 1 1 0 0
+T T and F T and and F F T and or and T T and T and T F or F F and or or and,1 1 1 0 1 0 0 0 0 1 0 0 0 1 1 1 1 1 1 0 1 0 0 0 1 1 0
+T F or T F or and T T or F F and and or F F and T F and or T T and F F and and and and,1 0 1 1 0 1 1 1 1 1 0 0 0 0 1 0 0 0 1 0 0 0 1 1 1 0 0 0 0 0 0
+T T or F and T F and F T or and or F F or F F and or T T or F or or or,1 1 1 0 0 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1
+T T or F F and and T T or F F or or and T T and T F or or T T or T T and and and or,1 1 1 0 0 0 0 1 1 1 0 0 0 1 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1
+T F or T T and and T F and F T and and or T F and F F or or T F or T T or and and or,1 0 1 1 1 1 1 1 0 0 0 1 0 0 1 1 0 0 0 0 0 0 1 0 1 1 1 1 1 0 1
+F F or F T or and F T or F T or or and F F or T and F F or F and or or,0 0 0 0 1 1 0 0 1 1 0 1 1 1 0 0 0 0 1 0 0 0 0 0 0 0 0
+F T and T F or or T T or T T and and and F T T F or or and and,0 1 0 1 0 1 1 1 1 1 1 1 1 1 1 0 1 1 0 1 1 0 0
+F T or T F and and T T or F F or or and T F and F F and or F T F and or or or,0 1 1 1 0 0 0 1 1 1 0 0 0 1 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0
+T F and T T and and T T or or F T or F F or and F T or T and and and,1 0 0 1 1 1 0 1 1 1 1 0 1 1 0 0 0 0 0 1 1 1 1 0 0
+T T or F F and or F F or F T and and and F T or T T and or T F and T T or and and or,1 1 1 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1 1 1 1 1 1 0 0 1 1 1 0 0 0
+F F or T T or and T F F or and or T F and F F and and T T and F F and or and or,0 0 0 1 1 1 0 1 0 0 0 0 0 1 0 0 0 0 0 0 1 1 1 0 0 0 1 0 0
+T F or T and T T or F F or and and T F and T F and or F T and and and,1 0 1 1 1 1 1 1 0 0 0 0 0 1 0 0 1 0 0 0 0 1 0 0 0
+F F or T F or and F T or F F and and and F F or F F or or T T and T or or or,0 0 0 1 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1
+F T or T and T T or T or or F T or F F and or F F or T T or or and or,0 1 1 1 1 1 1 1 1 1 1 0 1 1 0 0 0 1 0 0 0 1 1 1 1 1 1
+F T or T T and or F T and F T and or and T F and T F or and T T or F F and and or or,0 1 1 1 1 1 1 0 1 0 0 1 0 0 0 1 0 0 1 0 1 0 1 1 1 0 0 0 0 0 0
+F F and F T or and F F and F F and or or T T and T and T F or T F or and or and,0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 1 1 0 1 1 1 0
+T T T or and T F or F and and T T and F T or or F F and T and and or,1 1 1 1 1 1 0 1 0 0 0 1 1 1 0 1 1 1 0 0 0 1 0 0 0
+F F F or or F F T and or and T F and F or F F or T T and and or or,0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0
+T T and T F or T F or and or T F and T F and or T F or T F and or or or,1 1 1 1 0 1 1 0 1 1 1 1 0 0 1 0 0 0 1 0 1 1 0 0 1 1 1
+F T T and or F F and or F T or F F and and F T or T F or and and and,0 1 1 1 1 0 0 0 1 0 1 1 0 0 0 0 0 1 1 1 0 1 1 0 0
+T F or T and F F T or or and T T or T F and or T T or T F and or or or,1 0 1 1 1 0 0 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 0 0 1 1 1
+F F and F T or or T F F or and or T F or F F and or F T and T T or or and and,0 0 0 0 1 1 1 1 0 0 0 0 1 1 0 1 0 0 0 1 0 1 0 1 1 1 1 1 1
+F T and T F or and F F and T or and F T F and and F F and T T and or or and,0 1 0 1 0 1 0 0 0 0 1 1 0 0 1 0 0 0 0 0 0 1 1 1 1 1 0
+F T and T F and or F T or F T and or or T T and T F or and F T and T T and and and and,0 1 0 1 0 0 0 0 1 1 0 1 0 1 1 1 1 1 1 0 1 1 0 1 0 1 1 1 0 0 0
+F T and F T or or T F and T T or or and T T or F T or or F F or F and or and,0 1 0 0 1 1 1 1 0 0 1 1 1 1 1 1 1 1 0 1 1 1 0 0 0 0 0 1 1
+T T F or and F T or F F or and or T T or T T or or T T F or or or and,1 1 0 1 1 0 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1
+T F T or or T T or F or or F F F or or T T or F F and and or or,1 0 1 1 1 1 1 1 0 1 1 0 0 0 0 0 1 1 1 0 0 0 0 0 1
+T T and T T and or T T T or and and F F and F and T T or F F or or or and,1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 1 1 1 0 0 0 1 1 1
+T T and T T or or T F and T T or or or T F and F F and or F F or or or,1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1
+F T or F and F F and T F or or or F F or T T or F T or and or and,0 1 1 0 0 0 0 0 1 0 1 1 1 0 0 0 1 1 1 0 1 1 1 1 1
+T T and T F or T T or or or T F or T F or or T T or or or,1 1 1 1 0 1 1 1 1 1 1 1 0 1 1 0 1 1 1 1 1 1 1
+F T and F T or or F T and F or or T F and F F or or F F or T or and and,0 1 0 0 1 1 1 0 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 1 1 0 0
+T T or F and T T and T or or F F or F F or and T T F or or or and,1 1 1 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 1 1 0 1 1 1 1
+T F and T or T T and T T and and or F F and F T or and F T and T or or or,1 0 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 1 1 0 0 1 0 1 1 1 1
+T T and T F or or T T or T T and and and F F and F F or and F F F or and or and,1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+F T T or or T F T or or or T T F and or F F or T T or and or or,0 1 1 1 1 1 0 1 1 1 1 1 1 0 0 1 0 0 0 1 1 1 0 1 1
+T F or F T and or F F F or or and F F or F T or or F F and F T and or or and,1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 1 0 0 1 0
+T T or F or F T or F T and or and T T and T and F T and T and and and,1 1 1 0 1 0 1 1 0 1 0 1 1 1 1 1 1 1 0 1 0 1 0 0 0
+F T or T F and or F T or F F or or and T T F and or F F T or or and or,0 1 1 1 0 0 1 0 1 1 0 0 0 1 1 1 1 0 0 1 0 0 1 1 1 1 1
+T T or F T or and F F or T F and and and T T or F F and and T F or F T or or and and,1 1 1 0 1 1 1 0 0 0 1 0 0 0 0 1 1 1 0 0 0 0 1 0 1 0 1 1 1 0 0
+F T F or F F or and and F T T and or F T or F T and or or and,0 1 0 1 0 0 0 0 0 0 1 1 1 1 0 1 1 0 1 0 1 1 0
+T F and F F or and T F and T and or T T or F T or and F T and F T and or and or,1 0 0 0 0 0 0 1 0 0 1 0 0 1 1 1 0 1 1 1 0 1 0 0 1 0 0 0 0
+T F or T T and or T T and F F or and and T T or T T and and F T F or and and or,1 0 1 1 1 1 1 1 1 1 0 0 0 0 0 1 1 1 1 1 1 1 0 1 0 1 0 0 0
+F T and F F and and T T and F T or and or F T and F F or or T F or or or,0 1 0 0 0 0 0 1 1 1 0 1 1 1 1 0 1 0 0 0 0 0 1 0 1 1 1
+F T or T T and or T F and F T and and or F T and T T and or T T or T F and or or or,0 1 1 1 1 1 1 1 0 0 0 1 0 0 1 0 1 0 1 1 1 1 1 1 1 1 0 0 1 1 1
+T T or T T and or T T and F F and or and F F or T T and or T F and T T and or or or,1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 0 0 0 1 1 1 1 1 0 0 1 1 1 1 1 1
+F T or F T or or F T or F F or and and F T F or or F T or or or,0 1 1 0 1 1 1 0 1 1 0 0 0 0 0 0 1 0 1 1 0 1 1 1 1
+T F and T and F F or T T and or or T T or T T or or T T or F or and or,1 0 0 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1
+F T and T T and and T F and T or and F T and T T and F T or and or or,0 1 0 1 1 1 0 1 0 0 1 1 0 0 1 0 1 1 1 0 1 1 1 1 1
+T F and F and F F or T F or and or F T or F F or or F T or T and and or,1 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 0 0 0 1 0 1 1 1 1 1 1
+F F and F F or or F F or T or and F F T and or T T and F T or and or or,0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 1 0 0 1 1 1 0 1 1 1 1 1
+T T and T T or and F T and F F or or or F F or F T and or T F and F T and or or and,1 1 1 1 1 1 1 0 1 0 0 0 0 0 1 0 0 0 0 1 0 0 1 0 0 0 1 0 0 0 0
+T T T or and T F or T F and or and T T F or and T T T and or or and,1 1 1 1 1 1 0 1 1 0 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1
+T F and T and T F or T or or T F or F F and or T T and and or,1 0 0 1 0 1 0 1 1 1 1 1 0 1 0 0 0 1 1 1 1 1 1
+F T T and and T T and F T or and and F F and F T and and T T and F F or or and and,0 1 1 1 0 1 1 1 0 1 1 1 0 0 0 0 0 1 0 0 1 1 1 0 0 0 1 0 0
+F F or F F and and F T and T F or and or F T or T and T T T and and or and,0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 1 1 1 1 1 1 1 1 1 1 0
+F T or T and F T and F T or and and T F and T T and or F T and T and or or,0 1 1 1 1 0 1 0 0 1 1 0 0 1 0 0 1 1 1 1 0 1 0 1 0 1 1
+T F F and or T F and F T or or and T F F and and T T or F F or and and and,1 0 0 0 1 1 0 0 0 1 1 1 1 1 0 0 0 0 1 1 1 0 0 0 0 0 0
+F F and F F or and F F or F F and or and F F or T T and and T T or F F and or and or,0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 0 0 0 1 0 0
+T F and F T and or T F F and and or T T and T F or or F T T and or and or,1 0 0 0 1 0 0 1 0 0 0 0 0 1 1 1 1 0 1 1 0 1 1 1 1 1 1
+T T or F T or T F or or and T T and T T or and T F T and and and or,1 1 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 0 1 0 0 0 1
+T T or T T and or T F or T F and and and F T or T F and and F T or F F and and and and,1 1 1 1 1 1 1 1 0 1 1 0 0 0 0 0 1 1 1 0 0 0 0 1 1 0 0 0 0 0 0
+T F or T T or and F F and F F or and and F F or F T and and T F and F or and or,1 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0
+T T F and or T T and T T and and or F F and F F or and F F or T or or and,1 1 0 0 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1 1 1 1
+F T and F T and or F F and F T or or and T T and F F or and T T T or and and or,0 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 0 0 0 1 1 1 1 1 0 0
+F F and F F and and T T and T F or or or F F and T T or or F T or T and and and,0 0 0 0 0 0 0 1 1 1 1 0 1 1 1 0 0 0 1 1 1 1 0 1 1 1 1 1 1
+F F and F or F F T and or or T T and F T or and F T or F T or or or or,0 0 0 0 0 0 0 1 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 1
+T T and F T or and F T and F T and or and T F and T F and and T T F or or or and,1 1 1 0 1 1 1 0 1 0 0 1 0 0 0 1 0 0 1 0 0 0 1 1 0 1 1 1 0
+F T or T T or or T T and T T or and and T F T or and F T and F F or and and or,0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0 1 0 0 0 0 0 0 1
+T F or T T or and T T and T F or or and T F and T and F T or F and or or,1 0 1 1 1 1 1 1 1 1 1 0 1 1 1 1 0 0 1 0 0 1 1 0 0 0 1
+F T and F T or or F F or T F or or or T T and F T and or T F and F F and and or and,0 1 0 0 1 1 1 0 0 0 1 0 1 1 1 1 1 1 0 1 0 1 1 0 0 0 0 0 0 1 1
+F T or F T or or F F T or and and F T and T F and and F T or and and,0 1 1 0 1 1 1 0 0 1 1 0 0 0 1 0 1 0 0 0 0 1 1 0 0
+T T or F T or or F F or F T or and or F T and T F or or F T T or or and and,1 1 1 0 1 1 1 0 0 0 0 1 1 0 1 0 1 0 1 0 1 1 0 1 1 1 1 1 1
+T F and F T and or F T or T F or and or F F or F T or and T T or T T or and and and,1 0 0 0 1 0 0 0 1 1 1 0 1 1 1 0 0 0 0 1 1 0 1 1 1 1 1 1 1 0 0
+F T and F F and or T T or F T or or or F T or T T and or F T or F and and and,0 1 0 0 0 0 0 1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 0 1 1 0 0 0 0
+F T or F T or and F F and T T and or and F T or F and T T T or or or and,0 1 1 0 1 1 1 0 0 0 1 1 1 1 1 0 1 1 0 0 1 1 1 1 1 1 1
+T F and T T or and T F and and F F and T T or or T T F and and or or,1 0 0 1 1 1 0 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 1 1
+F F or F T or or T T and F F or and and T F F and or T T and F T or and or or,0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 1 0 0 0 1 1 1 1 0 1 1 1 1 1
+T F and F F and and F F or T T or and or F F and F T and and T F T or or or or,1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 1 0 0 1 0 1 1 1 1 1
+T F and F T or or T T or T T or or and F T and F F and or F T and F F and and and and,1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0
+T F or T T or or F F and or F F or T T or and F T or T T and or or or,1 0 1 1 1 1 1 0 0 0 1 0 0 0 1 1 1 0 0 1 1 1 1 1 1 1 1
+F T or F F or and T F and T F and or or F T or F T or or T F or T T or and and and,0 1 1 0 0 0 0 1 0 0 1 0 0 0 0 0 1 1 0 1 1 1 1 0 1 1 1 1 1 1 0
+T T or F and F T F and and or F T and F F and or F T and F F and and or and,1 1 1 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0
+F F or T or F T and T T and and and T F T or T T and and and and,0 0 0 1 1 0 1 0 1 1 1 0 0 1 0 1 1 1 1 1 1 1 0
+F T and T T and and F T or T T and and and F F and T T and or T F or F T or and and or,0 1 0 1 1 1 0 0 1 1 1 1 1 1 0 0 0 0 1 1 1 1 1 0 1 0 1 1 1 1 1
+F F F or or F T F and and or T T T and or F T or T T or and or and,0 0 0 0 0 0 1 0 0 0 0 1 1 1 1 1 0 1 1 1 1 1 1 1 0
+T F and T T and and F F or T F and or or F T and F T and and F F or T T and and and and,1 0 0 1 1 1 0 0 0 0 1 0 0 0 0 0 1 0 0 1 0 0 0 0 0 1 1 1 0 0 0
+T F T and F F and and and F T or T and F T or or or,1 0 1 0 0 0 0 0 0 0 1 1 1 1 0 1 1 1 1
+T F and F or F T and F T and or or F F and F or F T or F F and and or and,1 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0
+T F or F T or and T T and and F F or F F or and F F and F and and and,1 0 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+T F or F F or and T T and and T F or T T and and T T and T T and and and or,1 0 1 0 0 0 0 1 1 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+T T or T T and or F T T and or or F F or T F or or F F and F F and or and and,1 1 1 1 1 1 1 0 1 1 1 1 1 0 0 0 1 0 1 1 0 0 0 0 0 0 0 0 0
+T F or T F or or T F and F F and and or T F or T T or or T F and F and and and,1 0 1 1 0 1 1 1 0 0 0 0 0 0 1 1 0 1 1 1 1 1 1 0 0 0 0 0 0
+T T and T F or and T F T or and or F F and F T and F or and and,1 1 1 1 0 1 1 1 0 1 1 1 1 0 0 0 0 1 0 0 0 0 0
+F F F and and F F and F and or F F and F T and and F T and T F or or and and,0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 1 0 1 1 0 0
+F F F or or F F and T F or and or F F or T F and and T F T or or and and,0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 1 0 0 0 1 0 1 1 1 0 0
+F T and T T or or T F or T F or and and F T F or or T T and F F or or and and,0 1 0 1 1 1 1 1 0 1 1 0 1 1 1 0 1 0 1 1 1 1 1 0 0 0 1 1 1
+T T or T T or and T T and F F or and or T T or T F or or T F or F T and or or or,1 1 1 1 1 1 1 1 1 1 0 0 0 0 1 1 1 1 1 0 1 1 1 0 1 0 1 0 1 1 1
+T F and F T and and F T or T T or and or F T or T T and and F F and T T or and and or,1 0 0 0 1 0 0 0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 0 0 1 1 1 0 0 1
+F T or F and F T and F T and and or F T T and and T F or F T or or or or,0 1 1 0 0 0 1 0 0 1 0 0 0 0 1 1 1 0 1 0 1 0 1 1 1 1 1
+F T or F T or or T F or T and and T T or F F and and F T or T T or or and and,0 1 1 0 1 1 1 1 0 1 1 1 1 1 1 1 0 0 0 0 0 1 1 1 1 1 1 0 0
+F F or T F and and F T or or T T F or or F T T or or and or,0 0 0 1 0 0 0 0 1 1 1 1 1 0 1 1 0 1 1 1 1 1 1
+T T and T F and or F T or T and and F T and T F and and F T and F F and or or and,1 1 1 1 0 0 1 0 1 1 1 1 1 0 1 0 1 0 0 0 0 1 0 0 0 0 0 0 0
+F F and F F and or F F or T T and and and T F or F or T F or T or and and,0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 1 0 1 0 1 1 0 1 1 1 1 0
+T T and F T and or T F or F or or F F and T F or or T T and F or or and,1 1 1 0 1 0 1 1 0 1 0 1 1 0 0 0 1 0 1 1 1 1 1 0 1 1 1
+T T or F or T F and F F or or or T F or T F and or F T and F or and and,1 1 1 0 1 1 0 0 0 0 0 0 1 1 0 1 1 0 0 1 0 1 0 0 0 0 0
+F T or T F or and F T or F T and or or F F and F F and and T T and F F or and and and,0 1 1 1 0 1 1 0 1 1 0 1 0 1 1 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0
+F F or T or T T T or or or F T and F or T T and and and,0 0 0 1 1 1 1 1 1 1 1 0 1 0 0 0 1 1 1 0 0
+T T or T or F F and T F or and or F F or F T and and F F and F F or or or or,1 1 1 1 1 0 0 0 1 0 1 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1
+T F or F or F F and T T or or or T T or T F and or F T F and and or and,1 0 1 0 1 0 0 0 1 1 1 1 1 1 1 1 1 0 0 1 0 1 0 0 0 1 1
+F T or F T or or F T or F T or or and F T and F F and and F T F and and and and,0 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 0 0 0 0 0 0 1 0 0 0 0 0
+F F or F F and and F F and F F and or or T T or F T or and T F and F and and and,0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 1 0 0 0 0 0 0
+F T or F F or and T F or T T and and or T T or T F and and F F or F or or or,0 1 1 0 0 0 0 1 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1
+T F and F T or and T F T or and or F F and F and T F or F T or or and and,1 0 0 0 1 1 0 1 0 1 1 1 1 0 0 0 0 0 1 0 1 0 1 1 1 0 0
+F T and F F or and T F and F F or and and F T and F or T T or T or and or,0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 1 0 0
+T F or T F or or T T and T and or F T or F T and and T T and T F and and and and,1 0 1 1 0 1 1 1 1 1 1 1 1 0 1 1 0 1 0 0 1 1 1 1 0 0 0 0 0
+F T and T F or and F T F or and or T T and F T or or T F or F F and and and or,0 1 0 1 0 1 0 0 1 0 1 0 0 1 1 1 0 1 1 1 1 0 1 0 0 0 0 0 0
+T F F or or T T and F F or and and F F and T F or or F F or T or and or,1 0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 1 0 1 1 0 0 0 1 1 1 1
+T T and T F and or T F or F T or and or T F or F F or and T T and F T and or or and,1 1 1 1 0 0 1 1 0 1 0 1 1 1 1 1 0 1 0 0 0 0 1 1 1 0 1 0 1 1 1
+T T and T T and or F F or F F or and and T T and F F or or T T and F T and or and or,1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 1 1 0 1 0 1 1 1
+T T and T F or or F F and F T and and and T F or F F and and F F T and and and or,1 1 1 1 0 1 1 0 0 0 0 1 0 0 0 1 0 1 0 0 0 0 0 0 1 0 0 0 0
+T F T or or F F and T F or or and T T or T or T F and T T and and and or,1 0 1 1 1 0 0 0 1 0 1 1 1 1 1 1 1 1 1 0 0 1 1 1 0 0 1
+T F F and or F F or T F or or or F F and F and T T or T F and and or or,1 0 0 0 1 0 0 0 1 0 1 1 1 0 0 0 0 0 1 1 1 1 0 0 0 0 1
+F T or F F or or F T or F T or and or T T or T F and or T T and T T or and or or,0 1 1 0 0 0 1 0 1 1 0 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1
+T T and T T and and T T and or F T and T T or or F T and T T or or and and,1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 1 0 1 0 1 1 1 1 1 1
+T T and F T or and F T and and T T or F T or or F T or F T and or or and,1 1 1 0 1 1 1 0 1 0 0 1 1 1 0 1 1 1 0 1 1 0 1 0 1 1 0
+F T and F T or and T F or F T or or or F F F and and F F and and or,0 1 0 0 1 1 0 1 0 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 1
+F F or F T or or T T and T T and and or F T and T T and or T F and T T or or and and,0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 1 1 0 0 1 1 1 1 1 1
+F F and T or T T or F T or and and T F and T F and or T T T or and or and,0 0 0 1 1 1 1 1 0 1 1 1 1 1 0 0 1 0 0 0 1 1 1 1 1 1 1
+T T and F F or or T F or T F or and and T T F and and F F or T F and and and and,1 1 1 0 0 0 1 1 0 1 1 0 1 1 1 1 1 0 0 0 0 0 0 1 0 0 0 0 0
+T T and F T and or T T or T and and T T and T T and F F or or and and,1 1 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1
+T T T or or F T and F F or and and T F or T T and and F T T and and and and,1 1 1 1 1 0 1 0 0 0 0 0 0 1 0 1 1 1 1 1 0 1 1 1 0 0 0
+T F or T T and and T F or T T or and and F T or T or T T and T F and or or or,1 0 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 0 0 1 1 1
+T F and T F or or T F and T and and T F or F T or and T F or F and and and,1 0 0 1 0 1 1 1 0 0 1 0 0 1 0 1 0 1 1 1 1 0 1 0 0 0 0
+F F or T and T F or T F and and or T T or F T and or T F or F T or or and or,0 0 0 1 0 1 0 1 1 0 0 0 0 1 1 1 0 1 0 1 1 0 1 0 1 1 1 1 1
+F T and T T and or F T or T T or or and T T or F F and and T F or F F or or and and,0 1 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 1 0 1 0 0 0 1 0 0
+F F T and and F F and T T or and or F F or T F and and T F or T F or or or and,0 0 1 0 0 0 0 0 1 1 1 0 0 0 0 0 1 0 0 0 1 0 1 1 0 1 1 1 0
+T T or F T and or T T or T T or and or T T and F or T F or F F or or and or,1 1 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 0 1 0 0 0 1 1 1
+F F and F F and or T F and F T and or or T F or T F and or F F or T T or and or or,0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 1 0 1 1 0 0 1 0 0 0 1 1 1 0 1 1
+F T T and T and and T F or T T and and T F or F F or and or and,0 1 1 1 1 1 0 1 0 1 1 1 1 1 1 0 1 0 0 0 0 1 0
+T F and T F and and F T or F T or and and T T and F T or or T F or T T or and or or,1 0 0 1 0 0 0 0 1 1 0 1 1 1 0 1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 1
+F T or T and F T or T F or or or T F or T T or and F F and and or,0 1 1 1 1 0 1 1 1 0 1 1 1 1 0 1 1 1 1 1 0 0 0 0 1
+F T T and T F or and and F T and F T or and T F and T F or or and and,0 1 1 1 1 0 1 1 0 0 1 0 0 1 1 0 1 0 0 1 0 1 1 0 0
+T F or F F and and T F and T T or or and T T and T T or or F T and or and,1 0 1 0 0 0 0 1 0 0 1 1 1 1 0 1 1 1 1 1 1 1 0 1 0 1 0
+F F and F and T T or F T or and and T F or T or F F F or or and or,0 0 0 0 0 1 1 1 0 1 1 1 0 1 0 1 1 1 0 0 0 0 0 0 0
+F T and F F or or F T or F F or or and T T and T and F T and T T and and or and,0 1 0 0 0 0 0 0 1 1 0 0 0 1 0 1 1 1 1 1 0 1 0 1 1 1 0 1 0
+T T or F T and and T F or F T or and and F T and F T and and F F and F F or or or and,1 1 1 0 1 0 0 1 0 1 0 1 1 1 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+T T and T T or and F T and F T and and and F T T and and F T or T F and and or and,1 1 1 1 1 1 1 0 1 0 0 1 0 0 0 0 1 1 1 0 0 1 1 1 0 0 0 0 0
+T F or T F and and F F T or and or F T and F T and and F F or F T or and and or,1 0 1 1 0 0 0 0 0 1 1 0 0 0 1 0 0 1 0 0 0 0 0 0 1 1 0 0 0
+F T and F F and or T T and T or and F F or T T or and T T or T F or or or and,0 1 0 0 0 0 0 1 1 1 1 1 0 0 0 0 1 1 1 0 1 1 1 1 0 1 1 1 0
+T F and F or T T and F F and and or T T and F T or and T T or F or and or,1 0 0 0 0 1 1 1 0 0 0 0 0 1 1 1 0 1 1 1 1 1 1 0 1 1 1
+T F or F F or and F T or T T or and and T T or T F and or T F or F T and and and or,1 0 1 0 0 0 0 0 1 1 1 1 1 1 0 1 1 1 1 0 0 1 1 0 1 0 1 0 0 0 0
+F F or F F and and F T or T F or and and T T and T or F F or T F and or and and,0 0 0 0 0 0 0 0 1 1 1 0 1 1 0 1 1 1 1 1 0 0 0 1 0 0 0 0 0
+F T or T or F T or T F and and and T T and F T or or F F and F or and or,0 1 1 1 1 0 1 1 1 0 0 0 0 1 1 1 0 1 1 1 0 0 0 0 0 0 0
+F T and T T and or F F and F T or and or F T or F and T F F or and or and,0 1 0 1 1 1 1 0 0 0 0 1 1 0 1 0 1 1 0 0 1 0 0 0 0 0 0
+T F or T T and or F T T or and or T F T or or T T and F and or or,1 0 1 1 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 1 1 0 0 1 1
+F F or F T and or F F and F T and or or T T or T and T T or F T or and or and,0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 1 1 1 1 1 1 1 1 0 1 1 1 1 0
+F F and T F or and T F F or and and F T and T F or and F T and F F and and or and,0 0 0 1 0 1 0 1 0 0 0 0 0 0 1 0 1 0 1 0 0 1 0 0 0 0 0 0 0
+F F and F F and and T T and F F or and and F F or T T or and T T or F T or and and or,0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 1 0 0
+T F or T T and and T T F or and and T T and T T and and T T or F F or or and or,1 0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1
+T T and T T and and F F and F T or or or T T or F and F T and T T and or and and,1 1 1 1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 0 0 0 1 0 1 1 1 1 0 0
+T T and F T and or T T and F T and and or T F and T and T F F and and and and,1 1 1 0 1 0 1 1 1 1 0 1 0 0 1 1 0 0 1 0 1 0 0 0 0 0 0
+T T or F T and and F T or F F or or and T T and F T or or F T or T F or and and or,1 1 1 0 1 0 0 0 1 1 0 0 0 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 1
+T T or T T or F F and or or T F or F F or and T T and T and or and,1 1 1 1 1 1 0 0 0 1 1 1 0 1 0 0 0 0 1 1 1 1 1 1 1
+T F and F F or and T F or F T and or and T F and F F or or F T or F F and or or or,1 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 1 1 0 0 0 1 1 1
+F F and T T and or T F or F F or or or T T or F and F F or T T and or and and,0 0 0 1 1 1 1 1 0 1 0 0 0 1 1 1 1 1 0 0 0 0 0 1 1 1 1 0 0
+T T and F T and and F T and T F and and or T T or T F or or T T and F or and or,1 1 1 0 1 0 0 0 1 0 1 0 0 0 0 1 1 1 1 0 1 1 1 1 1 0 1 1 1
+F T and F F and and T T or T T and or or T F and F F or and F F and T T or and and and,0 1 0 0 0 0 0 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0
+F F or T F or or T F and and T T and F T and or F F or T T and or and and,0 0 0 1 0 1 1 1 0 0 0 1 1 1 0 1 0 1 0 0 0 1 1 1 1 1 0
+F T and F F or or T F T or or or F F and T T and or F F or T T or or or or,0 1 0 0 0 0 0 1 0 1 1 1 1 0 0 0 1 1 1 1 0 0 0 1 1 1 1 1 1
+F T T or or T T or T F or and and T T or F T and or T F or F F or and or or,0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 0 1 1 0 1 0 0 0 0 1 1
+F T and T F and or T F F and or and T F and T F or or F F T or or or or,0 1 0 1 0 0 0 1 0 0 0 1 0 1 0 0 1 0 1 1 0 0 1 1 1 1 1
+F F and F T or and T F T and and and T T and T F and or T F and F T or or and or,0 0 0 0 1 1 0 1 0 1 0 0 0 1 1 1 1 0 0 1 1 0 0 0 1 1 1 1 1
+F F and F T and and T F and F F and or and T F or F T and or F F and F T or or or or,0 0 0 0 1 0 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 0 0 0 1 1 1 1 1
+F T or T T or and F F and T T and and and F T and F T and and T F F and or or and,0 1 1 1 1 1 1 0 0 0 1 1 1 0 0 0 1 0 0 1 0 0 1 0 0 0 1 1 0
+F T F and and F T and F and or T T and T F and or F F or or or,0 1 0 0 0 0 1 0 0 0 0 1 1 1 1 0 0 1 0 0 0 1 1
+F T and F F and and F T or T T or or and T T and T F or and F T and F and and and,0 1 0 0 0 0 0 0 1 1 1 1 1 1 0 1 1 1 1 0 1 1 0 1 0 0 0 0 0
+T T or T and F F or F T and or and T T and T F and and F F and T F or or and and,1 1 1 1 1 0 0 0 0 1 0 0 0 1 1 1 1 0 0 0 0 0 0 1 0 1 1 0 0
+F F and F F and or T F or F T or and or F T and T and T T or T F or or and or,0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 0 1 0 1 0 1 1 1 1 0 1 1 0 1
+F F or T or F F or F F and or or F F or T T and and T F or T T or or and or,0 0 0 1 1 0 0 0 0 0 0 0 1 0 0 0 1 1 1 0 1 0 1 1 1 1 1 0 1
+T T and F T or and T F and T F or and and F T and F T or and F F and T T or or or and,1 1 1 0 1 1 1 1 0 0 1 0 1 0 0 0 1 0 0 1 1 0 0 0 0 1 1 1 1 1 0
+F T or T F and or T T or T F or or or T T or T T or or T F or F T or or or and,0 1 1 1 0 0 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 1 1
+T T or F T or and F T or T and and T T or T F or or F T or F or and and,1 1 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1 0 1 1 0 1 1 0 1 1 1
+F F or F and T T T or or and F T or F T and or T T F or or and and,0 0 0 0 0 1 1 1 1 1 0 0 1 1 0 1 0 1 1 1 0 1 1 1 0
+F T F or and T F and T T or and and T T and T F and and T T T and or or or,0 1 0 1 0 1 0 0 1 1 1 0 0 1 1 1 1 0 0 0 1 1 1 1 1 1 1
+F F or F F and or F T and F F and or or F T and T and T F and T F and or or or,0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 1 0 0 0 0 0
+F F and F T and or T T and T or or T T and F or F F T or and and and,0 0 0 0 1 0 0 1 1 1 1 1 1 1 1 1 0 1 0 0 1 1 0 0 0
+F F or T T and and T T or F or or T T or T T and and T T and F F or and or and,0 0 0 1 1 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 1 1
+T T F and and F T F or and or F T F or or F T and T T and and or or,1 1 0 0 0 0 1 0 1 0 0 0 1 0 1 1 0 1 0 1 1 1 0 1 1
+F T and F T or or F F and T F and and and T T or F or T F or F F and or and and,0 1 0 0 1 1 1 0 0 0 1 0 0 0 0 1 1 1 0 1 1 0 1 0 0 0 1 1 0
+F F or T F or and F T or T T and or or F T or T F or or T T or T F and and or or,0 0 0 1 0 1 0 0 1 1 1 1 1 1 1 0 1 1 1 0 1 1 1 1 1 1 0 0 0 1 1
+T F and T T and and F T or F F and and and F T and F T or or F T or F or and or,1 0 0 1 1 1 0 0 1 1 0 0 0 0 0 0 1 0 0 1 1 1 0 1 1 0 1 1 1
+T F T and or T F or T and and T F and T and F T and T and or or,1 0 1 0 1 1 0 1 1 1 1 1 0 0 1 0 0 1 0 1 0 0 1
+T F or T F and and F T or F F or or and T F F or or T F or T T and or or or,1 0 1 1 0 0 0 0 1 1 0 0 0 1 0 1 0 0 0 1 1 0 1 1 1 1 1 1 1
+T T and T T and and T F and F F or or or F F T and and F F or F F and and and and,1 1 1 1 1 1 1 1 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+F T or T F and and F T F or and and F T and F F or and T F and T F or or and and,0 1 1 1 0 0 0 0 1 0 1 0 0 0 1 0 0 0 0 0 1 0 0 1 0 1 1 0 0
+T T or F T or or T F and T F and or and T T and F and F T and T or and or,1 1 1 0 1 1 1 1 0 0 1 0 0 0 0 1 1 1 0 0 0 1 0 1 1 0 0
+T F F or and F F or F T and and and F F or F F or or T F or T T or or and or,1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 1 1 1 1 1 0 0
+T T and F T or and F T or F T and and and F F or T F and and F T or F F or and or and,1 1 1 0 1 1 1 0 1 1 0 1 0 0 0 0 0 0 1 0 0 0 0 1 1 0 0 0 0 0 0
+T F or T T and and F F or F T and or and T F and T F and and F F and F F or or and or,1 0 1 1 1 1 1 0 0 0 0 1 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0
+T F or T T or and F F T or and and F F T and and T T F or and or or,1 0 1 1 1 1 1 0 0 1 1 0 0 0 0 1 0 0 1 1 0 1 1 1 1
+F F and T F or or F F and T or or T F or F T and and F F or F T or and and or,0 0 0 1 0 1 1 0 0 0 1 1 1 1 0 1 0 1 0 0 0 0 0 0 1 1 0 0 1
+T F or T F and or F F or T F and and or T T or F F and or T F or F T or and or and,1 0 1 1 0 0 1 0 0 0 1 0 0 0 1 1 1 1 0 0 0 1 1 0 1 0 1 1 1 1 1
+T F and F or F T and F F and or or F F or T F or or F F F or or and and,1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 1 1 0 0 0 0 0 0 0
+T T and T F or and F F and F T and or or T F or T F or or F F F or or and and,1 1 1 1 0 1 1 0 0 0 0 1 0 0 1 1 0 1 1 0 1 1 0 0 0 0 0 0 0
+T F or T T and or F F and F F or and and F T F and or T T F and and or and,1 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 0 0 0 0 0
+F F T or and F T or T T and and and T T F and or T T or T or and or,0 0 1 1 0 0 1 1 1 1 1 1 0 1 1 0 0 1 1 1 1 1 1 1 1
+F T and F F and or F F or T and or F F or F T or or T F or F T and or and or,0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 1 1 1 0 1 0 1 0 1 1 1
+T F or F F and or F T or T F and and and F F or F T and and F T and F T or or or or,1 0 1 0 0 0 1 0 1 1 1 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 1 1 1 1 1
+F T and T F or and F T or T T or and or F T and F F or and F F and F F and and and or,0 1 0 1 0 1 0 0 1 1 1 1 1 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1
+T T and F F and F F or and or F T F or or F T or F F or or and and,1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 1 0 1 1 0 0 0 1 1 1
+F F and T F or or T F or T T and or or T F and F T or T or or and,0 0 0 1 0 1 1 1 0 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1
+T T F and and T F or T T or or or T F and F and T F F or or and or,1 1 0 0 0 1 0 1 1 1 1 1 1 1 0 0 0 0 1 0 0 0 1 0 1
+T T or T T or and T T or T T or or and F T or F F and or T T F and or and or,1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 0 0 0 1 1 1 0 0 1 1 1
+T T or F T or and F T T or or and T T and T F and and F F or T F or or and or,1 1 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 1 0 1 1 0 1
+T F or T T or or T T or F T or or and F F and F F and and T F or T F and and or and,1 0 1 1 1 1 1 1 1 1 0 1 1 1 1 0 0 0 0 0 0 0 1 0 1 1 0 0 0 0 0
+F F and F F and and T F and F and and F T and T or T T or F T or or and and,0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 1 1 1 1 1 0 1 1 1 1 0
+T T and F or T F F and or or T T or T F and or T F or T T and and or or,1 1 1 0 1 1 0 0 0 1 1 1 1 1 1 0 0 1 1 0 1 1 1 1 1 1 1
+F T and T T and or F T or T T and and or F T and F T or or F F and F or and or,0 1 0 1 1 1 1 0 1 1 1 1 1 1 1 0 1 0 0 1 1 1 0 0 0 0 0 0 1
+T F and F T or and F F or F and or T T or T F or and T F or F F and and or and,1 0 0 0 1 1 0 0 0 0 0 0 0 1 1 1 1 0 1 1 1 0 1 0 0 0 0 1 0
+F F and T F and or T F or F T or and or F F F and or T T and F F or and and and,0 0 0 1 0 0 0 1 0 1 0 1 1 1 1 0 0 0 0 0 1 1 1 0 0 0 0 0 0
+F T or F T or and T T and F T and and or F F T and and F T or F F and or and or,0 1 1 0 1 1 1 1 1 1 0 1 0 0 1 0 0 1 0 0 0 1 1 0 0 0 1 0 1
+T T or F T and or T F and T or and F F and F F or and F T or F T and or or or,1 1 1 0 1 0 1 1 0 0 1 1 1 0 0 0 0 0 0 0 0 1 1 0 1 0 1 1 1
+F F and T F or or T T and F or and F F and F or T F or F T and or and and,0 0 0 1 0 1 1 1 1 1 0 1 1 0 0 0 0 0 1 0 1 0 1 0 1 0 0
+T F F and or T F T and or or F F and F T or or T F and F F and or and or,1 0 0 0 1 1 0 1 0 1 1 0 0 0 0 1 1 1 1 0 0 0 0 0 0 0 1
+T T and F or T F and T and and F T and F T and and F F F or and and or,1 1 1 0 1 1 0 0 1 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0
+F T F F or or or F T and F F or and F T and T F or or or and,0 1 0 0 0 1 1 0 1 0 0 0 0 0 0 1 0 1 0 1 1 1 1
+F T and T F or and F T and T T and and or F F and T or T F and F T or and or or,0 1 0 1 0 1 0 0 1 0 1 1 1 0 0 0 0 0 1 1 1 0 0 0 1 1 0 1 1
+T F F and or F T or F F and and and T F and T or F F and F and or or,1 0 0 0 1 0 1 1 0 0 0 0 0 1 0 0 1 1 0 0 0 0 0 1 1
+F F and F or F T or T T or and or F T or T T and and F T or F T or and or or,0 0 0 0 0 0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 1 0 1 1 1 1 1
+F T or F and F F or T F and or or T T or F F and or F and and,0 1 1 0 0 0 0 0 1 0 0 0 0 1 1 1 0 0 0 1 0 0 0
+F T or T and T T and F T or or or F T F or and F T or F and and and,0 1 1 1 1 1 1 1 0 1 1 1 1 0 1 0 1 0 0 1 1 0 0 0 0
+F T or T T and and T T and T T or or and T T or F T and and F T and or and,0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 0 0 1 0 0 0
+F F and T T and and T T and F and or F F or F T and or F T and F or or and,0 0 0 1 1 1 0 1 1 1 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0
+F F and F T and or T F or F F or and and T T and F T F or and or or,0 0 0 0 1 0 0 1 0 1 0 0 0 0 0 1 1 1 0 1 0 1 0 1 1
+F T and F and T F and F F or or or F F or T and T F and F T and or and or,0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 0 0 0 0
+T T or T T or or F F or T T or or or T F or T and F F and F F or or and and,1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0
+F T or F F or or F T or F F and and and F F and F T or and T F or T T and or or or,0 1 1 0 0 0 1 0 1 1 0 0 0 0 0 0 0 0 0 1 1 0 1 0 1 1 1 1 1 1 1
+T F or T T and or T T and F F or and or T F and F T and or T F and T F or or and or,1 0 1 1 1 1 1 1 1 1 0 0 0 0 1 1 0 0 0 1 0 0 1 0 0 1 0 1 1 0 1
+T F or T F or and T F and F T and and or F F and F F or or T T and F F or and and or,1 0 1 1 0 1 1 1 0 0 0 1 0 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 1
+T T T or and T T F and or and F T or F F or and F F or T T and or and and,1 1 1 1 1 1 1 0 0 1 1 0 1 1 0 0 0 0 0 0 0 1 1 1 1 0 0
+T T F and or F T and F F and or and T F and F T and and F F T or or or and,1 1 0 0 1 0 1 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 1 1 1 1 0
+T T and F and T F F and or and F F and T T and and F T or T or or or,1 1 1 0 0 1 0 0 0 1 0 0 0 0 1 1 1 0 0 1 1 1 1 1 1
+F F and T F and or F F or T and or T T and T F or and T T or T T and and or or,0 0 0 1 0 0 0 0 0 0 1 0 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1
+F T and F F or or F F or F T and and or F F and T F and and F F T or or or or,0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 1 1 1 1 1
+T F and F F or or F F or T F and and and T F or F F or or T T F and and or or,1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 0 0 0 1 1 1 0 0 0 1 1
+F F and T T and and F T and T T and and and F F and T T or or T F and F F and or and or,0 0 0 1 1 1 0 0 1 0 1 1 1 0 0 0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0
+F F or F T or and F T and F F and and and T T T and or F T or F T or and or and,0 0 0 0 1 1 0 0 1 0 0 0 0 0 0 1 1 1 1 1 0 1 1 0 1 1 1 1 0
+T T F and or F F and F T and or or F T or T or T T and F T or and and and,1 1 0 0 1 0 0 0 0 1 0 0 1 0 1 1 1 1 1 1 1 0 1 1 1 1 1
+T T and F F or or F T and T T and or and F T or F or T F and T F or and and or,1 1 1 0 0 0 1 0 1 0 1 1 1 1 1 0 1 1 0 1 1 0 0 1 0 1 0 0 1
+T F and T F and and T F and T T or and or T T or F F and or F F and F T or and and and,1 0 0 1 0 0 0 1 0 0 1 1 1 0 0 1 1 1 0 0 0 1 0 0 0 0 1 1 0 0 0
+F F or F F or or T T and T T and and and F T and F F or or T T T or and or and,0 0 0 0 0 0 0 1 1 1 1 1 1 1 0 0 1 0 0 0 0 0 1 1 1 1 1 1 0
+T F F or or F F F and or or F F T or or T F T and and and and,1 0 0 0 1 0 0 0 0 0 1 0 0 1 1 1 1 0 1 0 0 0 0
+T T or F T or or F F or T T and or and F T and F F or and F F or T T or or and or,1 1 1 0 1 1 1 0 0 0 1 1 1 1 1 0 1 0 0 0 0 0 0 0 0 1 1 1 1 0 1
+T T or F F or and T T or T and and F F and T T or and F T and F T and or or and,1 1 1 0 0 0 0 1 1 1 1 1 0 0 0 0 1 1 1 0 0 1 0 0 1 0 0 0 0
+T F and T T or or F F or T F or or or T F and T T and or F T and T T or or or or,1 0 0 1 1 1 1 0 0 0 1 0 1 1 1 1 0 0 1 1 1 1 0 1 0 1 1 1 1 1 1
+F T T or and F T F or and and F T or F F or and T F or F T and or and or,0 1 1 1 0 0 1 0 1 0 0 0 1 1 0 0 0 0 1 0 1 0 1 0 1 0 0
+T T or F and T F and F F and and or F T and T and F F F or and and and,1 1 1 0 0 1 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0
+T F F or and T F or T F and and and T T or F F or or F F and F F and or and or,1 0 0 0 0 1 0 1 1 0 0 0 0 1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0
+T T and F T and and T F T or or or T F and F T or and F F and F or and and,1 1 1 0 1 0 0 1 0 1 1 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 0
+F F and F F and and F T and F T or and or T F or T T and and F T and F or and and,0 0 0 0 0 0 0 0 1 0 0 1 1 0 0 1 0 1 1 1 1 1 0 1 0 0 0 0 0
+F T or F T or and F F or T and and F T and T F or and F F or T T or or and and,0 1 1 0 1 1 1 0 0 0 1 0 0 0 1 0 1 0 1 0 0 0 0 1 1 1 1 0 0
+T T or T F or or F F T or or and T F and T T or or T T or F F and or and and,1 1 1 1 0 1 1 0 0 1 1 1 1 1 0 0 1 1 1 1 1 1 1 0 0 0 1 1 1
+F F and F T or and T T F or and or F T or F T or and T F or T F and and and and,0 0 0 0 1 1 0 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 1 0 0 0 0 0
+F F or T F and or F T and T T or and and F F or T F and or T T or T F or and or and,0 0 0 1 0 0 0 0 1 0 1 1 1 0 0 0 0 0 1 0 0 0 1 1 1 1 0 1 1 1 0
+T F or T F and and T F F and and or F T or T T and and F F or F T or and and or,1 0 1 1 0 0 0 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 1 1 0 0 0
+F T or F F or and F F or T T and or and F F and F T or or T F F and and or and,0 1 1 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 0 1 1 1 1 0 0 0 0 1 0
+F F and F T and or T F and T or or F T or T or T T and F T or or and and,0 0 0 0 1 0 0 1 0 0 1 1 1 0 1 1 1 1 1 1 1 0 1 1 1 1 1
+F T or T F and and T T and F F and or and T F and T or F F and F T or and or or,0 1 1 1 0 0 0 1 1 1 0 0 0 1 0 1 0 0 1 1 0 0 0 0 1 1 0 1 1
+F T or T T or or F T or F T and and or F T F and and T F or T F or and or or,0 1 1 1 1 1 1 0 1 1 0 1 0 0 1 0 1 0 0 0 1 0 1 1 0 1 1 1 1
+T F and T F and or F F and T T and or or F F or T F or or F T and T T or or or and,1 0 0 1 0 0 0 0 0 0 1 1 1 1 1 0 0 0 1 0 1 1 0 1 0 1 1 1 1 1 1
+T T or T T and F T and or or T T F and or F F and F F and and and or,1 1 1 1 1 1 0 1 0 1 1 1 1 0 0 1 0 0 0 0 0 0 0 0 1
+T F T or or F F and T T and or or F F or T F and T T or and or and,1 0 1 1 1 0 0 0 1 1 1 1 1 0 0 0 1 0 0 1 1 1 0 0 0
+F F and T T and and F or F F or T T and T F or or or or,0 0 0 1 1 1 0 0 0 0 0 0 1 1 1 1 0 1 1 1 1
+T F and T F and and T F and T T and and or T F or T T and and T F and F F and or or or,1 0 0 1 0 0 0 1 0 0 1 1 1 0 0 1 0 1 1 1 1 1 1 0 0 0 0 0 0 1 1
+T F and F T and and F F or F F and and and T T and F T and or T T or F F and and and or,1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 0 1 1 1 1 0 0 0 0 0 0
+F T or T T or and F F or T F and and and T F or T F and and F F F and and or or,0 1 1 1 1 1 1 0 0 0 1 0 0 0 0 1 0 1 1 0 0 0 0 0 0 0 0 0 0
+T F or T F or and T F and T T and and or F T or T F and or F T and T T and and or or,1 0 1 1 0 1 1 1 0 0 1 1 1 0 1 0 1 1 1 0 0 1 0 1 0 1 1 1 0 1 1
+T F or F T or and F F and T F and and and T F or F F and or T F and F T and or and or,1 0 1 0 1 1 1 0 0 0 1 0 0 0 0 1 0 1 0 0 0 1 1 0 0 0 1 0 0 0 0
+T T and F T or and F T and T F and and or T T or F F and or T T and F F or or or and,1 1 1 0 1 1 1 0 1 0 1 0 0 0 1 1 1 1 0 0 0 1 1 1 1 0 0 0 1 1 1
+F F or T and T F or T T or or and F F F or and T F or T T and and or or,0 0 0 1 0 1 0 1 1 1 1 1 0 0 0 0 0 0 1 0 1 1 1 1 1 1 1
+F F and F or F F F or and and T T or F T and or F T and F F and and and and,0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 0 1 0 1 0 0 0 0 0 0 0
+T F or F or F F and T or and T T T or or T T or F F and and and and,1 0 1 0 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0
+F F or T F or and T T or F T and or or F F or T and T F or T or and or,0 0 0 1 0 1 0 1 1 1 0 1 0 1 1 0 0 0 1 0 1 0 1 1 1 0 1
+F F F or and T T F or or or T T and T T and and T F and T F or and and and,0 0 0 0 0 1 1 0 1 1 1 1 1 1 1 1 1 1 1 0 0 1 0 1 0 0 0
+T F and F T or and T T and F and and T T or F T and and F F and T T or or or or,1 0 0 0 1 1 0 1 1 1 0 0 0 1 1 1 0 1 0 0 0 0 0 1 1 1 1 1 1
+F F and T F or and T T or F F and and or F T and T F or and F T and T T or or and and,0 0 0 1 0 1 0 1 1 1 0 0 0 0 0 0 1 0 1 0 1 0 0 1 0 1 1 1 1 0 0
+F T or T T and and T F and F F or or or F T and F F and F F or or and and,0 1 1 1 1 1 1 1 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0
+F T or T T and or T T or F T and or or T F or F T and or T T and T and and and,0 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 1 0 1 0 1 1 1 1 1 1 1 1
+F F or T F or and F T or T F or or and F T and F or T or or,0 0 0 1 0 1 0 0 1 1 1 0 1 1 0 0 1 0 0 0 1 1 1
+T F or F F or and F T or T F or or and F T or F T or and F T T or or and and,1 0 1 0 0 0 0 0 1 1 1 0 1 1 0 0 1 1 0 1 1 1 0 1 1 1 1 1 0
+T T and T T and or F F or F T and or or T F and F or T F F and and and or,1 1 1 1 1 1 1 0 0 0 0 1 0 0 1 1 0 0 0 0 1 0 0 0 0 0 1
+F T or T F and and T F T and and or T F and T F and or F T F or or or or,0 1 1 1 0 0 0 1 0 1 0 0 0 1 0 0 1 0 0 0 0 1 0 1 1 1 1
+F T or F F and and F F and T F or and or F T and F F or or F F T or and and and,0 1 1 0 0 0 0 0 0 0 1 0 1 0 0 0 1 0 0 0 0 0 0 0 1 1 0 0 0
+F F or T T and and F T or F F and or or F F or F F and or T F or F F or and or or,0 0 0 1 1 1 0 0 1 1 0 0 0 1 1 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 1
+F F and T T or and F F and T T or or or T T and T T or or T T or F F and or or and,0 0 0 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1
+F F or T F or or T F or T F and or or T F or F T and or T F or F F and and or or,0 0 0 1 0 1 1 1 0 1 1 0 0 1 1 1 0 1 0 1 0 1 1 0 1 0 0 0 0 1 1
+F T F and or T T and F T or and or F F or F T or or F T and T F or and and or,0 1 0 0 0 1 1 1 0 1 1 1 1 0 0 0 0 1 1 1 0 1 0 1 0 1 0 0 1
+T F and T F or and T F or F T or or and T T and F F and or T T and T F and and and and,1 0 0 1 0 1 0 1 0 1 0 1 1 1 0 1 1 1 0 0 0 1 1 1 1 1 0 0 0 0 0
+T F and T F or or F T and F F and and and F F or F F or and T T and or and,1 0 0 1 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0
+T F T or or F T or T or or T T or F F and or F T and T T or or and or,1 0 1 1 1 0 1 1 1 1 1 1 1 1 0 0 0 1 0 1 0 1 1 1 1 1 1
+F F and T F and and F T and T and or T T or F F or or F F and F and and or,0 0 0 1 0 0 0 0 1 0 1 0 0 1 1 1 0 0 0 1 0 0 0 0 0 0 0
+T F and T T or and T F and T T or or and F F or F F or and T T or T or and or,1 0 0 1 1 1 0 1 0 0 1 1 1 1 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0
+F F and F F and or T T and F F and or and T F or F or F T or F T or or and or,0 0 0 0 0 0 0 1 1 1 0 0 0 1 0 1 0 1 0 1 0 1 1 0 1 1 1 1 1
+F F and T F and or T T T or and or T T and F F or or T T and T T or or and and,0 0 0 1 0 0 0 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1
+T F or F F and and T T F or and or T F and F T and or F T and T T or or or or,1 0 1 0 0 0 0 1 1 0 1 1 1 1 0 0 0 1 0 0 0 1 0 1 1 1 1 1 1
+F T or T F or or T T and T T and or and F F or T F or and T T or F T or or and or,0 1 1 1 0 1 1 1 1 1 1 1 1 1 1 0 0 0 1 0 1 0 1 1 1 0 1 1 1 0 1
+T F and F F or and F and F T and T F and and F T and F F or or and or,1 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 1 0 0 0 0 0 0 0
+F F or F T or or T F or T T or or or T T or F T or or F F and T T or or and and,0 0 0 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 0 1 1 1 0 0 0 1 1 1 1 1 1
+T F or F F and and F T and T T and or or F F or T and T F and F F or and and or,1 0 1 0 0 0 0 0 1 0 1 1 1 1 1 0 0 0 1 0 1 0 0 0 0 0 0 0 1
+T F T or T T and and or F T or F F and or T T and T T or and and or,1 0 1 1 1 1 1 1 1 0 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1
+T F and T T or and F F T or or or T T or T T or and T T or F F and or or and,1 0 0 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1
+F F or T or F T or F F or or and F F and F T or and T F and F F and or or or,0 0 0 1 1 0 1 1 0 0 0 1 1 0 0 0 0 1 1 0 1 0 0 0 0 0 0 0 1
+T T T or or F F or F and or F F or T F and and T T F and or and and,1 1 1 1 1 0 0 0 0 0 1 0 0 0 1 0 0 0 1 1 0 0 1 0 0
+F T and T F or or F F and T T or or and T T and T T and and T T and T T and and or and,0 1 0 1 0 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+T F and T F and and F T F and and or T F or T or F F or T or and and,1 0 0 1 0 0 0 0 1 0 0 0 0 1 0 1 1 1 0 0 0 1 1 1 0
+F F or T F or and T T T and or or F F and F T and and F F or F T or and or and,0 0 0 1 0 1 0 1 1 1 1 1 1 0 0 0 0 1 0 0 0 0 0 0 1 1 0 0 0
+F T or T T and or T and F T F or or T F or T T or and or or,0 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 1 1 1 1 1 1 1
+T T and F T or and T T and F T and or and T F T or or T T or F F and or and and,1 1 1 0 1 1 1 1 1 1 0 1 0 1 1 1 0 1 1 1 1 1 1 0 0 0 1 1 1
+F F or T F or and T F or T F and and and F T or F T or or T T and T F or or or and,0 0 0 1 0 1 0 1 0 1 1 0 0 0 0 0 1 1 0 1 1 1 1 1 1 1 0 1 1 1 0
+F F or T T and or T F or F T or and or T T or F T and and F T and or and,0 0 0 1 1 1 1 1 0 1 0 1 1 1 1 1 1 1 0 1 0 0 0 1 0 0 0
+F F and T T F or or and F F F and or F T and F F and or and and,0 0 0 1 1 0 1 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0
+T T or T T F and and and T F T and and F F or F F and and or and,1 1 1 1 1 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0
+F F and F F and and F F F or or or T T or T T and or F and or,0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 0 0 0
+F F and T T or and F T and or F F and T F or or T T or F F and and or and,0 0 0 1 1 1 0 0 1 0 0 0 0 0 1 0 1 1 1 1 1 0 0 0 0 1 0
+F F T and or F T or F and or T T or T T or or F F and F T or or or and,0 0 1 0 0 0 1 1 0 0 0 1 1 1 1 1 1 1 0 0 0 0 1 1 1 1 0
+T F and T F or or T F or F T and or or T F and F F or T T or and and or,1 0 0 1 0 1 1 1 0 1 0 1 0 1 1 1 0 0 0 0 0 1 1 1 0 0 1
+T F or T T or or T T and T T and and or T F F or or T T and F or or and,1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 0 1 1 1
+F T T and or F F and T T and or and T F F and and T F and F F and and and and,0 1 1 1 1 0 0 0 1 1 1 1 1 1 0 0 0 0 1 0 0 0 0 0 0 0 0
+F F or T T and or T F F or or and F F and T F and and F T and T T and and and or,0 0 0 1 1 1 1 1 0 0 0 1 1 0 0 0 1 0 0 0 0 1 0 1 1 1 0 0 1
+T F and T T or or T F or T F and and and T F or F F and and T F or F T or or and or,1 0 0 1 1 1 1 1 0 1 1 0 0 0 0 1 0 1 0 0 0 0 1 0 1 0 1 1 1 0 0
+F F or F T and or F T and F T or and or F T or T T or and F F and F F or or and or,0 0 0 0 1 0 0 0 1 0 0 1 1 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0
+F T or F F and or T T and T T and and or F F and F T or and T F and T F or and or or,0 1 1 0 0 0 1 1 1 1 1 1 1 1 1 0 0 0 0 1 1 0 1 0 0 1 0 1 0 0 1
+F T or F F and or T F and F F and or and F T or F T and and T T and T F or or or and,0 1 1 0 0 0 1 1 0 0 0 0 0 0 0 0 1 1 0 1 0 0 1 1 1 1 0 1 1 1 0
+F T or F T and and T F or T and and T T and F T or or F T and or and,0 1 1 0 1 0 0 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 0 1 0
+T T or T T or and T F and T F and and and F T and F T or or T T and T T and and or or,1 1 1 1 1 1 1 1 0 0 1 0 0 0 0 0 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1
+F T or F F or and F T or F F or and or T F and F T and or F T or T T or and or or,0 1 1 0 0 0 0 0 1 1 0 0 0 0 0 1 0 0 0 1 0 0 0 1 1 1 1 1 1 1 1
+T T and F F and and T T and F or and T T or F F and or T T or T F or and or or,1 1 1 0 0 0 0 1 1 1 0 1 0 1 1 1 0 0 0 1 1 1 1 1 0 1 1 1 1
+T T and F F or or T T or T T and or and T F F or and F F and T T and and and or,1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 1 1 0 0 1
+F F and T T and and F F and T or or F T and F F or and T T and F and or and,0 0 0 1 1 1 0 0 0 0 1 1 1 0 1 0 0 0 0 0 1 1 1 0 0 0 0
+T T or F T and and F T and T T or and or F T and F and T F or T or or or,1 1 1 0 1 0 0 0 1 0 1 1 1 0 0 0 1 0 0 0 1 0 1 1 1 1 1
+T T and F and T T T and and and T F F and and T T or F F or or and or,1 1 1 0 0 1 1 1 1 1 0 1 0 0 0 0 1 1 1 0 0 0 1 0 0
+F F or T F and or F T or T T or or or F F and T or T T or T and and and,0 0 0 1 0 0 0 0 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1
+T T or F F or and F T T and and or T F T or T F or or or and,1 1 1 0 0 0 0 0 1 1 1 0 0 1 0 1 1 1 0 1 1 1 0
+T F or F F or and F T and F F or or and F T or T T and or T T and F F or or or or,1 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1
+T F and F F or and F T and F T or or and T F T or F or and and,1 0 0 0 0 0 0 0 1 0 0 1 1 1 0 1 0 1 1 0 1 1 0
+T F or T T and or F T or F F or or and T F and F or T T and F F or or or or,1 0 1 1 1 1 1 0 1 1 0 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 1 1 1
+F T and T T or or T F or F T or and and F T and F T or and F F T or and and and,0 1 0 1 1 1 1 1 0 1 0 1 1 1 1 0 1 0 0 1 1 0 0 0 1 1 0 0 0
+T F and F T and and F T and T F or and or T F or T T or and T T T or or and or,1 0 0 0 1 0 0 0 1 0 1 0 1 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1
+F T or T T and and T F F and or or F T T and or T F or T F and or and and,0 1 1 1 1 1 1 1 0 0 0 1 1 0 1 1 1 1 1 0 1 1 0 0 1 1 1
+T T or T F or or T T and F T and and or F F T or and T T or T F or or and or,1 1 1 1 0 1 1 1 1 1 0 1 0 0 1 0 0 1 1 0 1 1 1 1 0 1 1 0 1
+F F T or or F F or and T T or F F or and T F and T F and or or or,0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 0 1 0 0 1 0 0 0 0 0
+T T and T F and and F F and T F or and and F F and T or F F or T and and and,1 1 1 1 0 0 0 0 0 0 1 0 1 0 0 0 0 0 1 1 0 0 0 1 0 0 0
+T F and F T or and T F and F F or and and T T and F T and T F and and or or,1 0 0 0 1 1 0 1 0 0 0 0 0 0 0 1 1 1 0 1 0 1 0 0 0 1 1
+F T or T T or and T T and or F T and T T and and F T and T and or and,0 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 0 1 0 1 0 0 0
+F T F and and T T and F T or and and F F or F T or T T or and and or,0 1 0 0 0 1 1 1 0 1 1 1 0 0 0 0 0 1 1 1 1 1 1 0 0
+F T F or and F T and T F and or or F T T and or F T or F F or or or and,0 1 0 1 0 0 1 0 1 0 0 0 0 0 1 1 1 1 0 1 1 0 0 0 1 1 0
+T T T or or T T or T T or or or F T and T T and and T F and and and,1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 1 0 0 0 0
+T F and F T and F T and and or T T and F or F F and T F or or and and,1 0 0 0 1 0 0 1 0 0 0 1 1 1 0 1 0 0 0 1 0 1 1 1 0
+T T or T T or and T F and F T or or and F T and F T or or F T and T F or or or and,1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 0 1 0 0 1 1 1 0 1 0 1 0 1 1 1 1
+T F F or and T T and T and and T T F or or T T or T and and or,1 0 0 0 0 1 1 1 1 1 0 1 1 0 1 1 1 1 1 1 1 1 1
+F F or F T or or F F or F T and or and F T or T T or or F T or F F and or or or,0 0 0 0 1 1 1 0 0 0 0 1 0 0 0 0 1 1 1 1 1 1 0 1 1 0 0 0 1 1 1
+F T or T or F F or T F or or and F T or T F or or T T T or or and and,0 1 1 1 1 0 0 0 1 0 1 1 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1
+F T or F or T T or F T or or and F T or T and F F and T T and and or or,0 1 1 0 1 1 1 1 0 1 1 1 1 0 1 1 1 1 0 0 0 1 1 1 0 1 1
+T F and T T or and T T and T T or or and T T or F and F T and F or or or,1 0 0 1 1 1 0 1 1 1 1 1 1 1 0 1 1 1 0 0 0 1 0 0 0 0 0
+T T F or and F T and F T or or or T F T T or or and and,1 1 0 1 1 0 1 0 0 1 1 1 1 1 0 1 1 1 1 1 1
+F F and T and F F and T F and and and T T and F F T or and and and,0 0 0 1 0 0 0 0 1 0 0 0 0 1 1 1 0 0 1 1 0 0 0
+F T and T T and and T T or T T or or and T F and T T and or F F and T T or and and or,0 1 0 1 1 1 0 1 1 1 1 1 1 1 0 1 0 0 1 1 1 1 0 0 0 1 1 1 0 0 0
+F F and F F or and T T or T T or and and T F and T T and or F F or and or,0 0 0 0 0 0 0 1 1 1 1 1 1 1 0 1 0 0 1 1 1 1 0 0 0 0 0
+F T or T T or and F F or T F and or or F F and T F and or F F and T F and and and or,0 1 1 1 1 1 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 1
+F T and T and T F or F T and or and F T F or and T T and F or or or,0 1 0 1 0 1 0 1 0 1 0 1 0 0 1 0 1 0 1 1 1 0 1 1 1
+F T T or or T T T and and or F F and T T and or F F and T F and and and and,0 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 0 0 0 1 0 0 0 0 0
+F T and T F and and F F F or or and F F and T T and or F F and T T or and or and,0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 1 1 1 0 1 0
+T T and F T or or F T or F T and or or F F or F T and and F F and T or and and,1 1 1 0 1 1 1 0 1 1 0 1 0 1 1 0 0 0 0 1 0 0 0 0 0 1 1 0 0
+F F or F T or and T F or F and or F F or F and F F and F T and or and or,0 0 0 0 1 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0
+F F or T or F T F and or and F F or T or F F and F T and and and or,0 0 0 1 1 0 1 0 0 0 0 0 0 0 1 1 0 0 0 0 1 0 0 0 0
+T T and T or F F and or F T or T F or and F T and T F or and or or,1 1 1 1 1 0 0 0 1 0 1 1 1 0 1 1 0 1 0 1 0 1 0 1 1
+F T or T or T T and T F or and or F F or F F and or F T T or and and or,0 1 1 1 1 1 1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 1 1 1 0 0 1
+F T and T T or and T F T and or or T F and F T or and F F or F F or or and or,0 1 0 1 1 1 0 1 0 1 0 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 1
+T F or T T or or T F and F F and or and T F or T and F T or T T and or and and,1 0 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 1 1 0 1 1 1 1 1 1 1 0
+T T or T T and or F F F or or or F F or T F or or F T and or or,1 1 1 1 1 1 1 0 0 0 0 0 1 0 0 0 1 0 1 1 0 1 0 1 1
+T T and T and T F and F T or or or T F or F F and or F F and F T and or and and,1 1 1 1 1 1 0 0 0 1 1 1 1 1 0 1 0 0 0 1 0 0 0 0 1 0 0 0 0
+F F and T and F F or F T and and and T F F or or T F T and or and and,0 0 0 1 0 0 0 0 0 1 0 0 0 1 0 0 0 1 1 0 1 0 1 1 0
+T T or T F or or T F and F F or and and T T and F T and or F F and F F or or and or,1 1 1 1 0 1 1 1 0 0 0 0 0 0 0 1 1 1 0 1 0 1 0 0 0 0 0 0 0 0 0
+T F or T T or or F T and or F F or T or F F and T F or and or and,1 0 1 1 1 1 1 0 1 0 1 0 0 0 1 1 0 0 0 1 0 1 0 1 1
+F T T and F T or or and F F T or or T F or F or and and,0 1 1 1 0 1 1 1 0 0 0 1 1 1 1 0 1 0 1 1 0
+T T and T T or and T F or T F and or and F F or T and T T and T T or or and or,1 1 1 1 1 1 1 1 0 1 1 0 0 1 1 0 0 0 1 0 1 1 1 1 1 1 1 0 1
+F F and T and F T and T F and or and F T or T T or and F F or T T and or and and,0 0 0 1 0 0 1 0 1 0 0 0 0 0 1 1 1 1 1 1 0 0 0 1 1 1 1 1 0
+T T or T T and or T F or F F or and or T T T or T F and and or and,1 1 1 1 1 1 1 1 0 1 0 0 0 0 1 1 1 1 1 1 0 0 0 1 1
+F F or F and F F and F or and T F and F F and and F F or F T and and or and,0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0
+T F or F and T T T and and or T T and F T or or T T or F and and or,1 0 1 0 0 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 0 0 1
+T F and F T and or T F T and or or F T T or and T or and,1 0 0 0 1 0 0 1 0 1 0 1 1 0 1 1 1 0 1 1 1
+T T and F T or and F T and T or or T F and F T or and T T and F F or and or and,1 1 1 0 1 1 1 0 1 0 1 1 1 1 0 0 0 1 1 0 1 1 1 0 0 0 0 0 0
+F F or F T or and T T or T F and and or T F T or or T T and F F or or or or,0 0 0 0 1 1 0 1 1 1 1 0 0 0 0 1 0 1 1 1 1 1 1 0 0 0 1 1 1
+T T and T F and and F T T or and and T F and F and T T F and or and or,1 1 1 1 0 0 0 0 1 1 1 0 0 1 0 0 0 0 1 1 0 0 1 0 0
+T T or F or T T or T T and and and T F and T T or or T T and F F and or and or,1 1 1 0 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 0 0 0 1 1 1
+T T or F T or or T F and F T or or or F T T or and F T and F T or and and or,1 1 1 0 1 1 1 1 0 0 0 1 1 1 1 0 1 1 1 0 0 1 0 0 1 1 0 0 1
+T T and T and F T and T T or and and F T and F T or or T T and T T and or and and,1 1 1 1 1 0 1 0 1 1 1 0 0 0 1 0 0 1 1 1 1 1 1 1 1 1 1 1 0
+T F and T F or and F T and F T or and or T T or T T and and F F or T F and or or or,1 0 0 1 0 1 0 0 1 0 0 1 1 0 0 1 1 1 1 1 1 1 0 0 0 1 0 0 0 1 1
+T T and T or F T and F T and or or T F or F and T T and F T and and and or,1 1 1 1 1 0 1 0 0 1 0 0 1 1 0 1 0 0 1 1 1 0 1 0 0 0 1
+F F and T T or or F T and F F and or and T F F or or F T F or and or or,0 0 0 1 1 1 1 0 1 0 0 0 0 0 0 1 0 0 0 1 0 1 0 1 0 1 1
+T T and F T or and T T or F F or and and F T or F F or or F T or T T or and and or,1 1 1 0 1 1 1 1 1 1 0 0 0 0 0 0 1 1 0 0 0 1 0 1 1 1 1 1 1 1 1
+F T and F F or or F F F and or or F T and F T or or T T and F F and or or or,0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 1 1 1 1 1 0 0 0 1 1 1
+T T or F T and or F F and F F and or or F F or F and F T or F T or and and or,1 1 1 0 1 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 1 0 1 1 1 0 1
+T T F or or F F or T F or or or F F and T F and and T F and F or and and,1 1 0 1 1 0 0 0 1 0 1 1 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0
+T T and F F and and F F and F F or or and T T and F T or or F F and F T or or or or,1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 0 0 0 0 1 1 1 1 1
+F T and T and T T and F and and T T F or or T F T and and or and,0 1 0 1 0 1 1 1 0 0 0 1 1 0 1 1 1 0 1 0 0 1 0
+T T and F or F F or F F or and or T T and T T or and F F and F or and and,1 1 1 0 1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0
+F T and F T and and F T and T or or T T and F F or or T F and F and or or,0 1 0 0 1 0 0 0 1 0 1 1 1 1 1 1 0 0 0 1 1 0 0 0 0 1 1
+T F T and and F T or F F and or or F T and T F and and T T and T F or or and and,1 0 1 0 0 0 1 1 0 0 0 1 1 0 1 0 1 0 0 0 1 1 1 1 0 1 1 0 0
+T F or T F or and F F F and and or F T or T T and or T T or T T and or and or,1 0 1 1 0 1 1 0 0 0 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+T T or F F or and F F and F T or or or F T or T T or or T T or T T and or or or,1 1 1 0 0 0 0 0 0 0 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+T T or T F and or T F F or or and T F or F T or T T or and or and,1 1 1 1 0 0 1 1 0 0 0 1 1 1 0 1 0 1 1 1 1 1 1 1 1
+T T and F T and and F F or T T or and and T F and T T and or F T and F F and or or or,1 1 1 0 1 0 0 0 0 0 1 1 1 0 0 1 0 0 1 1 1 1 0 1 0 0 0 0 0 1 1
+F F and F F or and T T and F F and and and T T or F and F F or T T or or or or,0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 1 1 1 0 0 0 0 0 1 1 1 1 1 1
+T T or T F or or T F or and F T or F or F T and and and,1 1 1 1 0 1 1 1 0 1 1 0 1 1 0 1 0 1 0 0 0
+F F and T or F T and T T or or or F F and F F and or T T and T T or or and and,0 0 0 1 1 0 1 0 1 1 1 1 1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 0 0
+F F and F T and and F T T and or or F T T and or T T or T or or and,0 0 0 0 1 0 0 0 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1
+F T or T F and and F T or F T and or or T F and F T and and T T and F and or and,0 1 1 1 0 0 0 0 1 1 0 1 0 1 1 1 0 0 0 1 0 0 1 1 1 0 0 0 0
+F F or T F and or T F or T F or and and F T or F F or and T T F or and or or,0 0 0 1 0 0 0 1 0 1 1 0 1 1 0 0 1 1 0 0 0 0 1 1 0 1 1 1 1
+F T and F T or and F F and F F or and and F T and T F or and F T T and or and or,0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 1 1 1 1 0 0
+F T or T F and and T T and T T and and and F F or F F or and F T or F T and and and and,0 1 1 1 0 0 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1 1 0 1 0 0 0 0
+F T and T F and and F T and T F and or or T F or T F and and T F or F F and or and and,0 1 0 1 0 0 0 0 1 0 1 0 0 0 0 1 0 1 1 0 0 0 1 0 1 0 0 0 1 0 0
+T F and T T and or F and T T or T or T T or T T and or or and,1 0 0 1 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+F F T and and T T F and or or T F or T T or and F F and F T and or or and,0 0 1 0 0 1 1 0 0 1 1 1 0 1 1 1 1 1 0 0 0 0 1 0 0 1 1
+F F F or or F T and F F and and or F T or F T and or T T or F T and and or or,0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 1 0 1 0 1 1 1 1 0 1 0 0 1 1
+T F or F T or or T T or T F and or and T T or T F or and F T or F F and or and and,1 0 1 0 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 0 1 1 0 1 1 0 0 0 1 1 1
+T F and T T or and F T T or or and F T T or or T F F and and or or,1 0 0 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 1 0 0 0 0 1 1
+F T or T F and and T T and T T and or and F T or T T and and T F and T F or and or or,0 1 1 1 0 0 0 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 0 0 1 0 1 0 1 1
+T F or T T and and F F or F and and F F and T F or or T F and F T or and or and,1 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1 0 1 1 1 0 0 0 1 1 0 1 0
+T T T and or T T or F F or or and F F and F F and and T F T and or and or,1 1 1 1 1 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 1 0 1 0 1 0 1
+F T and F F or and F T or T F or and or T T and F F or or T F and T T or or and and,0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 1 1 1 0 0 0 1 1 0 0 1 1 1 1 1 1
+F T or T and F T or T F or and or F F and T T and and F F or F T or and and and,0 1 1 1 1 0 1 1 1 0 1 1 1 0 0 0 1 1 1 0 0 0 0 0 1 1 0 0 0
+T T or T T and or T T or F F or or and T F or F F and and T T and F F or or and or,1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 0 1 0 0 0 0 1 1 1 0 0 0 1 0 1
+T F and F F and or F F or F F and or or F T or F or T T or T T and or or and,1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 1 1 1 1 1 1 1 1 1 0
+T F or F T or or F T or F F and and and T F and T T and and F F F or and and or,1 0 1 0 1 1 1 0 1 1 0 0 0 0 0 1 0 0 1 1 1 0 0 0 0 0 0 0 0
+T F and F T or or F T or F or or T T and T T or and T T and F T or and or or,1 0 0 0 1 1 1 0 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1
+T F or F F and and F F or T T and or and T F and F T and or F T or T and or or,1 0 1 0 0 0 0 0 0 0 1 1 1 1 0 1 0 0 0 1 0 0 0 1 1 1 1 1 1
+T F and T T or and F F or T T and and and F F and F and T F and F T or and or or,1 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 0 0 0 0 1 0 0 0 1 1 0 0 0
+T F F or or F F F or and and F F and F T and or F F or T F or or and and,1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 1 1 0 0
+T T and T F or F F or and and T F and T F and and F F and F T or or or and,1 1 1 1 0 1 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 0 1 1 1 1 0
+T F or F or T T or T T and and and F F and F T or or F T and T F and and and or,1 0 1 0 1 1 1 1 1 1 1 1 1 0 0 0 0 1 1 1 0 1 0 1 0 0 0 0 1
+T F or T T and or T T and T F and or or F T and F F and and T T and T F or and or or,1 0 1 1 1 1 1 1 1 1 1 0 0 1 1 0 1 0 0 0 0 0 1 1 1 1 0 1 1 1 1
+T F or F and T F and F T and and or F T T or or T T F or and or and,1 0 1 0 0 1 0 0 0 1 0 0 0 0 1 1 1 1 1 1 0 1 1 1 0
+F F and F F and or T T or and F F and T F or and F T or F F or or or and,0 0 0 0 0 0 0 1 1 1 0 0 0 0 1 0 1 0 0 1 1 0 0 0 1 1 0
+F F and F T and or T T T and or and F T F and or F F or F F or or or or,0 0 0 0 1 0 0 1 1 1 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0
+T T and F T or or F F and T T or or and F F or F F or or F F F and or or and,1 1 1 0 1 1 1 0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+T T and F F or and T F or T T and and and F T and T T and and T T and F T or and or or,1 1 1 0 0 0 0 1 0 1 1 1 1 1 0 0 1 0 1 1 1 0 1 1 1 0 1 1 1 1 1
+T F and T and F T or T F or and and T T or F T or and T T or T and or and,1 0 0 1 0 0 1 1 1 0 1 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1 0
+T F or T and F T T and or and T T and F and T T or F or and and,1 0 1 1 1 0 1 1 1 1 1 1 1 1 0 0 1 1 1 0 1 0 0
+F T and F F or and F F and F T and and and F T or T and T F and T or or and,0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 1 1 1 1 0 0 1 1 1 0
+T T F and and F F or T F or and or T F F and or T T and F T or or or and,1 1 0 0 0 0 0 0 1 0 1 0 0 1 0 0 0 1 1 1 1 0 1 1 1 1 0
+F F or F T and or F T or F F and and and F F or F T or or F F or F T or and or and,0 0 0 0 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 1 1 0 1 0
+F F or T F or and T F or T and and T F or T and T F and F T and and or and,0 0 0 1 0 1 0 1 0 1 1 1 0 1 0 1 1 1 1 0 0 0 1 0 0 1 0
+F F and T or F T and T T or or and F T and T T or and T F T or or or or,0 0 0 1 1 0 1 0 1 1 1 1 1 0 1 0 1 1 1 0 1 0 1 1 1 1 1
+T T or T T and or T F or T T or or and T F and T F and or T F or T T or or and and,1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 0 0 1 0 0 0 1 0 1 1 1 1 1 0 0
+T F and F F and and F T or F T or or or F T or F T or or F T or and and,1 0 0 0 0 0 0 0 1 1 0 1 1 1 1 0 1 1 0 1 1 1 0 1 1 1 1
+F F or T T or or T T and F F or or and T F or T F or and T F and F T and or or and,0 0 0 1 1 1 1 1 1 1 0 0 0 1 1 1 0 1 1 0 1 1 1 0 0 0 1 0 0 1 1
+F T and F T or and T T and F T or and or T T F and or F T or T or and or,0 1 0 0 1 1 0 1 1 1 0 1 1 1 1 1 1 0 0 1 0 1 1 1 1 1 1
+F F and F F and and F T and T F and and or T T or F T or and T F F and and or or,0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 1 1 1 0 1 1 1 1 0 0 0 0 1 1
+T T or T T and and T F or T or and T F and F F and T F or and or or,1 1 1 1 1 1 1 1 0 1 1 1 1 1 0 0 0 0 0 1 0 1 0 0 1
+T T or F F and or F T or T T and or or F T or F F or or F T and F F and and or or,1 1 1 0 0 0 1 0 1 1 1 1 1 1 1 0 1 1 0 0 0 1 0 1 0 0 0 0 0 1 1
+F F and F F or or F F or T F and or or T F and F F and and T F and T T or and or and,0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 1 0 0 1 1 1 0 0 0
+T F or F F and F T and and or F F or T T and and T T or T T and or or and,1 0 1 0 0 0 0 1 0 0 1 0 0 0 1 1 1 0 1 1 1 1 1 1 1 1 1
+T F and F T or and T T or F F and and and F T or T T or and T F or T F and and or or,1 0 0 0 1 1 0 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 0 1 1 0 0 0 1 1
+F T and F or F F or T T and or or F F and F F or or F T and T F or or and and,0 1 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 1 0 1 0 1 1 0 0
+T F and F F or and F F or T and and T F or T T and and F T and T T or or or or,1 0 0 0 0 0 0 0 0 0 1 0 0 1 0 1 1 1 1 1 0 1 0 1 1 1 1 1 1
+T F or T F and and T T F and and or T F F or and F F and T T and and and or,1 0 1 1 0 0 0 1 1 0 0 0 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0
+T F and T T and T F or and or T F and T and T T and F T and and and or,1 0 0 1 1 1 1 0 1 1 1 1 0 0 1 0 1 1 1 0 1 0 0 0 1
+T T and F and T F or and T T or T or T T or T T or and or or,1 1 1 0 0 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+F F F or or F T or T or or T T and T T or and F T and F and or or,0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 0 0 1 1
+T T or T T or and T T and F F and and and F F or F T and or T T and T or and or,1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1 0 0 1 1 1 1 1 0 0
+F T T or or F F or F F and and and F T and F F or T T or or and and,0 1 1 1 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 1 1 1 0 0
+F T or F T and or F F or T F and and or F T or T T or and F F and T T or and or or,0 1 1 0 1 0 1 0 0 0 1 0 0 0 1 0 1 1 1 1 1 1 0 0 0 1 1 1 0 1 1
+F F F or or F F and F F or and and T F or F T and or F T and F F or and and and,0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0
+F F and F T and or F F or F or or T T and F or T T and and or,0 0 0 0 1 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 1 1 1
+F F and F T and and T F and F F or or and F T and T F and or T T T and and and and,0 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 1 1 1 0 0
+F F and T T and T and and T F or F T or and T or or,0 0 0 1 1 1 1 1 0 1 0 1 0 1 1 1 1 1 1
+T F and T F or and F F and T F and or or F T or F T or or T T T and or and and,1 0 0 1 0 1 0 0 0 0 1 0 0 0 0 0 1 1 0 1 1 1 1 1 1 1 1 1 0
+T T or F F or and F T or F F or and or T F or F and F T and T T or and or or,1 1 1 0 0 0 0 0 1 1 0 0 0 0 0 1 0 1 0 0 0 1 0 1 1 1 0 0 0
+F T F and and F T and T T or and and F T or F T and and T T and F or and and,0 1 0 0 0 0 1 0 1 1 1 0 0 0 1 1 0 1 0 0 1 1 1 0 1 0 0
+F T and T or T T T or and or T T and T T and and F T and T T or or or and,0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 1 1 1
+T F or F F and or F T and F T and and and T F and T T or and T F and T T or and and or,1 0 1 0 0 0 1 0 1 0 0 1 0 0 0 1 0 0 1 1 1 0 1 0 0 1 1 1 0 0 0
+T F or T or T T or F T and and and T T and T F or and T T or F T and and or or,1 0 1 1 1 1 1 1 0 1 0 0 0 1 1 1 1 0 1 1 1 1 1 0 1 0 0 1 1
+T F or T T or F or and F T and F F or F T or or or or,1 0 1 1 1 1 0 1 1 0 1 0 0 0 0 0 1 1 1 1 1
+T F and T F or or F T or T T or and or F F and T T and or T F and T F or or and or,1 0 0 1 0 1 1 0 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 0 0 1 0 1 1 1 1
+F F and T T or and T F and F and and T T T or and T T and T T and and and or,0 0 0 1 1 1 0 1 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+T F and F T and and F F F or and or T T and T F and and T T or F T and or and or,1 0 0 0 1 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 1 1 1 0 1 0 1 0 0
+T F F and or F T or F F and or or F T or F or F F and T T or and or and,1 0 0 0 1 0 1 1 0 0 0 1 1 0 1 1 0 1 0 0 0 1 1 1 0 1 1
+F F and F and F F F or or or T T and T T or and T T or F and and and,0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0
+T T or F T or or F F F and or and T F or F and F T and T T or and or and,1 1 1 0 1 1 1 0 0 0 0 0 0 1 0 1 0 0 0 1 0 1 1 1 0 0 0
+F T and T T or and T F or T F and or or F F or F and F T or T T or or and and,0 1 0 1 1 1 0 1 0 1 1 0 0 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0
+F F or F F and or T T or or T T and T F and or T T or F T and or or or,0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 1 1 1 1 0 1 0 1 1 1
+T T or T and T T or T F and or or T T T and and T F and F F or and or or,1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1
+F T and F T or or F T and F F or or and F F and T T or and T T or T T or or and and,0 1 0 0 1 1 1 0 1 0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 1 1 1 1 0 0
+F F and F T or and F T and F T and or and F T T and and F T and T F or or or and,0 0 0 0 1 1 0 0 1 0 0 1 0 0 0 0 1 1 1 0 0 1 0 1 0 1 1 1 0
+F F or F or F F or F or or F F or T F and or T T and F F and and and and,0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 0 0 0 0 0 0
+F T or T T or and F F or T T or and and T T F or and F T and F T or or and or,0 1 1 1 1 1 1 0 0 0 1 1 1 0 0 1 1 0 1 1 0 1 0 0 1 1 1 1 1
+F T F or F T or and or T F or T T or or F F and T F and and and or,0 1 0 1 0 1 1 1 1 1 0 1 1 1 1 1 0 0 0 1 0 0 0 0 1
+T T or F T or and F F or F F and and and F T F or or T F or F T and and and or,1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 1 0 1 1 1 0 1 0 1 0 0 0 0
+F F and F F and and T F and T and or F T or T T and or T T and T T and or and and,0 0 0 0 0 0 0 1 0 0 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+T T or T T and or T F and F T or and or T T and T F and and F F and F T and or or or,1 1 1 1 1 1 1 1 0 0 0 1 1 0 1 1 1 1 1 0 0 0 0 0 0 0 1 0 0 0 1
+T T and T F or or F T T and and or T T T and or T T or and and,1 1 1 1 0 1 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1
+T F or T F or and T F or T F or and and T F F or or T F or T F or or or and,1 0 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 0 0 1 1 0 1 1 0 1 1 1 1
+F T or F T and and F T or T T or and or F F or F F or or T T and F F or and and and,0 1 1 0 1 0 0 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0
+F F or F T or and T T and F T and and or T T or T F and or F T and T F or and or and,0 0 0 0 1 1 0 1 1 1 0 1 0 0 0 1 1 1 1 0 0 1 0 1 0 1 0 1 0 1 0
+T T and T T or or F T and T F or and or F T or T T and or T T T and and and and,1 1 1 1 1 1 1 0 1 0 1 0 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1
+F F or F and F F and F T or or or T F and T or T T F or or or and,0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 1 1 1 1 0 1 1 1 1
+F F or T and T F or T and and T F and F and T T F or and and or,0 0 0 1 0 1 0 1 1 1 0 1 0 0 0 0 1 1 0 1 1 0 0
+F T or T F or T F or or or T F T or and F F or F or or or,0 1 1 1 0 1 1 0 1 1 1 1 0 1 1 1 0 0 0 0 0 1 1
+F F and T F or and F T or or T F or T or F F and T and and and,0 0 0 1 0 1 0 0 1 1 1 1 0 1 1 1 0 0 0 1 0 0 0
+T T or F and T F F or or or F T and T F or or T T or T F and and and and,1 1 1 0 0 1 0 0 0 1 1 0 1 0 1 0 1 1 1 1 1 1 0 0 0 0 0
+F F and T F or or F F and F and and T F and T F or or F F and F T and and or and,0 0 0 1 0 1 1 0 0 0 0 0 0 1 0 0 1 0 1 1 0 0 0 0 1 0 0 1 0
+T F or F and T F or F F or and or T F F or and F F or F F or and or and,1 0 1 0 0 1 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0
+F F or T F or or F F or F F or or or T T or F T and and F T and F T or and or or,0 0 0 1 0 1 1 0 0 0 0 0 0 0 1 1 1 1 0 1 0 0 0 1 0 0 1 1 0 0 1
+F T or F or F F and F F and and or T F and T T or or F T and T F or or or and,0 1 1 0 1 0 0 0 0 0 0 0 1 1 0 0 1 1 1 1 0 1 0 1 0 1 1 1 1
+T T and F T and or T T and F T or and or T F or F T and or T F and T T or and or and,1 1 1 0 1 0 1 1 1 1 0 1 1 1 1 1 0 1 0 1 0 1 1 0 0 1 1 1 0 1 1
+F T and F and T T or T F and or or F T T or and F F F and and or and,0 1 0 0 0 1 1 1 1 0 0 1 1 0 1 1 1 0 0 0 0 0 0 0 0
+F T or T F or or T F F or or or T T or F T or or F F T and or or and,0 1 1 1 0 1 1 1 0 0 0 1 1 1 1 1 0 1 1 1 0 0 1 0 0 1 1
+F F T and or T T and T F and or and T T and F F or or F T and T T and and or and,0 0 1 0 0 1 1 1 1 0 0 1 0 1 1 1 0 0 0 1 0 1 0 1 1 1 0 1 0
+T F or T T or or T T T or or and F F and T T and or T F or F T or and and or,1 0 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 0 1 0 1 1 1 1 1
+F T and T F and or F F and T F and or or F T and F T or and F F or F T or and or and,0 1 0 1 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 1 1 0 0 0 0 0 1 1 0 0 0
+F F and F F or and T F F or or and F T or F F and or F F T or and or and,0 0 0 0 0 0 0 1 0 0 0 1 0 0 1 1 0 0 0 1 0 0 1 1 0 1 0
+T T and F T and and T F and T F or and or T T F and or T T and T and and and,1 1 1 0 1 0 0 1 0 0 1 0 1 0 0 1 1 0 0 1 1 1 1 1 1 1 0
+F T T or and T F or T F or or or T F F or or T T or T F or or and and,0 1 1 1 0 1 0 1 1 0 1 1 1 1 0 0 0 1 1 1 1 1 0 1 1 1 1
+T T and F or F F F and and and T T F and and T F and T F and and or and,1 1 1 0 1 0 0 0 0 0 0 1 1 0 0 0 1 0 0 1 0 0 0 0 0
+T T F or or T F or F T and or or T F and T F or or F F and F T or and and and,1 1 0 1 1 1 0 1 0 1 0 1 1 1 0 0 1 0 1 1 0 0 0 0 1 1 0 0 0
+T T or F F or and F T or F F or or or F T and F F and or T T and T T or and or or,1 1 1 0 0 0 0 0 1 1 0 0 0 1 1 0 1 0 0 0 0 0 1 1 1 1 1 1 1 1 1
+F T and F T or or F F F or or and T T T or and T F and T F and or and or,0 1 0 0 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 1 0 0 0 0 0
+T F and F T and or F T and F F or and and T F F or and T T F or and and and,1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 1 1 0 1 1 0 0
+T T or T T or and F T and or T F or F T and or F F and F T or and and or,1 1 1 1 1 1 1 0 1 0 1 1 0 1 0 1 0 1 0 0 0 0 1 1 0 0 1
+T F T and or F T and T F or and or T F F and and F F or and or,1 0 1 0 1 0 1 0 1 0 1 0 1 1 0 0 0 0 0 0 0 0 1
+F T and T F and and F F and T T or and or F T and F T and and T F and F F or and or or,0 1 0 1 0 0 0 0 0 0 1 1 1 0 0 0 1 0 0 1 0 0 1 0 0 0 0 0 0 0 0
+F F and T T or or F F or F F or and and F F F and or F T or F F and or and and,0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 1 0 0
+T T or F or F F and T F and or or F T and F F or or T T and T and and and,1 1 1 0 1 0 0 0 1 0 0 0 1 0 1 0 0 0 0 0 1 1 1 1 1 0 0
+F F and F T or F T or and and T F T and and T T T or and and or,0 0 0 0 1 1 0 1 1 1 0 1 0 1 0 0 1 1 1 1 1 0 0
+T T F or and F T and T and or T F T and or F T F and and and and,1 1 0 1 1 0 1 0 1 0 1 1 0 1 0 1 0 1 0 0 0 0 0
+T F and T F or and F T F or or or T F and F and T T and F T and or or or,1 0 0 1 0 1 0 0 1 0 1 1 1 1 0 0 0 0 1 1 1 0 1 0 1 1 1
+T F and F T and and T F and and F T or F T and and T T or T and and or,1 0 0 0 1 0 0 1 0 0 0 0 1 1 0 1 0 0 1 1 1 1 1 0 0
+T F or T F or and T F or T F and and and T T or T T or or T T and F T or or and and,1 0 1 1 0 1 1 1 0 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 0
+T F and T F and or T F or F F and and or T F and T or T T and F F and or and or,1 0 0 1 0 0 0 1 0 1 0 0 0 0 0 1 0 0 1 1 1 1 1 0 0 0 1 1 1
+F T T or or T T or F F and and and T F or F and F T F or and and or,0 1 1 1 1 1 1 1 0 0 0 0 0 1 0 1 0 0 0 1 0 1 0 0 0
+T T or F T and and F F and F F or and or T T and T T or or T F or F T or and and or,1 1 1 0 1 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 1 0 1 1 1 1 1
+F T and T F and and T F T and or or T F and F or F F or T and and or,0 1 0 1 0 0 0 1 0 1 0 1 1 1 0 0 0 0 0 0 0 1 0 0 1
+F F T or and T T and F F and or or T T and F and F T F and or and and,0 0 1 1 0 1 1 1 0 0 0 1 1 1 1 1 0 0 0 1 0 0 0 0 0
+F T and T F or or F F or T T and and or F T or T and T F and F T and or or and,0 1 0 1 0 1 1 0 0 0 1 1 1 0 1 0 1 1 1 1 1 0 0 0 1 0 0 1 1
+F F or T or T T or T T and and or F F and F F or F or and or,0 0 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1
+T F T and and T T and T F and and or T T or T F and or F T and F F or or and or,1 0 1 0 0 1 1 1 1 0 0 0 0 1 1 1 1 0 0 1 0 1 0 0 0 0 0 0 0
+F T and T T and or T T and F or and F F or F T or and T T and T F or and and or,0 1 0 1 1 1 1 1 1 1 0 1 1 0 0 0 0 1 1 0 1 1 1 1 0 1 1 0 1
+T T or F F or and T F or F F and or and T F and F F or or T F and F or or and,1 1 1 0 0 0 0 1 0 1 0 0 0 1 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0
+F T or F or F T or F T or and and T T T or and F T or F T and and and or,0 1 1 0 1 0 1 1 0 1 1 1 1 1 1 1 1 1 0 1 1 0 1 0 0 0 1
+F T or T F or and F T and T F and or and F T or T F or and F F and F T and and and and,0 1 1 1 0 1 1 0 1 0 1 0 0 0 0 0 1 1 1 0 1 1 0 0 0 0 1 0 0 0 0
+T F or F and T F T or and and T F and T F and and F F and F F or and or or,1 0 1 0 0 1 0 1 1 1 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0
+F F or T or T F or F F or or or T T and F T or or F T and F T and or and or,0 0 0 1 1 1 0 1 0 0 0 1 1 1 1 1 0 1 1 1 0 1 0 0 1 0 0 0 1
+T F or F T or and T F or F and and F F or T T or or T F T or or or or,1 0 1 0 1 1 1 1 0 1 0 0 0 0 0 0 1 1 1 1 1 0 1 1 1 1 1
+T T or T and F F or F T or or and T T or F F and or T F T and or and or,1 1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 0 0 0 1 1 0 1 0 1 1 1
+F T or F F or or F F and F and or T F or T T and or T T T or or or or,0 1 1 0 0 0 1 0 0 0 0 0 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1
+T T F or or F T and F F or or or F F or T F and or F F and T T and and and or,1 1 0 1 1 0 1 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 1 1 1 0 0 1
+T T and F F or and F T and F F or or and F T or F and F T or F or and and,1 1 1 0 0 0 0 0 1 0 0 0 0 0 0 0 1 1 0 0 0 1 1 0 1 0 0
+T T or T F or and F T or or T F and T and F F or F F or or or or,1 1 1 1 0 1 1 0 1 1 1 1 0 0 1 0 0 0 0 0 0 0 0 0 1
+T T or F T or and F T and F and and F T and T F and or F F or T T or or and and,1 1 1 0 1 1 1 0 1 0 0 0 0 0 1 0 1 0 0 0 0 0 0 1 1 1 1 0 0
+T F or F T or and T F or F F and and and F F and F T or and F F and F T or and and or,1 0 1 0 1 1 1 1 0 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 1 1 0 0 0
+F F or T F and or T F or F T and and and F F or T and F F or T and or or,0 0 0 1 0 0 0 1 0 1 0 1 0 0 0 0 0 0 1 0 0 0 0 1 0 0 0
+F F or T F and or F F and F or or F F and T T or or F T and T F or and and and,0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 1 0 1 0 1 0 0 0
+F T F or and F T and T T or or and T F and T T and and F F or T F or or or or,0 1 0 1 0 0 1 0 1 1 1 1 0 1 0 0 1 1 1 0 0 0 0 1 0 1 1 1 1
+F T F or F and or F T and F F T or or and or,0 1 0 1 0 0 0 0 1 0 0 0 1 1 1 0 0
+F F and F F or or T F or F T or or or T F and F F and or T F T and or and and,0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 0 0 0 0 0 0 1 0 1 0 1 0 0
+F T or T or T T and T or or F F F or and F F or T and or and,0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 1 0 0 0
+F T T and and T F or T T and and and T F and T F or and F T or F F and and or or,0 1 1 1 0 1 0 1 1 1 1 1 0 1 0 0 1 0 1 0 0 1 1 0 0 0 0 0 0
+T T and F T and or T F and T F and and and T T or T and F T and T T or and and and,1 1 1 0 1 0 1 1 0 0 1 0 0 0 0 1 1 1 1 1 0 1 0 1 1 1 0 0 0
+F T and T T or F or or T T or T F or or T F or F F and or or or,0 1 0 1 1 1 0 1 1 1 1 1 1 0 1 1 1 0 1 0 0 0 1 1 1
+F F or F F and and T T or T F and and and F F or F F and and F F and F T or or or or,0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+F T F and and T T and F F or and or T T and T F and or F F or T T or or or or,0 1 0 0 0 1 1 1 0 0 0 0 0 1 1 1 1 0 0 1 0 0 0 1 1 1 1 1 1
+F F or T or T T or F T and or or T F and F F or and F T F or and and or,0 0 0 1 1 1 1 1 0 1 0 1 1 1 0 0 0 0 0 0 0 1 0 1 0 0 1
+T T and F F or and T F and F F and and or T T T and or F T or F and or or,1 1 1 0 0 0 0 1 0 0 0 0 0 0 0 1 1 1 1 1 0 1 1 0 0 1 1
+T F or F or F or T F or F F and and T T or T T and or or or,1 0 1 0 1 0 1 1 0 1 0 0 0 0 1 1 1 1 1 1 1 1 1
+F F or T F and or F F or T T and or and T F or F F and and T F or F or and and,0 0 0 1 0 0 0 0 0 0 1 1 1 1 0 1 0 1 0 0 0 0 1 0 1 0 1 0 0
+T T and T T and and T T or F F and or or T T or F T and or T T or F T or and and or,1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 0 1 0 1 1 1 1 0 1 1 1 1 1
+F F or F T and or T T and F T and or or F F and F T and or F F and F or or and,0 0 0 0 1 0 0 1 1 1 0 1 0 1 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0
+F F or T T or and T F and T F or or and F T and T T or or F F and T F or or or and,0 0 0 1 1 1 0 1 0 0 1 0 1 1 0 0 1 0 1 1 1 1 0 0 0 1 0 1 1 1 0
+T F or T and F T or T F and and and F F and F F and and T T and F or and or,1 0 1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 0 0
+T T or F T F or and and F F or F T or or T F or T T or and and and,1 1 1 0 1 0 1 0 0 0 0 0 0 1 1 1 1 0 1 1 1 1 1 1 0
+T T and T F and and F F and T T or or and T F and F T T or and or and,1 1 1 1 0 0 0 0 0 0 1 1 1 1 0 1 0 0 0 1 1 1 0 0 0
+F T or T T or or T T or F or or F T or T F or and F F or T and and or,0 1 1 1 1 1 1 1 1 1 0 1 1 0 1 1 1 0 1 1 0 0 0 1 0 0 1
+F F and T F and or F T T and or or T T or T and F T or T T and or and and,0 0 0 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1
+T T and F T and T T and and or T T and T F and and F F T and or or and,1 1 1 0 1 0 1 1 1 0 1 1 1 1 1 0 0 0 0 0 1 0 0 0 0
+T T and F T or or F F and T F or and or F F F or or F F F or or or and,1 1 1 0 1 1 1 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0
+F F or T T or and T F or T or and T F and F and F F or F T and or or or,0 0 0 1 1 1 0 1 0 1 1 1 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0
+T T or F F or or F F or T or or F F or F and F F T and or and and,1 1 1 0 0 0 1 0 0 0 1 1 1 0 0 0 0 0 0 0 1 0 0 0 0
+F F or F F and and T F or T T or or or T T or T F and or T T and and or,0 0 0 0 0 0 0 1 0 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1
+T T and T F or and T F and T F or and or T T and F F and and T F and or and,1 1 1 1 0 1 1 1 0 0 1 0 1 0 1 1 1 1 0 0 0 0 1 0 0 0 0
+F F and T F or or F F T or and or F T and F and F T or T F or and and and,0 0 0 1 0 1 1 0 0 1 1 0 1 0 1 0 0 0 0 1 1 1 0 1 1 0 0
+F F or F T or and T F or T or or F F and T T and or F T and T and or or,0 0 0 0 1 1 0 1 0 1 1 1 1 0 0 0 1 1 1 1 0 1 0 1 0 1 1
+F T or F T and or T F and T T and and and F T T or and F F or F T or and and or,0 1 1 0 1 0 1 1 0 0 1 1 1 0 0 0 1 1 1 0 0 0 0 0 1 1 0 0 0
+T F or T and F F T and or and T F and T T or and F T or F T or or and or,1 0 1 1 1 0 0 1 0 0 0 1 0 0 1 1 1 0 0 1 1 0 1 1 1 0 0
+F F T and and F T or F F or and or T T or F T or and F T and T T and or and and,0 0 1 0 0 0 1 1 0 0 0 0 0 1 1 1 0 1 1 1 0 1 0 1 1 1 1 1 0
+F F F or and F F and F or or T T and F T or and F and or,0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 0 0 0
+T F and F F or and T T or F F and or or T F and T F and or T F T and or and or,1 0 0 0 0 0 0 1 1 1 0 0 0 1 1 1 0 0 1 0 0 0 1 0 1 0 1 0 1
+F F and T and T F T and and and F F and T F and or F T or or or,0 0 0 1 0 1 0 1 0 0 0 0 0 0 1 0 0 0 0 1 1 1 1
+F F and T F or F and or T F or T T and and T T and T T and and or and,0 0 0 1 0 1 0 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+T T or F T and and T T and T T and and or T T T and and F F and F F or and or and,1 1 1 0 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 1
+F F and T F or or F F or F T or or or T F and T F and or T T F or and and or,0 0 0 1 0 1 1 0 0 0 0 1 1 1 1 1 0 0 1 0 0 0 1 1 0 1 1 0 1
+F T and F or F F and T F and or and F T and F F or and T T or F F and and or or,0 1 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 1 1 0 0 0 0 0 0
+T T and T T or F and or T F or F or T T T or and and and,1 1 1 1 1 1 0 0 1 1 0 1 0 1 1 1 1 1 1 1 1
+T T and T T and or T F and F T or and and T T or T T or and F F or F T and or or and,1 1 1 1 1 1 1 1 0 0 0 1 1 0 0 1 1 1 1 1 1 1 0 0 0 0 1 0 0 1 0
+T T and F T and or T T and F F and or and T T or F F or or T T or T T and or and and,1 1 1 0 1 0 1 1 1 1 0 0 0 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1
+T F or F and F T T or and and T F or F F or or T T or T F or or and or,1 0 1 0 0 0 1 1 1 0 0 1 0 1 0 0 0 1 1 1 1 1 0 1 1 1 1
+T F or F T or or F F and T and or F F or F F and and T T or F F and or or or,1 0 1 0 1 1 1 0 0 0 1 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 1
+T F or F T and and F F or T F or and or T T and F F or and T F and F F or or or or,1 0 1 0 1 0 0 0 0 0 1 0 1 0 0 1 1 1 0 0 0 0 1 0 0 0 0 0 0 0 0
+T T and F F and and F T and T or or T T and T T and and F T or F or or and,1 1 1 0 0 0 0 0 1 0 1 1 1 1 1 1 1 1 1 1 0 1 1 0 1 1 1
+T F and F T or and F F or F F and or or F T and T T and and F F or T T or and and and,1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 1 0 1 1 1 0 0 0 0 1 1 1 0 0 0
+T F or T F or or T F or F F and and or F F and T T and or T F or T and and and,1 0 1 1 0 1 1 1 0 1 0 0 0 0 1 0 0 0 1 1 1 1 1 0 1 1 1 1 1
+T T and F F and or T T and F and and T T and T F or and F T or T or or and,1 1 1 0 0 0 1 1 1 1 0 0 0 1 1 1 1 0 1 1 0 1 1 1 1 1 0
+T F or T T and or F F or T F or and and F T F and or F F or T T or or or and,1 0 1 1 1 1 1 0 0 0 1 0 1 0 0 0 1 0 0 0 0 0 0 1 1 1 1 1 0
+T F or F or F T and T F and or and T F or F F and or T T and T F or and or or,1 0 1 0 1 0 1 0 1 0 0 0 0 1 0 1 0 0 0 1 1 1 1 1 0 1 1 1 1
+T F or F F and F and and F F or T T and and F F T and or or and,1 0 1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 0 0 0 0
+F F or T and F F or T F or or or T T and F or F T and T T or or or and,0 0 0 1 0 0 0 0 1 0 1 1 1 1 1 1 0 1 0 1 0 1 1 1 1 1 1
+T F or F F and and T F F or or or T F or F F or and F F and T F and and or and,1 0 1 0 0 0 0 1 0 0 0 1 1 1 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0
+F T and T F or or T F or F or or T F T or or T F and T T and and and or,0 1 0 1 0 1 1 1 0 1 0 1 1 1 0 1 1 1 1 0 0 1 1 1 0 0 1
+T F and T T or or F F or T F or or or T T T and and F T T or and or or,1 0 0 1 1 1 1 0 0 0 1 0 1 1 1 1 1 1 1 1 0 1 1 1 0 1 1
+T T or T T and and T T and T or or T T F or or F T or F F or and or or,1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 0 1 1 0 0 0 0 1 1
+T T or F or T F or F F and or or F T and F F or or T F or F F and and and or,1 1 1 0 1 1 0 1 0 0 0 1 1 0 1 0 0 0 0 0 1 0 1 0 0 0 0 0 1
+T T and T T or and F T or or F F T and and T T or F T or or or and,1 1 1 1 1 1 1 0 1 1 1 0 0 1 0 0 1 1 1 0 1 1 1 1 1
+T F and T T or or F F and F F or and or T T or F F or and T T and F and or or,1 0 0 1 1 1 1 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 0 0 0 1
+F T and F F and or T F or T F or or and F T and T F or and F F or F T and or and and,0 1 0 0 0 0 0 1 0 1 1 0 1 1 0 0 1 0 1 0 1 0 0 0 0 0 1 0 0 0 0
+T T F F or or or T F and T F or or F T and T F or or or and,1 1 0 0 0 1 1 1 0 0 1 0 1 1 0 1 0 1 0 1 1 1 1
+F T F and and T F and F T or or or T T or T F or and T F and F F or or and or,0 1 0 0 0 1 0 0 0 1 1 1 1 1 1 1 1 0 1 1 1 0 0 0 0 0 0 0 1
+T F or F F or or T F or F or and F F F and F F and and or or,1 0 1 0 0 0 1 1 0 1 0 1 1 0 0 0 0 0 0 0 0 0 1
+F T and T T and and T T or F F or or and F T and T or F F or F or or and,0 1 0 1 1 1 0 1 1 1 0 0 0 1 0 0 1 0 1 1 0 0 0 0 0 1 0
+T T and F F and or T F F or and and F F and F F or or F T or F F and and and or,1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0
+F F or F T or or F T or F and or T T or T F or or T T F or or or and,0 0 0 0 1 1 1 0 1 1 0 0 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1
+F T or T and T T F or and and F T or F and T T and F and or or,0 1 1 1 1 1 1 0 1 1 1 0 1 1 0 0 1 1 1 0 0 0 1
+T T and T T or and T F or T F or and or T T and F F and and F F T and and or and,1 1 1 1 1 1 1 1 0 1 1 0 1 1 1 1 1 1 0 0 0 0 0 0 1 0 0 0 0
+F T and T T or and F T and T F or or or F T or T or F T or T F and and or and,0 1 0 1 1 1 0 0 1 0 1 0 1 1 1 0 1 1 1 1 0 1 1 1 0 0 0 1 1
+T T F and and T F and T T or or and T T T or or T F or T or and or,1 1 0 0 0 1 0 0 1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 1 1
+F F or T T or and F T T and and and T T or F F and or T F or F F and or and and,0 0 0 1 1 1 0 0 1 1 1 0 0 1 1 1 0 0 0 1 1 0 1 0 0 0 1 1 0
+F T or F T or or T T or T T and and or F F or F F or and F T or F T and or or or,0 1 1 0 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 1 1 0 1 0 1 1 1
+T F and F T or or F T T or or or F F F and and T T and T F or and or and,1 0 0 0 1 1 1 0 1 1 1 1 1 0 0 0 0 0 1 1 1 1 0 1 1 1 1
+F T T or or T F and T T or and or F F and F T or or F F F and or and and,0 1 1 1 1 1 0 0 1 1 1 0 1 0 0 0 0 1 1 1 0 0 0 0 0 0 0
+T T F and T F and and and T T T and or F F and F T or or or and,1 1 0 0 1 0 0 0 0 1 1 1 1 1 0 0 0 0 1 1 1 1 0
+F T and T or T T or F T or or and T T T or and F F or or and,0 1 0 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 0 0 0 1 1
+F F or F F and or F T or F T or and and F F and F F and F T or or or or,0 0 0 0 0 0 0 0 1 1 0 1 1 1 0 0 0 0 0 0 0 0 1 1 1 1 1
+T T or T T or or F T and T F and or and T T and T F or or T T and T F or and and and,1 1 1 1 1 1 1 0 1 0 1 0 0 0 0 1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 0
+F F or T T and or F T and F F and and and F F T or or T F F or and and or,0 0 0 1 1 1 1 0 1 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0
+T T or T or T F T or and and F F or F F and or F F or T F or or and and,1 1 1 1 1 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1 0 1 1 0 0
+F F or T F or or T F and and F T T or and T T or T T and and and and,0 0 0 1 0 1 1 1 0 0 0 0 1 1 1 0 1 1 1 1 1 1 1 0 0
+F T or F F or or F F F and or and T F or F T and F F and or and and,0 1 1 0 0 0 1 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0
+T F and T F or and T F and T and and F F and F T and or T T or F F or or and and,1 0 0 1 0 1 0 1 0 0 1 0 0 0 0 0 0 1 0 0 1 1 1 0 0 0 1 0 0
+F F and F T or or T T and F or and F T F and or F F or F T and or and or,0 0 0 0 1 1 1 1 1 1 0 1 1 0 1 0 0 0 0 0 0 0 1 0 0 0 1
+T T or F T or T T or and and F T T and and T F T and or and and,1 1 1 0 1 1 1 1 1 1 1 0 1 1 1 0 1 0 1 0 1 0 0
+T T and F F or or F T and T F and and and T F or T T or or T T and T and and or,1 1 1 0 0 0 1 0 1 0 1 0 0 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1
+F T and T F or and F T F or and or T F and F F or and F F T and or and or,0 1 0 1 0 1 0 0 1 0 1 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0
+T T or F and F F and F T and and and T F and T F and and F T and F F and and and and,1 1 1 0 0 0 0 0 0 1 0 0 0 1 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0
+T F and F T and or T F T or and or F F or T F or T and or and,1 0 0 0 1 0 0 1 0 1 1 1 1 0 0 0 1 0 1 1 1 1 1
+T T or T and T F or F F or and and T F F and or T F and T T and or and or,1 1 1 1 1 1 0 1 0 0 0 0 0 1 0 0 0 1 1 0 0 1 1 1 1 1 1
+F T and T and T F and T F and and and T F and T F and or T F and F F or or and or,0 1 0 1 0 1 0 0 1 0 0 0 0 1 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0
+T T and F T and and F F and T T and or and F T T or or T T and F F or and or or,1 1 1 0 1 0 0 0 0 0 1 1 1 1 0 0 1 1 1 1 1 1 1 0 0 0 0 1 1
+T T and T F or T T and and and F T or T F and and T T and F and or and,1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 0 0 0 1 1 1 0 0 0 0
+T F or T T and or T F and F F and and and T F or F T or or T T T or or and or,1 0 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 1 1 1
+T F T or or T T and F F or and or F T or F F and and F F or and and,1 0 1 1 1 1 1 1 0 0 0 0 1 0 1 1 0 0 0 0 0 0 0 0 0
+T F or T F or and F T or F F and and and F F and F T or or F T or F F or or and or,1 0 1 1 0 1 1 0 1 1 0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 0 0 0 1 1 1
+T T or F F and or F F and F T or or and T F F and or T F and T T and and or or,1 1 1 0 0 0 1 0 0 0 0 1 1 1 1 1 0 0 0 1 1 0 0 1 1 1 0 1 1
+T F or F and T T or T F or or and T T or F T or or T F or F F and or or and,1 0 1 0 0 1 1 1 1 0 1 1 0 1 1 1 0 1 1 1 1 0 1 0 0 0 1 1 0
+F F and F T or or F T or T F and or and F F or T T and or T T and F F or and or or,0 0 0 0 1 1 1 0 1 1 1 0 0 1 1 0 0 0 1 1 1 1 1 1 1 0 0 0 0 1 1
+T F or F T or and F F and T T or or or T T or F and F T or T T and or or or,1 0 1 0 1 1 1 0 0 0 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1
+T T and F F and and F F or T T or or or T T or T T or or T F and T T or and and or,1 1 1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 0 0 1
+F F and F F or and T T and F F or and and T T T or or F F or T and or and,0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 1 1 1 1 1 0 0 0 1 0 1 0
+T F F and and T T and and T T and T and F T T and or or or,1 0 0 0 0 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 1
+F F and F F and or F T and T T and or and F F and F T or and F F or F T and and and or,0 0 0 0 0 0 0 0 1 0 1 1 1 1 0 0 0 0 0 1 1 0 0 0 0 0 1 0 0 0 0
+F T or F F and and T T or T or or F F or T F and and T F or T T and and or and,0 1 1 0 0 0 0 1 1 1 1 1 1 0 0 0 1 0 0 0 1 0 1 1 1 1 1 1 1
+F T and T F and or F F and F T and and or T F and F F or and T F and F T and or or and,0 1 0 1 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0
+T F and T F and or T F and F or and F F or F F or or T T and F F and or and and,1 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 0 0
+F T or T or T F or T F or or or T F and T F and or F F or F and or and,0 1 1 1 1 1 0 1 1 0 1 1 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0
+T F and F T and or F T or T T and and or F F and T T and or F T and F F or or and and,1 0 0 0 1 0 0 0 1 1 1 1 1 1 1 0 0 0 1 1 1 1 0 1 0 0 0 0 0 0 0
+T T and F F or or F T or F T and and and T T and T T and or F F and T F or or or or,1 1 1 0 0 0 1 0 1 1 0 1 0 0 0 1 1 1 1 1 1 1 0 0 0 1 0 1 1 1 1
+T F or T and F T or F T and or or T F and T T or and F F F and or and and,1 0 1 1 1 0 1 1 0 1 0 1 1 1 0 0 1 1 1 0 0 0 0 0 0 0 0
+F F and T T or or F T or F T or or or T T or F or F T and and and,0 0 0 1 1 1 1 0 1 1 0 1 1 1 1 1 1 1 0 1 0 1 0 0 0
+T F and F T and or F F and T T and or and T T or F F or or F T T and or and or,1 0 0 0 1 0 0 0 0 0 1 1 1 1 0 1 1 1 0 0 0 1 0 1 1 1 1 1 1
+F F or T T or and F T F and and or T T T and or F F and T F and or or or,0 0 0 1 1 1 0 0 1 0 0 0 0 1 1 1 1 1 0 0 0 1 0 0 0 1 1
+F T and F F or and F F and F or or F F T or or F F or F T or and or and,0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 1 1 0 1 0
+F T and T and F F F and or or F T or T T or or F F or T T and or and or,0 1 0 1 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1
+T F and F F or or T T T and and and T F or F F and or T T F and and or and,1 0 0 0 0 0 0 1 1 1 1 1 0 1 0 1 0 0 0 1 1 1 0 0 0 1 0
+T T and T and F T or F F or or or T F and T F or or T T or T T and and or or,1 1 1 1 1 0 1 1 0 0 0 1 1 1 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1
+F T F or and F T or T F and and and F F or T or F F and T T or or or and,0 1 0 1 0 0 1 1 1 0 0 0 0 0 0 0 1 1 0 0 0 1 1 1 1 1 0
+F T and T T and or F T and F F and or and T F and T F or and F T or T T and or and or,0 1 0 1 1 1 1 0 1 0 0 0 0 0 0 1 0 0 1 0 1 0 0 1 1 1 1 1 1 0 0
+F T or T or F T or T and and F T and T F or or T F or F F and and and and,0 1 1 1 1 0 1 1 1 1 1 0 1 0 1 0 1 1 1 0 1 0 0 0 0 0 0
+T T or T T or and F T T or and and F T T and or T T or T F and and or or,1 1 1 1 1 1 1 0 1 1 1 0 0 0 1 1 1 1 1 1 1 1 0 0 0 1 1
+T F or F F or and T F or F F and and and F T and F T T and or and and,1 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 1 0 0 1 1 1 1 0 0
+F T or F F or or T T F and or or F F F and or T T or F F or and and and,0 1 1 0 0 0 1 1 1 0 0 1 1 0 0 0 0 0 1 1 1 0 0 0 0 0 0
+T T and T T or T F and and and F F and T F and and T T and F T or and and or,1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 0 0 1 1 1 0 1 1 1 0 0
+T F or T F or or F T T and or and T T and F T or and T F or F T or and and or,1 0 1 1 0 1 1 0 1 1 1 1 1 1 1 1 0 1 1 1 1 0 1 0 1 1 1 1 1
+F F or T T and and T F and F F or or and T F and T T and and T T and F F and or and and,0 0 0 1 1 1 0 1 0 0 0 0 0 0 0 1 0 0 1 1 1 0 1 1 1 0 0 0 1 0 0
+F F and T T or or T T T or or and T F and F F and and F T and F or and or,0 0 0 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 0 0 0 1
+F F and T F and F T or or or T T T and and T T or T T and or or or,0 0 0 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+T F and F F or or F F F and and or F F and T T and or F T or T or or or,1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 1 1 1 1 1 1
+F F or F and F T and T T or or or F F and T T and or T T or F F and or or and,0 0 0 0 0 0 1 0 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 0 0 0 1 1 1
+T T and T T or or F T and T T or or or T T or F or T T and F T or and or and,1 1 1 1 1 1 1 0 1 0 1 1 1 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1
+T F or T T and T and or F T or T F and and F F and T F and or or and,1 0 1 1 1 1 1 1 1 0 1 1 1 0 0 0 0 0 0 1 0 0 0 0 0
+F T and F T and and T T or F F and and or F F T and and F T F or and or or,0 1 0 0 1 0 0 1 1 1 0 0 0 0 0 0 0 1 0 0 0 1 0 1 0 0 0
+T T F or or F T and T T and or or F F or F T and or F T or T T and or or and,1 1 0 1 1 0 1 0 1 1 1 1 1 0 0 0 0 1 0 0 0 1 1 1 1 1 1 1 1
+F T and F T and or T T or F T and or and F F or F T or and T T or F T and or or and,0 1 0 0 1 0 0 1 1 1 0 1 0 1 0 0 0 0 0 1 1 0 1 1 1 0 1 0 1 1 0
+T T and F or T F and T T or or and T T and T F or or F F and T F and and and or,1 1 1 0 1 1 0 0 1 1 1 1 1 1 1 1 1 0 1 1 0 0 0 1 0 0 0 0 1
+T F or T F or and F F or F F or or and T F or T or F F or T or or and,1 0 1 1 0 1 1 0 0 0 0 0 0 0 0 1 0 1 1 1 0 0 0 1 1 1 0
+F T or F T and or F F or T F and and or F T and F F and and T T and T T and or or or,0 1 1 0 1 0 1 0 0 0 1 0 0 0 1 0 1 0 0 0 0 0 1 1 1 1 1 1 1 1 1
+F F and T F and or T T and T F and or or T T F or and F T or F T or and or and,0 0 0 1 0 0 0 1 1 1 1 0 0 1 1 1 1 0 1 1 0 1 1 0 1 1 1 1 1
+T T and T F or and T F and T T and and or T F or F T and or F F and T F and and or and,1 1 1 1 0 1 1 1 0 0 1 1 1 0 1 1 0 1 0 1 0 1 0 0 0 1 0 0 0 1 1
+F F T or or F F and T F or or or F T or F F and and F T T and and or or,0 0 1 1 1 0 0 0 1 0 1 1 1 0 1 1 0 0 0 0 0 1 1 1 0 0 1
+T T and T T or or F T and T F and and and T F T and or T T or F F or and or and,1 1 1 1 1 1 1 0 1 0 1 0 0 0 0 1 0 1 0 1 1 1 1 0 0 0 0 1 0
+F F or T F or and F F or T T or and and F T T or or F F or F and and and,0 0 0 1 0 1 0 0 0 0 1 1 1 0 0 0 1 1 1 1 0 0 0 0 0 0 0
+T T or T T or or F T T and and or F F and F F and or F T and T F or and or and,1 1 1 1 1 1 1 0 1 1 1 0 1 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0
+F F or F F or or T or F T and T F or T F or or and and,0 0 0 0 0 0 0 1 1 0 1 0 1 0 1 1 0 1 1 0 0
+T T or F T or and F F and F T and or and T F or T F and or F F or F F and or and and,1 1 1 0 1 1 1 0 0 0 0 1 0 0 0 1 0 1 1 0 0 1 0 0 0 0 0 0 0 0 0
+F T and T T or and T T or F T and and and F T and T T or or T T T and and or and,0 1 0 1 1 1 0 1 1 1 0 1 0 0 0 0 1 0 1 1 1 1 1 1 1 1 1 1 0
+T T or T T or and T T and F and and T F and F F or or F T or T T or or or and,1 1 1 1 1 1 1 1 1 1 0 0 0 1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 0
+T T or F F and and F T F or and or F T and F F and or T F or T T or and or and,1 1 1 0 0 0 0 0 1 0 1 0 0 0 1 0 0 0 0 0 1 0 1 1 1 1 1 1 0
+F F or F T or and F F or F F and or and F F or T T and or T T or T F or and or and,0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 1 1 1 0
+T F or T F and and F T or and F T and T and F T and F T or or or and,1 0 1 1 0 0 0 0 1 1 0 0 1 0 1 0 0 1 0 0 1 1 1 1 0
+F F or F T and or F F or F T and and and F F or F or F T or T T or and or or,0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1
+F T and T or F F or F T and or or T T and T T or or T T and F F and or or and,0 1 0 1 1 0 0 0 0 1 0 0 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1
+T T or F T and and F T T or and and F T and T T or and T F and T F and or and or,1 1 1 0 1 0 0 0 1 1 1 0 0 0 1 0 1 1 1 0 1 0 0 1 0 0 0 0 0
+T T F or or T F or T T and and or F F or F T and and F F or or and,1 1 0 1 1 1 0 1 1 1 1 1 1 0 0 0 0 1 0 0 0 0 0 0 0
+T F T or and F T or T T or or or T F or T F or and F T and F T and and or or,1 0 1 1 1 0 1 1 1 1 1 1 1 1 0 1 1 0 1 1 0 1 0 0 1 0 0 1 1
+F F F or or F T T and or and F T and T F or and F F and T or or and,0 0 0 0 0 0 1 1 1 1 0 0 1 0 1 0 1 0 0 0 0 1 1 1 0
+T F and T F or or T T and F or and T F or F and F T and F or or or,1 0 0 1 0 1 1 1 1 1 0 1 1 1 0 1 0 0 0 1 0 0 0 0 1
+F T T or and F F or T T or or or F F or T F and or F T and F F and or or or,0 1 1 1 0 0 0 0 1 1 1 1 1 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 1
+F T F and or T T and F T and or and T T or F and T T and F T or and and and,0 1 0 0 0 1 1 1 0 1 0 1 0 1 1 1 0 0 1 1 1 0 1 1 1 0 0
+T T and F T and T T or or and T F and T F or or T F and T F or or or and,1 1 1 0 1 0 1 1 1 1 1 1 0 0 1 0 1 1 1 0 0 1 0 1 1 1 1
+T T or T and T F and T T or and and T T and T or T T or F F and and and and,1 1 1 1 1 1 0 0 1 1 1 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0
+T T or F F or and T T and T F or and and T F and F T or and T T T or or or and,1 1 1 0 0 0 0 1 1 1 1 0 1 1 0 1 0 0 0 1 1 0 1 1 1 1 1 1 0
+F F or T F and F or and F T or F or F F and T F or or or or,0 0 0 1 0 0 0 0 0 0 1 1 0 1 0 0 0 1 0 1 1 1 1
+T T T or or T T or T F or and or F F and T F and and F T and F T and or or or,1 1 1 1 1 1 1 1 1 0 1 1 1 0 0 0 1 0 0 0 0 1 0 0 1 0 0 0 1
+T T or F and T T and T or and F F or T F and and T T or and or,1 1 1 0 0 1 1 1 1 1 0 0 0 0 1 0 0 0 1 1 1 0 0
+F T or F T and and F F and T T or or or F T or F F and and F T and T T or and or or,0 1 1 0 1 0 0 0 0 0 1 1 1 1 1 0 1 1 0 0 0 0 0 1 0 1 1 1 0 0 1
+F F T or or F F and F or or F F and T F and or F F or T T or or or and,0 0 1 1 1 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 1 1 1 1 1 1
+T F and T and F F T and or or T T T and or F T and F and and or,1 0 0 1 0 0 0 1 0 0 0 1 1 1 1 1 0 1 0 0 0 0 0
+F F and T T and or F T and T F and and and T F or T F or or T F and T T and and or and,0 0 0 1 1 1 1 0 1 0 1 0 0 0 0 1 0 1 1 0 1 1 1 0 0 1 1 1 0 1 0
+F F T and or T T and T or or F F F or or F F and F F or or and and,0 0 1 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+F T T and and F T or T T or and and F F or F T or F F and or or and,0 1 1 1 0 0 1 1 1 1 1 1 0 0 0 0 0 1 1 0 0 0 1 1 0
+T F and F and T T or F or or T F or F F or and F F or F T and or or and,1 0 0 0 0 1 1 1 0 1 1 1 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0
+F T and F F and or T T or F F and and or T T or T F or and F T F or or and and,0 1 0 0 0 0 0 1 1 1 0 0 0 0 0 1 1 1 1 0 1 1 0 1 0 1 1 1 0
+T F and F or F F and F or or T F or T T and and F T and T T or or and and,1 0 0 0 0 0 0 0 0 0 0 1 0 1 1 1 1 1 0 1 0 1 1 1 1 1 0
+T F and F T or T F or or or T F and F F and or F F F or and or or,1 0 0 0 1 1 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1
+F F or F or T T or or T T T or or F T F or or or or,0 0 0 0 0 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 1
+F T T and or F T T or and and F F and T F and or T F or T F or and or and,0 1 1 1 1 0 1 1 1 0 0 0 0 0 1 0 0 0 1 0 1 1 0 1 1 1 0
+F F F and and T T or F T and or and F F and F F or or F F and T T and and or and,0 0 0 0 0 1 1 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0
+F F F and or F F F and or or T F or F F and or T F and F T and or or or,0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 0 0 0 1 0 0 1 1
+F T and T T or and F F and T T or or or F F and F T or and T F and F T or and and and,0 1 0 1 1 1 0 0 0 0 1 1 1 1 1 0 0 0 0 1 1 0 1 0 0 0 1 1 0 0 0
+F T or F F and or F T or T F or or or F F or F F or or F F or T T and and or or,0 1 1 0 0 0 1 0 1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 1
+F T and F T and and T F and T T and or or T F or F F or and F T and T F or and or and,0 1 0 0 1 0 0 1 0 0 1 1 1 1 1 1 0 1 0 0 0 0 0 1 0 1 0 1 0 0 0
+F T T or or F F or F T and or and F T or F F and or T F or F T or or or or,0 1 1 1 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0 1 1 0 1 0 1 1 1 1 1
+F F or T F or and F T and T T or or or F T or T T and or F T or F and or or,0 0 0 1 0 1 0 0 1 0 1 1 1 1 1 0 1 1 1 1 1 1 0 1 1 0 0 1 1
+F T or F T and or F F and F T and or and F F and F T and or F T and T F or or and or,0 1 1 0 1 0 1 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 1 0 1 0 1 1 0 0
+T T and T T and and T F and T F and or or T F T or and T T or T F or and and and,1 1 1 1 1 1 1 1 0 0 1 0 0 0 1 1 0 1 1 1 1 1 1 1 0 1 1 1 1
+T T or F T or or F F F or or and F F and F or F T or T or and and,1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 0
+F T or F T or or F F or F T and or and T T and F T and and T F or T T and or or or,0 1 1 0 1 1 1 0 0 0 0 1 0 0 0 1 1 1 0 1 0 0 1 0 1 1 1 1 1 1 1
+T F and T F or and F T and F or and F F or T F or or T F F and or and or,1 0 0 1 0 1 0 0 1 0 0 0 0 0 0 0 1 0 1 1 1 0 0 0 1 1 1
+F T and T F or and F and T F or F F or and F F or T F or or or and,0 1 0 1 0 1 0 0 0 1 0 1 0 0 0 0 0 0 0 1 0 1 1 1 0
+T F and T F and and F T or T F and and and T F or T F or and T F or T F or and and or,1 0 0 1 0 0 0 0 1 1 1 0 0 0 0 1 0 1 1 0 1 1 1 0 1 1 0 1 1 1 1
+T F T and or F T T or or and T F and T F and and T T and F T and or or or,1 0 1 0 1 0 1 1 1 1 1 1 0 0 1 0 0 0 1 1 1 0 1 0 1 1 1
+T T or F or T T F or and and F T and F T and and T F and T F or or and and,1 1 1 0 1 1 1 0 1 1 1 0 1 0 0 1 0 0 1 0 0 1 0 1 1 0 0
+F F T or and F F and T and or F F and F F and and T F or T F and and or or,0 0 1 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 1 1 0 0 0 0 0
+T T or F F and and T T and T T and or or T T or T or F T or F T or or and and,1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 0 1 1 1 1 1
+T T T or and F T F and and or T F or F T and or T T and F F and and or and,1 1 1 1 1 0 1 0 0 0 1 1 0 1 0 1 0 1 1 1 1 0 0 0 0 1 1
+F T and F F or or F F and F T or or or F T and F F and or T T or F or and or,0 1 0 0 0 0 0 0 0 0 0 1 1 1 1 0 1 0 0 0 0 0 1 1 1 0 1 0 1
+T F and F F T and or and T T T and and T T T and or and and,1 0 0 0 0 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 0
+F F and F F and and T T and F T and and and T F or T and T T or F T or and and or,0 0 0 0 0 0 0 1 1 1 0 1 0 0 0 1 0 1 1 1 1 1 1 0 1 1 1 1 1
+F F or F F and and F T and F T or and and F T or F T F or and or or,0 0 0 0 0 0 0 0 1 0 0 1 1 0 0 0 1 1 0 1 0 1 0 1 1
+T T and T F or or F T or F or or F F T and T F or or or and,1 1 1 1 0 1 1 0 1 1 0 1 1 0 0 1 0 1 0 1 1 1 1
+F F or F T or and F T and T F or and or F F and T T and and T F F and or and and,0 0 0 0 1 1 0 0 1 0 1 0 1 0 0 0 0 0 1 1 1 0 1 0 0 0 1 0 0
+F F T or or T F T and or or F T or T and T F and F or and or,0 0 1 1 1 1 0 1 0 1 1 0 1 1 1 1 1 0 0 0 0 0 1
+F T or F T or or T F and T T or or or F F or F T or or F F or T F and and or and,0 1 1 0 1 1 1 1 0 0 1 1 1 1 1 0 0 0 0 1 1 1 0 0 0 1 0 0 0 1 1
+T F or T F or or F F or T F and and or F F and T F or or T F T and or and or,1 0 1 1 0 1 1 0 0 0 1 0 0 0 1 0 0 0 1 0 1 1 1 0 1 0 1 1 1
+F F and T T or and F T or T T and or or F F T or or T T or F F and or or and,0 0 0 1 1 1 0 0 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 0 0 0 1 1 1
+T T F or or F T and T T and and or T T or T T and or T T T and and or or,1 1 0 1 1 0 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+F F or T or F F and T F or and or T T or F F and or F T T or or and or,0 0 0 1 1 0 0 0 1 0 1 0 1 1 1 1 0 0 0 1 0 1 1 1 1 1 1
+T T or F F or or F T or F or or T F and T T or and F T and F and and and,1 1 1 0 0 0 1 0 1 1 0 1 1 1 0 0 1 1 1 0 0 1 0 0 0 0 0
+T T or T T or or T F or F F and or and F F and T T and or F T and F T or or and and,1 1 1 1 1 1 1 1 0 1 0 0 0 1 1 0 0 0 1 1 1 1 0 1 0 0 1 1 1 1 1
+T F or F or T T or F or or T F and T F and and T F or F F or and or and,1 0 1 0 1 1 1 1 0 1 1 1 0 0 1 0 0 0 1 0 1 0 0 0 0 0 0
+T F and F F and and F T and F T or or and T F or T T or and F T F and and and and,1 0 0 0 0 0 0 0 1 0 0 1 1 1 0 1 0 1 1 1 1 1 0 1 0 0 0 0 0
+F F and T F or T T and and and T T T or or T T or T T or or or and,0 0 0 1 0 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+F T F and and T T and F T and and or T T and F and T T and F T and or or and,0 1 0 0 0 1 1 1 0 1 0 0 0 1 1 1 0 0 1 1 1 0 1 0 1 1 0
+T T T or and T T or T F and and or T T or F T and and T F and F T and or and or,1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 0 1 0 0 1 0 0 0 1 0 0 0 1
+F F or F F or or T F and F T or and or T F and T and T T or T F or and or and,0 0 0 0 0 0 0 1 0 0 0 1 1 0 0 1 0 0 1 0 1 1 1 1 0 1 1 1 0
+T F or T T and and T F or T F and or and F T T or and T F and T F or or or or,1 0 1 1 1 1 1 1 0 1 1 0 0 1 1 0 1 1 1 0 1 0 0 1 0 1 1 1 1
+F T and F T or and F F or F T or and and F F or T or T T or F T or or or and,0 1 0 0 1 1 0 0 0 0 0 1 1 0 0 0 0 0 1 1 1 1 1 0 1 1 1 1 0
+T F and T T or or T F and F T or or or T T and F F or and T T or F F or or and or,1 0 0 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 0 0 0 0 1 1 1 0 0 0 1 0 1
+T F or T T or and T T and T T or and and F T F or and T F or T T or and and or,1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 0 1 0 1 1 1 1 1 0 1
+T F F or or F T T or or or T T or F T and and T T F or or or and,1 0 0 0 1 0 1 1 1 1 1 1 1 1 0 1 0 0 1 1 0 1 1 1 1
+F F T F or and T T T and and or or,0 0 1 0 1 0 1 1 1 1 1 1 1
+F F and F and T T or F and and F F and T T or or T F or T T and and and or,0 0 0 0 0 1 1 1 0 0 0 0 0 0 1 1 1 1 1 0 1 1 1 1 1 1 1
+F F T or or F F and F T or and or T F and T T or or F T or and or,0 0 1 1 1 0 0 0 0 1 1 0 1 1 0 0 1 1 1 1 0 1 1 1 1
+T F or T T and and F F and F T and or or T T or F F and T T or and or and,1 0 1 1 1 1 1 0 0 0 0 1 0 0 1 1 1 1 0 0 0 1 1 1 0 1 1
+T T or T T and or F T or F F or and or T F F and and T T T or or and or,1 1 1 1 1 1 1 0 1 1 0 0 0 0 1 1 0 0 0 0 1 1 1 1 1 0 1
+F T or T T and and T F or T T or and and T F and F F or and T F or F T and or and and,0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 1 0 1 0 1 0 1 0 0
+T F or T T or or T T or F T or and or F F and F T and or T T and F T or and and or,1 0 1 1 1 1 1 1 1 1 0 1 1 1 1 0 0 0 0 1 0 0 1 1 1 0 1 1 1 0 1
+T T and F and T T F and and and T T or F T and and T F and F or and or,1 1 1 0 0 1 1 0 0 0 0 1 1 1 0 1 0 0 1 0 0 0 0 0 0
+T F or T T or and T F and F or and T F and F T or and F F or F F or and or or,1 0 1 1 1 1 1 1 0 0 0 0 0 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0
+F F and F F and and T or F T and T T or and T F or F T or or and or,0 0 0 0 0 0 0 1 1 0 1 0 1 1 1 0 1 0 1 0 1 1 1 0 1
+F T and T F or and F F T and and and T F or F or T F and T F or and or or,0 1 0 1 0 1 0 0 0 1 0 0 0 1 0 1 0 1 1 0 0 1 0 1 0 1 1
+F T and T T or or T F or T F and or and T T or F and F F or T F or or or or,0 1 0 1 1 1 1 1 0 1 1 0 0 1 1 1 1 1 0 0 0 0 0 1 0 1 1 1 1
+T F or T and F F and T F and or and T F and F T and and T T and T T or or and or,1 0 1 1 1 0 0 0 1 0 0 0 0 1 0 0 0 1 0 0 1 1 1 1 1 1 1 0 0
+T T and F T or or T T and F T and or and F T or F F and and T and and,1 1 1 0 1 1 1 1 1 1 0 1 0 1 1 0 1 1 0 0 0 0 1 0 0
+T T and F T and or T T or T T or or or F F or T F and and T T or T F or and or or,1 1 1 0 1 0 1 1 1 1 1 1 1 1 1 0 0 0 1 0 0 0 1 1 1 1 0 1 1 1 1
+T T or F F and or F F and T F or and or T F and F F and and T T or T F or or and and,1 1 1 0 0 0 1 0 0 0 1 0 1 0 1 1 0 0 0 0 0 0 1 1 1 1 0 1 1 0 0
+T T or F F and or T T T and or or T F or T T or and F F or T T and or and and,1 1 1 0 0 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 0 0 0 1 1 1 1 1 1
+T F or F or T T or F or and F F and F F or or T T T and or and and,1 0 1 0 1 1 1 1 0 1 1 0 0 0 0 0 0 0 1 1 1 1 1 0 0
+F F and T F and and F T and T T and and or T F or F T or or F T or T T or and and and,0 0 0 1 0 0 0 0 1 0 1 1 1 0 0 1 0 1 0 1 1 1 0 1 1 1 1 1 1 1 0
+F T and F T or or F T F or or or T F or T T and or F F or T F and and or or,0 1 0 0 1 1 1 0 1 0 1 1 1 1 0 1 1 1 1 1 0 0 0 1 0 0 0 1 1
+F F and F F and and T T or T T or and or T T and T T and and F F and T or and or,0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1
+F F or T F or and T T and T F and or or F T or T and F T T and and and or,0 0 0 1 0 1 0 1 1 1 1 0 0 1 1 0 1 1 1 1 0 1 1 1 0 0 1
+F F T and and F T and F F and or and T F or T F and or T F F and and and or,0 0 1 0 0 0 1 0 0 0 0 0 0 1 0 1 1 0 0 1 1 0 0 0 0 0 0
+T F T and and F T and or T T or F T or F T and or or or,1 0 1 0 0 0 1 0 0 1 1 1 0 1 1 0 1 0 1 1 1
+T T or F T and or T F or F T and and or T F or T T or or F F or T F and or and or,1 1 1 0 1 0 1 1 0 1 0 1 0 0 1 1 0 1 1 1 1 1 0 0 0 1 0 0 0 0 1
+F F and F F or and T F or F F or and or F T or F F or and F T and F or and and,0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 1 1 0 0 0 0 0 1 0 0 0 0 0
+T T or F F or or F F or F F and and or F T and T or T T or T F and and or or,1 1 1 0 0 0 1 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 0 0 0 1 1
+T T or F F and and T F or T T or and and T F and T and F F and T F or or and or,1 1 1 0 0 0 0 1 0 1 1 1 1 1 0 1 0 0 1 0 0 0 0 1 0 1 1 0 0
+T T and F F and or F F T and or and F F or F T and and T F F or and and or,1 1 1 0 0 0 1 0 0 1 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0
+F T and F F or or F F and T F or and or F F and T F or or F T or F T and and or or,0 1 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 1 0 1 1 0 1 1 0 1 0 0 1 1
+F F or T F and and T T and T or and T F F and and T T or T or and or,0 0 0 1 0 0 0 1 1 1 1 1 0 1 0 0 0 0 1 1 1 1 1 0 0
+F T and F or F T or T F and or or F F and T T and or F F or T T and and or and,0 1 0 0 0 0 1 1 1 0 0 1 1 0 0 0 1 1 1 1 0 0 0 1 1 1 0 1 1
+T F and F F or or F F and T F or or or T T F or and T F and T or or and,1 0 0 0 0 0 0 0 0 0 1 0 1 1 1 1 1 0 1 1 1 0 0 1 1 1 1
+F F and T and F F or T F or and or F T or T T or or F T or T F or and and or,0 0 0 1 0 0 0 0 1 0 1 0 0 0 1 1 1 1 1 1 0 1 1 1 0 1 1 1 1
+T T and F F or or T F or T T or and and T T and F F and and T F or F T and or and and,1 1 1 0 0 0 1 1 0 1 1 1 1 1 1 1 1 1 0 0 0 0 1 0 1 0 1 0 1 0 0
+T T or F F and and F F and F T or or or T F or T F and and F T and T F and or or or,1 1 1 0 0 0 0 0 0 0 0 1 1 1 1 1 0 1 1 0 0 0 0 1 0 1 0 0 0 0 1
+T F or T F or or T T and T F and and or T F and T T or and F F F or or and and,1 0 1 1 0 1 1 1 1 1 1 0 0 0 1 1 0 0 1 1 1 0 0 0 0 0 0 0 0
+F T or F F or or F F and T F and and or T F T and or F F or T F or or or or,0 1 1 0 0 0 1 0 0 0 1 0 0 0 1 1 0 1 0 1 0 0 0 1 0 1 1 1 1
+T T or F F and and T T or F T or or or T T or F F and and T F and T F and and and and,1 1 1 0 0 0 0 1 1 1 0 1 1 1 1 1 1 1 0 0 0 0 1 0 0 1 0 0 0 0 0
+F F or F T and or F F and F F or and and T T T or or F T or F T and and or or,0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 1 1 0 1 0 0 1 1
+F T and F or T F and T T or or and F F and F or T F and T T or and or and,0 1 0 0 0 1 0 0 1 1 1 1 0 0 0 0 0 0 1 0 0 1 1 1 0 0 0
+F F F or or F T or T F or and or T T or T F or and T T F and and and or,0 0 0 0 0 0 1 1 1 0 1 1 1 1 1 1 1 0 1 1 1 1 0 0 0 0 1
+F T and F or T F or T or or F F and T F or or F T and T T and and and and,0 1 0 0 0 1 0 1 1 1 1 0 0 0 1 0 1 1 0 1 0 1 1 1 0 0 0
+T T or F F or or F T and F T and or and T F F or or T T or T F or or or or,1 1 1 0 0 0 1 0 1 0 0 1 0 0 0 1 0 0 0 1 1 1 1 1 0 1 1 1 1
+T F and F and T T or T F or and and T T and T or F T or F T and or or or,1 0 0 0 0 1 1 1 1 0 1 1 0 1 1 1 1 1 0 1 1 0 1 0 1 1 1
+T F and T F and and T F or or F T or F F and T F or or or and,1 0 0 1 0 0 0 1 0 1 1 0 1 1 0 0 0 1 0 1 1 1 1
+T T T or or T T or T F or and and F F or F F and and T F or F F and or or or,1 1 1 1 1 1 1 1 1 0 1 1 1 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 1
+F F and T F or and F F T and or and T F and F F or or F F T and and or and,0 0 0 1 0 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0
+F F and F F and or F F F and or and F F and F T or or T F and F T or or and or,0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 1 1 1 1 1
+F T and T F and or F F T or or and F T and F F or and T F and F T and and and or,0 1 0 1 0 0 0 0 0 1 1 1 0 0 1 0 0 0 0 0 1 0 0 0 1 0 0 0 0
+T T T and and T T and F T and or or T F and T F or and F F or F T or or or or,1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 0 1 0 1 0 0 0 0 0 1 1 1 1 1
+T T F and or F T and T F or or and F T or T T and and T F and F F and or or and,1 1 0 0 1 0 1 0 1 0 1 1 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1
+T T and T F and and T T F and and or T F and F F or or F F or F T or or or or,1 1 1 1 0 0 0 1 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+T F or T F or and F T or F T and or or T F and F F and or T T T and or and and,1 0 1 1 0 1 1 0 1 1 0 1 0 1 1 1 0 0 0 0 0 0 1 1 1 1 1 0 0
+T T T and or F F and F T and and or T T and T or T F and T T and or or and,1 1 1 1 1 0 0 0 0 1 0 0 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1
+F F and T F and and F F and F F or and or T T and F F or and T T and T T or or or and,0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 0
+T T F or or F T and F F and and or F F or F F or and F F or T or and or,1 1 0 1 1 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 1 0 1
+F F F and and F T and F T and and and T F or T and T T or F or or or,0 0 0 0 0 0 1 0 0 1 0 0 0 1 0 1 1 1 1 1 1 0 1 1 1
