@@ -293,3 +293,39 @@ class CopyTask(ReverseTask):
         y_var = self.sentences_to_codes(2 * self.max_length, *x_raw)
 
         return x_var, y_var
+
+
+class ReverseDeletionTask(ReverseTask):
+    """
+    Reverse the result of deleting the second half of the
+    alphabet symbols from the input string.
+    Example: 12200313011 => 1101001  over the alphabet {0,1,2,3}
+    """
+
+    def get_tensors(self, num_tensors):
+        """
+        Generates a dataset containing correct input and output values
+        for the reverse deletion task.
+
+        :type num_tensors: int
+        :param num_tensors: The number of examples in the dataset
+
+        :rtype: tuple
+        :return: A Variable containing the input values and a Variable
+            containing the output values
+        """
+        x_raw = [self.randstr() for _ in xrange(num_tensors)]
+        y_raw = [[self.null for _ in xrange(len(s))] + self.reverse_with_delete(s) for s in x_raw]
+
+        x_var = self.sentences_to_one_hot(2 * self.max_length, *x_raw)
+        y_var = self.sentences_to_codes(8 * self.max_length, *y_raw)
+
+        return x_var, y_var
+
+    def reverse_with_delete(self, s):
+        large_symbol = self.num_symbols//2
+        t = []
+        for symbol in s:
+            if int(symbol) < large_symbol:
+                t.append(symbol)
+        return t[::-1]
