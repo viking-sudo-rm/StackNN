@@ -175,6 +175,108 @@ testing_formula_config = {
     "criterion": CrossEntropyLoss(reduce=False)
 }
 
+# 7) Reverse with deletion task.
+final_reverse_deletion_config = {
+    "task": ReverseDeletionTask,
+    "epochs": 100,
+    "early_stopping_steps": 5,
+    "read_size": 2,
+    "num_symbols": 4
+}
+
+""" Testing Configs """
+
+# 1) Reverse task.
+testing_reverse_config = {
+    "task": ReverseTask,
+    "epochs": 100,
+    "early_stopping_steps": 5,
+    "read_size": 2,
+    "min_length": 1,
+    "max_length": 24,
+    "mean_length": 20,
+    "std_length": 4.
+}
+
+# 2) XOR/parity evaluation task.
+testing_parity_config = {
+    "task": XORTask,
+    "epochs": 100,
+    "early_stopping_steps": 5,
+    "read_size": 6,
+    "str_length": 24
+}
+
+# 3) Delayed XOR/parity evaluation task.
+testing_delayed_parity_config = {
+    "task": DelayedXORTask,
+    "epochs": 100,
+    "early_stopping_steps": 5,
+    "read_size": 6,
+    "str_length": 24
+}
+
+# 4) Dyck language modeling task.
+testing_dyck_config = {
+    "task": CFGTask,
+    "epochs": 100,
+    "early_stopping_steps": 5,
+    "grammar": dyck_grammar_2,
+    "to_predict": [u")", u"]"],
+    "sample_depth": 0,
+    "read_size": 2,
+    "max_length": 128,
+}
+
+# 5) Agreement grammar task.
+testing_agreement_config = {
+    "task": CFGTask,
+    "epochs": 100,
+    "early_stopping_steps": 5,
+    "grammar": unambig_agreement_grammar,
+    "to_predict": [u"Auxsing", u"Auxplur"],
+    "sample_depth": 0,
+    "read_size": 2,
+    "max_length": 64,
+}
+
+# 5b) Agreement grammar task with longer early stopping
+testing_agreement_config_10 = {
+    "task": CFGTask,
+    "epochs": 100,
+    "early_stopping_steps": 10,
+    "grammar": unambig_agreement_grammar,
+    "to_predict": [u"Auxsing", u"Auxplur"],
+    "sample_depth": 0,
+    "read_size": 2,
+    "max_length": 64,
+}
+
+# 6) Reverse Polish notation formula task.
+testing_formula_config = {
+    "task": CFGTransduceTask,
+    "epochs": 100,
+    "early_stopping_steps": 5,
+    "grammar": exp_eval_grammar,
+    "to_predict": [u"0", u"1"],
+    "sample_depth": 0,
+    "read_size": 2,
+    "max_length": 48,
+}
+
+# 7) Reverse with deletion task.
+testing_reverse_deletion_config = {
+    "task": ReverseDeletionTask,
+    "epochs": 100,
+    "early_stopping_steps": 5,
+    "read_size": 2,
+    "num_symbols": 4,
+    "min_length": 1,
+    "max_length": 24,
+    "mean_length": 20,
+    "std_length": 4.
+}
+
 """ Configs Not Included in the Paper """
 
 old_final_dyck_config = {
