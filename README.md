@@ -5,7 +5,7 @@ A differentiable data structure is a version of a conventional data structure wh
 
 ## Contributing
 
-This project is managed by Computational Linguistics at Yale. We welcome contributions from outside in the form of pull requests.
+This project is managed by [Computational Linguistics at Yale](http://clay.yale.edu/). We welcome contributions from outside in the form of pull requests.
 
 Please report any bugs in the GitHub issues tracker.
 
