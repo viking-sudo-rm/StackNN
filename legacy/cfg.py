@@ -139,7 +139,7 @@ except AssertionError:
     pass
 
 # Requires PyTorch 0.3.x
-criterion = nn.CrossEntropyLoss(reduce=False)
+criterion = nn.CrossEntropyLoss(reduction='none')
 
 
 def generate_sample(grammar, prod, frags):

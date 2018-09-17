@@ -6,7 +6,6 @@ from __future__ import division
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
-from torch.nn.functional import sigmoid
 
 from base import SimpleStructNetwork
 from stacknn_utils.errors import unused_init_param
@@ -116,12 +115,12 @@ class RNNSimpleStructNetwork(SimpleStructNetwork):
 
         output = nn_output[:, self._n_args + self._read_size:].contiguous()
 
-        read_params = sigmoid(nn_output[:, :self._n_args + self._read_size])
+        read_params = torch.sigmoid(nn_output[:, :self._n_args + self._read_size])
         v = read_params[:, self._n_args:].contiguous()
         instructions = tuple(read_params[:, j].contiguous()
                              for j in xrange(self._n_args))
 
-        self._log(x, sigmoid(output), v, *instructions)
+        self._log(x, torch.sigmoid(output), v, *instructions)
 
         return output, ((v,) + instructions)
 
@@ -235,12 +234,12 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
 
         output = nn_output[:, self._n_args + self._read_size:].contiguous()
 
-        read_params = sigmoid(nn_output[:, :self._n_args + self._read_size])
+        read_params = torch.sigmoid(nn_output[:, :self._n_args + self._read_size])
         v = read_params[:, self._n_args:].contiguous()
         instructions = tuple(read_params[:, j].contiguous()
                              for j in xrange(self._n_args))
 
-        self._log(x, sigmoid(output), v, *instructions)
+        self._log(x, torch.sigmoid(output), v, *instructions)
 
         return output, ((v,) + instructions)
 
@@ -349,11 +348,11 @@ class GRUSimpleStructNetwork(SimpleStructNetwork):
 
         output = nn_output[:, self._n_args + self._read_size:].contiguous()
 
-        read_params = sigmoid(nn_output[:, :self._n_args + self._read_size])
+        read_params = torch.sigmoid(nn_output[:, :self._n_args + self._read_size])
         v = read_params[:, self._n_args:].contiguous()
         instructions = tuple(read_params[:, j].contiguous()
                              for j in xrange(self._n_args))
 
-        self._log(x, sigmoid(output), v, *instructions)
+        self._log(x, torch.sigmoid(output), v, *instructions)
 
         return output, ((v,) + instructions)

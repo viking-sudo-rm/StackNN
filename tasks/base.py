@@ -505,7 +505,8 @@ class Task(object):
 
         # Get regularization loss term.
         if loss is not None:
-            loss += self.model.get_and_reset_reg_loss()
+            losses = self.model.get_and_reset_reg_loss()
+            loss += torch.sum(losses)
 
         # Update the model parameters.
         if is_batch:
@@ -917,7 +918,7 @@ class Task(object):
             message = "Epoch {} Test: ".format(name)
         else:
             message = "Test Results: "
-        loss = sum(batch_loss.data)
+        loss = batch_loss.data.item()
 
         accuracy = 100. * (batch_correct * 1.0) / batch_total
         message += "Loss = {:.4f}, Accuracy = {:.1f}%".format(loss, accuracy)

@@ -52,6 +52,7 @@ class AbstractController(nn.Module):
         if issubclass(self._struct_type, Struct):
             self._read = Variable(torch.zeros([batch_size, self._read_size]))
             self._struct = self._struct_type(batch_size, self._read_size)
+            self._reg_loss = torch.zeros([batch_size, self._read_size])
 
     @abstractmethod
     def _init_buffer(self, batch_size, xs):
@@ -147,8 +148,12 @@ class AbstractController(nn.Module):
         self.init_controller(batch_size, **kwargs)
 
     def get_and_reset_reg_loss(self):
-        """Method overriden for buffered regularization."""
-        return 0.
+        """Method overriden for buffered regularization.
+
+        The default method just returns a zero vector.
+
+        """
+        return self._reg_loss
 
     def print_experiment_start(self):
         """Print model-specific hyperparameters at the start of an experiment."""

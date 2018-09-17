@@ -3,7 +3,6 @@ import torch.autograd as autograd
 from torch.autograd import Variable
 from torch.autograd import Variable
 import torch.nn as nn
-import torch.nn.functional as F
 import torch.optim as optim
 import random
 
@@ -30,7 +29,7 @@ class EmbeddingController(AbstractController):
 		# print x.shape, self.read.shape
 		hidden = self.embed(x)
 		output = self.linear(torch.cat([hidden, self.read], 1))
-		read_params = F.sigmoid(output[:,:2 + self.get_read_size()])
+		read_params = torch.sigmoid(output[:,:2 + self.get_read_size()])
 		self.u, self.d, self.v = read_params[:,0].contiguous(), read_params[:,1].contiguous(), read_params[:,2:].contiguous()
 		self.read_stack(v.data, u.data, d.data)
 
