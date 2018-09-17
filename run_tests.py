@@ -33,7 +33,6 @@ def main():
     print("DATA STRUCTURE TESTS")
     test_module(structs.tests)
     test_module(structs.regularization)
-    # FIXME(lambdaviking): Why is this second one not print ===
 
     print("=" * 80)
     print("END-TO-END TESTS")
