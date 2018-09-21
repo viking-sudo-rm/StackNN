@@ -3,7 +3,7 @@ from __future__ import print_function, division
 import torch
 from torch.autograd import Variable
 
-from testcase import testcase, test_module, is_close
+from stacknn_utils.testcase import testcase, test_module, is_close
 
 # Useful for debugging. Make sure it is larger than test set.
 _MAX_COUNT = 100000

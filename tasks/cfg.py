@@ -195,7 +195,7 @@ class LanguageModellingTask(Task):
         null = self.alphabet[self.null]
         valid_x = (y[:, j] != null).type(torch.FloatTensor)
         for k in xrange(len(valid_x)):
-            if y[k, j].data[0] not in self.to_predict_code:
+            if y[k, j].data.item() not in self.to_predict_code:
                 valid_x[k] = 0
 
         correct_trials = (y_pred == y[:, j]).type(torch.FloatTensor)
@@ -219,7 +219,7 @@ class CFGTask(LanguageModellingTask):
                  sample_depth,
                  batch_size=10,
                  clipping_norm=None,
-                 criterion=nn.CrossEntropyLoss(reduce=False),
+                 criterion=nn.CrossEntropyLoss(reduction='none'),
                  cuda=False,
                  epochs=100,
                  early_stopping_steps=5,
@@ -349,7 +349,9 @@ class CFGTask(LanguageModellingTask):
                                       verbose=verbose)
 
         self.sample_depth = sample_depth
+        print "Sample depth: %d" % sample_depth
         self.max_length = max_length
+        print "Max length: %d" % max_length
 
         self.train_set_size = train_set_size
         self.test_set_size = test_set_size
@@ -362,8 +364,6 @@ class CFGTask(LanguageModellingTask):
             max_sample_length = 0
         print "Maximum sample length: " + str(max_sample_length)
         print "Maximum input length: " + str(self.max_x_length)
-
-        return
 
     def reset_model(self, model_type, network_type, struct_type, **kwargs):
         """

@@ -197,7 +197,8 @@ class ReverseTask(Task):
             total guesses at the jth time step
         """
         indices = (y[:, j] != self.alphabet[self.null])
-        valid_a = a[indices.view(-1, 1)].view(-1, self.alphabet_size)
+        # Indexing semantics in the line below were changed in different versions of pytorch.
+        valid_a = a[indices.view(-1)].view(-1, self.alphabet_size)
         valid_y = y[:, j][indices]
         if len(valid_a) == 0:
             return None, None, None

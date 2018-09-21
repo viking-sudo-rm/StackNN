@@ -176,7 +176,8 @@ class EvaluationTask(Task):
             total guesses at the jth time step
         """
         indices = (y[:, j] != self.alphabet[self.null])
-        valid_a = a[indices.view(-1, 1)].view(-1, self.alphabet_size)
+        # Indexing conventions changed with PyTorch version.
+        valid_a = a[indices.view(-1)].view(-1, self.alphabet_size)
         valid_y = y[:, j][indices]
         if len(valid_a) == 0:
             return None, None, None

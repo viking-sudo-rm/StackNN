@@ -316,7 +316,7 @@ class SimpleStruct(Struct):
 
         for t in reversed(xrange(self._t)):
             v_str = to_string(self.contents[t, batch, :])
-            s = self.strengths[t, batch].data[0]
+            s = self.strengths[t, batch].data.item()
             print "{}\t|{:.4f}\t\t|{}".format(t, s, v_str)
 
     def log(self):

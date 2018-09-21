@@ -51,7 +51,7 @@ final_dyck_config = {
     "to_predict": [u")", u"]"],
     "sample_depth": 6,
     "read_size": 2,
-    "criterion": CrossEntropyLoss(reduce=False)
+    "criterion": CrossEntropyLoss(reduction="none")
 }
 
 # 5) Agreement grammar task.
@@ -63,7 +63,7 @@ final_agreement_config = {
     "to_predict": [u"Auxsing", u"Auxplur"],
     "sample_depth": 16,
     "read_size": 2,
-    "criterion": CrossEntropyLoss(reduce=False)
+    "criterion": CrossEntropyLoss(reduction="none")
 }
 
 # 5b) Agreement grammar task with longer early stopping 
@@ -75,7 +75,7 @@ final_agreement_config_10 = {
     "to_predict": [u"Auxsing", u"Auxplur"],
     "sample_depth": 16,
     "read_size": 2,
-    "criterion": CrossEntropyLoss(reduce=False)
+    "criterion": CrossEntropyLoss(reduction="none")
 }
     
 # 6) Reverse Polish notation formula task.
@@ -88,97 +88,13 @@ final_formula_config = {
     "sample_depth": 6,
     "read_size": 2,
     "max_length": 32,
-    "criterion": CrossEntropyLoss(reduce=False)
-}
-
-""" Testing Configs """
-
-# 1) Reverse task.
-testing_reverse_config = {
-    "task": ReverseTask,
-    "epochs": 100,
-    "early_stopping_steps": 5,
-    "read_size": 2,
-    "min_length": 1,
-    "max_length": 24,
-    "mean_length": 20,
-    "std_length": 4.
-}
-
-# 2) XOR/parity evaluation task.
-testing_parity_config = {
-    "task": XORTask,
-    "epochs": 100,
-    "early_stopping_steps": 5,
-    "read_size": 6,
-    "str_length": 24
-}
-
-# 3) Delayed XOR/parity evaluation task.
-testing_delayed_parity_config = {
-    "task": DelayedXORTask,
-    "epochs": 100,
-    "early_stopping_steps": 5,
-    "read_size": 6,
-    "str_length": 24
-}
-
-# 4) Dyck language modeling task.
-testing_dyck_config = {
-    "task": CFGTask,
-    "epochs": 100,
-    "early_stopping_steps": 5,
-    "grammar": dyck_grammar_2,
-    "to_predict": [u")", u"]"],
-    "sample_depth": 0,
-    "read_size": 2,
-    "max_length": 128,
-    "criterion": CrossEntropyLoss(reduce=False)
-}
-
-# 5) Agreement grammar task.
-testing_agreement_config = {
-    "task": CFGTask,
-    "epochs": 100,
-    "early_stopping_steps": 5,
-    "grammar": unambig_agreement_grammar,
-    "to_predict": [u"Auxsing", u"Auxplur"],
-    "sample_depth": 0,
-    "read_size": 2,
-    "max_length": 64,
-    "criterion": CrossEntropyLoss(reduce=False)
-}
-
-# 5b) Agreement grammar task with longer early stopping
-testing_agreement_config_10 = {
-    "task": CFGTask,
-    "epochs": 100,
-    "early_stopping_steps": 10,
-    "grammar": unambig_agreement_grammar,
-    "to_predict": [u"Auxsing", u"Auxplur"],
-    "sample_depth": 0,
-    "read_size": 2,
-    "max_length": 64,
-    "criterion": CrossEntropyLoss(reduce=False)
-}
-
-# 6) Reverse Polish notation formula task.
-testing_formula_config = {
-    "task": CFGTransduceTask,
-    "epochs": 100,
-    "early_stopping_steps": 5,
-    "grammar": exp_eval_grammar,
-    "to_predict": [u"0", u"1"],
-    "sample_depth": 0,
-    "read_size": 2,
-    "max_length": 48,
-    "criterion": CrossEntropyLoss(reduce=False)
+    "criterion": CrossEntropyLoss(reduction="none")
 }
 
 # 7) Reverse with deletion task.
 final_reverse_deletion_config = {
     "task": ReverseDeletionTask,
-    "epochs": 100,
+    "epochs": 1,
     "early_stopping_steps": 5,
     "read_size": 2,
     "num_symbols": 4
@@ -189,7 +105,7 @@ final_reverse_deletion_config = {
 # 1) Reverse task.
 testing_reverse_config = {
     "task": ReverseTask,
-    "epochs": 100,
+    "epochs": 1,
     "early_stopping_steps": 5,
     "read_size": 2,
     "min_length": 1,
@@ -201,7 +117,7 @@ testing_reverse_config = {
 # 2) XOR/parity evaluation task.
 testing_parity_config = {
     "task": XORTask,
-    "epochs": 100,
+    "epochs": 1,
     "early_stopping_steps": 5,
     "read_size": 6,
     "str_length": 24
@@ -210,7 +126,7 @@ testing_parity_config = {
 # 3) Delayed XOR/parity evaluation task.
 testing_delayed_parity_config = {
     "task": DelayedXORTask,
-    "epochs": 100,
+    "epochs": 1,
     "early_stopping_steps": 5,
     "read_size": 6,
     "str_length": 24
@@ -219,11 +135,11 @@ testing_delayed_parity_config = {
 # 4) Dyck language modeling task.
 testing_dyck_config = {
     "task": CFGTask,
-    "epochs": 100,
+    "epochs": 1,
     "early_stopping_steps": 5,
     "grammar": dyck_grammar_2,
     "to_predict": [u")", u"]"],
-    "sample_depth": 0,
+    "sample_depth": 5,
     "read_size": 2,
     "max_length": 128,
 }
@@ -231,11 +147,11 @@ testing_dyck_config = {
 # 5) Agreement grammar task.
 testing_agreement_config = {
     "task": CFGTask,
-    "epochs": 100,
+    "epochs": 1,
     "early_stopping_steps": 5,
     "grammar": unambig_agreement_grammar,
     "to_predict": [u"Auxsing", u"Auxplur"],
-    "sample_depth": 0,
+    "sample_depth": 5,
     "read_size": 2,
     "max_length": 64,
 }
@@ -243,11 +159,11 @@ testing_agreement_config = {
 # 5b) Agreement grammar task with longer early stopping
 testing_agreement_config_10 = {
     "task": CFGTask,
-    "epochs": 100,
+    "epochs": 1,
     "early_stopping_steps": 10,
     "grammar": unambig_agreement_grammar,
     "to_predict": [u"Auxsing", u"Auxplur"],
-    "sample_depth": 0,
+    "sample_depth": 5,
     "read_size": 2,
     "max_length": 64,
 }
@@ -255,11 +171,11 @@ testing_agreement_config_10 = {
 # 6) Reverse Polish notation formula task.
 testing_formula_config = {
     "task": CFGTransduceTask,
-    "epochs": 100,
+    "epochs": 1,
     "early_stopping_steps": 5,
     "grammar": exp_eval_grammar,
     "to_predict": [u"0", u"1"],
-    "sample_depth": 0,
+    "sample_depth": 5,
     "read_size": 2,
     "max_length": 48,
 }
@@ -267,7 +183,7 @@ testing_formula_config = {
 # 7) Reverse with deletion task.
 testing_reverse_deletion_config = {
     "task": ReverseDeletionTask,
-    "epochs": 100,
+    "epochs": 1,
     "early_stopping_steps": 5,
     "read_size": 2,
     "num_symbols": 4,

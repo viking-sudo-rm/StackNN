@@ -21,9 +21,9 @@ class testcase(object):
 
     """
 
-    def __init__(self, struct_type, always_print=False):
+    def __init__(self, struct_type, arg_lists=None):
         self._struct_type = struct_type
-        self._always_print = always_print
+        self._arg_lists = arg_lists
 
     @property
     def struct_type(self):
@@ -31,16 +31,20 @@ class testcase(object):
 
     def __call__(self, test):
         name = self._rename(test, self.struct_type)
-        def wrap_test():
+        def wrap_test(i, args):
             try:
-                print("Running {}..".format(name), end="")
+                print("-" * 80)
+                test_msg = "Running {}".format(name)
+                if i > -1: test_msg += "#{}".format(i)
+                test_msg += ".."
+                print(test_msg)
                 stdout = StringIO.StringIO()
                 old_stdout = sys.stdout
                 sys.stdout = stdout
-                test()
-            except AssertionError:
+                test(*args)
+            except Exception:
                 sys.stdout = old_stdout
-                print(" FAILED!")
+                print("    FAILED!")
                 if test.__doc__ is not None:
                     print("Documentation:")
                     print(test.__doc__)
@@ -51,16 +55,20 @@ class testcase(object):
                 traceback.print_exc()
             else:
                 sys.stdout = old_stdout
-                print(" PASSED!")
-                if self._always_print:
-                    print("Stdout:")
-                    print(stdout.getvalue().strip())
+                print("    PASSED!")
             finally:
                 stdout.close()
         test.__name__ = name
-        wrap_test.__name__ = name
-        wrap_test._is_test_case = True
-        return wrap_test
+        def run_wrapped_tests():
+            if self._arg_lists:
+                # Multiple argument configs for the same test.
+                for i, args in enumerate(self._arg_lists):
+                    wrap_test(i, args)
+            else:
+                # No argument configs specified.
+                wrap_test(-1, [])
+        run_wrapped_tests._is_test_case = True
+        return run_wrapped_tests
 
     @staticmethod
     def _rename(f, struct_type):

@@ -57,7 +57,6 @@ def main(config,
          load_path=None,
          save_path=None):
     config = copy(config)
-
     task = config["task"]
     del config["task"]
 

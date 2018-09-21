@@ -3,7 +3,7 @@ import torch
 from torch.autograd import Variable
 
 from simple import Stack, Queue
-from testcase import testcase, test_module, is_close
+from stacknn_utils.testcase import testcase, test_module, is_close
 
 
 """
