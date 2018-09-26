@@ -227,3 +227,17 @@ parity_config_t = {
     "read_size": 6,
     "time_function": lambda t: t,
 }
+
+""" Configs for Will's senior thesis. """
+
+# 1) Reverse task.
+extreme_reverse_config = {
+    "task": ReverseTask,
+    "hidden_size": 16,
+    "mean_length": 50,
+    "max_length": 80,
+    "std_length": 5,
+    "epochs": 300,
+    "early_stopping_steps": 5,
+    "read_size": 2
+}
