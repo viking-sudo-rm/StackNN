@@ -1,25 +1,25 @@
 from __future__ import division
 
 from models import VanillaController, BufferedController
-from models.networks import *
+from shmetworks import *
 from tasks.cfg import CFGTask
 from tasks.configs import *
 
 vanilla = VanillaController
 buffered = BufferedController
 
-linear = LinearSimpleStructNetwork
-lstm = LSTMSimpleStructNetwork
-rnn = RNNSimpleStructNetwork
+linear = LinearSimpleStructShmetwork
+lstm = LSTMSimpleStructShmetwork
+rnn = RNNSimpleStructShmetwork
 
 configs = final_delayed_parity_config  # dyck_config
 del configs["task"]
 configs["epochs"] = 1
 configs[
     "load_path"] = "stacknn-experiments0/delayed_parity-VanillaController" \
-                   "-LinearSimpleStructNetwork-Stack/1.dat"
+                   "-LinearSimpleStructShmetwork-Stack/1.dat"
 configs["model_type"] = vanilla
-configs["network_type"] = linear
+configs["shmetwork_type"] = linear
 
 task = DelayedXORTask(**configs)
 

@@ -11,7 +11,7 @@ from structs.base import Struct
 
 class AbstractController(nn.Module):
     """
-    Abstract class for creating policy networks (controllers) that
+    Abstract class for creating policy shmetworks (controllers) that
     operate a neural data structure, such as a neural stack or a neural
     queue. To create a custom controller, create a class inhereting from
     this one that overrides self.__init__ and self.forward.
@@ -34,7 +34,7 @@ class AbstractController(nn.Module):
         self._struct_type = struct_type
         self._struct = None
 
-        self._network = None
+        self._shmetwork = None
 
         self._read_size = read_size
         self._read = None
@@ -74,9 +74,9 @@ class AbstractController(nn.Module):
         """
         raise NotImplementedError("Missing implementation for _init_buffer")
 
-    def _init_network(self, batch_size):
+    def _init_shmetwork(self, batch_size):
         """
-        Initializes the network.
+        Initializes the shmetwork.
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
@@ -84,7 +84,7 @@ class AbstractController(nn.Module):
 
         :return: None
         """
-        self._network.init_network(batch_size)
+        self._shmetwork.init_shmetwork(batch_size)
 
     def init_controller(self, batch_size, xs):
         """
@@ -100,20 +100,20 @@ class AbstractController(nn.Module):
         """
         self._init_struct(batch_size)
         self._init_buffer(batch_size, xs)
-        self._init_network(batch_size)
+        self._init_shmetwork(batch_size)
 
-    """ Neural Network Computation """
+    """ Neural Shmetwork Computation """
 
     @abstractmethod
     def forward(self, *args, **kwargs):
         """
-        Computes the output of the neural network given an input. The
-        network should push a value onto the neural data structure and
+        Computes the output of the neural shmetwork given an input. The
+        shmetwork should push a value onto the neural data structure and
         pop one or more values from the neural data structure, and
         produce an output based on this information and recurrent state
         if available.
 
-        :return: The output of the neural network
+        :return: The output of the neural shmetwork
         """
         raise NotImplementedError("Missing implementation for forward")
 
@@ -123,8 +123,8 @@ class AbstractController(nn.Module):
         return self._read_size
 
     @property
-    def network_type(self):
-        return type(self._network)
+    def shmetwork_type(self):
+        return type(self._shmetwork)
 
     @property
     def struct_type(self):
@@ -135,7 +135,7 @@ class AbstractController(nn.Module):
     def trace(self, *args, **kwargs):
         """
         Draws a graphic representation of the neural data structure
-        instructions produced by the Controller's Network at each time
+        instructions produced by the Controller's Shmetwork at each time
         step for a single input.
 
         :return: None
@@ -158,5 +158,5 @@ class AbstractController(nn.Module):
     def print_experiment_start(self):
         """Print model-specific hyperparameters at the start of an experiment."""
         print "Model Type: " + str(type(self).__name__)
-        print "Network Type: " + str(self.network_type.__name__)
+        print "Shmetwork Type: " + str(self.shmetwork_type.__name__)
         print "Struct Type: " + str(self.struct_type.__name__)

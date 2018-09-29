@@ -8,7 +8,7 @@ from torch.autograd import Variable
 
 from base import Task
 from models import VanillaController
-from models.networks.feedforward import LinearSimpleStructNetwork
+from shmetworks.feedforward import LinearSimpleStructShmetwork
 from structs import Stack
 
 
@@ -34,7 +34,7 @@ class ReverseTask(Task):
                  load_path=None,
                  l2_weight=0.01,
                  model_type=VanillaController,
-                 network_type=LinearSimpleStructNetwork,
+                 shmetwork_type=LinearSimpleStructShmetwork,
                  read_size=2,
                  save_path=None,
                  struct_type=Stack,
@@ -87,9 +87,9 @@ class ReverseTask(Task):
         :param learning_rate: The learning rate used for training
 
         :type load_path: str
-        :param load_path: The neural network will be initialized to a
-            saved network located in this path. If load_path is set to
-            None, then the network will be initialized to an empty state
+        :param load_path: The neural shmetwork will be initialized to a
+            saved shmetwork located in this path. If load_path is set to
+            None, then the shmetwork will be initialized to an empty state
 
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
@@ -99,8 +99,8 @@ class ReverseTask(Task):
         :param model_type: The type of Controller that will be trained
             and evaluated
 
-        :type network_type: type
-        :param network_type: The type of neural network that will drive
+        :type shmetwork_type: type
+        :param shmetwork_type: The type of neural shmetwork that will drive
             the Controller
 
         :type read_size: int
@@ -109,7 +109,7 @@ class ReverseTask(Task):
 
         :type save_path: str
         :param save_path: If this param is not set to None, then the
-            neural network will be saved to the path specified by this
+            neural shmetwork will be saved to the path specified by this
             save_path
 
         :type struct_type: type
@@ -118,7 +118,7 @@ class ReverseTask(Task):
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
-            to the number of computational steps the network will
+            to the number of computational steps the shmetwork will
             perform on that input
 
         :type verbose: bool
@@ -139,7 +139,7 @@ class ReverseTask(Task):
                                           max_x_length=max_length * 2,
                                           max_y_length=max_length * 8,
                                           model_type=model_type,
-                                          network_type=network_type,
+                                          shmetwork_type=shmetwork_type,
                                           null=unicode(num_symbols),
                                           read_size=read_size,
                                           save_path=save_path,
@@ -152,11 +152,11 @@ class ReverseTask(Task):
         self.std_length = std_length
         self.max_length = max_length
 
-    def reset_model(self, model_type, network_type, struct_type, **kwargs):
+    def reset_model(self, model_type, shmetwork_type, struct_type, **kwargs):
         self.model = model_type(self.alphabet_size,
                                 self.read_size,
                                 self.alphabet_size,
-                                network_type=network_type,
+                                shmetwork_type=shmetwork_type,
                                 struct_type=struct_type,
                                 **kwargs)
 
@@ -169,7 +169,7 @@ class ReverseTask(Task):
         """
         Computes the loss, number of guesses correct, and total number
         of guesses at the jth time step. The loss for a string is
-        considered to be 0 if the neural network is still reading the
+        considered to be 0 if the neural shmetwork is still reading the
         input string.
 
         :type x: Variable
@@ -183,14 +183,14 @@ class ReverseTask(Task):
             string backwards. All symbols are represented numerically
 
         :type a: Variable
-        :param a: The output of the neural network at the jth time step,
+        :param a: The output of the neural shmetwork at the jth time step,
             represented as a 2D vector. For each i, a[i, :] is the
-            output of the neural network at the jth time step, in one-
+            output of the neural shmetwork at the jth time step, in one-
             hot representation
 
         :type j: int
         :param j: This function is called during the jth time step of
-            the neural network's computation
+            the neural shmetwork's computation
 
         :rtype: tuple
         :return: The loss, number of correct guesses, and number of

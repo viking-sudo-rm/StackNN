@@ -13,7 +13,7 @@ from structs import Stack
 
 class Controller(nn.Module):
     """
-    Abstract class for creating policy networks (controllers) that
+    Abstract class for creating policy shmetworks (controllers) that
     operate a neural data structure, such as a neural stack or a neural
     queue. To create a custom controller, create a class inhereting from
     this one that overrides self.__init__ and self.forward.
@@ -45,15 +45,15 @@ class Controller(nn.Module):
     @abstractmethod
     def forward(self, x):
         """
-        Computes the output of the neural network given an input. The
-        network should push a value onto the neural data structure and
+        Computes the output of the neural shmetwork given an input. The
+        shmetwork should push a value onto the neural data structure and
         pop one or more values from the neural data structure, and
         produce an output based on this information and recurrent state
         if available.
 
-        :param x: The input to the neural network
+        :param x: The input to the neural shmetwork
 
-        :return: The output of the neural network
+        :return: The output of the neural shmetwork
         """
         raise NotImplementedError("Missing implementation for forward")
 

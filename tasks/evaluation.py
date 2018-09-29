@@ -10,14 +10,14 @@ from torch.autograd import Variable
 
 from base import Task
 from models import BufferedController
-from models.networks.feedforward import LinearSimpleStructNetwork
-from models.networks.recurrent import RNNSimpleStructNetwork
+from shmetworks.feedforward import LinearSimpleStructShmetwork
+from shmetworks.recurrent import RNNSimpleStructShmetwork
 from structs import Stack
 
 
 class EvaluationTask(Task):
     """
-    Abstract class for experiments where the network is incrementally
+    Abstract class for experiments where the shmetwork is incrementally
     fed a sequence and at every iteration has to evaluate a given
     function over all the sequence elements it has seen by that point.
     """
@@ -37,7 +37,7 @@ class EvaluationTask(Task):
                  max_length=12,
                  # TODO: strings are len 12 regardless.
                  model_type=BufferedController,
-                 network_type=LinearSimpleStructNetwork,
+                 shmetwork_type=LinearSimpleStructShmetwork,
                  read_size=2,
                  reg_weight=1.,
                  save_path=None,
@@ -75,8 +75,8 @@ class EvaluationTask(Task):
         :param model_type: The type of Controller that will be trained
             and evaluated
 
-        :type network_type: type
-        :param network_type: The type of neural network that will drive
+        :type shmetwork_type: type
+        :param shmetwork_type: The type of neural shmetwork that will drive
             the Controller
 
         :type read_size: int
@@ -89,7 +89,7 @@ class EvaluationTask(Task):
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
-            to the number of computational steps the network will
+            to the number of computational steps the shmetwork will
             perform on that input
 
         :type verbose: bool
@@ -109,7 +109,7 @@ class EvaluationTask(Task):
                                              max_x_length=max_length,
                                              max_y_length=max_length,
                                              model_type=model_type,
-                                             network_type=network_type,
+                                             shmetwork_type=shmetwork_type,
                                              null=u"2",
                                              read_size=read_size,
                                              reg_weight=reg_weight,
@@ -120,19 +120,19 @@ class EvaluationTask(Task):
 
         self.max_length = max_length
 
-    def reset_model(self, model_type, network_type, struct_type,
+    def reset_model(self, model_type, shmetwork_type, struct_type,
                     reg_weight=1., **kwargs):
         """
-        Instantiates a neural network model of a given type that is
+        Instantiates a neural shmetwork model of a given type that is
         compatible with this Task. This function must set self.model to
         an instance of model_type
 
         :type model_type: type
         :param model_type: A type from the models package
 
-        :type network_type: type
-        :param network_type: The type of the Network that will perform
-            the neural network computations
+        :type shmetwork_type: type
+        :param shmetwork_type: The type of the Shmetwork that will perform
+            the neural shmetwork computations
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that this
@@ -143,7 +143,7 @@ class EvaluationTask(Task):
         self.model = model_type(self.alphabet_size,
                                 self.read_size,
                                 self.alphabet_size,
-                                network_type=network_type,
+                                shmetwork_type=shmetwork_type,
                                 struct_type=struct_type,
                                 reg_weight=reg_weight)
 
@@ -164,12 +164,12 @@ class EvaluationTask(Task):
         :param y: The output data, represented as a 2D tensor
 
         :type a: Variable
-        :param a: The output of the neural network at the jth time step,
+        :param a: The output of the neural shmetwork at the jth time step,
             represented as a 2D vector
 
         :type j: int
         :param j: This function is called during the jth time step of
-            the neural network's computation
+            the neural shmetwork's computation
 
         :rtype: tuple
         :return: The loss, number of correct guesses, and number of
@@ -250,7 +250,7 @@ class EvaluationTask(Task):
     def eval_func(self, s):
         """
         The function evaluated over successive sequences of inputs that
-        the neural network has to learn. For example, if the network
+        the neural shmetwork has to learn. For example, if the shmetwork
         input is
         
             [1, 0, 1, 1],
@@ -269,14 +269,14 @@ class EvaluationTask(Task):
 
         :rtype: int
         :return: The result of computing the target function (that the
-            network has to learn) on s
+            shmetwork has to learn) on s
         """
         raise NotImplementedError("Missing implementation for eval_func")
 
 
 class XORTask(EvaluationTask):
     """
-    XOR evaluation task: the network is fed strings of length n and is
+    XOR evaluation task: the shmetwork is fed strings of length n and is
     given 2n time steps to output a string whose ith bit is the xor of
     the first i bits in the input string. We define the xor of single-
     bit inputs to be equal to the input bit. For example, if the input
@@ -284,7 +284,7 @@ class XORTask(EvaluationTask):
 
         1 0 1 0 1 1 0,
 
-    the network will have to output
+    the shmetwork will have to output
 
         xor(1)
         xor(1, 0)
@@ -311,7 +311,7 @@ class XORTask(EvaluationTask):
                  load_path=None,
                  l2_weight=0.01,
                  model_type=BufferedController,
-                 network_type=RNNSimpleStructNetwork,
+                 shmetwork_type=RNNSimpleStructShmetwork,
                  read_size=2,
                  reg_weight=1.,
                  save_path=None,
@@ -342,8 +342,8 @@ class XORTask(EvaluationTask):
         :type model_type: type
         :param model_type: The type of Controller that will be trained
             and evaluated
-        :type network_type: type
-        :param network_type: The type of neural network that will drive
+        :type shmetwork_type: type
+        :param shmetwork_type: The type of neural shmetwork that will drive
             the Controller
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
@@ -369,7 +369,7 @@ class XORTask(EvaluationTask):
                                       l2_weight=l2_weight,
                                       max_length=str_length,
                                       model_type=model_type,
-                                      network_type=network_type,
+                                      shmetwork_type=shmetwork_type,
                                       read_size=read_size,
                                       reg_weight=reg_weight,
                                       save_path=save_path,

@@ -5,7 +5,7 @@ import torch
 from torch.autograd import Variable
 
 from base import AbstractController
-from networks.feedforward import LinearSimpleStructNetwork
+from shmetworks.feedforward import LinearSimpleStructShmetwork
 from stacknn_utils.errors import unused_init_param
 from structs.simple import Stack
 
@@ -16,7 +16,7 @@ class VanillaController(AbstractController):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 network_type=LinearSimpleStructNetwork, struct_type=Stack,
+                 shmetwork_type=LinearSimpleStructShmetwork, struct_type=Stack,
                  **kwargs):
         """
         Constructor for the VanillaController object.
@@ -37,13 +37,13 @@ class VanillaController(AbstractController):
         :param struct_type: The type of neural data structure that this
             Controller will operate
 
-        :type network_type: type
-        :param network_type: The type of the Network that will perform
-            the neural network computations
+        :type shmetwork_type: type
+        :param shmetwork_type: The type of the Shmetwork that will perform
+            the neural shmetwork computations
         """
         super(VanillaController, self).__init__(read_size, struct_type)
         self._read = None
-        self._network = network_type(input_size, read_size, output_size,
+        self._shmetwork = shmetwork_type(input_size, read_size, output_size,
                                      **kwargs)
         self._input_size = input_size
         self._output_size = output_size
@@ -78,12 +78,12 @@ class VanillaController(AbstractController):
         self._t = 0
         self._zeros = Variable(torch.zeros(batch_size, self._input_size))
 
-    """ Neural Network Computation """
+    """ Neural Shmetwork Computation """
 
     def forward(self):
         """
-        Computes the output of the neural network given an input. The
-        network should push a value onto the neural data structure and
+        Computes the output of the neural shmetwork given an input. The
+        shmetwork should push a value onto the neural data structure and
         pop one or more values from the neural data structure, and
         produce an output based on this information and recurrent state
         if available.
@@ -95,7 +95,7 @@ class VanillaController(AbstractController):
 
         x = self._read_input()
 
-        output, (v, u, d) = self._network(x, self._read)
+        output, (v, u, d) = self._shmetwork(x, self._read)
         self._read = self._struct(v, u, d)
 
         self._write_output(output)
@@ -143,7 +143,7 @@ class VanillaController(AbstractController):
     def trace(self, trace_x, *args):
         """
         Draws a graphic representation of the neural data structure
-        instructions produced by the Controller's Network at each time
+        instructions produced by the Controller's Shmetwork at each time
         step for a single input.
 
         :type trace_x: Variable
@@ -159,10 +159,10 @@ class VanillaController(AbstractController):
 
         max_length = trace_x.data.shape[1]
 
-        self._network.start_log(max_length)
+        self._shmetwork.start_log(max_length)
         for j in xrange(max_length):
             self.forward()
-        self._network.stop_log()
+        self._shmetwork.stop_log()
 
         x_labels = ["x_" + str(i) for i in xrange(self._input_size)]
         y_labels = ["y_" + str(i) for i in xrange(self._output_size)]
@@ -170,7 +170,7 @@ class VanillaController(AbstractController):
         v_labels = ["v_" + str(i) for i in xrange(self._read_size)]
         labels = x_labels + y_labels + i_labels + v_labels
 
-        plt.imshow(self._network.log_data, cmap="hot", interpolation="nearest")
+        plt.imshow(self._shmetwork.log_data, cmap="hot", interpolation="nearest")
         plt.title("Trace")
         plt.yticks(range(len(labels)), labels)
         plt.xlabel("Time")
@@ -179,9 +179,9 @@ class VanillaController(AbstractController):
 
     def trace_step(self, trace_x, num_steps=None, step=True):
         """
-        Steps through the neural network's computation. The network will
+        Steps through the neural shmetwork's computation. The shmetwork will
         read an input and produce an output. At each time step, a
-        summary of the network's state and actions will be printed to
+        summary of the shmetwork's state and actions will be printed to
         the console.
 
         :type trace_x: Variable
@@ -210,17 +210,17 @@ class VanillaController(AbstractController):
         v_start = push + 1
 
         max_length = trace_x.data.shape[1]
-        self._network.start_log(max_length)
+        self._shmetwork.start_log(max_length)
         for j in xrange(max_length):
             print "\n-- Step {} of {} --".format(j, max_length)
 
             self.forward()
 
-            i = self._network.log_data[:x_end, j]
-            o = self._network.log_data[x_end:y_end, j].round(decimals=4)
-            u = self._network.log_data[y_end, j].round(decimals=4)
-            d = self._network.log_data[push, j].round(decimals=4)
-            v = self._network.log_data[v_start:, j].round(decimals=4)
+            i = self._shmetwork.log_data[:x_end, j]
+            o = self._shmetwork.log_data[x_end:y_end, j].round(decimals=4)
+            u = self._shmetwork.log_data[y_end, j].round(decimals=4)
+            d = self._shmetwork.log_data[push, j].round(decimals=4)
+            v = self._shmetwork.log_data[v_start:, j].round(decimals=4)
             r = self._struct.read(1).data.numpy()[0].round(decimals=4)
 
             print "\nInput: " + str(i)
@@ -237,4 +237,4 @@ class VanillaController(AbstractController):
 
             if step:
                 raw_input("\nPress Enter to continue\n")
-        self._network.stop_log()
+        self._shmetwork.stop_log()

@@ -9,7 +9,7 @@ import torch.optim as optim
 from torch.autograd import Variable
 
 from models import VanillaController
-from models.networks.feedforward import LinearSimpleStructNetwork
+from shmetworks.feedforward import LinearSimpleStructShmetwork
 from stacknn_utils import *
 from structs.simple import Stack
 
@@ -17,7 +17,7 @@ from structs.simple import Stack
 class Task(object):
     """
     Abstract class for creating experiments that train and evaluate a
-    neural network model with a neural stack or queue.
+    neural shmetwork model with a neural stack or queue.
     """
     __metaclass__ = ABCMeta
 
@@ -35,7 +35,7 @@ class Task(object):
                  max_x_length=10,
                  max_y_length=10,
                  model_type=VanillaController,
-                 network_type=LinearSimpleStructNetwork,
+                 shmetwork_type=LinearSimpleStructShmetwork,
                  null=u"#",
                  read_size=2,
                  reg_weight=1.,
@@ -74,9 +74,9 @@ class Task(object):
         :param learning_rate: The learning rate used for training
 
         :type load_path: str
-        :param load_path: The neural network will be initialized to a
-            saved network located in this path. If load_path is set to
-            None, then the network will be initialized to an empty state
+        :param load_path: The neural shmetwork will be initialized to a
+            saved shmetwork located in this path. If load_path is set to
+            None, then the shmetwork will be initialized to an empty state
 
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
@@ -93,8 +93,8 @@ class Task(object):
         :param model_type: The type of Controller that will be trained
             and evaluated
 
-        :type network_type: type
-        :param network_type: The type of neural network that will drive
+        :type shmetwork_type: type
+        :param shmetwork_type: The type of neural shmetwork that will drive
             the Controller
 
         :type null: unicode
@@ -106,7 +106,7 @@ class Task(object):
 
         :type save_path: str
         :param save_path: If this param is not set to None, then the
-            neural network will be saved to the path specified by this
+            neural shmetwork will be saved to the path specified by this
             save_path
 
         :type struct_type: type
@@ -115,7 +115,7 @@ class Task(object):
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
-            to the number of computational steps the network will
+            to the number of computational steps the shmetwork will
             perform on that input
 
         :type verbose: bool
@@ -147,7 +147,7 @@ class Task(object):
         self.alphabet_size = len(self.alphabet)
 
         self.model = None
-        self.reset_model(model_type, network_type, struct_type,
+        self.reset_model(model_type, shmetwork_type, struct_type,
                          hidden_size=hidden_size, reg_weight=reg_weight)
 
         if load_path:
@@ -183,18 +183,18 @@ class Task(object):
 
         self.batch_acc = None
     @abstractmethod
-    def reset_model(self, model_type, network_type, struct_type):
+    def reset_model(self, model_type, shmetwork_type, struct_type):
         """
-        Instantiates a neural network model of a given type that is
+        Instantiates a neural shmetwork model of a given type that is
         compatible with this Task. This function must set self.model to
         an instance of model_type.
 
         :type model_type: type
         :param model_type: The type of the Controller used in this Task
 
-        :type network_type: type
-        :param network_type: The type of the Network that will perform
-            the neural network computations
+        :type shmetwork_type: type
+        :param shmetwork_type: The type of the Shmetwork that will perform
+            the neural shmetwork computations
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that this
@@ -542,12 +542,12 @@ class Task(object):
             self.alphabet
 
         :type a: Variable
-        :param a: The output of the neural network after reading the jth
+        :param a: The output of the neural shmetwork after reading the jth
             word of the sentence, represented as a 1D vector
 
         :type j: int
         :param j: The jth word of a sentence is being read by the neural
-            network when this function is called
+            shmetwork when this function is called
 
         :rtype: tuple
         :return: The loss, number of correct guesses, and number of
@@ -659,7 +659,7 @@ class Task(object):
 
         :type log_file: str
         :param log_file: If a filename is provided, then the input,
-            correct output, and output predicted by the network for each
+            correct output, and output predicted by the shmetwork for each
             example are saved to the path provided
 
         :return: None
@@ -677,9 +677,9 @@ class Task(object):
 
     def trace_step(self, x, step=True):
         """
-        Steps through the neural network's computation. The network will
+        Steps through the neural shmetwork's computation. The shmetwork will
         read an input and produce an output. At each time step, a
-        summary of the network's state and actions will be printed to
+        summary of the shmetwork's state and actions will be printed to
         the console.
 
         :type x: str
@@ -702,7 +702,7 @@ class Task(object):
 
         self.model.trace_step(x_var, num_steps, step=step)
 
-        # Get the output of the network
+        # Get the output of the shmetwork
         self.test_x = x_var
         self.test_y = x_code
         self.reset_log()
@@ -810,7 +810,7 @@ class Task(object):
         """
         Sets self._logging to True, so that data will be logged the next
         time self.run_test is called. For each item in self.test_x and
-        self.test_y, the neural network's predicted output will be
+        self.test_y, the neural shmetwork's predicted output will be
         recorded.
 
         :return: None
@@ -865,12 +865,12 @@ class Task(object):
 
     def _log_prediction(self, a):
         """
-        Records a predicted output of the neural network.
+        Records a predicted output of the neural shmetwork.
 
         :type a: Variable
-        :param a: The predicted output of the neural network. The value
+        :param a: The predicted output of the neural shmetwork. The value
             passed to this param should be a Variable containing the
-            network's prediction for the jth symbol of each string in
+            shmetwork's prediction for the jth symbol of each string in
             the current testing batch, for some j.
 
         :return: None
