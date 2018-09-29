@@ -5,25 +5,25 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 
-from model import Controller as AbstractController
+from model import Model as Model
 from structs.legacy.queue import Queue
 
 
-class Controller(AbstractController):
+class Model(Model):
     N_ARGS = 4
 
     def __init__(self, input_size, read_size, output_size, **args):
-        super(Controller, self).__init__(read_size, **args)
+        super(Model, self).__init__(read_size, **args)
         self.input_size = input_size
 
-        # initialize the controller parameters
+        # initialize the model parameters
         self.linear = nn.Linear(input_size + self.get_read_size(),
-                                Controller.N_ARGS + self.get_read_size() +
+                                Model.N_ARGS + self.get_read_size() +
                                 output_size)
 
         # Careful! The way we initialize weights seems to really matter
         # self.linear.weight.data.uniform_(-.1, .1) # THIS ONE WORKS
-        AbstractController.init_normal(self.linear.weight)
+        Model.init_normal(self.linear.weight)
         self.linear.bias.data.fill_(0)
         self.linear.bias.data[0] = -1.  # Discourage popping
         self.linear.bias.data[2] = 1.  # Encourage reading
@@ -34,20 +34,20 @@ class Controller(AbstractController):
 
         output = self.linear(torch.cat([x, self.read], 1))
         read_params = F.sigmoid(
-            output[:, :Controller.N_ARGS + self.get_read_size()])
+            output[:, :Model.N_ARGS + self.get_read_size()])
 
         self.u = read_params[:, 0].contiguous()
         self.d = read_params[:, 1].contiguous()
         self.e_in = read_params[:, 2].contiguous()
         self.e_out = read_params[:, 3].contiguous()
-        self.v = read_params[:, Controller.N_ARGS:].contiguous()
+        self.v = read_params[:, Model.N_ARGS:].contiguous()
 
         self.read_stack(self.v, self.u, self.d)
-        out = output[:, Controller.N_ARGS + self.get_read_size():].contiguous()
+        out = output[:, Model.N_ARGS + self.get_read_size():].contiguous()
         self.buffer_out.forward(out, 0., self.e_out)
 
     def init_stack_and_buffer(self, batch_size, X, pad):
-        super(Controller, self).init_stack(batch_size)
+        super(Model, self).init_stack(batch_size)
 
         # Always push zeros onto queue
         self.zero = torch.zeros(batch_size, self.input_size)

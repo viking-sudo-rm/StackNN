@@ -9,18 +9,18 @@ from torch.autograd import Variable
 from structs.base import Struct
 
 
-class AbstractController(nn.Module):
+class Model(nn.Module):
     """
-    Abstract class for creating policy shmetworks (controllers) that
+    Abstract class for creating policy shmetworks (models) that
     operate a neural data structure, such as a neural stack or a neural
-    queue. To create a custom controller, create a class inhereting from
+    queue. To create a custom model, create a class inhereting from
     this one that overrides self.__init__ and self.forward.
     """
     __metaclass__ = ABCMeta
 
     def __init__(self, read_size, struct_type):
         """
-        Constructor for the Controller object.
+        Constructor for the Model object.
 
         :type read_size: int
         :param read_size: The size of the vectors that will be placed on
@@ -28,9 +28,9 @@ class AbstractController(nn.Module):
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that this
-            Controller will operate
+            Model will operate
         """
-        super(AbstractController, self).__init__()
+        super(Model, self).__init__()
         self._struct_type = struct_type
         self._struct = None
 
@@ -45,7 +45,7 @@ class AbstractController(nn.Module):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :return: None
         """
@@ -63,7 +63,7 @@ class AbstractController(nn.Module):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :type xs: Variable
         :param xs: An array of values that will be placed on the input
@@ -80,21 +80,21 @@ class AbstractController(nn.Module):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :return: None
         """
         self._shmetwork.init_shmetwork(batch_size)
 
-    def init_controller(self, batch_size, xs):
+    def init_model(self, batch_size, xs):
         """
-        Resets the neural data structure and other Controller components
+        Resets the neural data structure and other Model components
         to an initial state. This function is called at the beginning of
         each mini-batch.
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :return: None
         """
@@ -102,18 +102,18 @@ class AbstractController(nn.Module):
         self._init_buffer(batch_size, xs)
         self._init_shmetwork(batch_size)
 
-    """ Neural Shmetwork Computation """
+    """ Neural Network Computation """
 
     @abstractmethod
     def forward(self, *args, **kwargs):
         """
-        Computes the output of the neural shmetwork given an input. The
+        Computes the output of the neural network given an input. The
         shmetwork should push a value onto the neural data structure and
         pop one or more values from the neural data structure, and
         produce an output based on this information and recurrent state
         if available.
 
-        :return: The output of the neural shmetwork
+        :return: The output of the neural network
         """
         raise NotImplementedError("Missing implementation for forward")
 
@@ -135,7 +135,7 @@ class AbstractController(nn.Module):
     def trace(self, *args, **kwargs):
         """
         Draws a graphic representation of the neural data structure
-        instructions produced by the Controller's Shmetwork at each time
+        instructions produced by the Model's Shmetwork at each time
         step for a single input.
 
         :return: None
@@ -145,7 +145,7 @@ class AbstractController(nn.Module):
     """ Compatibility """
 
     def init_stack(self, batch_size, **kwargs):
-        self.init_controller(batch_size, **kwargs)
+        self.init_model(batch_size, **kwargs)
 
     def get_and_reset_reg_loss(self):
         """Method overriden for buffered regularization.

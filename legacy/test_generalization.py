@@ -2,15 +2,15 @@ import os
 import re
 import time
 
-from models import VanillaController, BufferedController
+from models import VanillaModel, BufferedModel
 from shmetworks import LinearSimpleStructShmetwork, LSTMSimpleStructShmetwork
 from stacknn_utils import StringLogger as Logger
 from structs import Stack, NullStruct
 from tasks.configs import *
 
-controller_names = {
-    "VanillaController": "Vanilla",
-    "BufferedController": "Buffered"
+model_names = {
+    "VanillaModel": "Vanilla",
+    "BufferedModel": "Buffered"
 }
 
 shmetwork_names = {
@@ -18,9 +18,9 @@ shmetwork_names = {
     "LSTMSimpleStructShmetwork": "LSTM"
 }
 
-controller_objects = {
-    "Vanilla": VanillaController,
-    "Buffered": BufferedController
+model_objects = {
+    "Vanilla": VanillaModel,
+    "Buffered": BufferedModel
 }
 
 shmetwork_objects = {
@@ -49,7 +49,7 @@ def parse_folder_name(fn):
     components = fn.split("-")
 
     return (components[0],
-            controller_names[components[1]],
+            model_names[components[1]],
             shmetwork_names[components[2]],
             components[3])
 
@@ -65,9 +65,9 @@ if __name__ == "__main__":
     for folder in folders:
         folder_start_time = time.time()
         conditions = parse_folder_name(folder)
-        task_name, controller_name, shmetwork_name, struct_name = conditions
+        task_name, model_name, shmetwork_name, struct_name = conditions
 
-        controller = controller_objects[controller_name]
+        model = model_objects[model_name]
         shmetwork = shmetwork_objects[shmetwork_name]
         struct = struct_objects[struct_name]
 
@@ -86,7 +86,7 @@ if __name__ == "__main__":
                            k != "task"}
 
                 configs["load_path"] = filename
-                configs["model_type"] = controller
+                configs["model_type"] = model
                 configs["shmetwork_type"] = shmetwork
                 configs["struct_type"] = struct
 
@@ -140,7 +140,7 @@ if __name__ == "__main__":
     # Save logs as a CSV file
     f = open("stacknn-experiments/generalization_results.csv", "w")
 
-    f.write("Task,Controller,Shmetwork,Struct,")
+    f.write("Task,Model,Shmetwork,Struct,")
     f.write(",".join(["Trial " + str(i) for i in xrange(10)]))
     f.write("\n")
 

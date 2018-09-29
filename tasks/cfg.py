@@ -1,8 +1,8 @@
 """
 Word prediction tasks based on CFGs. In each task in this module, the
-neural shmetwork will read a sentence (sequence of words) and predict the
+neural network will read a sentence (sequence of words) and predict the
 next word. We may specify a list of words that must be predicted by the
-neural shmetwork. For example, if we specify that the shmetwork must predict
+neural network. For example, if we specify that the shmetwork must predict
 verbs, then we only evaluate it based on the predictions made when the
 correct answer is a verb.
 
@@ -23,7 +23,7 @@ from nltk.parse.generate import generate
 from torch.autograd import Variable
 
 from base import Task
-from models import VanillaController
+from models import VanillaModel
 from shmetworks.feedforward import LinearSimpleStructShmetwork
 from structs import Stack
 
@@ -31,7 +31,7 @@ from structs import Stack
 class LanguageModellingTask(Task):
     """
     Abstract class for language modelling (word prediction) tasks. In a
-    LanguageModellingTask, the neural shmetwork must read each word of the
+    LanguageModellingTask, the neural network must read each word of the
     input sentence and predict the next word. The user may specify a set
     of words such that the shmetwork is only evaluated on predictions made
     when the correct next word is drawn from that set.
@@ -39,7 +39,7 @@ class LanguageModellingTask(Task):
     This abstract class implements self._evaluate_step. Subclasses need
     to implement functions relating to data generation.
 
-    Note that a BufferedController will always be able to perform a
+    Note that a BufferedModel will always be able to perform a
     LanguageModellingTask with perfect accuracy because it can simply
     output nothing during the first time step and then copy the input.
     """
@@ -58,7 +58,7 @@ class LanguageModellingTask(Task):
                  load_path=None,
                  l2_weight=0.01,
                  max_length=25,
-                 model_type=VanillaController,
+                 model_type=VanillaModel,
                  shmetwork_type=LinearSimpleStructShmetwork,
                  null=u"#",
                  read_size=2,
@@ -92,7 +92,7 @@ class LanguageModellingTask(Task):
         :param learning_rate: The learning rate used for training
 
         :type load_path: str
-        :param load_path: The neural shmetwork will be initialized to a
+        :param load_path: The neural network will be initialized to a
             saved shmetwork located in this path. If load_path is set to
             None, then the shmetwork will be initialized to an empty state
 
@@ -105,12 +105,12 @@ class LanguageModellingTask(Task):
             appear in the input training and testing data
 
         :type model_type: type
-        :param model_type: The type of Controller that will be trained
+        :param model_type: The type of Model that will be trained
             and evaluated
 
         :type shmetwork_type: type
-        :param shmetwork_type: The type of neural shmetwork that will drive
-            the Controller
+        :param shmetwork_type: The type of neural network that will drive
+            the Model
 
         :type null: unicode
         :param null: The "null" symbol used in this CFGTask
@@ -121,12 +121,12 @@ class LanguageModellingTask(Task):
 
         :type save_path: str
         :param save_path: If this param is not set to None, then the
-            neural shmetwork will be saved to the path specified by this
+            neural network will be saved to the path specified by this
             save_path
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
-            be used by the Controller
+            be used by the Model
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
@@ -176,7 +176,7 @@ class LanguageModellingTask(Task):
         :param y: The output data
 
         :type a: Variable
-        :param a: The output of the neural shmetwork after reading the jth
+        :param a: The output of the neural network after reading the jth
             word of the sentence, represented as a 2D vector. For each
             i, a[i, :] is the shmetwork's prediction for the (j + 1)st
             word of the sentence, in one-hot representation
@@ -228,7 +228,7 @@ class CFGTask(LanguageModellingTask):
                  load_path=None,
                  l2_weight=0.01,
                  max_length=25,
-                 model_type=VanillaController,
+                 model_type=VanillaModel,
                  shmetwork_type=LinearSimpleStructShmetwork,
                  null=u"#",
                  read_size=2,
@@ -272,7 +272,7 @@ class CFGTask(LanguageModellingTask):
         :param learning_rate: The learning rate used for training
 
         :type load_path: str
-        :param load_path: The neural shmetwork will be initialized to a
+        :param load_path: The neural network will be initialized to a
             saved shmetwork located in this path. If load_path is set to
             None, then the shmetwork will be initialized to an empty state
 
@@ -285,12 +285,12 @@ class CFGTask(LanguageModellingTask):
             appear in the input training and testing data
 
         :type model_type: type
-        :param model_type: The type of Controller that will be trained
+        :param model_type: The type of Model that will be trained
             and evaluated
 
         :type shmetwork_type: type
-        :param shmetwork_type: The type of neural shmetwork that will drive
-            the Controller
+        :param shmetwork_type: The type of neural network that will drive
+            the Model
 
         :type null: unicode
         :param null: The "null" symbol used in this CFGTask
@@ -301,12 +301,12 @@ class CFGTask(LanguageModellingTask):
 
         :type save_path: str
         :param save_path: If this param is not set to None, then the
-            neural shmetwork will be saved to the path specified by this
+            neural network will be saved to the path specified by this
             save_path
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
-            be used by the Controller
+            be used by the Model
 
         :type test_set_size: int
         :param test_set_size: The number of examples to include in the
@@ -367,20 +367,20 @@ class CFGTask(LanguageModellingTask):
 
     def reset_model(self, model_type, shmetwork_type, struct_type, **kwargs):
         """
-        Instantiates a neural shmetwork model of a given type that is
+        Instantiates a neural network model of a given type that is
         compatible with this Task. This function must set self.model to
         an instance of model_type.
 
         :type model_type: type
-        :param model_type: The type of the Controller used in this Task
+        :param model_type: The type of the Model used in this Task
 
         :type shmetwork_type: type
         :param shmetwork_type: The type of the Shmetwork that will perform
-            the neural shmetwork computations
+            the neural network computations
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that this
-            Controller will operate
+            Model will operate
 
         :return: None
         """
@@ -448,7 +448,7 @@ class CFGTask(LanguageModellingTask):
         Generates a dataset for this task. Each input consists of a
         sentence generated by self.grammar. Each output consists of a
         list of words such that the jth word is the correct prediction
-        the neural shmetwork should make after having read the jth input
+        the neural network should make after having read the jth input
         word. In this case, the correct prediction is the next word.
 
         Input words are represented in one-hot encoding. Output words
@@ -497,7 +497,7 @@ class CFGTransduceTask(CFGTask):
         Generates a dataset for this task. Each input consists of a
         sentence generated by self.grammar. Each output consists of a
         list of words such that the jth word is the correct prediction
-        the neural shmetwork should make after having read the jth input
+        the neural network should make after having read the jth input
         word. In this case, the correct prediction is the next word.
 
         Input words are represented in one-hot encoding. Output words

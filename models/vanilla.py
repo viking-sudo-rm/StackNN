@@ -4,26 +4,26 @@ import matplotlib.pyplot as plt
 import torch
 from torch.autograd import Variable
 
-from base import AbstractController
+from base import Model
 from shmetworks.feedforward import LinearSimpleStructShmetwork
 from stacknn_utils.errors import unused_init_param
 from structs.simple import Stack
 
 
-class VanillaController(AbstractController):
+class VanillaModel(Model):
     """
-    A simple Controller that uses a SimpleStruct as its data structure.
+    A simple Model that uses a SimpleStruct as its data structure.
     """
 
     def __init__(self, input_size, read_size, output_size,
                  shmetwork_type=LinearSimpleStructShmetwork, struct_type=Stack,
                  **kwargs):
         """
-        Constructor for the VanillaController object.
+        Constructor for the VanillaModel object.
 
         :type input_size: int
         :param input_size: The size of the vectors that will be input to
-            this Controller
+            this Model
 
         :type read_size: int
         :param read_size: The size of the vectors that will be placed on
@@ -31,17 +31,17 @@ class VanillaController(AbstractController):
 
         :type output_size: int
         :param output_size: The size of the vectors that will be output
-            from this Controller
+            from this Model
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that this
-            Controller will operate
+            Model will operate
 
         :type shmetwork_type: type
         :param shmetwork_type: The type of the Shmetwork that will perform
-            the neural shmetwork computations
+            the neural network computations
         """
-        super(VanillaController, self).__init__(read_size, struct_type)
+        super(VanillaModel, self).__init__(read_size, struct_type)
         self._read = None
         self._shmetwork = shmetwork_type(input_size, read_size, output_size,
                                      **kwargs)
@@ -63,7 +63,7 @@ class VanillaController(AbstractController):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :type xs: Variable
         :param xs: An array of values that will be placed on the input
@@ -78,11 +78,11 @@ class VanillaController(AbstractController):
         self._t = 0
         self._zeros = Variable(torch.zeros(batch_size, self._input_size))
 
-    """ Neural Shmetwork Computation """
+    """ Neural Network Computation """
 
     def forward(self):
         """
-        Computes the output of the neural shmetwork given an input. The
+        Computes the output of the neural network given an input. The
         shmetwork should push a value onto the neural data structure and
         pop one or more values from the neural data structure, and
         produce an output based on this information and recurrent state
@@ -143,7 +143,7 @@ class VanillaController(AbstractController):
     def trace(self, trace_x, *args):
         """
         Draws a graphic representation of the neural data structure
-        instructions produced by the Controller's Shmetwork at each time
+        instructions produced by the Model's Shmetwork at each time
         step for a single input.
 
         :type trace_x: Variable
@@ -155,7 +155,7 @@ class VanillaController(AbstractController):
             unused_init_param("num_steps", arg, self)
 
         self.eval()
-        self.init_controller(1, trace_x)
+        self.init_model(1, trace_x)
 
         max_length = trace_x.data.shape[1]
 
@@ -179,7 +179,7 @@ class VanillaController(AbstractController):
 
     def trace_step(self, trace_x, num_steps=None, step=True):
         """
-        Steps through the neural shmetwork's computation. The shmetwork will
+        Steps through the neural network's computation. The shmetwork will
         read an input and produce an output. At each time step, a
         summary of the shmetwork's state and actions will be printed to
         the console.
@@ -202,7 +202,7 @@ class VanillaController(AbstractController):
             raise ValueError("You can only trace one input at a time!")
 
         self.eval()
-        self.init_controller(1, trace_x)
+        self.init_model(1, trace_x)
 
         x_end = self._input_size
         y_end = x_end + self._output_size

@@ -1,5 +1,5 @@
 """
-Feedforward shmetworks for use in Controllers.
+Feedforward shmetworks for use in Models.
 """
 
 from __future__ import division

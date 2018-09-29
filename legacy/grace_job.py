@@ -51,10 +51,10 @@ configs = [
 >>>>>>> 280c714949b6d67d317b456b3ffeb1bc1830fb48
 ]
 
-# Vanilla vs. Buffered Controller
-controller_types = [
-    VanillaController,
-    # BufferedController,
+# Vanilla vs. Buffered Model
+model_types = [
+    VanillaModel,
+    # BufferedModel,
 ]
 
 # Linear vs. LSTM Shmetwork
@@ -72,19 +72,19 @@ struct_types = [
 """ PLEASE DO NOT EDIT BELOW THIS LINE """
 
 output_file_name = "-".join([c[0] for c in configs] +
-                            [c.__name__ for c in controller_types] +
+                            [c.__name__ for c in model_types] +
                             [n.__name__ for n in shmetwork_types] +
                             [s.__name__ for s in struct_types])
 output_file_name = "stacknn-experiments/log-" + output_file_name + ".txt"
 logger = Logger(output_file_name)
 
 for config_name, config in configs:
-    for controller_type in controller_types:
+    for model_type in model_types:
         for shmetwork_type in shmetwork_types:
             for struct_type in struct_types:
 
                 experiment_name = "-".join([config_name,
-                                            controller_type.__name__,
+                                            model_type.__name__,
                                             shmetwork_type.__name__,
                                             struct_type.__name__])
                 config_dir = os.path.join(results_dir, experiment_name)
@@ -94,7 +94,7 @@ for config_name, config in configs:
                 for i in xrange(n_trials):
                     # TODO: Should export figures, results, logs here too.
                     save_path = os.path.join(config_dir, "%i.dat" % i)
-                    results = run.main(config, controller_type, shmetwork_type,
+                    results = run.main(config, model_type, shmetwork_type,
                                        struct_type, save_path=save_path)
                     final_accs.append(results["final_acc"])
 

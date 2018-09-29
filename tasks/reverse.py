@@ -7,7 +7,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 from base import Task
-from models import VanillaController
+from models import VanillaModel
 from shmetworks.feedforward import LinearSimpleStructShmetwork
 from structs import Stack
 
@@ -33,7 +33,7 @@ class ReverseTask(Task):
                  learning_rate=0.01,
                  load_path=None,
                  l2_weight=0.01,
-                 model_type=VanillaController,
+                 model_type=VanillaModel,
                  shmetwork_type=LinearSimpleStructShmetwork,
                  read_size=2,
                  save_path=None,
@@ -87,7 +87,7 @@ class ReverseTask(Task):
         :param learning_rate: The learning rate used for training
 
         :type load_path: str
-        :param load_path: The neural shmetwork will be initialized to a
+        :param load_path: The neural network will be initialized to a
             saved shmetwork located in this path. If load_path is set to
             None, then the shmetwork will be initialized to an empty state
 
@@ -96,12 +96,12 @@ class ReverseTask(Task):
             training
 
         :type model_type: type
-        :param model_type: The type of Controller that will be trained
+        :param model_type: The type of Model that will be trained
             and evaluated
 
         :type shmetwork_type: type
-        :param shmetwork_type: The type of neural shmetwork that will drive
-            the Controller
+        :param shmetwork_type: The type of neural network that will drive
+            the Model
 
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
@@ -109,12 +109,12 @@ class ReverseTask(Task):
 
         :type save_path: str
         :param save_path: If this param is not set to None, then the
-            neural shmetwork will be saved to the path specified by this
+            neural network will be saved to the path specified by this
             save_path
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
-            be used by the Controller
+            be used by the Model
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
@@ -169,7 +169,7 @@ class ReverseTask(Task):
         """
         Computes the loss, number of guesses correct, and total number
         of guesses at the jth time step. The loss for a string is
-        considered to be 0 if the neural shmetwork is still reading the
+        considered to be 0 if the neural network is still reading the
         input string.
 
         :type x: Variable
@@ -183,14 +183,14 @@ class ReverseTask(Task):
             string backwards. All symbols are represented numerically
 
         :type a: Variable
-        :param a: The output of the neural shmetwork at the jth time step,
+        :param a: The output of the neural network at the jth time step,
             represented as a 2D vector. For each i, a[i, :] is the
-            output of the neural shmetwork at the jth time step, in one-
+            output of the neural network at the jth time step, in one-
             hot representation
 
         :type j: int
         :param j: This function is called during the jth time step of
-            the neural shmetwork's computation
+            the neural network's computation
 
         :rtype: tuple
         :return: The loss, number of correct guesses, and number of

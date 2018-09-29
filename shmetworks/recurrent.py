@@ -1,5 +1,5 @@
 """
-Recurrent shmetworks for use in Controllers.
+Recurrent shmetworks for use in Models.
 """
 from __future__ import division
 
@@ -82,7 +82,7 @@ class RNNSimpleStructShmetwork(SimpleStructShmetwork):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :return: None
         """
@@ -199,7 +199,7 @@ class LSTMSimpleStructShmetwork(SimpleStructShmetwork):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :return: None
         """
@@ -315,7 +315,7 @@ class GRUSimpleStructShmetwork(SimpleStructShmetwork):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :return: None
         """

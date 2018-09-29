@@ -3,7 +3,7 @@
 Example usage:
   python run.py reverse_config
   python run.py dyck_config
-  python run.py dyck_config --controller BufferedController
+  python run.py dyck_config --model BufferedModel
 
 """
 
@@ -22,7 +22,7 @@ def get_args():
     parser.add_argument("config", type=str)
 
     # Manually specified parameters override those in configs.
-    parser.add_argument("--controller", type=str, default=None)
+    parser.add_argument("--model", type=str, default=None)
     parser.add_argument("--shmetwork", type=str, default=None)
     parser.add_argument("--struct", type=str, default=None)
 
@@ -51,7 +51,7 @@ def get_object_from_arg(arg, superclass, default=None):
 
 
 def main(config,
-         controller_type=None,
+         model_type=None,
          shmetwork_type=None,
          struct_type=None,
          load_path=None,
@@ -60,8 +60,8 @@ def main(config,
     task = config["task"]
     del config["task"]
 
-    if controller_type is not None:
-        config["model_type"] = controller_type
+    if model_type is not None:
+        config["model_type"] = model_type
     if shmetwork_type is not None:
         config["shmetwork_type"] = shmetwork_type
     if struct_type is not None:
@@ -79,9 +79,9 @@ if __name__ == "__main__":
     args = get_args()
     print("Loading {}".format(args.config))
     config = get_object_from_arg(args.config, dict)
-    controller_type = get_object_from_arg(args.controller, AbstractController)
+    model_type = get_object_from_arg(args.model, Model)
     shmetwork_type = get_object_from_arg(args.shmetwork, SimpleStructShmetwork)
     struct_type = get_object_from_arg(args.struct, Struct)
 
-    main(config, controller_type, shmetwork_type, struct_type, args.loadpath,
+    main(config, model_type, shmetwork_type, struct_type, args.loadpath,
          args.savepath)

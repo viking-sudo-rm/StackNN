@@ -1,12 +1,12 @@
 from __future__ import division
 
-from models import VanillaController, BufferedController
+from models import VanillaModel, BufferedModel
 from shmetworks import *
 from tasks.cfg import CFGTask
 from tasks.configs import *
 
-vanilla = VanillaController
-buffered = BufferedController
+vanilla = VanillaModel
+buffered = BufferedModel
 
 linear = LinearSimpleStructShmetwork
 lstm = LSTMSimpleStructShmetwork
@@ -16,7 +16,7 @@ configs = final_delayed_parity_config  # dyck_config
 del configs["task"]
 configs["epochs"] = 1
 configs[
-    "load_path"] = "stacknn-experiments0/delayed_parity-VanillaController" \
+    "load_path"] = "stacknn-experiments0/delayed_parity-VanillaModel" \
                    "-LinearSimpleStructShmetwork-Stack/1.dat"
 configs["model_type"] = vanilla
 configs["shmetwork_type"] = linear

@@ -4,18 +4,18 @@ import matplotlib.pyplot as plt
 import torch
 from torch.autograd import Variable
 
-from base import AbstractController
+from base import Model
 from shmetworks.feedforward import LinearSimpleStructShmetwork
 from structs import Stack, Operation
 from structs.buffers import InputBuffer, OutputBuffer
 from structs.regularization import InterfaceRegTracker
 
 
-class BufferedController(AbstractController):
+class BufferedModel(Model):
     """
-    A Controller that reads inputs from a differentiable input buffer
+    A Model that reads inputs from a differentiable input buffer
     and writes outputs to a differentiable output buffer. At each step
-    of computation, the controller must read something from the input
+    of computation, the model must read something from the input
     buffer, interact with the neural data structure, and write something
     to the output buffer.
     """
@@ -24,11 +24,11 @@ class BufferedController(AbstractController):
                  shmetwork_type=LinearSimpleStructShmetwork, struct_type=Stack,
                  reg_weight=1., **kwargs):
         """
-        Constructor for the VanillaController object.
+        Constructor for the VanillaModel object.
 
         :type input_size: int
         :param input_size: The size of the vectors that will be input to
-            this Controller
+            this Model
 
         :type read_size: int
         :param read_size: The size of the vectors that will be placed on
@@ -36,17 +36,17 @@ class BufferedController(AbstractController):
 
         :type output_size: int
         :param output_size: The size of the vectors that will be output
-            from this Controller
+            from this Model
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that this
-            Controller will operate
+            Model will operate
 
         :type shmetwork_type: type
         :param shmetwork_type: The type of the Shmetwork that will perform
-            the neural shmetwork computations
+            the neural network computations
         """
-        super(BufferedController, self).__init__(read_size, struct_type)
+        super(BufferedModel, self).__init__(read_size, struct_type)
         self._input_size = input_size
         self._output_size = output_size
         self._read_size = read_size
@@ -72,7 +72,7 @@ class BufferedController(AbstractController):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :type xs: Variable
         :param xs: An array of values that will be placed on the input
@@ -90,17 +90,17 @@ class BufferedController(AbstractController):
         self._buffer_in.set_reg_tracker(self._reg_tracker, Operation.pop)
         self._buffer_out.set_reg_tracker(self._reg_tracker, Operation.push)
 
-    """ Neural Shmetwork Computation """
+    """ Neural Network Computation """
 
     def forward(self):
         """
-        Computes the output of the neural shmetwork given an input. The
+        Computes the output of the neural network given an input. The
         shmetwork should push a value onto the neural data structure and
         pop one or more values from the neural data structure, and
         produce an output based on this information and recurrent state
         if available.
 
-        :return: The output of the neural shmetwork
+        :return: The output of the neural network
         """
         x = self._buffer_in(self._e_in)
 
@@ -128,7 +128,7 @@ class BufferedController(AbstractController):
     def trace(self, trace_x, num_steps):
         """
         Draws a graphic representation of the neural data structure
-        instructions produced by the Controller's Shmetwork at each time
+        instructions produced by the Model's Shmetwork at each time
         step for a single input.
 
         :type trace_x: Variable
@@ -141,7 +141,7 @@ class BufferedController(AbstractController):
         :return: None
         """
         self.eval()
-        self.init_controller(1, trace_x)
+        self.init_model(1, trace_x)
 
         self._shmetwork.start_log(num_steps)
         for j in xrange(num_steps):
@@ -163,7 +163,7 @@ class BufferedController(AbstractController):
 
     def trace_step(self, trace_x, num_steps, step=True):
         """
-        Steps through the neural shmetwork's computation. The shmetwork will
+        Steps through the neural network's computation. The shmetwork will
         read an input and produce an output. At each time step, a
         summary of the shmetwork's state and actions will be printed to
         the console.
@@ -184,7 +184,7 @@ class BufferedController(AbstractController):
             raise ValueError("You can only trace one input at a time!")
 
         self.eval()
-        self.init_controller(1, trace_x)
+        self.init_model(1, trace_x)
 
         x_end = self._input_size
         y_end = x_end + self._output_size
@@ -230,7 +230,7 @@ class BufferedController(AbstractController):
         """If there is a regularization tracker, return the loss term from it."""
 
         if self._reg_tracker is None:
-            return super(BufferedController, self).get_and_reset_reg_loss()
+            return super(BufferedModel, self).get_and_reset_reg_loss()
 
         loss = self._reg_tracker.loss
         self._reg_tracker.reset()
@@ -238,5 +238,5 @@ class BufferedController(AbstractController):
 
     def print_experiment_start(self):
         """Overriden to print buffered-specific params."""
-        super(BufferedController, self).print_experiment_start()
+        super(BufferedModel, self).print_experiment_start()
         print "Reg Weight: " + str(self._reg_tracker.reg_weight)

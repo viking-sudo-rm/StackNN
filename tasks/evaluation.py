@@ -9,7 +9,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 from base import Task
-from models import BufferedController
+from models import BufferedModel
 from shmetworks.feedforward import LinearSimpleStructShmetwork
 from shmetworks.recurrent import RNNSimpleStructShmetwork
 from structs import Stack
@@ -36,7 +36,7 @@ class EvaluationTask(Task):
                  l2_weight=0.01,
                  max_length=12,
                  # TODO: strings are len 12 regardless.
-                 model_type=BufferedController,
+                 model_type=BufferedModel,
                  shmetwork_type=LinearSimpleStructShmetwork,
                  read_size=2,
                  reg_weight=1.,
@@ -72,12 +72,12 @@ class EvaluationTask(Task):
             training
 
         :type model_type: type
-        :param model_type: The type of Controller that will be trained
+        :param model_type: The type of Model that will be trained
             and evaluated
 
         :type shmetwork_type: type
-        :param shmetwork_type: The type of neural shmetwork that will drive
-            the Controller
+        :param shmetwork_type: The type of neural network that will drive
+            the Model
 
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
@@ -85,7 +85,7 @@ class EvaluationTask(Task):
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
-            be used by the Controller
+            be used by the Model
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
@@ -123,7 +123,7 @@ class EvaluationTask(Task):
     def reset_model(self, model_type, shmetwork_type, struct_type,
                     reg_weight=1., **kwargs):
         """
-        Instantiates a neural shmetwork model of a given type that is
+        Instantiates a neural network model of a given type that is
         compatible with this Task. This function must set self.model to
         an instance of model_type
 
@@ -132,11 +132,11 @@ class EvaluationTask(Task):
 
         :type shmetwork_type: type
         :param shmetwork_type: The type of the Shmetwork that will perform
-            the neural shmetwork computations
+            the neural network computations
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that this
-            Controller will operate
+            Model will operate
 
         :return: None
         """
@@ -164,12 +164,12 @@ class EvaluationTask(Task):
         :param y: The output data, represented as a 2D tensor
 
         :type a: Variable
-        :param a: The output of the neural shmetwork at the jth time step,
+        :param a: The output of the neural network at the jth time step,
             represented as a 2D vector
 
         :type j: int
         :param j: This function is called during the jth time step of
-            the neural shmetwork's computation
+            the neural network's computation
 
         :rtype: tuple
         :return: The loss, number of correct guesses, and number of
@@ -250,7 +250,7 @@ class EvaluationTask(Task):
     def eval_func(self, s):
         """
         The function evaluated over successive sequences of inputs that
-        the neural shmetwork has to learn. For example, if the shmetwork
+        the neural network has to learn. For example, if the shmetwork
         input is
         
             [1, 0, 1, 1],
@@ -310,7 +310,7 @@ class XORTask(EvaluationTask):
                  learning_rate=0.01,
                  load_path=None,
                  l2_weight=0.01,
-                 model_type=BufferedController,
+                 model_type=BufferedModel,
                  shmetwork_type=RNNSimpleStructShmetwork,
                  read_size=2,
                  reg_weight=1.,
@@ -340,17 +340,17 @@ class XORTask(EvaluationTask):
         :param l2_weight: The amount of l2 regularization used for
             training
         :type model_type: type
-        :param model_type: The type of Controller that will be trained
+        :param model_type: The type of Model that will be trained
             and evaluated
         :type shmetwork_type: type
-        :param shmetwork_type: The type of neural shmetwork that will drive
-            the Controller
+        :param shmetwork_type: The type of neural network that will drive
+            the Model
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
             data structure
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
-            be used by the Controller
+            be used by the Model
         :type str_length: int
         :param str_length: The number of bits in each input string
         :type verbose: bool

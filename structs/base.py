@@ -9,7 +9,7 @@ class Struct(nn.Module):
     """
     Abstract class for implementing neural data structures, such as
     stacks, queues, and dequeues. Data structures inheriting from this
-    class are intended to be used in neural shmetworks that are trained in
+    class are intended to be used in neural networks that are trained in
     mini-batches. Thus, the actions of the structures are performed for
     each trial in a mini-batch simultaneously.
 

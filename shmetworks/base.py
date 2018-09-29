@@ -7,9 +7,9 @@ from torch.autograd import Variable
 
 class Shmetwork(nn.Module):
     """
-    Abstract class for neural shmetwork Modules to be used in Controllers.
+    Abstract class for neural network Modules to be used in Models.
     Inherit from this class in order to create a custom architecture for
-    a Controller, or to create a shmetwork compatible with a custom neural
+    a Model, or to create a shmetwork compatible with a custom neural
     data structure.
     """
     __metaclass__ = ABCMeta
@@ -81,7 +81,7 @@ class Shmetwork(nn.Module):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :return: None
         """
