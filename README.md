@@ -11,8 +11,8 @@ Please report any bugs in the GitHub issues tracker.
 
 ## Dependencies
 
-Python 2.7 is supported. A possibly incomplete list of dependencies is:
-* pytorch
+Python 2.7 with PyTorch 0.4.1 is supported. A possibly incomplete list of dependencies is:
+* PyTorch
 * numpy
 * matplotlib
 * enum
