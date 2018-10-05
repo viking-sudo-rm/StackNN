@@ -8,7 +8,7 @@ from torch.autograd import Variable
 
 from base import Task
 from models import VanillaModel
-from shmetworks.feedforward import LinearSimpleStructShmetwork
+from controllers.feedforward import LinearSimpleStructController
 from structs import Stack
 
 
@@ -34,7 +34,7 @@ class ReverseTask(Task):
                  load_path=None,
                  l2_weight=0.01,
                  model_type=VanillaModel,
-                 shmetwork_type=LinearSimpleStructShmetwork,
+                 controller_type=LinearSimpleStructController,
                  read_size=2,
                  save_path=None,
                  struct_type=Stack,
@@ -88,8 +88,8 @@ class ReverseTask(Task):
 
         :type load_path: str
         :param load_path: The neural network will be initialized to a
-            saved shmetwork located in this path. If load_path is set to
-            None, then the shmetwork will be initialized to an empty state
+            saved controller located in this path. If load_path is set to
+            None, then the controller will be initialized to an empty state
 
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
@@ -99,8 +99,8 @@ class ReverseTask(Task):
         :param model_type: The type of Model that will be trained
             and evaluated
 
-        :type shmetwork_type: type
-        :param shmetwork_type: The type of neural network that will drive
+        :type controller_type: type
+        :param controller_type: The type of neural network that will drive
             the Model
 
         :type read_size: int
@@ -118,7 +118,7 @@ class ReverseTask(Task):
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
-            to the number of computational steps the shmetwork will
+            to the number of computational steps the controller will
             perform on that input
 
         :type verbose: bool
@@ -139,7 +139,7 @@ class ReverseTask(Task):
                                           max_x_length=max_length * 2,
                                           max_y_length=max_length * 8,
                                           model_type=model_type,
-                                          shmetwork_type=shmetwork_type,
+                                          controller_type=controller_type,
                                           null=unicode(num_symbols),
                                           read_size=read_size,
                                           save_path=save_path,
@@ -152,11 +152,11 @@ class ReverseTask(Task):
         self.std_length = std_length
         self.max_length = max_length
 
-    def reset_model(self, model_type, shmetwork_type, struct_type, **kwargs):
+    def reset_model(self, model_type, controller_type, struct_type, **kwargs):
         self.model = model_type(self.alphabet_size,
                                 self.read_size,
                                 self.alphabet_size,
-                                shmetwork_type=shmetwork_type,
+                                controller_type=controller_type,
                                 struct_type=struct_type,
                                 **kwargs)
 

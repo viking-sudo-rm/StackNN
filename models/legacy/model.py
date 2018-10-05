@@ -13,7 +13,7 @@ from structs import Stack
 
 class Model(nn.Module):
     """
-    Abstract class for creating policy shmetworks (models) that
+    Abstract class for creating policy controllers (models) that
     operate a neural data structure, such as a neural stack or a neural
     queue. To create a custom model, create a class inhereting from
     this one that overrides self.__init__ and self.forward.
@@ -46,7 +46,7 @@ class Model(nn.Module):
     def forward(self, x):
         """
         Computes the output of the neural network given an input. The
-        shmetwork should push a value onto the neural data structure and
+        controller should push a value onto the neural data structure and
         pop one or more values from the neural data structure, and
         produce an output based on this information and recurrent state
         if available.

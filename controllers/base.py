@@ -5,30 +5,30 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 
-class Shmetwork(nn.Module):
+class Controller(nn.Module):
     """
     Abstract class for neural network Modules to be used in Models.
     Inherit from this class in order to create a custom architecture for
-    a Model, or to create a shmetwork compatible with a custom neural
+    a Model, or to create a controller compatible with a custom neural
     data structure.
     """
     __metaclass__ = ABCMeta
 
     def __init__(self, input_size, read_size, output_size):
         """
-        Constructor for the Shmetwork object.
+        Constructor for the Controller object.
 
         :type input_size: int
-        :param input_size: The size of input vectors to this Shmetwork
+        :param input_size: The size of input vectors to this Controller
 
         :type read_size: int
         :param read_size: The size of vectors placed on the neural data
             structure
 
         :type output_size: int
-        :param output_size: The size of vectors output from this Shmetwork
+        :param output_size: The size of vectors output from this Controller
         """
-        super(Shmetwork, self).__init__()
+        super(Controller, self).__init__()
         self._input_size = input_size
         self._read_size = read_size
         self._output_size = output_size
@@ -38,19 +38,19 @@ class Shmetwork(nn.Module):
     @abstractmethod
     def forward(self, x, r):
         """
-        This Shmetwork should take an input and the previous item read
+        This Controller should take an input and the previous item read
         from the neural data structure and produce an output and a set
         of instructions for operating the neural data structure.
 
         :type x: Variable
-        :param x: The input to this Shmetwork
+        :param x: The input to this Controller
 
         :type r: Variable
         :param r: The previous item read from the neural data structure
 
         :rtype: tuple
         :return: The first item of the tuple should contain the output
-            of the shmetwork. The second item should be a tuple containing
+            of the controller. The second item should be a tuple containing
             instructions for the neural data structure. For example, the
             return value corresponding to the instructions
                 - output y
@@ -75,9 +75,9 @@ class Shmetwork(nn.Module):
         n = tensor.data.shape[0]
         tensor.data.normal_(0, 1. / np.sqrt(n))
 
-    def init_shmetwork(self, batch_size):
+    def init_controller(self, batch_size):
         """
-        Initializes various components of the shmetwork.
+        Initializes various components of the controller.
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
@@ -88,9 +88,9 @@ class Shmetwork(nn.Module):
         pass
 
 
-class SimpleStructShmetwork(Shmetwork):
+class SimpleStructController(Controller):
     """
-    Abstract class for Shmetworks to be used with SimpleStructs (see
+    Abstract class for Controllers to be used with SimpleStructs (see
     structs.simple.SimpleStruct). This class primarily contains
     reporting tools that record the SimpleStruct instructions at each
     time step.
@@ -98,30 +98,30 @@ class SimpleStructShmetwork(Shmetwork):
 
     def __init__(self, input_size, read_size, output_size, n_args=2):
         """
-        Constructor for the SimpleStructShmetwork object. In addition to
+        Constructor for the SimpleStructController object. In addition to
         calling the base class constructor, this constructor initializes
         private properties used for reporting. Logged data are stored in
         self._log, a Numpy array whose columns contain the instructions
-        computed by the SimpleStructShmetwork to the SimpleStruct at each
+        computed by the SimpleStructController to the SimpleStruct at each
         time step.
 
         :type input_size: int
-        :param input_size: The size of input vectors to this Shmetwork
+        :param input_size: The size of input vectors to this Controller
 
         :type read_size: int
         :param read_size: The size of vectors placed on the neural data
             structure
 
         :type output_size: int
-        :param output_size: The size of vectors output from this Shmetwork
+        :param output_size: The size of vectors output from this Controller
 
         :type n_args: int
         :param n_args: The number of struct instructions, apart from the
             value to push onto the struct, that will be computed by the
-            shmetwork. By default, this value is 2: the push strength and
+            controller. By default, this value is 2: the push strength and
             the pop strength
         """
-        super(SimpleStructShmetwork, self).__init__(input_size, read_size,
+        super(SimpleStructController, self).__init__(input_size, read_size,
                                                   output_size)
 
         self._n_args = n_args
@@ -182,14 +182,14 @@ class SimpleStructShmetwork(Shmetwork):
 
     def _log(self, x, y, v, *instructions):
         """
-        Records the action of the Shmetwork at a particular time step to
+        Records the action of the Controller at a particular time step to
         self._log_data.
 
         :type x: Variable
-        :param x: The input to the Shmetwork
+        :param x: The input to the Controller
 
         :type y: Variable
-        :praam y: The output of the Shmetwork
+        :praam y: The output of the Controller
 
         :type v: Variable
         :param v: The value that will be pushed to the data structure

@@ -5,7 +5,7 @@ import torch
 from torch.autograd import Variable
 
 from models.base import Model
-from shmetworks.recurrent import LSTMSimpleStructShmetwork
+from controllers.recurrent import LSTMSimpleStructController
 from structs.simple import Stack
 
 from models.vanilla import VanillaModel
@@ -13,18 +13,18 @@ from models.vanilla import VanillaModel
 class LSTMModel(VanillaModel):
 	"""
     A Model that uses a SimpleStruct as its data structure, and an
-	LSTMSimpleStructShmetwork.
+	LSTMSimpleStructController.
     """
 
 	def __init__(self, input_size, read_size, output_size,
-				 shmetwork_type=LSTMSimpleStructShmetwork, struct_type=Stack):
+				 controller_type=LSTMSimpleStructController, struct_type=Stack):
 		super(LSTMModel, self).__init__(input_size, read_size, output_size,
-											shmetwork_type=shmetwork_type,
+											controller_type=controller_type,
 											struct_type=struct_type)
 
 		return
 
 	def init_struct(self, batch_size):
 		super(LSTMModel, self).init_struct(batch_size)
-		self._shmetwork.init_hidden(batch_size)
+		self._controller.init_hidden(batch_size)
 		return

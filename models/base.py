@@ -11,7 +11,7 @@ from structs.base import Struct
 
 class Model(nn.Module):
     """
-    Abstract class for creating policy shmetworks (models) that
+    Abstract class for creating policy controllers (models) that
     operate a neural data structure, such as a neural stack or a neural
     queue. To create a custom model, create a class inhereting from
     this one that overrides self.__init__ and self.forward.
@@ -34,7 +34,7 @@ class Model(nn.Module):
         self._struct_type = struct_type
         self._struct = None
 
-        self._shmetwork = None
+        self._controller = None
 
         self._read_size = read_size
         self._read = None
@@ -74,9 +74,9 @@ class Model(nn.Module):
         """
         raise NotImplementedError("Missing implementation for _init_buffer")
 
-    def _init_shmetwork(self, batch_size):
+    def _init_controller(self, batch_size):
         """
-        Initializes the shmetwork.
+        Initializes the controller.
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
@@ -84,7 +84,7 @@ class Model(nn.Module):
 
         :return: None
         """
-        self._shmetwork.init_shmetwork(batch_size)
+        self._controller.init_controller(batch_size)
 
     def init_model(self, batch_size, xs):
         """
@@ -100,7 +100,7 @@ class Model(nn.Module):
         """
         self._init_struct(batch_size)
         self._init_buffer(batch_size, xs)
-        self._init_shmetwork(batch_size)
+        self._init_controller(batch_size)
 
     """ Neural Network Computation """
 
@@ -108,7 +108,7 @@ class Model(nn.Module):
     def forward(self, *args, **kwargs):
         """
         Computes the output of the neural network given an input. The
-        shmetwork should push a value onto the neural data structure and
+        controller should push a value onto the neural data structure and
         pop one or more values from the neural data structure, and
         produce an output based on this information and recurrent state
         if available.
@@ -123,8 +123,8 @@ class Model(nn.Module):
         return self._read_size
 
     @property
-    def shmetwork_type(self):
-        return type(self._shmetwork)
+    def controller_type(self):
+        return type(self._controller)
 
     @property
     def struct_type(self):
@@ -135,7 +135,7 @@ class Model(nn.Module):
     def trace(self, *args, **kwargs):
         """
         Draws a graphic representation of the neural data structure
-        instructions produced by the Model's Shmetwork at each time
+        instructions produced by the Model's Controller at each time
         step for a single input.
 
         :return: None
@@ -158,5 +158,5 @@ class Model(nn.Module):
     def print_experiment_start(self):
         """Print model-specific hyperparameters at the start of an experiment."""
         print "Model Type: " + str(type(self).__name__)
-        print "Shmetwork Type: " + str(self.shmetwork_type.__name__)
+        print "Controller Type: " + str(self.controller_type.__name__)
         print "Struct Type: " + str(self.struct_type.__name__)

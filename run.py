@@ -11,7 +11,7 @@ import argparse
 from copy import copy
 
 from models import *
-from shmetworks import *
+from controllers import *
 from structs import *
 from tasks.configs import *
 
@@ -23,7 +23,7 @@ def get_args():
 
     # Manually specified parameters override those in configs.
     parser.add_argument("--model", type=str, default=None)
-    parser.add_argument("--shmetwork", type=str, default=None)
+    parser.add_argument("--controller", type=str, default=None)
     parser.add_argument("--struct", type=str, default=None)
 
     # Path arguments for loading and saving models.
@@ -52,7 +52,7 @@ def get_object_from_arg(arg, superclass, default=None):
 
 def main(config,
          model_type=None,
-         shmetwork_type=None,
+         controller_type=None,
          struct_type=None,
          load_path=None,
          save_path=None):
@@ -62,8 +62,8 @@ def main(config,
 
     if model_type is not None:
         config["model_type"] = model_type
-    if shmetwork_type is not None:
-        config["shmetwork_type"] = shmetwork_type
+    if controller_type is not None:
+        config["controller_type"] = controller_type
     if struct_type is not None:
         config["struct_type"] = struct_type
 
@@ -80,8 +80,8 @@ if __name__ == "__main__":
     print("Loading {}".format(args.config))
     config = get_object_from_arg(args.config, dict)
     model_type = get_object_from_arg(args.model, Model)
-    shmetwork_type = get_object_from_arg(args.shmetwork, SimpleStructShmetwork)
+    controller_type = get_object_from_arg(args.controller, SimpleStructController)
     struct_type = get_object_from_arg(args.struct, Struct)
 
-    main(config, model_type, shmetwork_type, struct_type, args.loadpath,
+    main(config, model_type, controller_type, struct_type, args.loadpath,
          args.savepath)

@@ -1,5 +1,5 @@
 """
-Recurrent shmetworks for use in Models.
+Recurrent controllers for use in Models.
 """
 from __future__ import division
 
@@ -7,11 +7,11 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
-from base import SimpleStructShmetwork
+from base import SimpleStructController
 from stacknn_utils.errors import unused_init_param
 
 
-class RNNSimpleStructShmetwork(SimpleStructShmetwork):
+class RNNSimpleStructController(SimpleStructController):
     """
     An RNN producing instructions compatible with SimpleStructs (see
     structs.Simple.SimpleStruct).
@@ -20,17 +20,17 @@ class RNNSimpleStructShmetwork(SimpleStructShmetwork):
     def __init__(self, input_size, read_size, output_size,
                  discourage_pop=True, hidden_size=10, n_args=2, **kwargs):
         """
-        Constructor for the RNNSimpleStructShmetwork object.
+        Constructor for the RNNSimpleStructController object.
 
         :type input_size: int
-        :param input_size: The size of input vectors to this Shmetwork
+        :param input_size: The size of input vectors to this Controller
 
         :type read_size: int
         :param read_size: The size of vectors placed on the neural data
             structure
 
         :type output_size: int
-        :param output_size: The size of vectors output from this Shmetwork
+        :param output_size: The size of vectors output from this Controller
 
         :type discourage_pop: bool
         :param discourage_pop: If True, then weights will be initialized
@@ -42,10 +42,10 @@ class RNNSimpleStructShmetwork(SimpleStructShmetwork):
         :type n_args: int
         :param n_args: The number of struct instructions, apart from the
             value to push onto the struct, that will be computed by the
-            shmetwork. By default, this value is 2: the push strength and
+            controller. By default, this value is 2: the push strength and
             the pop strength
         """
-        super(RNNSimpleStructShmetwork, self).__init__(input_size,
+        super(RNNSimpleStructController, self).__init__(input_size,
                                                      read_size,
                                                      output_size,
                                                      n_args=n_args)
@@ -62,12 +62,12 @@ class RNNSimpleStructShmetwork(SimpleStructShmetwork):
         self._linear = nn.Linear(hidden_size, nn_output_size)
 
         # Initialize Module weights
-        RNNSimpleStructShmetwork.init_normal(self._rnn.weight_hh)
-        RNNSimpleStructShmetwork.init_normal(self._rnn.weight_ih)
+        RNNSimpleStructController.init_normal(self._rnn.weight_hh)
+        RNNSimpleStructController.init_normal(self._rnn.weight_ih)
         self._rnn.bias_hh.data.fill_(0)
         self._rnn.bias_ih.data.fill_(0)
 
-        RNNSimpleStructShmetwork.init_normal(self._linear.weight)
+        RNNSimpleStructController.init_normal(self._linear.weight)
         self._linear.bias.data.fill_(0)
 
         if discourage_pop:
@@ -89,7 +89,7 @@ class RNNSimpleStructShmetwork(SimpleStructShmetwork):
         rnn_hidden_shape = (batch_size, self._rnn.hidden_size)
         self._hidden = Variable(torch.zeros(rnn_hidden_shape))
 
-    def init_shmetwork(self, batch_size):
+    def init_controller(self, batch_size):
         self._init_hidden(batch_size)
 
     def forward(self, x, r):
@@ -98,7 +98,7 @@ class RNNSimpleStructShmetwork(SimpleStructShmetwork):
         single linear layer.
 
         :type x: Variable
-        :param x: The input to this Shmetwork
+        :param x: The input to this Controller
 
         :type r: Variable
         :param r: The previous item read from the neural data structure
@@ -125,7 +125,7 @@ class RNNSimpleStructShmetwork(SimpleStructShmetwork):
         return output, ((v,) + instructions)
 
 
-class LSTMSimpleStructShmetwork(SimpleStructShmetwork):
+class LSTMSimpleStructController(SimpleStructController):
     """
     An LSTM producing instructions compatible with SimpleStructs (see
     structs.Simple.SimpleStruct).
@@ -136,17 +136,17 @@ class LSTMSimpleStructShmetwork(SimpleStructShmetwork):
     def __init__(self, input_size, read_size, output_size,
                  discourage_pop=True, hidden_size=10, n_args=2, **kwargs):
         """
-        Constructor for the LSTMSimpleStructShmetwork object.
+        Constructor for the LSTMSimpleStructController object.
 
         :type input_size: int
-        :param input_size: The size of input vectors to this Shmetwork
+        :param input_size: The size of input vectors to this Controller
 
         :type read_size: int
         :param read_size: The size of vectors placed on the neural data
             structure
 
         :type output_size: int
-        :param output_size: The size of vectors output from this Shmetwork
+        :param output_size: The size of vectors output from this Controller
 
         :type discourage_pop: bool
         :param discourage_pop: If True, then weights will be initialized
@@ -158,10 +158,10 @@ class LSTMSimpleStructShmetwork(SimpleStructShmetwork):
         :type n_args: int
         :param n_args: The number of struct instructions, apart from the
             value to push onto the struct, that will be computed by the
-            shmetwork. By default, this value is 2: the push strength and
+            controller. By default, this value is 2: the push strength and
             the pop strength
         """
-        super(LSTMSimpleStructShmetwork, self).__init__(input_size,
+        super(LSTMSimpleStructController, self).__init__(input_size,
                                                       read_size,
                                                       output_size,
                                                       n_args=n_args)
@@ -179,12 +179,12 @@ class LSTMSimpleStructShmetwork(SimpleStructShmetwork):
         self._linear = nn.Linear(hidden_size, nn_output_size)
 
         # Initialize Module weights
-        LSTMSimpleStructShmetwork.init_normal(self._lstm.weight_hh)
-        LSTMSimpleStructShmetwork.init_normal(self._lstm.weight_ih)
+        LSTMSimpleStructController.init_normal(self._lstm.weight_hh)
+        LSTMSimpleStructController.init_normal(self._lstm.weight_ih)
         self._lstm.bias_hh.data.fill_(0)
         self._lstm.bias_ih.data.fill_(0)
 
-        LSTMSimpleStructShmetwork.init_normal(self._linear.weight)
+        LSTMSimpleStructController.init_normal(self._linear.weight)
         self._linear.bias.data.fill_(0)
 
         if discourage_pop:
@@ -207,7 +207,7 @@ class LSTMSimpleStructShmetwork(SimpleStructShmetwork):
         self._hidden = Variable(torch.zeros(lstm_hidden_shape))
         self._cell_state = Variable(torch.zeros(lstm_hidden_shape))
 
-    def init_shmetwork(self, batch_size):
+    def init_controller(self, batch_size):
         self._init_hidden(batch_size)
 
     def forward(self, x, r):
@@ -216,7 +216,7 @@ class LSTMSimpleStructShmetwork(SimpleStructShmetwork):
         single linear layer.
 
         :type x: Variable
-        :param x: The input to this Shmetwork
+        :param x: The input to this Controller
 
         :type r: Variable
         :param r: The previous item read from the neural data structure
@@ -244,7 +244,7 @@ class LSTMSimpleStructShmetwork(SimpleStructShmetwork):
         return output, ((v,) + instructions)
 
 
-class GRUSimpleStructShmetwork(SimpleStructShmetwork):
+class GRUSimpleStructController(SimpleStructController):
     """
     An GRU producing instructions compatible with SimpleStructs (see
     structs.Simple.SimpleStruct).
@@ -253,17 +253,17 @@ class GRUSimpleStructShmetwork(SimpleStructShmetwork):
     def __init__(self, input_size, read_size, output_size,
                  discourage_pop=True, hidden_size=10, n_args=2, **kwargs):
         """
-        Constructor for the GRUSimpleStructShmetwork object.
+        Constructor for the GRUSimpleStructController object.
 
         :type input_size: int
-        :param input_size: The size of input vectors to this Shmetwork
+        :param input_size: The size of input vectors to this Controller
 
         :type read_size: int
         :param read_size: The size of vectors placed on the neural data
             structure
 
         :type output_size: int
-        :param output_size: The size of vectors output from this Shmetwork
+        :param output_size: The size of vectors output from this Controller
 
         :type discourage_pop: bool
         :param discourage_pop: If True, then weights will be initialized
@@ -275,10 +275,10 @@ class GRUSimpleStructShmetwork(SimpleStructShmetwork):
         :type n_args: int
         :param n_args: The number of struct instructions, apart from the
             value to push onto the struct, that will be computed by the
-            shmetwork. By default, this value is 2: the push strength and
+            controller. By default, this value is 2: the push strength and
             the pop strength
         """
-        super(GRUSimpleStructShmetwork, self).__init__(input_size,
+        super(GRUSimpleStructController, self).__init__(input_size,
                                                      read_size,
                                                      output_size,
                                                      n_args=n_args)
@@ -295,12 +295,12 @@ class GRUSimpleStructShmetwork(SimpleStructShmetwork):
         self._linear = nn.Linear(hidden_size, nn_output_size)
 
         # Initialize Module weights
-        GRUSimpleStructShmetwork.init_normal(self._GRU.weight_hh)
-        GRUSimpleStructShmetwork.init_normal(self._GRU.weight_ih)
+        GRUSimpleStructController.init_normal(self._GRU.weight_hh)
+        GRUSimpleStructController.init_normal(self._GRU.weight_ih)
         self._GRU.bias_hh.data.fill_(0)
         self._GRU.bias_ih.data.fill_(0)
 
-        GRUSimpleStructShmetwork.init_normal(self._linear.weight)
+        GRUSimpleStructController.init_normal(self._linear.weight)
         self._linear.bias.data.fill_(0)
 
         if discourage_pop:
@@ -322,7 +322,7 @@ class GRUSimpleStructShmetwork(SimpleStructShmetwork):
         GRU_hidden_shape = (batch_size, self._GRU.hidden_size)
         self._hidden = Variable(torch.zeros(GRU_hidden_shape))
 
-    def init_shmetwork(self, batch_size):
+    def init_controller(self, batch_size):
         self._init_hidden(batch_size)
 
     def forward(self, x, r):
@@ -331,7 +331,7 @@ class GRUSimpleStructShmetwork(SimpleStructShmetwork):
         single linear layer.
 
         :type x: Variable
-        :param x: The input to this Shmetwork
+        :param x: The input to this Controller
 
         :type r: Variable
         :param r: The previous item read from the neural data structure

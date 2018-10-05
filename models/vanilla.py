@@ -5,7 +5,7 @@ import torch
 from torch.autograd import Variable
 
 from base import Model
-from shmetworks.feedforward import LinearSimpleStructShmetwork
+from controllers.feedforward import LinearSimpleStructController
 from stacknn_utils.errors import unused_init_param
 from structs.simple import Stack
 
@@ -16,7 +16,7 @@ class VanillaModel(Model):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 shmetwork_type=LinearSimpleStructShmetwork, struct_type=Stack,
+                 controller_type=LinearSimpleStructController, struct_type=Stack,
                  **kwargs):
         """
         Constructor for the VanillaModel object.
@@ -37,13 +37,13 @@ class VanillaModel(Model):
         :param struct_type: The type of neural data structure that this
             Model will operate
 
-        :type shmetwork_type: type
-        :param shmetwork_type: The type of the Shmetwork that will perform
+        :type controller_type: type
+        :param controller_type: The type of the Controller that will perform
             the neural network computations
         """
         super(VanillaModel, self).__init__(read_size, struct_type)
         self._read = None
-        self._shmetwork = shmetwork_type(input_size, read_size, output_size,
+        self._controller = controller_type(input_size, read_size, output_size,
                                      **kwargs)
         self._input_size = input_size
         self._output_size = output_size
@@ -83,7 +83,7 @@ class VanillaModel(Model):
     def forward(self):
         """
         Computes the output of the neural network given an input. The
-        shmetwork should push a value onto the neural data structure and
+        controller should push a value onto the neural data structure and
         pop one or more values from the neural data structure, and
         produce an output based on this information and recurrent state
         if available.
@@ -95,7 +95,7 @@ class VanillaModel(Model):
 
         x = self._read_input()
 
-        output, (v, u, d) = self._shmetwork(x, self._read)
+        output, (v, u, d) = self._controller(x, self._read)
         self._read = self._struct(v, u, d)
 
         self._write_output(output)
@@ -143,7 +143,7 @@ class VanillaModel(Model):
     def trace(self, trace_x, *args):
         """
         Draws a graphic representation of the neural data structure
-        instructions produced by the Model's Shmetwork at each time
+        instructions produced by the Model's Controller at each time
         step for a single input.
 
         :type trace_x: Variable
@@ -159,10 +159,10 @@ class VanillaModel(Model):
 
         max_length = trace_x.data.shape[1]
 
-        self._shmetwork.start_log(max_length)
+        self._controller.start_log(max_length)
         for j in xrange(max_length):
             self.forward()
-        self._shmetwork.stop_log()
+        self._controller.stop_log()
 
         x_labels = ["x_" + str(i) for i in xrange(self._input_size)]
         y_labels = ["y_" + str(i) for i in xrange(self._output_size)]
@@ -170,7 +170,7 @@ class VanillaModel(Model):
         v_labels = ["v_" + str(i) for i in xrange(self._read_size)]
         labels = x_labels + y_labels + i_labels + v_labels
 
-        plt.imshow(self._shmetwork.log_data, cmap="hot", interpolation="nearest")
+        plt.imshow(self._controller.log_data, cmap="hot", interpolation="nearest")
         plt.title("Trace")
         plt.yticks(range(len(labels)), labels)
         plt.xlabel("Time")
@@ -179,9 +179,9 @@ class VanillaModel(Model):
 
     def trace_step(self, trace_x, num_steps=None, step=True):
         """
-        Steps through the neural network's computation. The shmetwork will
+        Steps through the neural network's computation. The controller will
         read an input and produce an output. At each time step, a
-        summary of the shmetwork's state and actions will be printed to
+        summary of the controller's state and actions will be printed to
         the console.
 
         :type trace_x: Variable
@@ -210,17 +210,17 @@ class VanillaModel(Model):
         v_start = push + 1
 
         max_length = trace_x.data.shape[1]
-        self._shmetwork.start_log(max_length)
+        self._controller.start_log(max_length)
         for j in xrange(max_length):
             print "\n-- Step {} of {} --".format(j, max_length)
 
             self.forward()
 
-            i = self._shmetwork.log_data[:x_end, j]
-            o = self._shmetwork.log_data[x_end:y_end, j].round(decimals=4)
-            u = self._shmetwork.log_data[y_end, j].round(decimals=4)
-            d = self._shmetwork.log_data[push, j].round(decimals=4)
-            v = self._shmetwork.log_data[v_start:, j].round(decimals=4)
+            i = self._controller.log_data[:x_end, j]
+            o = self._controller.log_data[x_end:y_end, j].round(decimals=4)
+            u = self._controller.log_data[y_end, j].round(decimals=4)
+            d = self._controller.log_data[push, j].round(decimals=4)
+            v = self._controller.log_data[v_start:, j].round(decimals=4)
             r = self._struct.read(1).data.numpy()[0].round(decimals=4)
 
             print "\nInput: " + str(i)
@@ -237,4 +237,4 @@ class VanillaModel(Model):
 
             if step:
                 raw_input("\nPress Enter to continue\n")
-        self._shmetwork.stop_log()
+        self._controller.stop_log()

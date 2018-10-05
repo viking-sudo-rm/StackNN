@@ -2,7 +2,7 @@
 Word prediction tasks based on CFGs. In each task in this module, the
 neural network will read a sentence (sequence of words) and predict the
 next word. We may specify a list of words that must be predicted by the
-neural network. For example, if we specify that the shmetwork must predict
+neural network. For example, if we specify that the controller must predict
 verbs, then we only evaluate it based on the predictions made when the
 correct answer is a verb.
 
@@ -24,7 +24,7 @@ from torch.autograd import Variable
 
 from base import Task
 from models import VanillaModel
-from shmetworks.feedforward import LinearSimpleStructShmetwork
+from controllers.feedforward import LinearSimpleStructController
 from structs import Stack
 
 
@@ -33,7 +33,7 @@ class LanguageModellingTask(Task):
     Abstract class for language modelling (word prediction) tasks. In a
     LanguageModellingTask, the neural network must read each word of the
     input sentence and predict the next word. The user may specify a set
-    of words such that the shmetwork is only evaluated on predictions made
+    of words such that the controller is only evaluated on predictions made
     when the correct next word is drawn from that set.
 
     This abstract class implements self._evaluate_step. Subclasses need
@@ -59,7 +59,7 @@ class LanguageModellingTask(Task):
                  l2_weight=0.01,
                  max_length=25,
                  model_type=VanillaModel,
-                 shmetwork_type=LinearSimpleStructShmetwork,
+                 controller_type=LinearSimpleStructController,
                  null=u"#",
                  read_size=2,
                  save_path=None,
@@ -93,8 +93,8 @@ class LanguageModellingTask(Task):
 
         :type load_path: str
         :param load_path: The neural network will be initialized to a
-            saved shmetwork located in this path. If load_path is set to
-            None, then the shmetwork will be initialized to an empty state
+            saved controller located in this path. If load_path is set to
+            None, then the controller will be initialized to an empty state
 
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
@@ -108,8 +108,8 @@ class LanguageModellingTask(Task):
         :param model_type: The type of Model that will be trained
             and evaluated
 
-        :type shmetwork_type: type
-        :param shmetwork_type: The type of neural network that will drive
+        :type controller_type: type
+        :param controller_type: The type of neural network that will drive
             the Model
 
         :type null: unicode
@@ -130,7 +130,7 @@ class LanguageModellingTask(Task):
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
-            to the number of computational steps the shmetwork will
+            to the number of computational steps the controller will
             perform on that input
 
         :type verbose: bool
@@ -152,7 +152,7 @@ class LanguageModellingTask(Task):
                              max_y_length=max_length,
                              model_type=model_type,
                              null=null,
-                             shmetwork_type=shmetwork_type,
+                             controller_type=controller_type,
                              read_size=read_size,
                              save_path=save_path,
                              struct_type=struct_type,
@@ -178,12 +178,12 @@ class LanguageModellingTask(Task):
         :type a: Variable
         :param a: The output of the neural network after reading the jth
             word of the sentence, represented as a 2D vector. For each
-            i, a[i, :] is the shmetwork's prediction for the (j + 1)st
+            i, a[i, :] is the controller's prediction for the (j + 1)st
             word of the sentence, in one-hot representation
 
         :type j: int
         :param j: The jth word of a sentence is being read by the neural
-            shmetwork when this function is called
+            controller when this function is called
 
         :rtype: tuple
         :return: The loss, number of correct guesses, and number of
@@ -229,7 +229,7 @@ class CFGTask(LanguageModellingTask):
                  l2_weight=0.01,
                  max_length=25,
                  model_type=VanillaModel,
-                 shmetwork_type=LinearSimpleStructShmetwork,
+                 controller_type=LinearSimpleStructController,
                  null=u"#",
                  read_size=2,
                  save_path=None,
@@ -273,8 +273,8 @@ class CFGTask(LanguageModellingTask):
 
         :type load_path: str
         :param load_path: The neural network will be initialized to a
-            saved shmetwork located in this path. If load_path is set to
-            None, then the shmetwork will be initialized to an empty state
+            saved controller located in this path. If load_path is set to
+            None, then the controller will be initialized to an empty state
 
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
@@ -288,8 +288,8 @@ class CFGTask(LanguageModellingTask):
         :param model_type: The type of Model that will be trained
             and evaluated
 
-        :type shmetwork_type: type
-        :param shmetwork_type: The type of neural network that will drive
+        :type controller_type: type
+        :param controller_type: The type of neural network that will drive
             the Model
 
         :type null: unicode
@@ -314,7 +314,7 @@ class CFGTask(LanguageModellingTask):
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
-            to the number of computational steps the shmetwork will
+            to the number of computational steps the controller will
             perform on that input
 
         :type train_set_size: int
@@ -341,7 +341,7 @@ class CFGTask(LanguageModellingTask):
                                       max_length=max_length,
                                       model_type=model_type,
                                       null=null,
-                                      shmetwork_type=shmetwork_type,
+                                      controller_type=controller_type,
                                       read_size=read_size,
                                       save_path=save_path,
                                       struct_type=struct_type,
@@ -365,7 +365,7 @@ class CFGTask(LanguageModellingTask):
         print "Maximum sample length: " + str(max_sample_length)
         print "Maximum input length: " + str(self.max_x_length)
 
-    def reset_model(self, model_type, shmetwork_type, struct_type, **kwargs):
+    def reset_model(self, model_type, controller_type, struct_type, **kwargs):
         """
         Instantiates a neural network model of a given type that is
         compatible with this Task. This function must set self.model to
@@ -374,8 +374,8 @@ class CFGTask(LanguageModellingTask):
         :type model_type: type
         :param model_type: The type of the Model used in this Task
 
-        :type shmetwork_type: type
-        :param shmetwork_type: The type of the Shmetwork that will perform
+        :type controller_type: type
+        :param controller_type: The type of the Controller that will perform
             the neural network computations
 
         :type struct_type: type
@@ -386,7 +386,7 @@ class CFGTask(LanguageModellingTask):
         """
         self.model = model_type(self.alphabet_size, self.read_size,
                                 self.alphabet_size,
-                                shmetwork_type=shmetwork_type,
+                                controller_type=controller_type,
                                 struct_type=struct_type,
                                 **kwargs)
 
@@ -487,7 +487,7 @@ class CFGTask(LanguageModellingTask):
 
 class CFGTransduceTask(CFGTask):
     """
-    This task is like CFGTask, except that the shmetwork receives symbols
+    This task is like CFGTask, except that the controller receives symbols
     with even indices as input, and must predict the symbols with odd
     indices.
     """

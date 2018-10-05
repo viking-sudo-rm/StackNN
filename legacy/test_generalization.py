@@ -3,7 +3,7 @@ import re
 import time
 
 from models import VanillaModel, BufferedModel
-from shmetworks import LinearSimpleStructShmetwork, LSTMSimpleStructShmetwork
+from controllers import LinearSimpleStructController, LSTMSimpleStructController
 from stacknn_utils import StringLogger as Logger
 from structs import Stack, NullStruct
 from tasks.configs import *
@@ -13,9 +13,9 @@ model_names = {
     "BufferedModel": "Buffered"
 }
 
-shmetwork_names = {
-    "LinearSimpleStructShmetwork": "Linear",
-    "LSTMSimpleStructShmetwork": "LSTM"
+controller_names = {
+    "LinearSimpleStructController": "Linear",
+    "LSTMSimpleStructController": "LSTM"
 }
 
 model_objects = {
@@ -23,9 +23,9 @@ model_objects = {
     "Buffered": BufferedModel
 }
 
-shmetwork_objects = {
-    "Linear": LinearSimpleStructShmetwork,
-    "LSTM": LSTMSimpleStructShmetwork
+controller_objects = {
+    "Linear": LinearSimpleStructController,
+    "LSTM": LSTMSimpleStructController
 }
 
 struct_objects = {
@@ -50,7 +50,7 @@ def parse_folder_name(fn):
 
     return (components[0],
             model_names[components[1]],
-            shmetwork_names[components[2]],
+            controller_names[components[2]],
             components[3])
 
 
@@ -65,10 +65,10 @@ if __name__ == "__main__":
     for folder in folders:
         folder_start_time = time.time()
         conditions = parse_folder_name(folder)
-        task_name, model_name, shmetwork_name, struct_name = conditions
+        task_name, model_name, controller_name, struct_name = conditions
 
         model = model_objects[model_name]
-        shmetwork = shmetwork_objects[shmetwork_name]
+        controller = controller_objects[controller_name]
         struct = struct_objects[struct_name]
 
         testing_data = "data/testing/final/" + task_name + ".csv"
@@ -87,7 +87,7 @@ if __name__ == "__main__":
 
                 configs["load_path"] = filename
                 configs["model_type"] = model
-                configs["shmetwork_type"] = shmetwork
+                configs["controller_type"] = controller
                 configs["struct_type"] = struct
 
                 log_filename = filename[:-4] + "_log.csv"
@@ -140,7 +140,7 @@ if __name__ == "__main__":
     # Save logs as a CSV file
     f = open("stacknn-experiments/generalization_results.csv", "w")
 
-    f.write("Task,Model,Shmetwork,Struct,")
+    f.write("Task,Model,Controller,Struct,")
     f.write(",".join(["Trial " + str(i) for i in xrange(10)]))
     f.write("\n")
 
