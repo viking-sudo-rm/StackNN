@@ -21,7 +21,7 @@ import os
 
 import run
 from models import *
-from models.networks import *
+from controllers import *
 from stacknn_utils import FileLogger as Logger
 from structs import Stack, NullStruct
 from tasks.configs import *
@@ -51,16 +51,16 @@ configs = [
 >>>>>>> 280c714949b6d67d317b456b3ffeb1bc1830fb48
 ]
 
-# Vanilla vs. Buffered Controller
-controller_types = [
-    VanillaController,
-    # BufferedController,
+# Vanilla vs. Buffered Model
+model_types = [
+    VanillaModel,
+    # BufferedModel,
 ]
 
-# Linear vs. LSTM Network
-network_types = [
-    LinearSimpleStructNetwork,
-    LSTMSimpleStructNetwork,
+# Linear vs. LSTM Controller
+controller_types = [
+    LinearSimpleStructController,
+    LSTMSimpleStructController,
 ]
 
 # Stack vs. no Stack
@@ -72,20 +72,20 @@ struct_types = [
 """ PLEASE DO NOT EDIT BELOW THIS LINE """
 
 output_file_name = "-".join([c[0] for c in configs] +
-                            [c.__name__ for c in controller_types] +
-                            [n.__name__ for n in network_types] +
+                            [c.__name__ for c in model_types] +
+                            [n.__name__ for n in controller_types] +
                             [s.__name__ for s in struct_types])
 output_file_name = "stacknn-experiments/log-" + output_file_name + ".txt"
 logger = Logger(output_file_name)
 
 for config_name, config in configs:
-    for controller_type in controller_types:
-        for network_type in network_types:
+    for model_type in model_types:
+        for controller_type in controller_types:
             for struct_type in struct_types:
 
                 experiment_name = "-".join([config_name,
+                                            model_type.__name__,
                                             controller_type.__name__,
-                                            network_type.__name__,
                                             struct_type.__name__])
                 config_dir = os.path.join(results_dir, experiment_name)
                 os.makedirs(config_dir)
@@ -94,7 +94,7 @@ for config_name, config in configs:
                 for i in xrange(n_trials):
                     # TODO: Should export figures, results, logs here too.
                     save_path = os.path.join(config_dir, "%i.dat" % i)
-                    results = run.main(config, controller_type, network_type,
+                    results = run.main(config, model_type, controller_type,
                                        struct_type, save_path=save_path)
                     final_accs.append(results["final_acc"])
 

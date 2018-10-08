@@ -2,30 +2,30 @@ import os
 import re
 import time
 
-from models import VanillaController, BufferedController
-from models.networks import LinearSimpleStructNetwork, LSTMSimpleStructNetwork
+from models import VanillaModel, BufferedModel
+from controllers import LinearSimpleStructController, LSTMSimpleStructController
 from stacknn_utils import StringLogger as Logger
 from structs import Stack, NullStruct
 from tasks.configs import *
 
-controller_names = {
-    "VanillaController": "Vanilla",
-    "BufferedController": "Buffered"
+model_names = {
+    "VanillaModel": "Vanilla",
+    "BufferedModel": "Buffered"
 }
 
-network_names = {
-    "LinearSimpleStructNetwork": "Linear",
-    "LSTMSimpleStructNetwork": "LSTM"
+controller_names = {
+    "LinearSimpleStructController": "Linear",
+    "LSTMSimpleStructController": "LSTM"
+}
+
+model_objects = {
+    "Vanilla": VanillaModel,
+    "Buffered": BufferedModel
 }
 
 controller_objects = {
-    "Vanilla": VanillaController,
-    "Buffered": BufferedController
-}
-
-network_objects = {
-    "Linear": LinearSimpleStructNetwork,
-    "LSTM": LSTMSimpleStructNetwork
+    "Linear": LinearSimpleStructController,
+    "LSTM": LSTMSimpleStructController
 }
 
 struct_objects = {
@@ -49,8 +49,8 @@ def parse_folder_name(fn):
     components = fn.split("-")
 
     return (components[0],
-            controller_names[components[1]],
-            network_names[components[2]],
+            model_names[components[1]],
+            controller_names[components[2]],
             components[3])
 
 
@@ -65,10 +65,10 @@ if __name__ == "__main__":
     for folder in folders:
         folder_start_time = time.time()
         conditions = parse_folder_name(folder)
-        task_name, controller_name, network_name, struct_name = conditions
+        task_name, model_name, controller_name, struct_name = conditions
 
+        model = model_objects[model_name]
         controller = controller_objects[controller_name]
-        network = network_objects[network_name]
         struct = struct_objects[struct_name]
 
         testing_data = "data/testing/final/" + task_name + ".csv"
@@ -86,8 +86,8 @@ if __name__ == "__main__":
                            k != "task"}
 
                 configs["load_path"] = filename
-                configs["model_type"] = controller
-                configs["network_type"] = network
+                configs["model_type"] = model
+                configs["controller_type"] = controller
                 configs["struct_type"] = struct
 
                 log_filename = filename[:-4] + "_log.csv"
@@ -140,7 +140,7 @@ if __name__ == "__main__":
     # Save logs as a CSV file
     f = open("stacknn-experiments/generalization_results.csv", "w")
 
-    f.write("Task,Controller,Network,Struct,")
+    f.write("Task,Model,Controller,Struct,")
     f.write(",".join(["Trial " + str(i) for i in xrange(10)]))
     f.write("\n")
 

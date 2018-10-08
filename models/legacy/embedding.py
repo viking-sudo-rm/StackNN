@@ -6,15 +6,15 @@ import torch.nn as nn
 import torch.optim as optim
 import random
 
-from legacy.model import Controller as AbstractController
+from legacy.model import Model as Model
 
 torch.manual_seed(1)
 
-class EmbeddingController(AbstractController):
+class EmbeddingModel(Model):
 
 	def __init__(self, num_embeddings, embedding_size, read_size, output_size, **args):
 		
-		super(EmbeddingController, self).__init__(read_size, **args)
+		super(EmbeddingModel, self).__init__(read_size, **args)
 
 		# Initialize the embedding parameters
 		self.embed = nn.Embedding(num_embeddings, embedding_size)
@@ -22,7 +22,7 @@ class EmbeddingController(AbstractController):
 
 		# Initialize the linear parameters
 		self.linear = nn.Linear(embedding_size + self.get_read_size(), 2 + self.get_read_size() + output_size)
-		AbstractController.init_normal(self.linear.weight)
+		Model.init_normal(self.linear.weight)
 		self.linear.bias.data.fill_(0)
 		
 	def forward(self, x):

@@ -1,5 +1,5 @@
 """
-Recurrent networks for use in Controllers.
+Recurrent controllers for use in Models.
 """
 from __future__ import division
 
@@ -7,11 +7,11 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
-from base import SimpleStructNetwork
+from base import SimpleStructController
 from stacknn_utils.errors import unused_init_param
 
 
-class RNNSimpleStructNetwork(SimpleStructNetwork):
+class RNNSimpleStructController(SimpleStructController):
     """
     An RNN producing instructions compatible with SimpleStructs (see
     structs.Simple.SimpleStruct).
@@ -20,17 +20,17 @@ class RNNSimpleStructNetwork(SimpleStructNetwork):
     def __init__(self, input_size, read_size, output_size,
                  discourage_pop=True, hidden_size=10, n_args=2, **kwargs):
         """
-        Constructor for the RNNSimpleStructNetwork object.
+        Constructor for the RNNSimpleStructController object.
 
         :type input_size: int
-        :param input_size: The size of input vectors to this Network
+        :param input_size: The size of input vectors to this Controller
 
         :type read_size: int
         :param read_size: The size of vectors placed on the neural data
             structure
 
         :type output_size: int
-        :param output_size: The size of vectors output from this Network
+        :param output_size: The size of vectors output from this Controller
 
         :type discourage_pop: bool
         :param discourage_pop: If True, then weights will be initialized
@@ -42,10 +42,10 @@ class RNNSimpleStructNetwork(SimpleStructNetwork):
         :type n_args: int
         :param n_args: The number of struct instructions, apart from the
             value to push onto the struct, that will be computed by the
-            network. By default, this value is 2: the push strength and
+            controller. By default, this value is 2: the push strength and
             the pop strength
         """
-        super(RNNSimpleStructNetwork, self).__init__(input_size,
+        super(RNNSimpleStructController, self).__init__(input_size,
                                                      read_size,
                                                      output_size,
                                                      n_args=n_args)
@@ -62,12 +62,12 @@ class RNNSimpleStructNetwork(SimpleStructNetwork):
         self._linear = nn.Linear(hidden_size, nn_output_size)
 
         # Initialize Module weights
-        RNNSimpleStructNetwork.init_normal(self._rnn.weight_hh)
-        RNNSimpleStructNetwork.init_normal(self._rnn.weight_ih)
+        RNNSimpleStructController.init_normal(self._rnn.weight_hh)
+        RNNSimpleStructController.init_normal(self._rnn.weight_ih)
         self._rnn.bias_hh.data.fill_(0)
         self._rnn.bias_ih.data.fill_(0)
 
-        RNNSimpleStructNetwork.init_normal(self._linear.weight)
+        RNNSimpleStructController.init_normal(self._linear.weight)
         self._linear.bias.data.fill_(0)
 
         if discourage_pop:
@@ -82,14 +82,14 @@ class RNNSimpleStructNetwork(SimpleStructNetwork):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :return: None
         """
         rnn_hidden_shape = (batch_size, self._rnn.hidden_size)
         self._hidden = Variable(torch.zeros(rnn_hidden_shape))
 
-    def init_network(self, batch_size):
+    def init_controller(self, batch_size):
         self._init_hidden(batch_size)
 
     def forward(self, x, r):
@@ -98,7 +98,7 @@ class RNNSimpleStructNetwork(SimpleStructNetwork):
         single linear layer.
 
         :type x: Variable
-        :param x: The input to this Network
+        :param x: The input to this Controller
 
         :type r: Variable
         :param r: The previous item read from the neural data structure
@@ -125,7 +125,7 @@ class RNNSimpleStructNetwork(SimpleStructNetwork):
         return output, ((v,) + instructions)
 
 
-class LSTMSimpleStructNetwork(SimpleStructNetwork):
+class LSTMSimpleStructController(SimpleStructController):
     """
     An LSTM producing instructions compatible with SimpleStructs (see
     structs.Simple.SimpleStruct).
@@ -136,17 +136,17 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
     def __init__(self, input_size, read_size, output_size,
                  discourage_pop=True, hidden_size=10, n_args=2, **kwargs):
         """
-        Constructor for the LSTMSimpleStructNetwork object.
+        Constructor for the LSTMSimpleStructController object.
 
         :type input_size: int
-        :param input_size: The size of input vectors to this Network
+        :param input_size: The size of input vectors to this Controller
 
         :type read_size: int
         :param read_size: The size of vectors placed on the neural data
             structure
 
         :type output_size: int
-        :param output_size: The size of vectors output from this Network
+        :param output_size: The size of vectors output from this Controller
 
         :type discourage_pop: bool
         :param discourage_pop: If True, then weights will be initialized
@@ -158,10 +158,10 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
         :type n_args: int
         :param n_args: The number of struct instructions, apart from the
             value to push onto the struct, that will be computed by the
-            network. By default, this value is 2: the push strength and
+            controller. By default, this value is 2: the push strength and
             the pop strength
         """
-        super(LSTMSimpleStructNetwork, self).__init__(input_size,
+        super(LSTMSimpleStructController, self).__init__(input_size,
                                                       read_size,
                                                       output_size,
                                                       n_args=n_args)
@@ -179,12 +179,12 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
         self._linear = nn.Linear(hidden_size, nn_output_size)
 
         # Initialize Module weights
-        LSTMSimpleStructNetwork.init_normal(self._lstm.weight_hh)
-        LSTMSimpleStructNetwork.init_normal(self._lstm.weight_ih)
+        LSTMSimpleStructController.init_normal(self._lstm.weight_hh)
+        LSTMSimpleStructController.init_normal(self._lstm.weight_ih)
         self._lstm.bias_hh.data.fill_(0)
         self._lstm.bias_ih.data.fill_(0)
 
-        LSTMSimpleStructNetwork.init_normal(self._linear.weight)
+        LSTMSimpleStructController.init_normal(self._linear.weight)
         self._linear.bias.data.fill_(0)
 
         if discourage_pop:
@@ -199,7 +199,7 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :return: None
         """
@@ -207,7 +207,7 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
         self._hidden = Variable(torch.zeros(lstm_hidden_shape))
         self._cell_state = Variable(torch.zeros(lstm_hidden_shape))
 
-    def init_network(self, batch_size):
+    def init_controller(self, batch_size):
         self._init_hidden(batch_size)
 
     def forward(self, x, r):
@@ -216,7 +216,7 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
         single linear layer.
 
         :type x: Variable
-        :param x: The input to this Network
+        :param x: The input to this Controller
 
         :type r: Variable
         :param r: The previous item read from the neural data structure
@@ -244,7 +244,7 @@ class LSTMSimpleStructNetwork(SimpleStructNetwork):
         return output, ((v,) + instructions)
 
 
-class GRUSimpleStructNetwork(SimpleStructNetwork):
+class GRUSimpleStructController(SimpleStructController):
     """
     An GRU producing instructions compatible with SimpleStructs (see
     structs.Simple.SimpleStruct).
@@ -253,17 +253,17 @@ class GRUSimpleStructNetwork(SimpleStructNetwork):
     def __init__(self, input_size, read_size, output_size,
                  discourage_pop=True, hidden_size=10, n_args=2, **kwargs):
         """
-        Constructor for the GRUSimpleStructNetwork object.
+        Constructor for the GRUSimpleStructController object.
 
         :type input_size: int
-        :param input_size: The size of input vectors to this Network
+        :param input_size: The size of input vectors to this Controller
 
         :type read_size: int
         :param read_size: The size of vectors placed on the neural data
             structure
 
         :type output_size: int
-        :param output_size: The size of vectors output from this Network
+        :param output_size: The size of vectors output from this Controller
 
         :type discourage_pop: bool
         :param discourage_pop: If True, then weights will be initialized
@@ -275,10 +275,10 @@ class GRUSimpleStructNetwork(SimpleStructNetwork):
         :type n_args: int
         :param n_args: The number of struct instructions, apart from the
             value to push onto the struct, that will be computed by the
-            network. By default, this value is 2: the push strength and
+            controller. By default, this value is 2: the push strength and
             the pop strength
         """
-        super(GRUSimpleStructNetwork, self).__init__(input_size,
+        super(GRUSimpleStructController, self).__init__(input_size,
                                                      read_size,
                                                      output_size,
                                                      n_args=n_args)
@@ -295,12 +295,12 @@ class GRUSimpleStructNetwork(SimpleStructNetwork):
         self._linear = nn.Linear(hidden_size, nn_output_size)
 
         # Initialize Module weights
-        GRUSimpleStructNetwork.init_normal(self._GRU.weight_hh)
-        GRUSimpleStructNetwork.init_normal(self._GRU.weight_ih)
+        GRUSimpleStructController.init_normal(self._GRU.weight_hh)
+        GRUSimpleStructController.init_normal(self._GRU.weight_ih)
         self._GRU.bias_hh.data.fill_(0)
         self._GRU.bias_ih.data.fill_(0)
 
-        GRUSimpleStructNetwork.init_normal(self._linear.weight)
+        GRUSimpleStructController.init_normal(self._linear.weight)
         self._linear.bias.data.fill_(0)
 
         if discourage_pop:
@@ -315,14 +315,14 @@ class GRUSimpleStructNetwork(SimpleStructNetwork):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :return: None
         """
         GRU_hidden_shape = (batch_size, self._GRU.hidden_size)
         self._hidden = Variable(torch.zeros(GRU_hidden_shape))
 
-    def init_network(self, batch_size):
+    def init_controller(self, batch_size):
         self._init_hidden(batch_size)
 
     def forward(self, x, r):
@@ -331,7 +331,7 @@ class GRUSimpleStructNetwork(SimpleStructNetwork):
         single linear layer.
 
         :type x: Variable
-        :param x: The input to this Network
+        :param x: The input to this Controller
 
         :type r: Variable
         :param r: The previous item read from the neural data structure

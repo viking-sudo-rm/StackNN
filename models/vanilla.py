@@ -4,26 +4,26 @@ import matplotlib.pyplot as plt
 import torch
 from torch.autograd import Variable
 
-from base import AbstractController
-from networks.feedforward import LinearSimpleStructNetwork
+from base import Model
+from controllers.feedforward import LinearSimpleStructController
 from stacknn_utils.errors import unused_init_param
 from structs.simple import Stack
 
 
-class VanillaController(AbstractController):
+class VanillaModel(Model):
     """
-    A simple Controller that uses a SimpleStruct as its data structure.
+    A simple Model that uses a SimpleStruct as its data structure.
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 network_type=LinearSimpleStructNetwork, struct_type=Stack,
+                 controller_type=LinearSimpleStructController, struct_type=Stack,
                  **kwargs):
         """
-        Constructor for the VanillaController object.
+        Constructor for the VanillaModel object.
 
         :type input_size: int
         :param input_size: The size of the vectors that will be input to
-            this Controller
+            this Model
 
         :type read_size: int
         :param read_size: The size of the vectors that will be placed on
@@ -31,19 +31,19 @@ class VanillaController(AbstractController):
 
         :type output_size: int
         :param output_size: The size of the vectors that will be output
-            from this Controller
+            from this Model
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that this
-            Controller will operate
+            Model will operate
 
-        :type network_type: type
-        :param network_type: The type of the Network that will perform
+        :type controller_type: type
+        :param controller_type: The type of the Controller that will perform
             the neural network computations
         """
-        super(VanillaController, self).__init__(read_size, struct_type)
+        super(VanillaModel, self).__init__(read_size, struct_type)
         self._read = None
-        self._network = network_type(input_size, read_size, output_size,
+        self._controller = controller_type(input_size, read_size, output_size,
                                      **kwargs)
         self._input_size = input_size
         self._output_size = output_size
@@ -63,7 +63,7 @@ class VanillaController(AbstractController):
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :type xs: Variable
         :param xs: An array of values that will be placed on the input
@@ -83,7 +83,7 @@ class VanillaController(AbstractController):
     def forward(self):
         """
         Computes the output of the neural network given an input. The
-        network should push a value onto the neural data structure and
+        controller should push a value onto the neural data structure and
         pop one or more values from the neural data structure, and
         produce an output based on this information and recurrent state
         if available.
@@ -95,7 +95,7 @@ class VanillaController(AbstractController):
 
         x = self._read_input()
 
-        output, (v, u, d) = self._network(x, self._read)
+        output, (v, u, d) = self._controller(x, self._read)
         self._read = self._struct(v, u, d)
 
         self._write_output(output)
@@ -143,7 +143,7 @@ class VanillaController(AbstractController):
     def trace(self, trace_x, *args):
         """
         Draws a graphic representation of the neural data structure
-        instructions produced by the Controller's Network at each time
+        instructions produced by the Model's Controller at each time
         step for a single input.
 
         :type trace_x: Variable
@@ -155,14 +155,14 @@ class VanillaController(AbstractController):
             unused_init_param("num_steps", arg, self)
 
         self.eval()
-        self.init_controller(1, trace_x)
+        self.init_model(1, trace_x)
 
         max_length = trace_x.data.shape[1]
 
-        self._network.start_log(max_length)
+        self._controller.start_log(max_length)
         for j in xrange(max_length):
             self.forward()
-        self._network.stop_log()
+        self._controller.stop_log()
 
         x_labels = ["x_" + str(i) for i in xrange(self._input_size)]
         y_labels = ["y_" + str(i) for i in xrange(self._output_size)]
@@ -170,7 +170,7 @@ class VanillaController(AbstractController):
         v_labels = ["v_" + str(i) for i in xrange(self._read_size)]
         labels = x_labels + y_labels + i_labels + v_labels
 
-        plt.imshow(self._network.log_data, cmap="hot", interpolation="nearest")
+        plt.imshow(self._controller.log_data, cmap="hot", interpolation="nearest")
         plt.title("Trace")
         plt.yticks(range(len(labels)), labels)
         plt.xlabel("Time")
@@ -179,9 +179,9 @@ class VanillaController(AbstractController):
 
     def trace_step(self, trace_x, num_steps=None, step=True):
         """
-        Steps through the neural network's computation. The network will
+        Steps through the neural network's computation. The controller will
         read an input and produce an output. At each time step, a
-        summary of the network's state and actions will be printed to
+        summary of the controller's state and actions will be printed to
         the console.
 
         :type trace_x: Variable
@@ -202,7 +202,7 @@ class VanillaController(AbstractController):
             raise ValueError("You can only trace one input at a time!")
 
         self.eval()
-        self.init_controller(1, trace_x)
+        self.init_model(1, trace_x)
 
         x_end = self._input_size
         y_end = x_end + self._output_size
@@ -210,17 +210,17 @@ class VanillaController(AbstractController):
         v_start = push + 1
 
         max_length = trace_x.data.shape[1]
-        self._network.start_log(max_length)
+        self._controller.start_log(max_length)
         for j in xrange(max_length):
             print "\n-- Step {} of {} --".format(j, max_length)
 
             self.forward()
 
-            i = self._network.log_data[:x_end, j]
-            o = self._network.log_data[x_end:y_end, j].round(decimals=4)
-            u = self._network.log_data[y_end, j].round(decimals=4)
-            d = self._network.log_data[push, j].round(decimals=4)
-            v = self._network.log_data[v_start:, j].round(decimals=4)
+            i = self._controller.log_data[:x_end, j]
+            o = self._controller.log_data[x_end:y_end, j].round(decimals=4)
+            u = self._controller.log_data[y_end, j].round(decimals=4)
+            d = self._controller.log_data[push, j].round(decimals=4)
+            v = self._controller.log_data[v_start:, j].round(decimals=4)
             r = self._struct.read(1).data.numpy()[0].round(decimals=4)
 
             print "\nInput: " + str(i)
@@ -237,4 +237,4 @@ class VanillaController(AbstractController):
 
             if step:
                 raw_input("\nPress Enter to continue\n")
-        self._network.stop_log()
+        self._controller.stop_log()

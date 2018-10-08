@@ -1,3 +1,3 @@
-from base import AbstractController
-from buffered import BufferedController
-from vanilla import VanillaController
+from base import Model
+from buffered import BufferedModel
+from vanilla import VanillaModel
