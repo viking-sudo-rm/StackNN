@@ -13,8 +13,8 @@ from copy import copy
 from models import *
 from controllers import *
 from structs import *
-from tasks.configs import *
-from visualization.visualizers import *
+from configs import *
+from visualization import *
 
 
 def get_args():

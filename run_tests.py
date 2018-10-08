@@ -1,7 +1,7 @@
 from stacknn_utils.testcase import testcase, test_module
 
 import run
-from tasks import configs
+import configs
 
 import structs.tests
 import structs.regularization
