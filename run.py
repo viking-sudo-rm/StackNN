@@ -14,6 +14,7 @@ from models import *
 from models.networks import *
 from structs import *
 from tasks.configs import *
+from visualization.visualizers import *
 
 
 def get_args():
@@ -25,6 +26,7 @@ def get_args():
     parser.add_argument("--controller", type=str, default=None)
     parser.add_argument("--network", type=str, default=None)
     parser.add_argument("--struct", type=str, default=None)
+    parser.add_argument("--visualizer", type=str, default=None)
 
     # Path arguments for loading and saving models.
     parser.add_argument("--loadpath", type=str, default=None)
@@ -54,10 +56,11 @@ def main(config,
          controller_type=None,
          network_type=None,
          struct_type=None,
+         visualizer_type=None,
          load_path=None,
          save_path=None):
     config = copy(config)
-    task = config["task"]
+    task_type = config["task"]
     del config["task"]
 
     if controller_type is not None:
@@ -72,7 +75,12 @@ def main(config,
     if save_path is not None:
         config["save_path"] = save_path
 
-    return task(**config).run_experiment()
+    task = task_type(**config)
+    metrics = task.run_experiment()
+    if visualizer_type is not None:
+        visualizer = visualizer_type(task)
+        visualizer.visualize_generic_example()
+    return metrics
 
 
 if __name__ == "__main__":
@@ -82,6 +90,7 @@ if __name__ == "__main__":
     controller_type = get_object_from_arg(args.controller, AbstractController)
     network_type = get_object_from_arg(args.network, SimpleStructNetwork)
     struct_type = get_object_from_arg(args.struct, Struct)
+    visualizer_type = get_object_from_arg(args.visualizer, Visualizer)
 
-    main(config, controller_type, network_type, struct_type, args.loadpath,
-         args.savepath)
+    main(config, controller_type, network_type, struct_type, visualizer_type,
+         args.loadpath, args.savepath)
