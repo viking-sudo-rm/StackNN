@@ -5,30 +5,30 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 
-class Network(nn.Module):
+class Controller(nn.Module):
     """
-    Abstract class for neural network Modules to be used in Controllers.
+    Abstract class for neural network Modules to be used in Models.
     Inherit from this class in order to create a custom architecture for
-    a Controller, or to create a network compatible with a custom neural
+    a Model, or to create a controller compatible with a custom neural
     data structure.
     """
     __metaclass__ = ABCMeta
 
     def __init__(self, input_size, read_size, output_size):
         """
-        Constructor for the Network object.
+        Constructor for the Controller object.
 
         :type input_size: int
-        :param input_size: The size of input vectors to this Network
+        :param input_size: The size of input vectors to this Controller
 
         :type read_size: int
         :param read_size: The size of vectors placed on the neural data
             structure
 
         :type output_size: int
-        :param output_size: The size of vectors output from this Network
+        :param output_size: The size of vectors output from this Controller
         """
-        super(Network, self).__init__()
+        super(Controller, self).__init__()
         self._input_size = input_size
         self._read_size = read_size
         self._output_size = output_size
@@ -38,19 +38,19 @@ class Network(nn.Module):
     @abstractmethod
     def forward(self, x, r):
         """
-        This Network should take an input and the previous item read
+        This Controller should take an input and the previous item read
         from the neural data structure and produce an output and a set
         of instructions for operating the neural data structure.
 
         :type x: Variable
-        :param x: The input to this Network
+        :param x: The input to this Controller
 
         :type r: Variable
         :param r: The previous item read from the neural data structure
 
         :rtype: tuple
         :return: The first item of the tuple should contain the output
-            of the network. The second item should be a tuple containing
+            of the controller. The second item should be a tuple containing
             instructions for the neural data structure. For example, the
             return value corresponding to the instructions
                 - output y
@@ -75,22 +75,22 @@ class Network(nn.Module):
         n = tensor.data.shape[0]
         tensor.data.normal_(0, 1. / np.sqrt(n))
 
-    def init_network(self, batch_size):
+    def init_controller(self, batch_size):
         """
-        Initializes various components of the network.
+        Initializes various components of the controller.
 
         :type batch_size: int
         :param batch_size: The number of trials in each mini-batch where
-            this Controller is used
+            this Model is used
 
         :return: None
         """
         pass
 
 
-class SimpleStructNetwork(Network):
+class SimpleStructController(Controller):
     """
-    Abstract class for Networks to be used with SimpleStructs (see
+    Abstract class for Controllers to be used with SimpleStructs (see
     structs.simple.SimpleStruct). This class primarily contains
     reporting tools that record the SimpleStruct instructions at each
     time step.
@@ -98,30 +98,30 @@ class SimpleStructNetwork(Network):
 
     def __init__(self, input_size, read_size, output_size, n_args=2):
         """
-        Constructor for the SimpleStructNetwork object. In addition to
+        Constructor for the SimpleStructController object. In addition to
         calling the base class constructor, this constructor initializes
         private properties used for reporting. Logged data are stored in
         self._log, a Numpy array whose columns contain the instructions
-        computed by the SimpleStructNetwork to the SimpleStruct at each
+        computed by the SimpleStructController to the SimpleStruct at each
         time step.
 
         :type input_size: int
-        :param input_size: The size of input vectors to this Network
+        :param input_size: The size of input vectors to this Controller
 
         :type read_size: int
         :param read_size: The size of vectors placed on the neural data
             structure
 
         :type output_size: int
-        :param output_size: The size of vectors output from this Network
+        :param output_size: The size of vectors output from this Controller
 
         :type n_args: int
         :param n_args: The number of struct instructions, apart from the
             value to push onto the struct, that will be computed by the
-            network. By default, this value is 2: the push strength and
+            controller. By default, this value is 2: the push strength and
             the pop strength
         """
-        super(SimpleStructNetwork, self).__init__(input_size, read_size,
+        super(SimpleStructController, self).__init__(input_size, read_size,
                                                   output_size)
 
         self._n_args = n_args
@@ -182,14 +182,14 @@ class SimpleStructNetwork(Network):
 
     def _log(self, x, y, v, *instructions):
         """
-        Records the action of the Network at a particular time step to
+        Records the action of the Controller at a particular time step to
         self._log_data.
 
         :type x: Variable
-        :param x: The input to the Network
+        :param x: The input to the Controller
 
         :type y: Variable
-        :praam y: The output of the Network
+        :praam y: The output of the Controller
 
         :type v: Variable
         :param v: The value that will be pushed to the data structure

@@ -11,18 +11,18 @@ from torch.autograd import Variable
 from structs import Stack
 
 
-class Controller(nn.Module):
+class Model(nn.Module):
     """
-    Abstract class for creating policy networks (controllers) that
+    Abstract class for creating policy controllers (models) that
     operate a neural data structure, such as a neural stack or a neural
-    queue. To create a custom controller, create a class inhereting from
+    queue. To create a custom model, create a class inhereting from
     this one that overrides self.__init__ and self.forward.
     """
     __metaclass__ = ABCMeta
 
     def __init__(self, read_size, struct_type=Stack, k=None):
         """
-        Constructor for the Controller object.
+        Constructor for the Model object.
 
         :type read_size: int
         :param read_size: The size of the vectors that will be placed on
@@ -30,11 +30,11 @@ class Controller(nn.Module):
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that this
-            Controller will operate. Please pass the *class* for the
+            Model will operate. Please pass the *class* for the
             data structure type to this parameter, not a specific
             instance of that class
         """
-        super(Controller, self).__init__()
+        super(Model, self).__init__()
         self.read_size = read_size
         self.struct_type = struct_type
         self.k = k
@@ -46,7 +46,7 @@ class Controller(nn.Module):
     def forward(self, x):
         """
         Computes the output of the neural network given an input. The
-        network should push a value onto the neural data structure and
+        controller should push a value onto the neural data structure and
         pop one or more values from the neural data structure, and
         produce an output based on this information and recurrent state
         if available.

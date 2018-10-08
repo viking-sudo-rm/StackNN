@@ -7,8 +7,8 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 from base import Task
-from models import VanillaController
-from models.networks.feedforward import LinearSimpleStructNetwork
+from models import VanillaModel
+from controllers.feedforward import LinearSimpleStructController
 from structs import Stack
 
 
@@ -33,8 +33,8 @@ class ReverseTask(Task):
                  learning_rate=0.01,
                  load_path=None,
                  l2_weight=0.01,
-                 model_type=VanillaController,
-                 network_type=LinearSimpleStructNetwork,
+                 model_type=VanillaModel,
+                 controller_type=LinearSimpleStructController,
                  read_size=2,
                  save_path=None,
                  struct_type=Stack,
@@ -88,20 +88,20 @@ class ReverseTask(Task):
 
         :type load_path: str
         :param load_path: The neural network will be initialized to a
-            saved network located in this path. If load_path is set to
-            None, then the network will be initialized to an empty state
+            saved controller located in this path. If load_path is set to
+            None, then the controller will be initialized to an empty state
 
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
             training
 
         :type model_type: type
-        :param model_type: The type of Controller that will be trained
+        :param model_type: The type of Model that will be trained
             and evaluated
 
-        :type network_type: type
-        :param network_type: The type of neural network that will drive
-            the Controller
+        :type controller_type: type
+        :param controller_type: The type of neural network that will drive
+            the Model
 
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
@@ -114,11 +114,11 @@ class ReverseTask(Task):
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
-            be used by the Controller
+            be used by the Model
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
-            to the number of computational steps the network will
+            to the number of computational steps the controller will
             perform on that input
 
         :type verbose: bool
@@ -139,7 +139,7 @@ class ReverseTask(Task):
                                           max_x_length=max_length * 2,
                                           max_y_length=max_length * 8,
                                           model_type=model_type,
-                                          network_type=network_type,
+                                          controller_type=controller_type,
                                           null=unicode(num_symbols),
                                           read_size=read_size,
                                           save_path=save_path,
@@ -152,11 +152,11 @@ class ReverseTask(Task):
         self.std_length = std_length
         self.max_length = max_length
 
-    def reset_model(self, model_type, network_type, struct_type, **kwargs):
+    def reset_model(self, model_type, controller_type, struct_type, **kwargs):
         self.model = model_type(self.alphabet_size,
                                 self.read_size,
                                 self.alphabet_size,
-                                network_type=network_type,
+                                controller_type=controller_type,
                                 struct_type=struct_type,
                                 **kwargs)
 

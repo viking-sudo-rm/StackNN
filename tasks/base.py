@@ -8,8 +8,8 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
 
-from models import VanillaController
-from models.networks.feedforward import LinearSimpleStructNetwork
+from models import VanillaModel
+from controllers.feedforward import LinearSimpleStructController
 from stacknn_utils import *
 from structs.simple import Stack
 
@@ -34,8 +34,8 @@ class Task(object):
                  l2_weight=.01,
                  max_x_length=10,
                  max_y_length=10,
-                 model_type=VanillaController,
-                 network_type=LinearSimpleStructNetwork,
+                 model_type=VanillaModel,
+                 controller_type=LinearSimpleStructController,
                  null=u"#",
                  read_size=2,
                  reg_weight=1.,
@@ -75,8 +75,8 @@ class Task(object):
 
         :type load_path: str
         :param load_path: The neural network will be initialized to a
-            saved network located in this path. If load_path is set to
-            None, then the network will be initialized to an empty state
+            saved controller located in this path. If load_path is set to
+            None, then the controller will be initialized to an empty state
 
         :type l2_weight: float
         :param l2_weight: The amount of l2 regularization used for
@@ -90,12 +90,12 @@ class Task(object):
         :param max_y_length: The maximum length of a neural net output
 
         :type model_type: type
-        :param model_type: The type of Controller that will be trained
+        :param model_type: The type of Model that will be trained
             and evaluated
 
-        :type network_type: type
-        :param network_type: The type of neural network that will drive
-            the Controller
+        :type controller_type: type
+        :param controller_type: The type of neural network that will drive
+            the Model
 
         :type null: unicode
         :param null: The "null" symbol used in this Task
@@ -115,7 +115,7 @@ class Task(object):
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
-            to the number of computational steps the network will
+            to the number of computational steps the controller will
             perform on that input
 
         :type verbose: bool
@@ -147,7 +147,7 @@ class Task(object):
         self.alphabet_size = len(self.alphabet)
 
         self.model = None
-        self.reset_model(model_type, network_type, struct_type,
+        self.reset_model(model_type, controller_type, struct_type,
                          hidden_size=hidden_size, reg_weight=reg_weight)
 
         if load_path:
@@ -183,22 +183,22 @@ class Task(object):
 
         self.batch_acc = None
     @abstractmethod
-    def reset_model(self, model_type, network_type, struct_type):
+    def reset_model(self, model_type, controller_type, struct_type):
         """
         Instantiates a neural network model of a given type that is
         compatible with this Task. This function must set self.model to
         an instance of model_type.
 
         :type model_type: type
-        :param model_type: The type of the Controller used in this Task
+        :param model_type: The type of the Model used in this Task
 
-        :type network_type: type
-        :param network_type: The type of the Network that will perform
+        :type controller_type: type
+        :param controller_type: The type of the Controller that will perform
             the neural network computations
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that this
-            Controller will operate
+            Model will operate
 
         :return: None
         """
@@ -448,7 +448,7 @@ class Task(object):
         for batch, i in enumerate(xrange(0, last_trial, self.batch_size)):
             x = self.train_x[i:i + self.batch_size, :, :]
             y = self.train_y[i:i + self.batch_size, :]
-            self.model.init_controller(self.batch_size, x)
+            self.model.init_model(self.batch_size, x)
             self._evaluate_batch(x, y, batch, True)
 
     def evaluate(self, epoch):
@@ -462,7 +462,7 @@ class Task(object):
             raise ValueError("Missing testing data")
 
         self.model.eval()
-        self.model.init_controller(len(self.test_x.data), self.test_x)
+        self.model.init_model(len(self.test_x.data), self.test_x)
         self._evaluate_batch(self.test_x, self.test_y, epoch, False)
 
     def _evaluate_batch(self, x, y, name, is_batch):
@@ -547,7 +547,7 @@ class Task(object):
 
         :type j: int
         :param j: The jth word of a sentence is being read by the neural
-            network when this function is called
+            controller when this function is called
 
         :rtype: tuple
         :return: The loss, number of correct guesses, and number of
@@ -659,7 +659,7 @@ class Task(object):
 
         :type log_file: str
         :param log_file: If a filename is provided, then the input,
-            correct output, and output predicted by the network for each
+            correct output, and output predicted by the controller for each
             example are saved to the path provided
 
         :return: None
@@ -677,9 +677,9 @@ class Task(object):
 
     def trace_step(self, x, step=True):
         """
-        Steps through the neural network's computation. The network will
+        Steps through the neural network's computation. The controller will
         read an input and produce an output. At each time step, a
-        summary of the network's state and actions will be printed to
+        summary of the controller's state and actions will be printed to
         the console.
 
         :type x: str
@@ -702,7 +702,7 @@ class Task(object):
 
         self.model.trace_step(x_var, num_steps, step=step)
 
-        # Get the output of the network
+        # Get the output of the controller
         self.test_x = x_var
         self.test_y = x_code
         self.reset_log()
@@ -870,7 +870,7 @@ class Task(object):
         :type a: Variable
         :param a: The predicted output of the neural network. The value
             passed to this param should be a Variable containing the
-            network's prediction for the jth symbol of each string in
+            controller's prediction for the jth symbol of each string in
             the current testing batch, for some j.
 
         :return: None

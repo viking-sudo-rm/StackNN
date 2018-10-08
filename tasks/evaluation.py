@@ -9,15 +9,15 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 from base import Task
-from models import BufferedController
-from models.networks.feedforward import LinearSimpleStructNetwork
-from models.networks.recurrent import RNNSimpleStructNetwork
+from models import BufferedModel
+from controllers.feedforward import LinearSimpleStructController
+from controllers.recurrent import RNNSimpleStructController
 from structs import Stack
 
 
 class EvaluationTask(Task):
     """
-    Abstract class for experiments where the network is incrementally
+    Abstract class for experiments where the controller is incrementally
     fed a sequence and at every iteration has to evaluate a given
     function over all the sequence elements it has seen by that point.
     """
@@ -36,8 +36,8 @@ class EvaluationTask(Task):
                  l2_weight=0.01,
                  max_length=12,
                  # TODO: strings are len 12 regardless.
-                 model_type=BufferedController,
-                 network_type=LinearSimpleStructNetwork,
+                 model_type=BufferedModel,
+                 controller_type=LinearSimpleStructController,
                  read_size=2,
                  reg_weight=1.,
                  save_path=None,
@@ -72,12 +72,12 @@ class EvaluationTask(Task):
             training
 
         :type model_type: type
-        :param model_type: The type of Controller that will be trained
+        :param model_type: The type of Model that will be trained
             and evaluated
 
-        :type network_type: type
-        :param network_type: The type of neural network that will drive
-            the Controller
+        :type controller_type: type
+        :param controller_type: The type of neural network that will drive
+            the Model
 
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
@@ -85,11 +85,11 @@ class EvaluationTask(Task):
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
-            be used by the Controller
+            be used by the Model
 
         :type time_function: function
         :param time_function: A function mapping the length of an input
-            to the number of computational steps the network will
+            to the number of computational steps the controller will
             perform on that input
 
         :type verbose: bool
@@ -109,7 +109,7 @@ class EvaluationTask(Task):
                                              max_x_length=max_length,
                                              max_y_length=max_length,
                                              model_type=model_type,
-                                             network_type=network_type,
+                                             controller_type=controller_type,
                                              null=u"2",
                                              read_size=read_size,
                                              reg_weight=reg_weight,
@@ -120,7 +120,7 @@ class EvaluationTask(Task):
 
         self.max_length = max_length
 
-    def reset_model(self, model_type, network_type, struct_type,
+    def reset_model(self, model_type, controller_type, struct_type,
                     reg_weight=1., **kwargs):
         """
         Instantiates a neural network model of a given type that is
@@ -130,20 +130,20 @@ class EvaluationTask(Task):
         :type model_type: type
         :param model_type: A type from the models package
 
-        :type network_type: type
-        :param network_type: The type of the Network that will perform
+        :type controller_type: type
+        :param controller_type: The type of the Controller that will perform
             the neural network computations
 
         :type struct_type: type
         :param struct_type: The type of neural data structure that this
-            Controller will operate
+            Model will operate
 
         :return: None
         """
         self.model = model_type(self.alphabet_size,
                                 self.read_size,
                                 self.alphabet_size,
-                                network_type=network_type,
+                                controller_type=controller_type,
                                 struct_type=struct_type,
                                 reg_weight=reg_weight)
 
@@ -250,7 +250,7 @@ class EvaluationTask(Task):
     def eval_func(self, s):
         """
         The function evaluated over successive sequences of inputs that
-        the neural network has to learn. For example, if the network
+        the neural network has to learn. For example, if the controller
         input is
         
             [1, 0, 1, 1],
@@ -269,14 +269,14 @@ class EvaluationTask(Task):
 
         :rtype: int
         :return: The result of computing the target function (that the
-            network has to learn) on s
+            controller has to learn) on s
         """
         raise NotImplementedError("Missing implementation for eval_func")
 
 
 class XORTask(EvaluationTask):
     """
-    XOR evaluation task: the network is fed strings of length n and is
+    XOR evaluation task: the controller is fed strings of length n and is
     given 2n time steps to output a string whose ith bit is the xor of
     the first i bits in the input string. We define the xor of single-
     bit inputs to be equal to the input bit. For example, if the input
@@ -284,7 +284,7 @@ class XORTask(EvaluationTask):
 
         1 0 1 0 1 1 0,
 
-    the network will have to output
+    the controller will have to output
 
         xor(1)
         xor(1, 0)
@@ -310,8 +310,8 @@ class XORTask(EvaluationTask):
                  learning_rate=0.01,
                  load_path=None,
                  l2_weight=0.01,
-                 model_type=BufferedController,
-                 network_type=RNNSimpleStructNetwork,
+                 model_type=BufferedModel,
+                 controller_type=RNNSimpleStructController,
                  read_size=2,
                  reg_weight=1.,
                  save_path=None,
@@ -340,17 +340,17 @@ class XORTask(EvaluationTask):
         :param l2_weight: The amount of l2 regularization used for
             training
         :type model_type: type
-        :param model_type: The type of Controller that will be trained
+        :param model_type: The type of Model that will be trained
             and evaluated
-        :type network_type: type
-        :param network_type: The type of neural network that will drive
-            the Controller
+        :type controller_type: type
+        :param controller_type: The type of neural network that will drive
+            the Model
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
             data structure
         :type struct_type: type
         :param struct_type: The type of neural data structure that will
-            be used by the Controller
+            be used by the Model
         :type str_length: int
         :param str_length: The number of bits in each input string
         :type verbose: bool
@@ -369,7 +369,7 @@ class XORTask(EvaluationTask):
                                       l2_weight=l2_weight,
                                       max_length=str_length,
                                       model_type=model_type,
-                                      network_type=network_type,
+                                      controller_type=controller_type,
                                       read_size=read_size,
                                       reg_weight=reg_weight,
                                       save_path=save_path,

@@ -5,7 +5,7 @@ Notes:
     * A "task" MUST be specified in the config dictionary.
     * Other values are optional and task-specific. They are used to
       specify values for parameters in a Task constructor.
-    * Network_type, model_type, and struct_type should not be specified
+    * Controller_type, model_type, and struct_type should not be specified
       here. They can be set with command-line arguments.
 
 A config can be run with:

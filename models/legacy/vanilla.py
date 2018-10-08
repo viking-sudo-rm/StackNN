@@ -8,20 +8,20 @@ import torch.nn.functional as F
 import torch.optim as optim
 import random
 
-from model import Controller as AbstractController
+from model import Model as Model
 
 
-class Controller(AbstractController):
+class Model(Model):
     def __init__(self, input_size, read_size, output_size, **args):
-        super(Controller, self).__init__(read_size, **args)
+        super(Model, self).__init__(read_size, **args)
 
-        # initialize the controller parameters
+        # initialize the model parameters
         self.linear = nn.Linear(input_size + self.get_read_size(),
                                 2 + self.get_read_size() + output_size)
 
         # Careful! The way we initialize weights seems to really matter
         # self.linear.weight.data.uniform_(-.1, .1) # THIS ONE WORKS
-        AbstractController.init_normal(self.linear.weight)
+        Model.init_normal(self.linear.weight)
         self.linear.bias.data.fill_(0)
 
     def forward(self, x):

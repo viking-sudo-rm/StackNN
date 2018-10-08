@@ -1,5 +1,5 @@
 """
-Feedforward networks for use in Controllers.
+Feedforward controllers for use in Models.
 """
 
 from __future__ import division
@@ -7,11 +7,11 @@ from __future__ import division
 import torch
 import torch.nn as nn
 
-from base import SimpleStructNetwork
+from base import SimpleStructController
 from stacknn_utils.errors import unused_init_param
 
 
-class LinearSimpleStructNetwork(SimpleStructNetwork):
+class LinearSimpleStructController(SimpleStructController):
     """
     A single linear layer producing instructions compatible with
     SimpleStructs (see structs.simple.SimpleStruct).
@@ -23,26 +23,26 @@ class LinearSimpleStructNetwork(SimpleStructNetwork):
         Constructor for the LinearSimpleStruct object.
 
         :type input_size: int
-        :param input_size: The size of input vectors to this Network
+        :param input_size: The size of input vectors to this Controller
 
         :type read_size: int
         :param read_size: The size of vectors placed on the neural data
             structure
 
         :type output_size: int
-        :param output_size: The size of vectors output from this Network
+        :param output_size: The size of vectors output from this Controller
 
         :type n_args: int
         :param n_args: The number of struct instructions, apart from the
             value to push onto the struct, that will be computed by the
-            network. By default, this value is 2: the push strength and
+            controller. By default, this value is 2: the push strength and
             the pop strength
 
         :type discourage_pop: bool
         :param discourage_pop: If True, then weights will be initialized
             to discourage popping
         """
-        super(LinearSimpleStructNetwork, self).__init__(input_size,
+        super(LinearSimpleStructController, self).__init__(input_size,
                                                         read_size,
                                                         output_size,
                                                         n_args=n_args)
@@ -56,7 +56,7 @@ class LinearSimpleStructNetwork(SimpleStructNetwork):
         self._linear = nn.Linear(nn_input_size, nn_output_size)
 
         # Initialize Module weights
-        LinearSimpleStructNetwork.init_normal(self._linear.weight)
+        LinearSimpleStructController.init_normal(self._linear.weight)
         self._linear.bias.data.fill_(0)
         if discourage_pop:
             self._linear.bias.data[0] = -1.  # Discourage popping
@@ -70,7 +70,7 @@ class LinearSimpleStructNetwork(SimpleStructNetwork):
         single linear layer.
 
         :type x: Variable
-        :param x: The input to this Network
+        :param x: The input to this Controller
 
         :type r: Variable
         :param r: The previous item read from the neural data structure

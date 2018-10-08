@@ -7,7 +7,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
 
-from models import BufferedController
+from models import BufferedModel
 
 
 # Language parameters
@@ -25,7 +25,7 @@ READ_SIZE = 2  # 2 is baseline
 
 EPOCHS = 30
 
-model = BufferedController(3, READ_SIZE, 3)
+model = BufferedModel(3, READ_SIZE, 3)
 try:
     model.cuda()
 except AssertionError:
@@ -105,7 +105,7 @@ def train(train_X, train_Y):
         # # Buffered model
         zero = Variable(torch.zeros(BATCH_SIZE, 3))
         num_iterations = TIME_FN(2 * MAX_LENGTH)
-        model.init_controller(BATCH_SIZE, X)
+        model.init_model(BATCH_SIZE, X)
         for j in xrange(num_iterations):
             model.forward()
         for j in xrange(MAX_LENGTH):
@@ -157,7 +157,7 @@ def evaluate(test_X, test_Y):
     # # Buffered model
     zero = Variable(torch.zeros(len_X, 3))
     num_iterations = TIME_FN(2 * MAX_LENGTH)
-    model.init_controller(len_X, test_X)
+    model.init_model(len_X, test_X)
     for j in xrange(num_iterations):
         model.forward()
     for j in xrange(MAX_LENGTH):
