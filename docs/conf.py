@@ -22,10 +22,18 @@
 import os
 import sys
 
+from mock.mock import Mock as MagicMock
+
+
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+        return MagicMock()
+
+
+MOCK_MODULES = ['nltk', 'torch', 'numpy']
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 sys.path.insert(0, os.path.abspath(".."))
-# sys.path.insert(0, os.path.abspath("../structs"))
-# sys.path.insert(0, os.path.abspath("../models"))
-# sys.path.insert(0, os.path.abspath("../formalisms"))
 
 # -- General configuration ------------------------------------------------
 
@@ -55,6 +63,9 @@ master_doc = 'index'
 # General information about the project.
 project = u'StackNN'
 copyright = u'2018, William Merrill, Yiding Hao, Robert Frank, Dana Angluin, ' \
+            u'' \
+            u'' \
+            u'' \
             u'Noah Amsel, Andrew Benz, and Simon Mendelsohn'
 author = u'William Merrill, Yiding Hao, Robert Frank, Dana Angluin, ' \
          u'Noah Amsel, Andrew Benz, and Simon Mendelsohn'
