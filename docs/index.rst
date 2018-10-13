@@ -2,13 +2,13 @@ Welcome to StackNN's documentation!
 ===================================
 
 .. toctree::
-:maxdepth: 2
-      :caption: Contents:
+   :maxdepth:
+   :caption: Contents:
 
-      source/formalisms
-      source/models
-      source/structs
-      source/tasks
+   source/formalisms
+   source/models
+   source/structs
+   source/tasks
 
 
 Indices and tables

@@ -1,7 +1,10 @@
-models
-======
+formalisms
+==========
 
 .. toctree::
-:maxdepth: 4
+   :maxdepth: 4
 
-       models
+   formalisms
+   models
+   structs
+   tasks
