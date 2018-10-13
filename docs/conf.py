@@ -22,7 +22,7 @@
 import os
 import sys
 
-from mock.mock import Mock as MagicMock
+from mock import Mock as MagicMock
 
 
 class Mock(MagicMock):
