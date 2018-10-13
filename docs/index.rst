@@ -2,7 +2,7 @@ Welcome to StackNN's documentation!
 ===================================
 
 .. toctree::
-   :maxdepth:
+   :maxdepth: 2
    :caption: Contents:
 
    source/formalisms
