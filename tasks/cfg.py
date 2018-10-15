@@ -22,13 +22,13 @@ import torch.nn as nn
 from nltk.parse.generate import generate
 from torch.autograd import Variable
 
-from tasks.language_modeling import LanguageModellingTask
 from models import VanillaModel
 from controllers.feedforward import LinearSimpleStructController
 from structs import Stack
+from tasks.language_modeling import LanguageModelingTask
 
 
-class CFGTask(LanguageModellingTask):
+class CFGTask(LanguageModelingTask):
     """
     In this task, the input and output data used for training and
     evaluation are based on examples uniformly sampled from a set of
