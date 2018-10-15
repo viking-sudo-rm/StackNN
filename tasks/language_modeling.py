@@ -175,16 +175,19 @@ class LanguageModelingTask(Task):
         """
         _, y_pred = torch.max(a, 1)
 
-        # Find the batch trials where we make a prediction
+        # Mask out the null stuff for loss calculation.
         null = self.alphabet[self.null]
         valid_x = (y[:, j] != null).type(torch.FloatTensor)
-        for k in xrange(len(valid_x)):
-            if y[k, j].data.item() not in self.to_predict_code:
-                valid_x[k] = 0
-
-        correct_trials = (y_pred == y[:, j]).type(torch.FloatTensor)
-        correct = (valid_x * correct_trials).data
-        total = sum(valid_x.data)
         loss = valid_x * self.criterion(a, y[:, j])
 
-        return loss.sum(), sum(correct), total
+        # Mask out uninteresting stuff for accuracy calculation.
+        to_predict_x = valid_x.data.clone()
+        for k in xrange(len(valid_x)):
+            if y[k, j].data.item() not in self.to_predict_code:
+                to_predict_x[k] = 0
+        
+        # Compute the accuracy over indices of interest.
+        correct_trials = (y_pred == y[:, j]).type(torch.FloatTensor)
+        correct = sum(to_predict_x * correct_trials.data)
+        total = sum(to_predict_x.data)
+        return loss.sum(), correct, total

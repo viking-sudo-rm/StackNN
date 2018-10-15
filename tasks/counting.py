@@ -25,14 +25,15 @@ class OrderedCountingTask(LanguageModelingTask):
     parameterizable in some value n. The whole language can be generated
     by building the unique string corresponding to every possible n.
 
-    The number of symbols and number of occurences of each symbol are
-    configurable via task parameters.
+    Loss from all indices in the string affects training. However, the
+    evaluation accuracy only looks at the end of words.
     """
 
     def __init__(self,
                  length_fns=[lambda n: n, lambda n: n],
                  min_n=1,
                  max_n=1000,
+                 evaluate_all=False,
                  batch_size=10,
                  clipping_norm=None,
                  criterion=nn.CrossEntropyLoss(),
@@ -55,7 +56,10 @@ class OrderedCountingTask(LanguageModelingTask):
         self.max_n = max_n
         self.length_fns = length_fns
         self.max_length = self._get_length(max_n)
-        to_predict = [self._get_char(i) for i in xrange(len(length_fns))]
+
+        to_predict = [u"!"]
+        if evaluate_all:
+            to_predict.extend(self._get_char(i) for i in xrange(self.max_length))
 
         super(OrderedCountingTask, self).__init__(to_predict=to_predict,
                                                   batch_size=batch_size,
@@ -104,19 +108,9 @@ class OrderedCountingTask(LanguageModelingTask):
     def _init_alphabet(self, null):
         x_length = len(self.length_fns)
         alphabet = {self._get_char(i): i for i in xrange(x_length)}
-        alphabet["#"] = x_length
+        alphabet[u"!"] = x_length
+        alphabet[u"#"] = x_length + 1
         return alphabet
-
-    # def _evaluate_step(self, x, y, a, j):
-    #     # TODO: There is an inconsistency in the dimensions of a and y.
-    #     valid_y = y[:, j]
-    #     valid_a = a
-    #     _, valid_y_ = torch.max(valid_a, 1)
-
-    #     total = len(valid_a)
-    #     correct = len(torch.nonzero(valid_y_ == valid_y))
-    #     loss = self.criterion(valid_a, valid_y)
-    #     return loss, correct, total
 
     """ Data Generation """
 
@@ -150,10 +144,11 @@ class OrderedCountingTask(LanguageModelingTask):
         """
         valid_n_range = lambda: xrange(self.min_n, self.max_n)
         x_strings = [self._get_x_string(n) for n in valid_n_range()]
-        y_strings = [x_string[1:] for x_string in x_strings]
+        y_strings = [self._get_y_string(x_string) for x_string in x_strings]
         
         x_var = self.sentences_to_one_hot(self.max_length, *x_strings)
         y_var = self.sentences_to_codes(self.max_length, *y_strings)
+
         return x_var, y_var
 
     def _get_x_string(self, n):
@@ -163,6 +158,11 @@ class OrderedCountingTask(LanguageModelingTask):
             x_string.extend(self._get_char(i) for _ in xrange(length))
         return x_string
 
+    def _get_y_string(self, x_string):
+        y_string = x_string[1:]
+        y_string.append(u"!")
+        return y_string
+
     """ Data Visualization """
 
     @property
@@ -171,4 +171,3 @@ class OrderedCountingTask(LanguageModelingTask):
         The string for visualizations.
         """
         return self._get_x_string(5)
-
