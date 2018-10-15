@@ -241,3 +241,15 @@ extreme_reverse_config = {
     "early_stopping_steps": 5,
     "read_size": 2
 }
+
+# 2) a^nb^n.
+anbn_config = {
+    "task": OrderedCountingTask,
+    "length_fns": [lambda n: n, lambda n: n],
+}
+
+# 3) a^nb^{2n}.
+anb2n_config = {
+    "task": OrderedCountingTask,
+    "length_fns": [lambda n: n, lambda n: 2 * n],
+}

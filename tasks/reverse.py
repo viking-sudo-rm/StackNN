@@ -208,7 +208,6 @@ class ReverseTask(Task):
         total = len(valid_a)
         correct = len(torch.nonzero((valid_y_ == valid_y).data))
         loss = self.criterion(valid_a, valid_y)
-
         return loss, correct, total
 
     """ Data Generation """
@@ -222,7 +221,6 @@ class ReverseTask(Task):
         """
         self.train_x, self.train_y = self.get_tensors(800)
         self.test_x, self.test_y = self.get_tensors(100)
-        return
 
     def randstr(self):
         """
@@ -265,10 +263,15 @@ class ReverseTask(Task):
         x_raw = [self.randstr() for _ in xrange(num_tensors)]
         y_raw = [[self.null for _ in xrange(len(s))] + s[::-1] for s in x_raw]
 
-        x_var = self.sentences_to_one_hot(2 * self.max_length, *x_raw)
-        y_var = self.sentences_to_codes(8 * self.max_length, *y_raw)
+        x_var = self.sentences_to_one_hot(self.max_x_length, *x_raw)
+        y_var = self.sentences_to_codes(self.max_y_length, *y_raw)
 
         return x_var, y_var
+
+    @property
+    def generic_example(self):
+        """The string for visualizations."""
+        return [u'1', u'1', u'1', u'2', u'1', u'1', u'2', u'1', u'1', u'2', u'1', u'2', u'2', u'1', u'2', u'2', u'2', u'2', u'2', u'1', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0']
 
 
 class CopyTask(ReverseTask):
@@ -318,13 +321,13 @@ class ReverseDeletionTask(ReverseTask):
         x_raw = [self.randstr() for _ in xrange(num_tensors)]
         y_raw = [[self.null for _ in xrange(len(s))] + self.reverse_with_delete(s) for s in x_raw]
 
-        x_var = self.sentences_to_one_hot(2 * self.max_length, *x_raw)
-        y_var = self.sentences_to_codes(8 * self.max_length, *y_raw)
+        x_var = self.sentences_to_one_hot(self.max_x_length, *x_raw)
+        y_var = self.sentences_to_codes(self.max_y_length, *y_raw)
 
         return x_var, y_var
 
     def reverse_with_delete(self, s):
-        large_symbol = self.num_symbols//2
+        large_symbol = self.num_symbols // 2
         t = []
         for symbol in s:
             if int(symbol) < large_symbol:

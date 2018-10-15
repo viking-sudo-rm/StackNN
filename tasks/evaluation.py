@@ -273,6 +273,17 @@ class EvaluationTask(Task):
         """
         raise NotImplementedError("Missing implementation for eval_func")
 
+    """ Data Visualization """
+
+    @property
+    def generic_example(self):
+        """
+        The string for visualizations.
+
+        TODO: Make this a function of the grammar.
+        """
+        return [u"#"]
+
 
 class XORTask(EvaluationTask):
     """
