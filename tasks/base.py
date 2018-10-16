@@ -489,6 +489,7 @@ class Task(object):
         batch_total = 0
 
         # Read the input from left to right and evaluate the output
+        # TODO: Verify counts and total.
         num_steps = self.time_function(self.max_x_length)
         for j in xrange(num_steps):
             self.model()
@@ -518,10 +519,12 @@ class Task(object):
                                         self.clipping_norm)
 
             self.optimizer.step()
+
         # Log the results.
         self._print_batch_summary(name, is_batch, batch_loss, batch_correct,
                                   batch_total)
-        #add a parameter in order to make the accuracy accessible for early stopping
+
+        # Make the accuracy accessible for early stopping.
         self.batch_acc = batch_correct / batch_total
 
     @abstractmethod

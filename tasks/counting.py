@@ -57,11 +57,13 @@ class OrderedCountingTask(LanguageModelingTask):
         self.length_fns = length_fns
         self.max_length = self._get_length(max_n)
 
-        to_predict = [u"!"]
+        to_predict = [u"#"]
         if evaluate_all:
             to_predict.extend(self._get_char(i) for i in xrange(self.max_length))
 
         super(OrderedCountingTask, self).__init__(to_predict=to_predict,
+                                                  max_length=self.max_length,
+                                                  mask_null=False,
                                                   batch_size=batch_size,
                                                   clipping_norm=clipping_norm,
                                                   criterion=criterion,
@@ -108,8 +110,7 @@ class OrderedCountingTask(LanguageModelingTask):
     def _init_alphabet(self, null):
         x_length = len(self.length_fns)
         alphabet = {self._get_char(i): i for i in xrange(x_length)}
-        alphabet[u"!"] = x_length
-        alphabet[u"#"] = x_length + 1
+        alphabet[u"#"] = x_length
         return alphabet
 
     """ Data Generation """
@@ -159,9 +160,7 @@ class OrderedCountingTask(LanguageModelingTask):
         return x_string
 
     def _get_y_string(self, x_string):
-        y_string = x_string[1:]
-        y_string.append(u"!")
-        return y_string
+        return x_string[1:]
 
     """ Data Visualization """
 

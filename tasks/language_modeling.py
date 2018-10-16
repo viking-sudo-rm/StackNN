@@ -45,6 +45,7 @@ class LanguageModelingTask(Task):
                  model_type=VanillaModel,
                  controller_type=LinearSimpleStructController,
                  null=u"#",
+                 mask_null=True,
                  read_size=2,
                  save_path=None,
                  struct_type=Stack,
@@ -99,6 +100,9 @@ class LanguageModelingTask(Task):
         :type null: unicode
         :param null: The "null" symbol used in this CFGTask
 
+        :type mask_null: bool
+        :param mask_null: Whether to include null values in loss calculation
+
         :type read_size: int
         :param read_size: The length of the vectors stored on the neural
             data structure
@@ -143,6 +147,7 @@ class LanguageModelingTask(Task):
                              time_function=time_function,
                              verbose=verbose)
 
+        self.mask_null = mask_null
         self.to_predict_code = [self.alphabet[c] for c in to_predict]
 
     def _evaluate_step(self, x, y, a, j):
@@ -175,9 +180,15 @@ class LanguageModelingTask(Task):
         """
         _, y_pred = torch.max(a, 1)
 
-        # Mask out the null stuff for loss calculation.
-        null = self.alphabet[self.null]
-        valid_x = (y[:, j] != null).type(torch.FloatTensor)
+        if self.mask_null:
+            # Mask out the null stuff for loss calculation.
+            null = self.alphabet[self.null]
+            valid_x = (y[:, j] != null).float()
+        else:
+            # Include the null indices while calculating loss.
+            valid_x = torch.ones_like(y[:, j]).float()
+
+        # Compute the loss.
         loss = valid_x * self.criterion(a, y[:, j])
 
         # Mask out uninteresting stuff for accuracy calculation.
