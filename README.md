@@ -58,19 +58,11 @@ x:       1 1 0 1 - - - -
 y:       - - - - 1 0 1 1
 ~~~
 
-By 10 epochs, the model tends to achieve 100% accuracy. To run the task for yourself, you can do:
-
-~~~bash
-python run.py reverse_config
-~~~
+By 10 epochs, the model tends to achieve 100% accuracy. The config for this task is called `final_reverse_config`.
 
 ### Context-free language modelling
 
-`CFGTask` can be used to train a context-free language model. Many interesting questions probing linguistic structure can be reduced to special cases of this general task. For example, the task can be used to predict closing parentheses in a Dyck language (matching parentheses), which requires some notion of recursive depth. On this task, our stack model converges to 100% accuracy fairly quickly. You can run the Dyck task with:
-
-~~~bash
-python run.py dyck_config
-~~~
+`CFGTask` can be used to train a context-free language model. Many interesting questions probing linguistic structure can be reduced to special cases of this general task. For example, the task can be used to predict closing parentheses in a Dyck language (matching parentheses), which requires some notion of recursive depth. On this task, our stack model converges to 100% accuracy fairly quickly. The config for this task is called `final_dyck_config`.
 
 ### Evaluation tasks
 
