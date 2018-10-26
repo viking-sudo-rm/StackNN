@@ -19,9 +19,7 @@ You can find auto-generated documentation [here](https://stacknn.readthedocs.io/
 
 ## Contributing
 
-This project is managed by [Computational Linguistics at Yale](http://clay.yale.edu/). We welcome contributions from outside in the form of pull requests.
-
-Please report any bugs in the GitHub issues tracker.
+This project is managed by [Computational Linguistics at Yale](http://clay.yale.edu/). We welcome contributions from outside in the form of pull requests. Please report any bugs in the GitHub issues tracker.
 
 ## Citations
 
