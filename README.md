@@ -72,19 +72,18 @@ The buffered models use read-only and write-only versions of the differentiable 
 
 ### String reversal
 
-The `ReverseTask` trains a feed-forward controller network to do string reversal. The code generates a list of 800 Python strings on the alphabet {0, 1} with length normally distributed around 10. The task is as follows:
+The `ReverseTask` trains a feed-forward controller network to do string reversal. The code generates 800 random binary strings which the network must reverse in a sequence-to-sequence fashion:
 
 ~~~
-i:       0 1 2 3 4 5 6 7
-x:       1 1 0 1 - - - -
-y:       - - - - 1 0 1 1
+Input:   1 1 0 1 # # # #
+Label:   # # # # 1 0 1 1
 ~~~
 
 By 10 epochs, the model tends to achieve 100% accuracy. The config for this task is called `final_reverse_config`.
 
 ### Context-free language modelling
 
-`CFGTask` can be used to train a context-free language model. Many interesting questions probing linguistic structure can be reduced to special cases of this general task. For example, the task can be used to predict closing parentheses in a Dyck language (matching parentheses), which requires some notion of recursive depth. On this task, our stack model converges to 100% accuracy fairly quickly. The config for this task is called `final_dyck_config`.
+`CFGTask` can be used to train a context-free language model. Many interesting questions probing linguistic structure can be reduced to special cases of this general task. For example, the task can be used to model a language of balanced parentheses. The configuration for the parentheses task is `final_dyck_config`.
 
 ### Evaluation tasks
 
