@@ -8,10 +8,21 @@ A differentiable data structure is a version of a conventional data structure wh
 There are several experiment configurations pre-defined in configs.py. To train a model on one of these configs, do:
 
 ```shell
+python run.py CONFIG_NAME
+```
+
+For example, to train a model on the string reversal task:
+
+```shell
 python run.py final_reverse_config
 ```
 
-The `--savepath` and `--loadpath` flags allow you to save the model produced by the experiment and load a previously trained model.
+In addition to the task, run.py takes several flags:
+* `--model`: Model type (`BufferedModel` or `VanillaModel`)
+* `--controller`: Controller type (`LinearSimpleStructController`, `LSTMSimpleStructController`, etc.)
+* `--struct`: Struct type (`Stack`, `NullStruct`, etc.)
+* `--savepath`: Path for saving a trained model
+* `--loadpath`: Path for loading a model
 
 ## Documentation
 
