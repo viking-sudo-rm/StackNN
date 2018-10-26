@@ -5,7 +5,7 @@ A differentiable data structure is a version of a conventional data structure wh
 
 ## Running a demo
 
-There are several experiment configurations pre-defined in configs.py. To train a model on one of these configs, do:
+There are several experiment configurations pre-defined in [configs.py](configs.py). To train a model on one of these configs, do:
 
 ```shell
 python run.py CONFIG_NAME
@@ -17,7 +17,7 @@ For example, to train a model on the string reversal task:
 python run.py final_reverse_config
 ```
 
-In addition to the task, run.py takes several flags:
+In addition to experiment config, [run.py](run.py) takes several flags:
 * `--model`: Model type (`BufferedModel` or `VanillaModel`)
 * `--controller`: Controller type (`LinearSimpleStructController`, `LSTMSimpleStructController`, etc.)
 * `--struct`: Struct type (`Stack`, `NullStruct`, etc.)
