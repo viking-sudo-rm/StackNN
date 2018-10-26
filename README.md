@@ -3,6 +3,16 @@ A PyTorch implementation of several differentiable data structures for use in re
 
 A differentiable data structure is a version of a conventional data structure whose interface can be connected to a neural network. Our stacks, queues, and dequeues are inspired by the formalism presented by [Grefenstette et al., 2015](https://arxiv.org/pdf/1506.02516.pdf). We also implement several different models using these structures and tasks that the models can be trained on. See the paper for more information.
 
+## Running a demo
+
+There are several experiment configurations pre-defined in configs.py. To train a model on one of these configs, do:
+
+```shell
+python run.py final_reverse_config
+```
+
+The `--savepath` and `--loadpath` flags allow you to save the model produced by the experiment and load a previously trained model.
+
 ## Documentation
 
 You can find auto-generated documentation [here](https://stacknn.readthedocs.io/en/latest/index.html).
@@ -37,25 +47,6 @@ To use a model, call `model.forward()` on every input and `model.init_controller
 * `structs.Queue` implements the differentiable queue data structure.
 
 The buffered models use read-only and write-only versions of the differentiable queue for their input and output buffers.
-
-## Tasks
-
-To run a task, specify a config name defined in `tasks.configs`:
-
-~~~bash
-python run.py reverse_config
-~~~
-
-You can pass a file path in which to save the model parameters:
-~~~bash
-python run.py reverse_config --savepath "saved_models/my_run_parameters"
-~~~
-Parameters are saved at the end of each epoch.
-
-You can also pass a file path to load model parameters from a previous run:
-~~~bash
-python run.py reverse_config --loadpath "saved_models/previous_run"
-~~~
 
 ### String reversal
 
