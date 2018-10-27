@@ -26,6 +26,14 @@ from mock import Mock as MagicMock
 
 
 class Mock(MagicMock):
+    __all__ = []
+
+    def __iter__(self):
+        return None
+
+    def next(self):
+        return None
+
     @classmethod
     def __getattr__(cls, name):
         return MagicMock()
@@ -33,7 +41,7 @@ class Mock(MagicMock):
 
 MOCK_MODULES = ['nltk', 'torch', 'numpy', 'nltk.grammar', 'nltk.tree',
                 'torch.nn', 'torch.autograd', 'torch.optim',
-                'nltk.parse.generate']
+                'nltk.parse.generate', 'nltk.parse']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 sys.path.insert(0, os.path.abspath(".."))
 
@@ -65,6 +73,7 @@ master_doc = 'index'
 # General information about the project.
 project = u'StackNN'
 copyright = u'2018, William Merrill, Yiding Hao, Robert Frank, Dana Angluin, ' \
+            u'' \
             u'' \
             u'' \
             u'' \
