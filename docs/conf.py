@@ -32,7 +32,8 @@ class Mock(MagicMock):
 
 
 MOCK_MODULES = ['nltk', 'torch', 'numpy', 'nltk.grammar', 'nltk.tree',
-                'torch.nn', 'torch.autograd', 'torch.optim']
+                'torch.nn', 'torch.autograd', 'torch.optim',
+                'nltk.parse.generate']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 sys.path.insert(0, os.path.abspath(".."))
 
