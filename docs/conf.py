@@ -35,7 +35,10 @@ class Mock(MagicMock):
         raise StopIteration
 
     def __getitem__(self, item):
-        return 0
+        if item == "Module":
+            return MagicMock
+        else:
+            return 0
 
     @classmethod
     def __getattr__(cls, name):
@@ -76,6 +79,9 @@ master_doc = 'index'
 # General information about the project.
 project = u'StackNN'
 copyright = u'2018, William Merrill, Yiding Hao, Robert Frank, Dana Angluin, ' \
+            u'' \
+            u'' \
+            u'' \
             u'' \
             u'' \
             u'' \
