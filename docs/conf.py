@@ -29,10 +29,10 @@ class Mock(MagicMock):
     __all__ = []
 
     def __iter__(self):
-        return None
+        return self
 
     def next(self):
-        return None
+        raise StopIteration
 
     @classmethod
     def __getattr__(cls, name):
