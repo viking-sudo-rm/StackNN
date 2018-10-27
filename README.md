@@ -1,13 +1,49 @@
 # StackNN
-A PyTorch implementation of several differentiable data structures for use in recurrent neural networks. The code in this project is associated with [Context-Free Transductions with Neural Stacks](https://arxiv.org/abs/1809.02836), which will appear at the Analyzing and Interpreting Neural Networks for NLP workshop at EMNLP 2018. To acknowledge using our codebase, please cite the paper.
+A PyTorch implementation of several differentiable data structures for use in recurrent neural networks. The code in this project is associated with [Context-Free Transductions with Neural Stacks](https://arxiv.org/abs/1809.02836), which will appear at the Analyzing and Interpreting Neural Networks for NLP workshop at EMNLP 2018.
 
 A differentiable data structure is a version of a conventional data structure whose interface can be connected to a neural network. Our stacks, queues, and dequeues are inspired by the formalism presented by [Grefenstette et al., 2015](https://arxiv.org/pdf/1506.02516.pdf). We also implement several different models using these structures and tasks that the models can be trained on. See the paper for more information.
 
+## Running a demo
+
+There are several experiment configurations pre-defined in [configs.py](configs.py). To train a model on one of these configs, do:
+
+```shell
+python run.py CONFIG_NAME
+```
+
+For example, to train a model on the string reversal task:
+
+```shell
+python run.py final_reverse_config
+```
+
+In addition to experiment config, [run.py](run.py) takes several flags:
+* `--model`: Model type (`BufferedModel` or `VanillaModel`)
+* `--controller`: Controller type (`LinearSimpleStructController`, `LSTMSimpleStructController`, etc.)
+* `--struct`: Struct type (`Stack`, `NullStruct`, etc.)
+* `--savepath`: Path for saving a trained model
+* `--loadpath`: Path for loading a model
+
+## Documentation
+
+You can find auto-generated documentation [here](https://stacknn.readthedocs.io/en/latest/index.html).
+
 ## Contributing
 
-This project is managed by [Computational Linguistics at Yale](http://clay.yale.edu/). We welcome contributions from outside in the form of pull requests.
+This project is managed by [Computational Linguistics at Yale](http://clay.yale.edu/). We welcome contributions from outside in the form of pull requests. Please report any bugs in the GitHub issues tracker.
 
-Please report any bugs in the GitHub issues tracker.
+## Citations
+
+Please cite our paper:
+
+```
+@article{hao2018context,
+  title={Context-Free Transductions with Neural Stacks},
+  author={Hao, Yiding and Merrill, William and Angluin, Dana and Frank, Robert and Amsel, Noah and Benz, Andrew and Mendelsohn, Simon},
+  journal={arXiv preprint arXiv:1809.02836},
+  year={2018}
+}
+```
 
 ## Dependencies
 
@@ -34,48 +70,20 @@ To use a model, call `model.forward()` on every input and `model.init_controller
 
 The buffered models use read-only and write-only versions of the differentiable queue for their input and output buffers.
 
-## Tasks
-
-To run a task, specify a config name defined in `tasks.configs`:
-
-~~~bash
-python run.py reverse_config
-~~~
-
-You can pass a file path in which to save the model parameters:
-~~~bash
-python run.py reverse_config --savepath "saved_models/my_run_parameters"
-~~~
-Parameters are saved at the end of each epoch.
-
-You can also pass a file path to load model parameters from a previous run:
-~~~bash
-python run.py reverse_config --loadpath "saved_models/previous_run"
-~~~
-
 ### String reversal
 
-The `ReverseTask` trains a feed-forward controller network to do string reversal. The code generates a list of 800 Python strings on the alphabet {0, 1} with length normally distributed around 10. The task is as follows:
+The `ReverseTask` trains a feed-forward controller network to do string reversal. The code generates 800 random binary strings which the network must reverse in a sequence-to-sequence fashion:
 
 ~~~
-i:       0 1 2 3 4 5 6 7
-x:       1 1 0 1 - - - -
-y:       - - - - 1 0 1 1
+Input:   1 1 0 1 # # # #
+Label:   # # # # 1 0 1 1
 ~~~
 
-By 10 epochs, the model tends to achieve 100% accuracy. To run the task for yourself, you can do:
-
-~~~bash
-python run.py reverse_config
-~~~
+By 10 epochs, the model tends to achieve 100% accuracy. The config for this task is called `final_reverse_config`.
 
 ### Context-free language modelling
 
-`CFGTask` can be used to train a context-free language model. Many interesting questions probing linguistic structure can be reduced to special cases of this general task. For example, the task can be used to predict closing parentheses in a Dyck language (matching parentheses), which requires some notion of recursive depth. On this task, our stack model converges to 100% accuracy fairly quickly. You can run the Dyck task with:
-
-~~~bash
-python run.py dyck_config
-~~~
+`CFGTask` can be used to train a context-free language model. Many interesting questions probing linguistic structure can be reduced to special cases of this general task. For example, the task can be used to model a language of balanced parentheses. The configuration for the parentheses task is `final_dyck_config`.
 
 ### Evaluation tasks
 

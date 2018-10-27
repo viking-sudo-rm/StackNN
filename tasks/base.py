@@ -1,6 +1,6 @@
 from __future__ import division
 
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta, abstractmethod, abstractproperty
 
 import numpy as np
 import torch
@@ -923,3 +923,8 @@ class Task(object):
         accuracy = 100. * (batch_correct * 1.0) / batch_total
         message += "Loss = {:.4f}, Accuracy = {:.1f}%".format(loss, accuracy)
         print message
+
+    @abstractproperty
+    def generic_example(self):
+        """Get the example input for creating visualizations."""
+        raise NotImplementedError("Abstract property generic_example not implemented.")
