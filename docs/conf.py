@@ -22,18 +22,33 @@
 import os
 import sys
 
-from mock import Mock as MagicMock
+from mock import MagicMock
 
 
 class Mock(MagicMock):
+    __all__ = []
+
+    def __iter__(self):
+        return range(100).__iter__()
+
+    def next(self):
+        raise StopIteration
+
+    def __getitem__(self, item):
+        if item == "Module":
+            return MagicMock
+        else:
+            return 0
+
     @classmethod
     def __getattr__(cls, name):
         return MagicMock()
 
 
 MOCK_MODULES = ['nltk', 'torch', 'numpy', 'nltk.grammar', 'nltk.tree',
-                'torch.nn', 'torch.autograd', 'torch.optim']
-sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+                'torch.nn', 'torch.autograd', 'torch.optim',
+                'nltk.parse.generate', 'nltk.parse']
+sys.modules.update((mod_name, MagicMock()) for mod_name in MOCK_MODULES)
 sys.path.insert(0, os.path.abspath(".."))
 
 # -- General configuration ------------------------------------------------
@@ -64,6 +79,11 @@ master_doc = 'index'
 # General information about the project.
 project = u'StackNN'
 copyright = u'2018, William Merrill, Yiding Hao, Robert Frank, Dana Angluin, ' \
+            u'' \
+            u'' \
+            u'' \
+            u'' \
+            u'' \
             u'' \
             u'' \
             u'' \
