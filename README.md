@@ -17,7 +17,7 @@ For example, to train a model on the string reversal task:
 python run.py final_reverse_config
 ```
 
-In addition to experiment config, [run.py](run.py) takes several flags:
+In addition to the experiment configuration argument, [run.py](run.py) takes several flags:
 * `--model`: Model type (`BufferedModel` or `VanillaModel`)
 * `--controller`: Controller type (`LinearSimpleStructController`, `LSTMSimpleStructController`, etc.)
 * `--struct`: Struct type (`Stack`, `NullStruct`, etc.)
@@ -30,7 +30,7 @@ You can find auto-generated documentation [here](https://stacknn.readthedocs.io/
 
 ## Contributing
 
-This project is managed by [Computational Linguistics at Yale](http://clay.yale.edu/). We welcome contributions from outside in the form of pull requests. Please report any bugs in the GitHub issues tracker.
+This project is managed by [Computational Linguistics at Yale](http://clay.yale.edu/). We welcome contributions from outside in the form of pull requests. Please report any bugs in the GitHub issues tracker. If you are a Yale student interested in joining our lab, please contact Bob Frank.
 
 ## Citations
 
