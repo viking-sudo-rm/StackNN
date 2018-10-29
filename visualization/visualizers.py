@@ -47,7 +47,9 @@ class LSTMVisualizer(Visualizer):
 
         cell_seqs = zip(*[state.tolist() for state in cell_states])
         for cell_seq in cell_seqs:
-            plt.plot(cell_seq)
+            full_cell_seq = [[0.]]
+            full_cell_seq.extend(cell_seq)
+            plt.plot(full_cell_seq)
         plt.title("LSTM Cell States for " + "".join(input_seq))
         plt.ylabel("Cell State")
         plt.xlabel("Index")

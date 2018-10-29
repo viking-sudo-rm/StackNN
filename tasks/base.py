@@ -142,7 +142,7 @@ class Task(object):
         else:
             self.save_path = save_path + ".dat"
 
-        # Model settings
+        # Model settings.
         self.null = null
         self.alphabet = self._init_alphabet(null)
         self.code_to_word = {c: w for w, c in self.alphabet.iteritems()}
