@@ -34,7 +34,7 @@ This project is managed by [Computational Linguistics at Yale](http://clay.yale.
 
 ## Citations
 
-Please cite our paper:
+If you use this codebase in your research, please cite the associated paper:
 
 ```
 @article{hao2018context,
