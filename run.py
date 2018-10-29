@@ -10,6 +10,7 @@ Example usage:
 import argparse
 from copy import copy
 
+from tasks import Task
 from models import *
 from controllers import *
 from structs import *
