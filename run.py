@@ -60,8 +60,6 @@ def main(config,
          load_path=None,
          save_path=None):
     config = copy(config)
-    task_type = config["task"]
-    del config["task"]
 
     if model_type is not None:
         config["model_type"] = model_type
@@ -75,7 +73,7 @@ def main(config,
     if save_path is not None:
         config["save_path"] = save_path
 
-    task = task_type(**config)
+    task = Task.from_config_dict(config)
     metrics = task.run_experiment()
     if visualizer_type is not None:
         visualizer = visualizer_type(task)

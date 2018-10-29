@@ -934,11 +934,14 @@ class Task(object):
         """Get the example input for creating visualizations."""
         raise NotImplementedError("Abstract property generic_example not implemented.")
 
-    @staticmethod
-    def from_config_dict(config_dict):
+    @classmethod
+    def from_config_dict(cls, config_dict):
         """Create a new task instance from a config dict."""
         if "task" not in config_dict:
-            return ValueError("Config dictionary does not contain a task.")
+            raise ValueError("Config dictionary does not contain a task.")
+        if not issubclass(config_dict["task"], cls):
+            raise ValueError("Invalid task type %s." % config_dict["task"])
+
         config_dict = copy(config_dict)
         task_type = config_dict["task"]
         del config_dict["task"]
