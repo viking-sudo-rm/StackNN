@@ -2,6 +2,8 @@ from __future__ import division
 
 from abc import ABCMeta, abstractmethod, abstractproperty
 
+from copy import copy
+
 import numpy as np
 import torch
 import torch.nn as nn
@@ -931,3 +933,13 @@ class Task(object):
     def generic_example(self):
         """Get the example input for creating visualizations."""
         raise NotImplementedError("Abstract property generic_example not implemented.")
+
+    @staticmethod
+    def from_config_dict(config_dict):
+        """Create a new task instance from a config dict."""
+        if "task" not in config_dict:
+            return ValueError("Config dictionary does not contain a task.")
+        config_dict = copy(config_dict)
+        task_type = config_dict["task"]
+        del config_dict["task"]
+        return task_type(**config_dict)

@@ -32,7 +32,7 @@ class OrderedCountingTask(LanguageModelingTask):
     def __init__(self,
                  length_fns=[lambda n: n, lambda n: n],
                  min_n=1,
-                 max_n=1000,
+                 max_n=100,
                  evaluate_all=False,
                  batch_size=10,
                  clipping_norm=None,

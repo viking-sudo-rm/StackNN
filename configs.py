@@ -228,6 +228,14 @@ parity_config_t = {
     "time_function": lambda t: t,
 }
 
+# 1) Reverse task that runs really quickly.
+quick_reverse_config = {
+    "task": ReverseTask,
+    "epochs": 1,
+    "early_stopping_steps": 5,
+    "read_size": 2
+}
+
 """ Configs for Will's senior thesis. """
 
 # 1) Extreme reverse task.
