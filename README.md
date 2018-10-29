@@ -55,11 +55,10 @@ Python 2.7 with PyTorch 0.4.1 is supported. A possibly incomplete list of depend
 
 ## Models
 
-Models implement the high-level controllers that use a stack for recurrent memory. You can think of these networks like LSTMs with a more sophisticated storage mechanism to pass data between time steps.
+Models implement the high-level controllers that use a stack for recurrent memory. You can think of these networks as LSTMs with a more sophisticated storage mechanism to pass data between time steps.
 
-* `models.VanillaController` is the simplest controller network.
-* `models.EmbeddingController` is a controller with an initial embedding layer.
-* `models.BufferedController` implements the more complicated buffered architecture.
+* `models.VanillaModel` is a simple controller-data structure network.
+* `models.BufferedModel` adds input and output buffers to the vanilla model.
 
 To use a model, call `model.forward()` on every input and `model.init_controller()` whenever you want to reset the stack between inputs. You can find example training logic in the `tasks` package.
 
