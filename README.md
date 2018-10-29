@@ -69,6 +69,10 @@ To use a model, call `model.forward()` on every input and `model.init_controller
 
 The buffered models use read-only and write-only versions of the differentiable queue for their input and output buffers.
 
+## Tasks
+
+Below are some formal language tasks that we have explored using stack models.
+
 ### String reversal
 
 The `ReverseTask` trains a feed-forward controller network to do string reversal. The code generates 800 random binary strings which the network must reverse in a sequence-to-sequence fashion:
