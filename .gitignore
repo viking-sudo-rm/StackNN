@@ -3,3 +3,4 @@
 *.dat
 stacknn-experiments
 stacknn_experiments
+.ipynb_checkpoints
