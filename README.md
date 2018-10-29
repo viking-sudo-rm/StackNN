@@ -1,9 +1,9 @@
 # StackNN
-A PyTorch implementation of several differentiable data structures for use in recurrent neural networks. The code in this project is associated with [Context-Free Transductions with Neural Stacks](https://arxiv.org/abs/1809.02836), which will appear at the Analyzing and Interpreting Neural Networks for NLP workshop at EMNLP 2018.
-
-A differentiable data structure is a version of a conventional data structure whose interface can be connected to a neural network. Our stacks, queues, and dequeues are inspired by the formalism presented by [Grefenstette et al., 2015](https://arxiv.org/pdf/1506.02516.pdf). We also implement several different models using these structures and tasks that the models can be trained on. See the paper for more information.
+This project implements differentible stacks and queues in PyTorch. We also provide implementations of neural models utilizing these data structures and tasks that the models can be trained on. All this code is associated with [Context-Free Transductions with Neural Stacks](https://arxiv.org/abs/1809.02836), which appeared at the Analyzing and Interpreting Neural Networks for NLP workshop at EMNLP 2018. Refer to our paper for more theoretical background on differentiable data structures.
 
 ## Running a demo
+
+*Check example.ipynb for the most up-to-date demo code.*
 
 There are several experiment configurations pre-defined in [configs.py](configs.py). To train a model on one of these configs, do:
 
@@ -17,7 +17,7 @@ For example, to train a model on the string reversal task:
 python run.py final_reverse_config
 ```
 
-In addition to experiment config, [run.py](run.py) takes several flags:
+In addition to the experiment configuration argument, [run.py](run.py) takes several flags:
 * `--model`: Model type (`BufferedModel` or `VanillaModel`)
 * `--controller`: Controller type (`LinearSimpleStructController`, `LSTMSimpleStructController`, etc.)
 * `--struct`: Struct type (`Stack`, `NullStruct`, etc.)
@@ -30,11 +30,11 @@ You can find auto-generated documentation [here](https://stacknn.readthedocs.io/
 
 ## Contributing
 
-This project is managed by [Computational Linguistics at Yale](http://clay.yale.edu/). We welcome contributions from outside in the form of pull requests. Please report any bugs in the GitHub issues tracker.
+This project is managed by [Computational Linguistics at Yale](http://clay.yale.edu/). We welcome contributions from outside in the form of pull requests. Please report any bugs in the GitHub issues tracker. If you are a Yale student interested in joining our lab, please contact Bob Frank.
 
 ## Citations
 
-Please cite our paper:
+If you use this codebase in your research, please cite the associated paper:
 
 ```
 @article{hao2018context,
@@ -55,11 +55,10 @@ Python 2.7 with PyTorch 0.4.1 is supported. A possibly incomplete list of depend
 
 ## Models
 
-Models implement the high-level controllers that use a stack for recurrent memory. You can think of these networks like LSTMs with a more sophisticated storage mechanism to pass data between time steps.
+Models implement the high-level controllers that use a stack for recurrent memory. You can think of these networks as LSTMs with a more sophisticated storage mechanism to pass data between time steps.
 
-* `models.VanillaController` is the simplest controller network.
-* `models.EmbeddingController` is a controller with an initial embedding layer.
-* `models.BufferedController` implements the more complicated buffered architecture.
+* `models.VanillaModel` is a simple controller-data structure network.
+* `models.BufferedModel` adds input and output buffers to the vanilla model.
 
 To use a model, call `model.forward()` on every input and `model.init_controller()` whenever you want to reset the stack between inputs. You can find example training logic in the `tasks` package.
 
@@ -69,6 +68,10 @@ To use a model, call `model.forward()` on every input and `model.init_controller
 * `structs.Queue` implements the differentiable queue data structure.
 
 The buffered models use read-only and write-only versions of the differentiable queue for their input and output buffers.
+
+## Tasks
+
+Below are some formal language tasks that we have explored using stack models.
 
 ### String reversal
 
