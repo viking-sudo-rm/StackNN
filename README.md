@@ -1,9 +1,9 @@
 # StackNN
-A PyTorch implementation of several differentiable data structures for use in recurrent neural networks. The code in this project is associated with [Context-Free Transductions with Neural Stacks](https://arxiv.org/abs/1809.02836), which will appear at the Analyzing and Interpreting Neural Networks for NLP workshop at EMNLP 2018.
-
-A differentiable data structure is a version of a conventional data structure whose interface can be connected to a neural network. Our stacks, queues, and dequeues are inspired by the formalism presented by [Grefenstette et al., 2015](https://arxiv.org/pdf/1506.02516.pdf). We also implement several different models using these structures and tasks that the models can be trained on. See the paper for more information.
+This project implements differentible stacks and queues in PyTorch. We also provide implementations of neural models utilizing these data structures and tasks that the models can be trained on. All this code is associated with [Context-Free Transductions with Neural Stacks](https://arxiv.org/abs/1809.02836), which appeared at the Analyzing and Interpreting Neural Networks for NLP workshop at EMNLP 2018. Refer to our paper for more theoretical background on differentiable data structures.
 
 ## Running a demo
+
+*Check example.ipynb for the most up-to-date demo code.*
 
 There are several experiment configurations pre-defined in [configs.py](configs.py). To train a model on one of these configs, do:
 
