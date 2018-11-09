@@ -53,7 +53,7 @@ Python 2.7 with PyTorch 0.4.1 is supported. A possibly incomplete list of depend
 * `numpy`
 * `matplotlib` (for visualization)
 * `pandas` (for loading data)
-* `enum` (to be fancy)
+* `enum` (for backward compatibility)
 
 Using pip or conda should suffice for installing most of these dependencies. To get the right command for installing PyTorch, refer to the installation widget on the PyTorch website.
 
