@@ -66,7 +66,7 @@ final_agreement_config = {
     "criterion": CrossEntropyLoss(reduction="none")
 }
 
-# 5b) Agreement grammar task with longer early stopping 
+# 5b) Agreement grammar task with longer early stopping
 final_agreement_config_10 = {
     "task": CFGTask,
     "epochs": 100,
@@ -77,7 +77,7 @@ final_agreement_config_10 = {
     "read_size": 2,
     "criterion": CrossEntropyLoss(reduction="none")
 }
-    
+
 # 6) Reverse Polish notation formula task.
 final_formula_config = {
     "task": CFGTransduceTask,
@@ -262,4 +262,13 @@ anb2n_config = {
     "task": OrderedCountingTask,
     "length_fns": [lambda n: n, lambda n: 2 * n],
     "hidden_size": 1,
+}
+
+
+alphabet_test_config = {
+    "task": ReverseTask,
+    "epochs": 100,
+    "early_stopping_steps": 10,
+    "read_size": 4,
+    "num_symbols": 10
 }

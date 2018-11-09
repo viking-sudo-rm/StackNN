@@ -1,0 +1,5 @@
+python run.py alphabet_test_config --model VanillaModel --controller LinearSimpleStructController --struct Stack --savepath saved_models/alphabet_exp/linear_stack_10.dat > saved_models/alphabet_exp/linear_stack_10.out
+
+python run.py alphabet_test_config --model VanillaModel --controller LSTMSimpleStructController --struct NullStruct --savepath saved_models/alphabet_exp/lstm_null_10.dat > saved_models/alphabet_exp/lstm_null_10.out
+
+python run.py alphabet_test_config --model VanillaModel --controller LSTMSimpleStructController --struct Stack --savepath saved_models/alphabet_exp/lstm_stack_10.dat > saved_models/alphabet_exp/lstm_stack_10.out
