@@ -51,7 +51,7 @@ Python 2.7 with PyTorch 0.4.1 is supported. A possibly incomplete list of depend
 
 * `pytorch`
 * `numpy`
-* `pandas` (for loading data)
+* `scipy` (for data processing)
 * `matplotlib` (for visualization)
 * `enum` (for backward compatibility)
 
