@@ -82,7 +82,6 @@ class DeepSimpleStructController(SimpleStructController):
 
         :return: None
         """
-        print(module)
         if type(module) == nn.Linear:
             DeepSimpleStructController.init_normal(module.weight)
             module.bias.data.fill_(0)
