@@ -41,9 +41,7 @@ class CFGTask(LanguageModelingTask):
         def __init__(self, grammar, to_predict, sample_depth, **kwargs):
             self.grammar = grammar
             self.sample_depth = sample_depth
-            print "Sample depth: %d" % self.sample_depth
             self.max_length = kwargs.get("max_length", 25)
-            print "Max length: %d" % self.max_length
             self.train_set_size = kwargs.get("train_set_size", 800)
             self.train_set_size = kwargs.get("test_set_size", 100)
             super(CFGTask.Params, self).__init__(to_predict, **kwargs)
@@ -51,6 +49,9 @@ class CFGTask(LanguageModelingTask):
 
     def __init__(self, params):
         super(CFGTask, self).__init__(params)
+        print "Sample depth: %d" % self.sample_depth
+        print "Max length: %d" % self.max_length
+
         self.sample_strings = self.generate_sample_strings()
         print "{} strings generated".format(len(self.sample_strings))
         if len(self.sample_strings) > 0:

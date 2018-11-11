@@ -222,6 +222,7 @@ class FormalTask(Task):
         # Fill in values
         for i, s in enumerate(s_codes):
             for j, w in enumerate(s):
+                print i, j
                 x[i, j, :] = self.one_hot(w, self.alphabet_size)
 
         return Variable(x)
