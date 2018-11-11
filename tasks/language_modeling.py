@@ -27,128 +27,19 @@ class LanguageModelingTask(FormalTask):
     LanguageModelingTask with perfect accuracy because it can simply
     output nothing during the first time step and then copy the input.
     """
-    __metaclass__ = ABCMeta
 
-    def __init__(self,
-                 to_predict,
-                 batch_size=10,
-                 clipping_norm=None,
-                 criterion=nn.CrossEntropyLoss(),
-                 cuda=False,
-                 epochs=100,
-                 early_stopping_steps=5,
-                 hidden_size=10,
-                 learning_rate=0.01,
-                 load_path=None,
-                 l2_weight=0.01,
-                 max_length=25,
-                 model_type=VanillaModel,
-                 controller_type=LinearSimpleStructController,
-                 null=u"#",
-                 mask_null=True,
-                 read_size=2,
-                 save_path=None,
-                 struct_type=Stack,
-                 time_function=(lambda t: t),
-                 verbose=True):
-        """
-        Constructor for the LanguageModelingTask object.
 
-        :type to_predict: list
-        :param to_predict: The words that will be predicted in this task
+    class Params(FormalTask.Params):
 
-        :type batch_size: int
-        :param batch_size: The number of trials in each mini-batch
+        def __init__(self, to_predict, **kwargs):
+            self.to_predict = to_predict
+            self.mask_null = kwargs.get("mask_null", True)
+            super(LanguageModelingTask.Params, self).__init__(**kwargs)
 
-        :type criterion: nn.modules.loss._Loss
-        :param criterion: The error function used for training the model
 
-        :type cuda: bool
-        :param cuda: If True, CUDA functionality will be used
-
-        :type epochs: int
-        :param epochs: The number of training epochs that will be
-            performed when executing an experiment
-
-        :type hidden_size: int
-        :param hidden_size: The size of state vectors
-
-        :type learning_rate: float
-        :param learning_rate: The learning rate used for training
-
-        :type load_path: str
-        :param load_path: The neural network will be initialized to a
-            saved controller located in this path. If load_path is set to
-            None, then the controller will be initialized to an empty state
-
-        :type l2_weight: float
-        :param l2_weight: The amount of l2 regularization used for
-            training
-
-        :type max_length: int
-        :param max_length: The maximum length of a sentence that will
-            appear in the input training and testing data
-
-        :type model_type: type
-        :param model_type: The type of Model that will be trained
-            and evaluated
-
-        :type controller_type: type
-        :param controller_type: The type of neural network that will drive
-            the Model
-
-        :type null: unicode
-        :param null: The "null" symbol used in this CFGTask
-
-        :type mask_null: bool
-        :param mask_null: Whether to include null values in loss calculation
-
-        :type read_size: int
-        :param read_size: The length of the vectors stored on the neural
-            data structure
-
-        :type save_path: str
-        :param save_path: If this param is not set to None, then the
-            neural network will be saved to the path specified by this
-            save_path
-
-        :type struct_type: type
-        :param struct_type: The type of neural data structure that will
-            be used by the Model
-
-        :type time_function: function
-        :param time_function: A function mapping the length of an input
-            to the number of computational steps the controller will
-            perform on that input
-
-        :type verbose: bool
-        :param verbose: If True, the progress of the experiment will be
-            displayed in the console
-        """
-        super_class = super(LanguageModelingTask, self)
-        super_class.__init__(batch_size=batch_size,
-                             clipping_norm=clipping_norm,
-                             criterion=criterion,
-                             cuda=cuda,
-                             epochs=epochs,
-                             early_stopping_steps=early_stopping_steps,
-                             hidden_size=hidden_size,
-                             learning_rate=learning_rate,
-                             load_path=load_path,
-                             l2_weight=l2_weight,
-                             max_x_length=max_length,
-                             max_y_length=max_length,
-                             model_type=model_type,
-                             null=null,
-                             controller_type=controller_type,
-                             read_size=read_size,
-                             save_path=save_path,
-                             struct_type=struct_type,
-                             time_function=time_function,
-                             verbose=verbose)
-
-        self.mask_null = mask_null
-        self.to_predict_code = [self.alphabet[c] for c in to_predict]
+    def __init__(self, params):
+        super(LanguageModelingTask, self).__init__(params)
+        self.to_predict_code = [self.alphabet[c] for c in self.to_predict]
 
     def _evaluate_step(self, x, y, a, j):
         """
