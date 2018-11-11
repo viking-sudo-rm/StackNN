@@ -16,12 +16,42 @@ from stacknn_utils import *
 from structs.simple import Stack
 
 
-class Task(object):
+class Task(object, metaclass=ABCMeta):
+
     """
     Abstract class for creating experiments that train and evaluate a
     neural network model with a neural stack or queue.
     """
-    __metaclass__ = ABCMeta
+
+    def __init__(self, params):
+        """Calling the constructor will register all fields in params for task."""
+        self._params = params
+
+    def __getattr__(self, name):
+        """Allows us to reference params with task.PARAM notation."""
+        if name not in self._params:
+            type_name = type(self).__name__
+            raise ValueError("Attribute %s is neither a valid field for %s nor a task parameter." % (name, type_name))
+        return self._params[name]
+
+    @classmethod
+    def from_config_dict(cls, config_dict):
+        """Create a new task instance from a config dict."""
+        if "task" not in config_dict:
+            raise ValueError("Config dictionary does not contain a task.")
+        if not issubclass(config_dict["task"], cls):
+            raise ValueError("Invalid task type %s." % config_dict["task"])
+
+        # TODO: remove model, controller, struct from config information.
+
+        params = Params.from_config_dict(config_dict)
+        config_dict = copy(config_dict)
+        task_type = config_dict["task"]
+        del config_dict["task"]
+        return task_type(**config_dict)
+
+
+class FormalTask(Task):
 
     def __init__(self,
                  batch_size=10,
@@ -146,7 +176,6 @@ class Task(object):
         self.null = null
         self.alphabet = self._init_alphabet(null)
         self.code_to_word = {c: w for w, c in self.alphabet.iteritems()}
-        self.alphabet_size = len(self.alphabet)
 
         self.model = None
         self.reset_model(model_type, controller_type, struct_type,
@@ -184,6 +213,7 @@ class Task(object):
         self._curr_log_index = 0
 
         self.batch_acc = None
+
     @abstractmethod
     def reset_model(self, model_type, controller_type, struct_type):
         """
@@ -929,20 +959,11 @@ class Task(object):
         message += "Loss = {:.4f}, Accuracy = {:.1f}%".format(loss, accuracy)
         print message
 
+    @property
+    def alphabet_size(self):
+        return len(self.alphabet)
+
     @abstractproperty
     def generic_example(self):
         """Get the example input for creating visualizations."""
         raise NotImplementedError("Abstract property generic_example not implemented.")
-
-    @classmethod
-    def from_config_dict(cls, config_dict):
-        """Create a new task instance from a config dict."""
-        if "task" not in config_dict:
-            raise ValueError("Config dictionary does not contain a task.")
-        if not issubclass(config_dict["task"], cls):
-            raise ValueError("Invalid task type %s." % config_dict["task"])
-
-        config_dict = copy(config_dict)
-        task_type = config_dict["task"]
-        del config_dict["task"]
-        return task_type(**config_dict)

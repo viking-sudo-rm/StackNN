@@ -6,13 +6,13 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
-from base import Task
+from tasks.base import FormalTask
 from models import VanillaModel
 from controllers.feedforward import LinearSimpleStructController
 from structs import Stack
 
 
-class LanguageModelingTask(Task):
+class LanguageModelingTask(FormalTask):
     """
     Abstract class for language modelling (word prediction) tasks. In a
     LanguageModelingTask, the neural network must read each word of the

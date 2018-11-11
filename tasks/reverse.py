@@ -6,13 +6,13 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
-from base import Task
+from tasks.base import FormalTask
 from models import VanillaModel
 from controllers.feedforward import LinearSimpleStructController
 from structs import Stack
 
 
-class ReverseTask(Task):
+class ReverseTask(FormalTask):
     """
     String Reversal
     """

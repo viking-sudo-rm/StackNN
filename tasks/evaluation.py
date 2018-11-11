@@ -8,14 +8,14 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
-from base import Task
+from tasks.base import FormalTask
 from models import BufferedModel
 from controllers.feedforward import LinearSimpleStructController
 from controllers.recurrent import RNNSimpleStructController
 from structs import Stack
 
 
-class EvaluationTask(Task):
+class EvaluationTask(FormalTask):
     """
     Abstract class for experiments where the controller is incrementally
     fed a sequence and at every iteration has to evaluate a given
