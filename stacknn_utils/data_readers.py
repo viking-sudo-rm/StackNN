@@ -41,6 +41,10 @@ class ByLineDatasetReader(object):
 			Y.append(y)
 		return X, Y
 
+	def reset_counts(self):
+		self._max_x_length = 0
+		self._max_y_length = min(self._max_y_length, -1)
+
 	@property
 	def max_x_length(self):
 		"""The length of the longest-seen input."""

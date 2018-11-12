@@ -81,14 +81,47 @@ class Task(object):
             return ((attr, getattr(self, attr)) for attr in dir(self)
                     if not attr.startswith("_"))
 
-        def __str__(self):
-            lines = ["%s: %s" % (key, value) for key, value in self]
-            return "\n".join(lines)
+        def print_experiment_start(self):
+            for key, value in self:
+                print "%s: %s" % (key, value)
 
 
     def __init__(self, params):
         """Calling the constructor will register all fields in params for task."""
+        
+        # Register the hyperparameters.
         self.params = params
+
+        # Create the model.
+        self.model = self._init_model()
+
+        # Do we have a saved model?
+        if self.load_path:
+            self.model.load_state_dict(torch.load(self.load_path))
+            self._has_trained_model = True
+        else:
+            self._has_trained_model = False
+
+        # Backpropagation settings.
+        self.optimizer = optim.Adam(self.model.parameters(),
+                                    lr=self.learning_rate,
+                                    weight_decay=self.l2_weight)
+
+        # Initialize training and testing data.
+        self.train_x = None
+        self.train_y = None
+        self.test_x = None
+        self.test_y = None
+
+        # Initialize various reporting hidden variables.
+        self._logging = False
+        self._logged_x_text = None
+        self._logged_y_text = None
+        self._logged_a = None
+        self._logged_loss = None
+        self._logged_correct = None
+        self._curr_log_index = 0
+        self.batch_acc = None
 
     def __getattr__(self, name):
         """Allows us to reference params with self.PARAM notation.
@@ -115,93 +148,26 @@ class Task(object):
         params = task_type.Params(**config_dict)
         return task_type(params)
 
+    def _init_model(self):
+        return self.model_type(self.input_size,
+                               self.read_size,
+                               self.output_size,
+                               controller_type=self.controller_type,
+                               struct_type=self.struct_type,
+                               hidden_size=self.hidden_size,
+                               reg_weight=self.reg_weight)
 
-class FormalTask(Task):
+    """Abstract methods."""
 
-    """A task whose data is generated from a formal language."""
+    @abstractproperty
+    def input_size(self):
+        """Size of the input vectors for this task."""
+        raise NotImplementedError("Property input_size not specified.")
 
-
-    class Params(Task.Params):
-
-        """Parameters object for a FormalTask.
-
-        All parameters from Task.Params are inherited. New parameters are listed
-        below.
-
-        Attributes:
-            max_x_length: The maximum length of an input sequence.
-            max_y_length: The maximum length of an output sequence.
-            null: Unicode string corresponding to the "null" symbol.
-        """
-
-        def __init__(self, **kwargs):
-            self.max_x_length = kwargs.get("max_x_length", 10)
-            self.max_y_length = kwargs.get("max_y_length", 10)
-            self.null = kwargs.get("null", u"#")
-            super(FormalTask.Params, self).__init__(**kwargs)
-
-
-    def __init__(self, params):
-        super(FormalTask, self).__init__(params)
-        self.alphabet = self._init_alphabet(self.null)
-        self.code_to_word = {c: w for w, c in self.alphabet.iteritems()}
-
-        self.model = None
-        self.reset_model(self.model_type, self.controller_type, self.struct_type,
-                         hidden_size=self.hidden_size,
-                         reg_weight=self.reg_weight)
-
-        if self.load_path:
-            self.model.load_state_dict(torch.load(self.load_path))
-            self._has_trained_model = True
-        else:
-            self._has_trained_model = False
-
-        # Backpropagation settings.
-        self.optimizer = optim.Adam(self.model.parameters(),
-                                    lr=self.learning_rate,
-                                    weight_decay=self.l2_weight)
-
-        # Training and testing data.
-        self.train_x = None
-        self.train_y = None
-        self.test_x = None
-        self.test_y = None
-
-        # Reporting.
-        self._logging = False
-        self._logged_x_text = None
-        self._logged_y_text = None
-        self._logged_a = None
-        self._logged_loss = None
-        self._logged_correct = None
-        self._curr_log_index = 0
-
-        self.batch_acc = None
-
-    @abstractmethod
-    def reset_model(self, model_type, controller_type, struct_type):
-        """
-        Instantiates a neural network model of a given type that is
-        compatible with this Task. This function must set self.model to
-        an instance of model_type.
-
-        :type model_type: type
-        :param model_type: The type of the Model used in this Task
-
-        :type controller_type: type
-        :param controller_type: The type of the Controller that will perform
-            the neural network computations
-
-        :type struct_type: type
-        :param struct_type: The type of neural data structure that this
-            Model will operate
-
-        :return: None
-        """
-        raise NotImplementedError("Missing implementation for construct_model")
-
-    """ Data """
+    @abstractproperty
+    def output_size(self):
+        """Size of the output vectors for this task."""
+        raise NotImplementedError("Property output_size not specified.")
 
     @abstractmethod
     def get_data(self):
@@ -215,217 +181,82 @@ class FormalTask(Task):
         raise NotImplementedError("Missing implementation for get_data")
 
     @abstractmethod
-    def _init_alphabet(self, null):
+    def _evaluate_step(self, x, y, a, j):
         """
-        Creates the alphabet over which strings in this Task are
-        defined.
+        Computes the loss, number of guesses correct, and total number
+        of guesses when reading the jth symbol of the input string.
 
-        :type null: unicode
-        :param null: A special "null" symbol
+        :type x: Variable
+        :param x: The input data, represented as a 3D tensor. For each
+            i and j, x[i, j, :] is the jth symbol of the ith sentence of
+            the batch, represented as a one-hot vector
 
-        :rtype: dict
-        :return: A dict mapping each alphabet symbol to a unique number
+        :type y: Variable
+        :param y: The output data, represented as a 2D matrix. For each
+            i and j, y[i, j] is the (j + 1)st symbol of the ith sentence
+            of the batch, represented numerically according to
+            self.alphabet
+
+        :type a: Variable
+        :param a: The output of the neural network after reading the jth
+            word of the sentence, represented as a 1D vector
+
+        :type j: int
+        :param j: The jth word of a sentence is being read by the neural
+            controller when this function is called
+
+        :rtype: tuple
+        :return: The loss, number of correct guesses, and number of
+            total guesses after reading the jth word of the sentence
         """
-        raise NotImplementedError("Missing implementation for _init_alphabet")
+        raise NotImplementedError("Missing implementation for _evaluate_step")
 
-    def sentences_to_one_hot(self, max_length, *sentences):
+    """Core logic."""
+
+    def run_experiment(self):
         """
-        Converts one or more sentences to one-hot representation.
+        Runs an experiment that evaluates the performance of the model
+        described by this Task. In the experiment, a number of training
+        epochs are run, and each epoch is divided into batches. The
+        number of epochs is self.epochs, and the number of examples in
+        each batch is self.batch_size. Loss and accuracy are computed
+        for each batch and each epoch. Early stopping takes place if accuracy
+        on the dev set does not show improvement for self.early_stopping_steps.
 
-        :type max_length: int
-        :param max_length: The maximum length of a sentence
-
-        :type sentences: list
-        :param sentences: A list of sentences
-
-        :rtype: Variable
-        :return: A Variable containing each sentence of sentences in
-            one-hot representation. Each sentence is padded to length
-            max_length with null symbols. Entry x[i, j, k] of the output
-            Variable x represents the kth component of the one-hot
-            representation of the jth word of the ith sentence
+        :return: None
         """
-        s_codes = [[self.alphabet[w] for w in s] for s in sentences]
-        num_strings = len(s_codes)
+        self._print_experiment_start()
+        self.get_data()
+        no_improvement_batches = 0
+        best_acc = 0.
+        for epoch in xrange(self.epochs):
+            self.run_epoch(epoch)
+#            print best_acc, self.batch_acc, no_improvement_batches
+            if self.batch_acc <= best_acc:
+                no_improvement_batches += 1
+            else:
+                best_acc = self.batch_acc
+                no_improvement_batches = 0
+            if no_improvement_batches == self.early_stopping_steps:
+                break
+        self._has_trained_model = True
 
-        # Initialize output to NULLs.
-        null_code = self.alphabet[self.null]
-        x = torch.FloatTensor(num_strings, max_length, self.alphabet_size)
-        x[:, :, :].fill_(0)
-        x[:, :, null_code].fill_(1)
+        return {
+            "best_acc": best_acc,
+            "final_acc": self.batch_acc,
+        }
 
-        # Fill in values.
-        for i, s in enumerate(s_codes):
-            for j, w in enumerate(s):
-                x[i, j, :] = self.one_hot(w, self.alphabet_size)
-
-        return Variable(x)
-
-    def sentences_to_codes(self, max_length, *sentences):
+    def _print_experiment_start(self):
         """
-        Converts one or more sentences to numerical representation based
-        on self.alphabet.
-
-        :type max_length: int
-        :param max_length: The maximum length of a sentence
-
-        :type sentences: list
-        :param sentences: A list of sentences
-
-        :rtype: Variable
-        :return: A Variable containing each sentence of sentences in
-            numerical representation. Each sentence is padded to length
-            max_length with null symbols. Entry y[i, j] of the output
-            Variable y is the number representing the jth word of the
-            ith sentence
+        Prints information about this Task's hyperparameters at the
+        start of each experiment.
         """
-        s_codes = [[self.alphabet[w] for w in s] for s in sentences]
-        num_strings = len(s_codes)
+        if not self.verbose:
+            return
 
-        # Initialize output to NULLs
-        null_code = self.alphabet[self.null]
-        y = torch.LongTensor(num_strings, max_length)
-        y.fill_(null_code)
-
-        # Fill in values
-        for i, s in enumerate(s_codes):
-            for j, w in enumerate(s):
-                y[i, j] = w
-
-        return Variable(y)
-
-    def one_hot_to_sentences(self, max_length, one_hots):
-        """
-        Converts a one_hot tensor to sentence form.
-
-        :type max_length: int
-        :param max_length: If this param is set to a positive number,
-            then the sentences produced will be padded to this length
-            with NULL symbols. Otherwise, trailing NULL symbols will be
-            removed
-
-        :type one_hots: Variable
-        :param one_hots: A Variable containing a number of sentences in
-            one-hot representation. See self.sentences_to_one_hot for
-            the format of the Variable. If the vector corresponding to a
-            word contains numbers other than 0 or 1, then the largest
-            component will be treated as a 1, and all other components
-            will be treated as 0s
-
-        :rtype: list
-        :return: The list of sentences represented in one_hots
-        """
-        _, codes_var = torch.max(one_hots, 2)
-        codes_array = codes_var.data.numpy()
-        return self._codes_array_to_sentences(max_length, codes_array)
-
-    def codes_to_sentences(self, max_length, codes):
-        """
-        Converts a numerical tensor to sentence form.
-
-        :type max_length: int
-        :param max_length: If this param is set to a positive number,
-            then the sentences produced will be padded to this length
-            with NULL symbols. Otherwise, trailing NULL symbols will be
-            removed
-
-        :type codes: Variable
-        :param codes: A Variable containing a number of sentences in
-            numerical representation based on self.alphabet
-
-        :rtype: list
-        :return: The list of sentences represented in codes
-        """
-        return self._codes_array_to_sentences(max_length, codes.data.numpy())
-
-    @staticmethod
-    def text_to_sentences(*lines):
-        """
-        Converts lines of text to sentence objects.
-
-        :type lines: str
-        :param lines: Each line is a " "-delimited string representing a
-            sentence
-
-        :rtype: list
-        :return: A list containing the lines in sentence form
-        """
-        return [l.strip().split(" ") for l in lines]
-
-    @staticmethod
-    def sentences_to_text(*sentences):
-        """
-        Converts sentences to lines of text.
-
-        :type sentences: list
-        :param sentences: One or more sentences
-
-        :rtype: list
-        :return: A list of " "-delimited strings representing the
-            sentences
-        """
-        return [" ".join(s) for s in sentences]
-
-    @staticmethod
-    def one_hot(number, size):
-        """
-        Computes the following one-hot encoding:
-            0 -> [1., 0., 0., ..., 0.]
-            1 -> [0., 1., 0., ..., 0.]
-            2 -> [0., 0., 1., ..., 0.]
-        etc.
-
-        :type number: int
-        :param number: A number
-
-        :type size: int
-        :param size: The number of dimensions of the one-hot vector.
-            There should be at least one dimension corresponding to each
-            possible value for number
-
-        :rtype: torch.FloatTensor
-        :return: The one-hot encoding of number
-        """
-        one_hot_tensor = torch.zeros([size])
-        one_hot_tensor[number] = 1.
-        return one_hot_tensor
-        # return torch.FloatTensor([float(i == number) for i in xrange(size)])
-
-    def _codes_array_to_sentences(self, max_length, codes_array):
-        """
-        Converts a numerical NumPy array to sentence form.
-
-        :type max_length: int
-        :param max_length: If this param is set to a positive number,
-            then the sentences produced will be padded to this length
-            with NULL symbols. Otherwise, trailing NULL symbols will be
-            removed
-
-        :type codes_array: np.ndarray
-        :param codes_array: A NumPy array containing a number of
-            sentences in numerical representation based on self.alphabet
-
-        :rtype: list
-        :return: The list of sentences represented in codes
-        """
-        if max_length > 0:
-            codes = [list(s) for s in codes_array[:, :max_length]]
-        else:
-            codes = [list(s) for s in codes_array]
-            null_code = self.alphabet[self.null]
-            for i, s in enumerate(codes):
-                trailing_null_ind = -1
-                for j, c in enumerate(s):
-                    if c == null_code and trailing_null_ind < 0:
-                        trailing_null_ind = j
-                    elif c != null_code:
-                        trailing_null_ind = -1
-
-                codes[i] = s[:trailing_null_ind]
-
-        return [[self.code_to_word[c] for c in s] for s in codes]
-
-    """ Backpropagation """
+        print "Starting {} Experiment".format(type(self).__name__)
+        self.model.print_experiment_start()
+        self.params.print_experiment_start()
 
     def train(self):
         """
@@ -435,9 +266,9 @@ class FormalTask(Task):
         :return: None
         """
         if self.model is None:
-            raise ValueError("Missing model")
+            raise ValueError("Missing model.")
         if self.train_x is None or self.train_y is None:
-            raise ValueError("Missing training data")
+            raise ValueError("Missing training data.")
 
         self.model.train()
 
@@ -524,71 +355,7 @@ class FormalTask(Task):
         # Make the accuracy accessible for early stopping.
         self.batch_acc = batch_correct / batch_total
 
-    @abstractmethod
-    def _evaluate_step(self, x, y, a, j):
-        """
-        Computes the loss, number of guesses correct, and total number
-        of guesses when reading the jth symbol of the input string.
-
-        :type x: Variable
-        :param x: The input data, represented as a 3D tensor. For each
-            i and j, x[i, j, :] is the jth symbol of the ith sentence of
-            the batch, represented as a one-hot vector
-
-        :type y: Variable
-        :param y: The output data, represented as a 2D matrix. For each
-            i and j, y[i, j] is the (j + 1)st symbol of the ith sentence
-            of the batch, represented numerically according to
-            self.alphabet
-
-        :type a: Variable
-        :param a: The output of the neural network after reading the jth
-            word of the sentence, represented as a 1D vector
-
-        :type j: int
-        :param j: The jth word of a sentence is being read by the neural
-            controller when this function is called
-
-        :rtype: tuple
-        :return: The loss, number of correct guesses, and number of
-            total guesses after reading the jth word of the sentence
-        """
-        raise NotImplementedError("Missing implementation for _evaluate_step")
-
     """ Training Mode """
-
-    def run_experiment(self):
-        """
-        Runs an experiment that evaluates the performance of the model
-        described by this Task. In the experiment, a number of training
-        epochs are run, and each epoch is divided into batches. The
-        number of epochs is self.epochs, and the number of examples in
-        each batch is self.batch_size. Loss and accuracy are computed
-        for each batch and each epoch. Early stopping takes place if accuracy
-        on the dev set does not show improvement for self.early_stopping_steps.
-
-        :return: None
-        """
-        self._print_experiment_start()
-        self.get_data()
-        no_improvement_batches = 0
-        best_acc = 0.
-        for epoch in xrange(self.epochs):
-            self.run_epoch(epoch)
-#            print best_acc, self.batch_acc, no_improvement_batches
-            if self.batch_acc <= best_acc:
-                no_improvement_batches += 1
-            else:
-                best_acc = self.batch_acc
-                no_improvement_batches = 0
-            if no_improvement_batches == self.early_stopping_steps:
-                break
-        self._has_trained_model = True
-
-        return {
-            "best_acc": best_acc,
-            "final_acc": self.batch_acc,
-        }
 
     def run_epoch(self, epoch):
         """
@@ -618,22 +385,6 @@ class FormalTask(Task):
         shuffled_indices = torch.randperm(num_examples)
         self.train_x = self.train_x[shuffled_indices]
         self.train_y = self.train_y[shuffled_indices]
-
-    def _print_experiment_start(self):
-        """
-        Prints information about this Task's hyperparameters at the
-        start of each experiment.
-
-        :return: None
-        """
-        if not self.verbose:
-            return
-
-        print "Starting {} Experiment".format(type(self).__name__)
-        self.model.print_experiment_start()
-        print "Learning Rate: " + str(self.learning_rate)
-        print "Batch Size: " + str(self.batch_size)
-        print "Read Size: " + str(self.read_size)
 
     def _print_epoch_start(self, epoch):
         """
@@ -924,11 +675,258 @@ class FormalTask(Task):
         message += "Loss = {:.4f}, Accuracy = {:.1f}%".format(loss, accuracy)
         print message
 
+
+class FormalTask(Task):
+
+    """A task whose data is generated from a formal language."""
+
+
+    class Params(Task.Params):
+
+        """Parameters object for a FormalTask.
+
+        All parameters from Task.Params are inherited. New parameters are listed
+        below.
+
+        Attributes:
+            max_x_length: The maximum length of an input sequence.
+            max_y_length: The maximum length of an output sequence.
+            null: Unicode string corresponding to the "null" symbol.
+        """
+
+        def __init__(self, **kwargs):
+            self.max_x_length = kwargs.get("max_x_length", 10)
+            self.max_y_length = kwargs.get("max_y_length", 10)
+            self.null = kwargs.get("null", u"#")
+            super(FormalTask.Params, self).__init__(**kwargs)
+
+
+    def _init_model(self):
+        # We need to initialize the alphabet before constructing the model.
+        self.alphabet = self._init_alphabet(self.null)
+        self.code_to_word = {c: w for w, c in self.alphabet.iteritems()}
+        return super(FormalTask, self)._init_model()
+
     @property
     def alphabet_size(self):
         return len(self.alphabet)
+
+    """Abstract methods."""
 
     @abstractproperty
     def generic_example(self):
         """Get the example input for creating visualizations."""
         raise NotImplementedError("Abstract property generic_example not implemented.")
+
+    @abstractmethod
+    def _init_alphabet(self, null):
+        """
+        Creates the alphabet over which strings in this Task are
+        defined.
+
+        :type null: unicode
+        :param null: A special "null" symbol
+
+        :rtype: dict
+        :return: A dict mapping each alphabet symbol to a unique number
+        """
+        raise NotImplementedError("Missing implementation for _init_alphabet")
+
+    """Data methods."""
+
+    def sentences_to_one_hot(self, max_length, *sentences):
+        """
+        Converts one or more sentences to one-hot representation.
+
+        :type max_length: int
+        :param max_length: The maximum length of a sentence
+
+        :type sentences: list
+        :param sentences: A list of sentences
+
+        :rtype: Variable
+        :return: A Variable containing each sentence of sentences in
+            one-hot representation. Each sentence is padded to length
+            max_length with null symbols. Entry x[i, j, k] of the output
+            Variable x represents the kth component of the one-hot
+            representation of the jth word of the ith sentence
+        """
+        s_codes = [[self.alphabet[w] for w in s] for s in sentences]
+        num_strings = len(s_codes)
+
+        # Initialize output to NULLs.
+        null_code = self.alphabet[self.null]
+        x = torch.FloatTensor(num_strings, max_length, self.alphabet_size)
+        x[:, :, :].fill_(0)
+        x[:, :, null_code].fill_(1)
+
+        # Fill in values.
+        for i, s in enumerate(s_codes):
+            for j, w in enumerate(s):
+                x[i, j, :] = self.one_hot(w, self.alphabet_size)
+
+        return Variable(x)
+
+    def sentences_to_codes(self, max_length, *sentences):
+        """
+        Converts one or more sentences to numerical representation based
+        on self.alphabet.
+
+        :type max_length: int
+        :param max_length: The maximum length of a sentence
+
+        :type sentences: list
+        :param sentences: A list of sentences
+
+        :rtype: Variable
+        :return: A Variable containing each sentence of sentences in
+            numerical representation. Each sentence is padded to length
+            max_length with null symbols. Entry y[i, j] of the output
+            Variable y is the number representing the jth word of the
+            ith sentence
+        """
+        s_codes = [[self.alphabet[w] for w in s] for s in sentences]
+        num_strings = len(s_codes)
+
+        # Initialize output to NULLs
+        null_code = self.alphabet[self.null]
+        y = torch.LongTensor(num_strings, max_length)
+        y.fill_(null_code)
+
+        # Fill in values
+        for i, s in enumerate(s_codes):
+            for j, w in enumerate(s):
+                y[i, j] = w
+
+        return Variable(y)
+
+    def one_hot_to_sentences(self, max_length, one_hots):
+        """
+        Converts a one_hot tensor to sentence form.
+
+        :type max_length: int
+        :param max_length: If this param is set to a positive number,
+            then the sentences produced will be padded to this length
+            with NULL symbols. Otherwise, trailing NULL symbols will be
+            removed
+
+        :type one_hots: Variable
+        :param one_hots: A Variable containing a number of sentences in
+            one-hot representation. See self.sentences_to_one_hot for
+            the format of the Variable. If the vector corresponding to a
+            word contains numbers other than 0 or 1, then the largest
+            component will be treated as a 1, and all other components
+            will be treated as 0s
+
+        :rtype: list
+        :return: The list of sentences represented in one_hots
+        """
+        _, codes_var = torch.max(one_hots, 2)
+        codes_array = codes_var.data.numpy()
+        return self._codes_array_to_sentences(max_length, codes_array)
+
+    def codes_to_sentences(self, max_length, codes):
+        """
+        Converts a numerical tensor to sentence form.
+
+        :type max_length: int
+        :param max_length: If this param is set to a positive number,
+            then the sentences produced will be padded to this length
+            with NULL symbols. Otherwise, trailing NULL symbols will be
+            removed
+
+        :type codes: Variable
+        :param codes: A Variable containing a number of sentences in
+            numerical representation based on self.alphabet
+
+        :rtype: list
+        :return: The list of sentences represented in codes
+        """
+        return self._codes_array_to_sentences(max_length, codes.data.numpy())
+
+    @staticmethod
+    def text_to_sentences(*lines):
+        """
+        Converts lines of text to sentence objects.
+
+        :type lines: str
+        :param lines: Each line is a " "-delimited string representing a
+            sentence
+
+        :rtype: list
+        :return: A list containing the lines in sentence form
+        """
+        return [l.strip().split(" ") for l in lines]
+
+    @staticmethod
+    def sentences_to_text(*sentences):
+        """
+        Converts sentences to lines of text.
+
+        :type sentences: list
+        :param sentences: One or more sentences
+
+        :rtype: list
+        :return: A list of " "-delimited strings representing the
+            sentences
+        """
+        return [" ".join(s) for s in sentences]
+
+    @staticmethod
+    def one_hot(number, size):
+        """
+        Computes the following one-hot encoding:
+            0 -> [1., 0., 0., ..., 0.]
+            1 -> [0., 1., 0., ..., 0.]
+            2 -> [0., 0., 1., ..., 0.]
+        etc.
+
+        :type number: int
+        :param number: A number
+
+        :type size: int
+        :param size: The number of dimensions of the one-hot vector.
+            There should be at least one dimension corresponding to each
+            possible value for number
+
+        :rtype: torch.FloatTensor
+        :return: The one-hot encoding of number
+        """
+        one_hot_tensor = torch.zeros([size])
+        one_hot_tensor[number] = 1.
+        return one_hot_tensor
+        # return torch.FloatTensor([float(i == number) for i in xrange(size)])
+
+    def _codes_array_to_sentences(self, max_length, codes_array):
+        """
+        Converts a numerical NumPy array to sentence form.
+
+        :type max_length: int
+        :param max_length: If this param is set to a positive number,
+            then the sentences produced will be padded to this length
+            with NULL symbols. Otherwise, trailing NULL symbols will be
+            removed
+
+        :type codes_array: np.ndarray
+        :param codes_array: A NumPy array containing a number of
+            sentences in numerical representation based on self.alphabet
+
+        :rtype: list
+        :return: The list of sentences represented in codes
+        """
+        if max_length > 0:
+            codes = [list(s) for s in codes_array[:, :max_length]]
+        else:
+            codes = [list(s) for s in codes_array]
+            null_code = self.alphabet[self.null]
+            for i, s in enumerate(codes):
+                trailing_null_ind = -1
+                for j, c in enumerate(s):
+                    if c == null_code and trailing_null_ind < 0:
+                        trailing_null_ind = j
+                    elif c != null_code:
+                        trailing_null_ind = -1
+
+                codes[i] = s[:trailing_null_ind]
+
+        return [[self.code_to_word[c] for c in s] for s in codes]

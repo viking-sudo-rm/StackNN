@@ -61,13 +61,13 @@ class OrderedCountingTask(LanguageModelingTask):
 
     """ Core Logic """
 
-    def reset_model(self, model_type, controller_type, struct_type, **kwargs):
-        self.model = model_type(self.alphabet_size,
-                                self.read_size,
-                                self.alphabet_size,
-                                controller_type=controller_type,
-                                struct_type=struct_type,
-                                **kwargs)
+    @property
+    def input_size(self):
+        return self.alphabet_size
+
+    @property
+    def output_size(self):
+        return self.alphabet_size
 
     def _init_alphabet(self, null):
         x_length = len(self.length_fns)

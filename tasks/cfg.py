@@ -47,8 +47,6 @@ class CFGTask(LanguageModelingTask):
 
 
     def __init__(self, params):
-        # FIXME: Does not converge on several configs.
-        # Checked: to_predict, production of strings, loss_fn
         super(CFGTask, self).__init__(params)
         print "Sample depth: %d" % self.sample_depth
         print "Max length: %d" % self.max_length
@@ -62,30 +60,13 @@ class CFGTask(LanguageModelingTask):
         print "Maximum sample length: " + str(max_sample_length)
         print "Maximum input length: " + str(self.max_x_length)
 
-    def reset_model(self, model_type, controller_type, struct_type, **kwargs):
-        """
-        Instantiates a neural network model of a given type that is
-        compatible with this Task. This function must set self.model to
-        an instance of model_type.
+    @property
+    def input_size(self):
+        return self.alphabet_size
 
-        :type model_type: type
-        :param model_type: The type of the Model used in this Task
-
-        :type controller_type: type
-        :param controller_type: The type of the Controller that will perform
-            the neural network computations
-
-        :type struct_type: type
-        :param struct_type: The type of neural data structure that this
-            Model will operate
-
-        :return: None
-        """
-        self.model = model_type(self.alphabet_size, self.read_size,
-                                self.alphabet_size,
-                                controller_type=controller_type,
-                                struct_type=struct_type,
-                                **kwargs)
+    @property
+    def output_size(self):
+        return self.alphabet_size
 
     def _init_alphabet(self, null):
         """
