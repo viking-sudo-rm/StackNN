@@ -50,7 +50,6 @@ class LanguageModelingTask(FormalTask):
             self.max_length = kwargs.get("max_length", 25)
             self.mask_null = kwargs.get("mask_null", True)
             super(LanguageModelingTask.Params, self).__init__(**kwargs)
-            # This line was formerly in CFGTask, but it seems to fit better here.
             self.criterion = kwargs.get("criterion", nn.CrossEntropyLoss(reduction="none"))
             self.max_x_length = self.max_length
             self.max_y_length = self.max_length
