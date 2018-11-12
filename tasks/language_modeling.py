@@ -31,10 +31,29 @@ class LanguageModelingTask(FormalTask):
 
     class Params(FormalTask.Params):
 
+        """Parameters object for a LanguageModelingTask.
+
+        New parameters are listed below.
+
+        Attributes:
+            to_predict: Set or list of unicode characters that should be
+                predicted and used in accuracy computation.
+            include_unpredicted_symbols_in_loss: If True, non-null symbols that
+                are not in to_predict will contribute to loss.
+            max_length: The maximum sentence length.
+            mask_null: If True, null characters will always be ignored.
+        """
+
         def __init__(self, to_predict, **kwargs):
             self.to_predict = to_predict
+            self.include_unpredicted_symbols_in_loss = kwargs.get("include_unpredicted_symbols_in_loss", False)
+            self.max_length = kwargs.get("max_length", 25)
             self.mask_null = kwargs.get("mask_null", True)
             super(LanguageModelingTask.Params, self).__init__(**kwargs)
+            # This line was formerly in CFGTask, but it seems to fit better here.
+            self.criterion = kwargs.get("criterion", nn.CrossEntropyLoss(reduction="none"))
+            self.max_x_length = self.max_length
+            self.max_y_length = self.max_length
 
 
     def __init__(self, params):
@@ -79,17 +98,28 @@ class LanguageModelingTask(FormalTask):
             # Include the null indices while calculating loss.
             valid_x = torch.ones_like(y[:, j]).float()
 
+        # If we shouldn't include unpredicted symbols in the loss, zero them
+        # out.
+        if not self.include_unpredicted_symbols_in_loss:
+            for k in xrange(len(valid_x)):
+                if y[k, j].data.item() not in self.to_predict_code:
+                    valid_x[k] = 0
+
         # Compute the loss.
         loss = valid_x * self.criterion(a, y[:, j])
 
-        # Mask out uninteresting stuff for accuracy calculation.
-        to_predict_x = valid_x.data.clone()
-        for k in xrange(len(valid_x)):
-            if y[k, j].data.item() not in self.to_predict_code:
-                to_predict_x[k] = 0
+        # If we should include unpredicted terms in the loss, then we now need
+        # to mask them out for prediction and accuracy calculation.
+        if self.include_unpredicted_symbols_in_loss:
+            to_predict_x = valid_x.data.clone()
+            for k in xrange(len(valid_x)):
+                if y[k, j].data.item() not in self.to_predict_code:
+                    to_predict_x[k] = 0
+        else:
+            to_predict_x = valid_x
         
         # Compute the accuracy over indices of interest.
         correct_trials = (y_pred == y[:, j]).type(torch.FloatTensor)
         correct = sum(to_predict_x * correct_trials.data)
-        total = sum(to_predict_x.data)
+        total = sum(to_predict_x)
         return loss.sum(), correct, total

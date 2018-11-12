@@ -41,13 +41,14 @@ class CFGTask(LanguageModelingTask):
         def __init__(self, grammar, to_predict, sample_depth, **kwargs):
             self.grammar = grammar
             self.sample_depth = sample_depth
-            self.max_length = kwargs.get("max_length", 25)
             self.train_set_size = kwargs.get("train_set_size", 800)
-            self.train_set_size = kwargs.get("test_set_size", 100)
+            self.test_set_size = kwargs.get("test_set_size", 100)
             super(CFGTask.Params, self).__init__(to_predict, **kwargs)
 
 
     def __init__(self, params):
+        # FIXME: Does not converge on several configs.
+        # Checked: to_predict, production of strings, loss_fn
         super(CFGTask, self).__init__(params)
         print "Sample depth: %d" % self.sample_depth
         print "Max length: %d" % self.max_length
@@ -117,10 +118,7 @@ class CFGTask(LanguageModelingTask):
         :return: None
         """
         self.train_x, self.train_y = self.get_tensors(self.train_set_size)
-
         self.test_x, self.test_y = self.get_tensors(self.test_set_size)
-
-        return
 
     def generate_sample_strings(self, remove_duplicates=True):
         """
@@ -162,9 +160,6 @@ class CFGTask(LanguageModelingTask):
         :return: A Variable containing the input dataset and a Variable
             containing the output dataset
         """
-
-        print self.params
-
         x_raw = [self.get_random_sample_string() for _ in xrange(num_tensors)]
         y_raw = [s[1:] for s in x_raw]
 

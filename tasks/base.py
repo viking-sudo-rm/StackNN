@@ -31,7 +31,29 @@ class Task(object):
         """Contains fully-specified parameters for this object.
 
         Parameters are either copied from kwargs are receive a default value.
-        This inner class should be extended by subclasses of Task.
+        This inner class should be extended by subclasses of Task. The semantics
+        of the parameter fields should be annotated in the class docstring.
+
+        Attributes:
+            model_type: A class extending Model.
+            controller_type: A class extending SimpleStructController.
+            struct_type: A class extending Struct.
+            batch_size: The number of trials in each mini-batch.
+            clipping_norm: Related to gradient clipping.
+            criterion: The loss function.
+            cuda: If True, CUDA will be enabled.
+            epochs: Number of epochs to train for.
+            early_stopping_steps: Number of epochs of no improvement that are
+                required to stop early.
+            hidden_size: The size of hidden state vectors.
+            learning_rate: The learning rate.
+            l2_weight: Float controlling the amount of L2 regularization.
+            read_size: The length of vectors on the neural data structure.
+            time_function: A function specifying the maximum number of
+                computation steps in terms of input length.
+            verbose: Boolean describing how much output should be generated.
+            load_path: Path for loading a model.
+            save_path: Path for saving a model.
         """
 
         def __init__(self, **kwargs):
@@ -69,7 +91,11 @@ class Task(object):
         self.params = params
 
     def __getattr__(self, name):
-        """Allows us to reference params with task.PARAM notation."""
+        """Allows us to reference params with self.PARAM notation.
+
+        TODO: Accessing parameters in this way should be deprecated. Instead,
+        references to parameters should be replaced with self.params.PARAM.
+        """
         if not hasattr(self.params, name):
             type_name = type(self).__name__
             raise ValueError("Attribute %s is neither a valid field for %s nor a task parameter." % (name, type_name))
@@ -96,6 +122,17 @@ class FormalTask(Task):
 
 
     class Params(Task.Params):
+
+        """Parameters object for a FormalTask.
+
+        All parameters from Task.Params are inherited. New parameters are listed
+        below.
+
+        Attributes:
+            max_x_length: The maximum length of an input sequence.
+            max_y_length: The maximum length of an output sequence.
+            null: Unicode string corresponding to the "null" symbol.
+        """
 
         def __init__(self, **kwargs):
             self.max_x_length = kwargs.get("max_x_length", 10)
@@ -211,18 +248,15 @@ class FormalTask(Task):
         s_codes = [[self.alphabet[w] for w in s] for s in sentences]
         num_strings = len(s_codes)
 
-        # Initialize output to NULLs
+        # Initialize output to NULLs.
         null_code = self.alphabet[self.null]
         x = torch.FloatTensor(num_strings, max_length, self.alphabet_size)
         x[:, :, :].fill_(0)
         x[:, :, null_code].fill_(1)
 
-        print x.size()
-
-        # Fill in values
+        # Fill in values.
         for i, s in enumerate(s_codes):
             for j, w in enumerate(s):
-                print i, j
                 x[i, j, :] = self.one_hot(w, self.alphabet_size)
 
         return Variable(x)
