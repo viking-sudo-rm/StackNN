@@ -227,9 +227,11 @@ class XORTask(EvaluationTask):
 
         def __init__(self, **kwargs):
             self.str_length = kwargs.get("str_length", 12)
-            super(XORTask.Params, self).__init__(**kwargs)
-            self.time_function = kwargs.get("time_function", lambda t: 2 * t)
-
+            # Set a new default value for the time function.
+            time_function = kwargs.get("time_function", lambda t: 2 * t)
+            super(XORTask.Params, self).__init__(max_length=self.str_length,
+                                                 time_function=time_function,
+                                                 **kwargs)
 
     """ Model Training """
 
