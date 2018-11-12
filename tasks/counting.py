@@ -29,73 +29,35 @@ class OrderedCountingTask(LanguageModelingTask):
     evaluation accuracy only looks at the end of words.
     """
 
-    def __init__(self,
-                 length_fns=[lambda n: n, lambda n: n],
-                 min_n=1,
-                 max_n=100,
-                 evaluate_all=False,
-                 batch_size=10,
-                 clipping_norm=None,
-                 criterion=nn.CrossEntropyLoss(),
-                 cuda=False,
-                 epochs=100,
-                 early_stopping_steps=5,
-                 hidden_size=10,
-                 learning_rate=0.01,
-                 load_path=None,
-                 l2_weight=0.01,
-                 model_type=VanillaModel,
-                 controller_type=LinearSimpleStructController,
-                 read_size=2,
-                 save_path=None,
-                 struct_type=Stack,
-                 time_function=(lambda t: t),
-                 verbose=True):
 
-        self.min_n = min_n
-        self.max_n = max_n
-        self.length_fns = length_fns
-        self.max_length = self._get_length(max_n)
+    class Params(LanguageModelingTask.Params):
 
-        to_predict = [u"#"]
-        if evaluate_all:
-            to_predict.extend(self._get_char(i) for i in xrange(self.max_length))
+        def __init__(self, **kwargs):
+            self.length_fns = kwargs.get("length_fns", [lambda n: n, lambda n: n])
+            self.min_n = kwargs.get("min_n", 1)
+            self.max_n = kwargs.get("max_n", 100)
+            self.evaluate_all = kwargs.get("evaluate_all", False)
+            max_length = self._get_length(self.max_n)
+            to_predict = [u"#"]
+            if self.evaluate_all:
+                to_predict.extend(self._get_char(i) for i in xrange(max_length))
+            super(OrderedCountingTask.Params, self).__init__(to_predict,
+                                                             null=u"#",
+                                                             mask_null=False,
+                                                             max_length=max_length,
+                                                             **kwargs)
 
-        super(OrderedCountingTask, self).__init__(to_predict=to_predict,
-                                                  max_length=self.max_length,
-                                                  mask_null=False,
-                                                  batch_size=batch_size,
-                                                  clipping_norm=clipping_norm,
-                                                  criterion=criterion,
-                                                  cuda=cuda,
-                                                  epochs=epochs,
-                                                  early_stopping_steps=early_stopping_steps,
-                                                  hidden_size=hidden_size,
-                                                  learning_rate=learning_rate,
-                                                  load_path=load_path,
-                                                  l2_weight=l2_weight,
-                                                  model_type=model_type,
-                                                  controller_type=controller_type,
-                                                  null=u"#",
-                                                  read_size=read_size,
-                                                  save_path=save_path,
-                                                  struct_type=struct_type,
-                                                  time_function=time_function,
-                                                  verbose=verbose)
+        @staticmethod
+        def _get_char(i):
+            """
+            Get the character to represent symbol i. For example, this
+            function maps 0 to u"a".
+            """
+            return unicode(chr(97 + i))
 
-    """ Utility Methods """
-
-    @staticmethod
-    def _get_char(i):
-        """
-        Get the character to represent symbol i. For example, this
-        function maps 0 to u"a".
-        """
-        return unicode(chr(97 + i))
-
-    def _get_length(self, n):
-        """Returns the length of the string parameterized by n."""
-        return sum(length_fn(n) for length_fn in self.length_fns)
+        def _get_length(self, n):
+            """Returns the length of the string parameterized by n."""
+            return sum(length_fn(n) for length_fn in self.length_fns)
 
     """ Core Logic """
 
