@@ -48,10 +48,14 @@ If you use this codebase in your research, please cite the associated paper:
 ## Dependencies
 
 Python 2.7 with PyTorch 0.4.1 is supported. A possibly incomplete list of dependencies is:
-* PyTorch
-* numpy
-* matplotlib
-* enum
+
+* `pytorch`
+* `numpy`
+* `scipy` (for data processing)
+* `matplotlib` (for visualization)
+* `enum` (for backward compatibility)
+
+Using pip or conda should suffice for installing most of these dependencies. To get the right command for installing PyTorch, refer to the installation widget on the PyTorch website.
 
 ## Models
 
