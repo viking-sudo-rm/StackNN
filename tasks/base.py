@@ -17,164 +17,158 @@ from structs.simple import Stack
 
 
 class Task(object):
+
+    __metaclass__ = ABCMeta
+
     """
     Abstract class for creating experiments that train and evaluate a
     neural network model with a neural stack or queue.
     """
-    __metaclass__ = ABCMeta
 
-    def __init__(self,
-                 batch_size=10,
-                 clipping_norm=None,
-                 criterion=nn.CrossEntropyLoss(),
-                 cuda=False,
-                 epochs=100,
-                 early_stopping_steps=5,
-                 hidden_size=10,
-                 learning_rate=0.01,
-                 load_path=None,
-                 l2_weight=.01,
-                 max_x_length=10,
-                 max_y_length=10,
-                 model_type=VanillaModel,
-                 controller_type=LinearSimpleStructController,
-                 null=u"#",
-                 read_size=2,
-                 reg_weight=1.,
-                 save_path=None,
-                 struct_type=Stack,
-                 time_function=(lambda t: t),
-                 verbose=True):
 
+    class Params(object):
+
+        """Contains fully-specified parameters for this object.
+
+        Parameters are either copied from kwargs are receive a default value.
+        This inner class should be extended by subclasses of Task. The semantics
+        of the parameter fields should be annotated in the class docstring.
+
+        Attributes:
+            model_type: A class extending Model.
+            controller_type: A class extending SimpleStructController.
+            struct_type: A class extending Struct.
+            batch_size: The number of trials in each mini-batch.
+            clipping_norm: Related to gradient clipping.
+            criterion: The loss function.
+            cuda: If True, CUDA will be enabled.
+            epochs: Number of epochs to train for.
+            early_stopping_steps: Number of epochs of no improvement that are
+                required to stop early.
+            hidden_size: The size of hidden state vectors.
+            learning_rate: The learning rate.
+            l2_weight: Float controlling the amount of L2 regularization.
+            read_size: The length of vectors on the neural data structure.
+            time_function: A function specifying the maximum number of
+                computation steps in terms of input length.
+            verbose: Boolean describing how much output should be generated.
+            load_path: Path for loading a model.
+            save_path: Path for saving a model.
         """
-        Constructor for the Task object.
 
-        :type batch_size: int
-        :param batch_size: The number of trials in each mini-batch
+        def __init__(self, **kwargs):
+            """Extract passed arguments or use the default values."""
+            self.model_type = kwargs.get("model_type", VanillaModel)
+            self.controller_type = kwargs.get("controller_type", LinearSimpleStructController)
+            self.struct_type = kwargs.get("struct_type", Stack)
+            self.batch_size = kwargs.get("batch_size", 10)
+            self.clipping_norm = kwargs.get("clipping_norm", None)
+            self.criterion = kwargs.get("criterion", nn.CrossEntropyLoss())
+            self.cuda = kwargs.get("cuda", False)
+            self.epochs = kwargs.get("epochs", 100)
+            self.early_stopping_steps = kwargs.get("early_stopping_steps", 5)
+            self.hidden_size = kwargs.get("hidden_size", 10)
+            self.learning_rate = kwargs.get("learning_rate", 0.01)
+            self.l2_weight = kwargs.get("l2_weight", 0.01)
+            self.read_size = kwargs.get("read_size", 2)
+            self.reg_weight = kwargs.get("reg_weight", 1.)
+            self.time_function = kwargs.get("time_function", lambda t: t)
+            self.verbose = kwargs.get("verbose", True)
+            self.load_path = kwargs.get("load_path", None)
+            self.save_path = kwargs.get("save_path", None)
 
-        :type clipping_norm:
-        :param clipping_norm:
+        def __iter__(self):
+            return ((attr, getattr(self, attr)) for attr in dir(self)
+                    if not attr.startswith("_"))
 
-        :type criterion: nn.modules.loss._Loss
-        :param criterion: The error function used for training the model
+        def __str__(self):
+            lines = ["%s: %s" % (key, value) for key, value in self]
+            return "\n".join(lines)
 
-        :type cuda: bool
-        :param cuda: If True, CUDA functionality will be used
 
-        :type epochs: int
-        :param epochs: The number of training epochs that will be
-            performed when executing an experiment
+    def __init__(self, params):
+        """Calling the constructor will register all fields in params for task."""
+        self.params = params
 
-        :type early_stopping_steps: int
-        :param early_stopping_steps: the number of epochs that training can 
-            continue without an improvement in loss
+    def __getattr__(self, name):
+        """Allows us to reference params with self.PARAM notation.
 
-        :type hidden_size: int
-        :param hidden_size: The size of state vectors
-
-        :type learning_rate: float
-        :param learning_rate: The learning rate used for training
-
-        :type load_path: str
-        :param load_path: The neural network will be initialized to a
-            saved controller located in this path. If load_path is set to
-            None, then the controller will be initialized to an empty state
-
-        :type l2_weight: float
-        :param l2_weight: The amount of l2 regularization used for
-            training
-
-        :type max_x_length: int
-        :param max_x_length: The maximum length of an input to the
-            neural net
-
-        :type max_y_length: int
-        :param max_y_length: The maximum length of a neural net output
-
-        :type model_type: type
-        :param model_type: The type of Model that will be trained
-            and evaluated
-
-        :type controller_type: type
-        :param controller_type: The type of neural network that will drive
-            the Model
-
-        :type null: unicode
-        :param null: The "null" symbol used in this Task
-
-        :type read_size: int
-        :param read_size: The length of the vectors stored on the neural
-            data structure
-
-        :type save_path: str
-        :param save_path: If this param is not set to None, then the
-            neural network will be saved to the path specified by this
-            save_path
-
-        :type struct_type: type
-        :param struct_type: The type of neural data structure that will
-            be used by the model
-
-        :type time_function: function
-        :param time_function: A function mapping the length of an input
-            to the number of computational steps the controller will
-            perform on that input
-
-        :type verbose: bool
-        :param verbose: If True, the progress of the experiment will be
-            displayed in the console
+        TODO: Accessing parameters in this way should be deprecated. Instead,
+        references to parameters should be replaced with self.params.PARAM.
         """
-        self.max_x_length = max_x_length
-        self.max_y_length = max_y_length
-        self.clipping_norm = clipping_norm
+        if not hasattr(self.params, name):
+            type_name = type(self).__name__
+            raise ValueError("Attribute %s is neither a valid field for %s nor a task parameter." % (name, type_name))
+        return getattr(self.params, name)
 
-        # Hyperparameters
-        self.batch_size = batch_size
-        self.epochs = epochs
-        self.early_stopping_steps = early_stopping_steps
-        self.learning_rate = learning_rate
-        self.read_size = read_size
-        self.time_function = time_function
-        if not (isinstance(save_path, str) or isinstance(save_path, unicode)):
-            self.save_path = None
-        elif save_path.endswith(".dat"):
-            self.save_path = save_path
-        else:
-            self.save_path = save_path + ".dat"
+    @classmethod
+    def from_config_dict(cls, config_dict):
+        """Create a new task instance from a config dict."""
+        if "task" not in config_dict:
+            raise ValueError("Config dictionary does not contain a task.")
+        if not issubclass(config_dict["task"], cls):
+            raise ValueError("Invalid task type %s." % config_dict["task"])
 
-        # Model settings.
-        self.null = null
-        self.alphabet = self._init_alphabet(null)
+        task_type = config_dict["task"]
+        config_dict = copy(config_dict)
+        del config_dict["task"]
+        params = task_type.Params(**config_dict)
+        return task_type(params)
+
+
+class FormalTask(Task):
+
+    """A task whose data is generated from a formal language."""
+
+
+    class Params(Task.Params):
+
+        """Parameters object for a FormalTask.
+
+        All parameters from Task.Params are inherited. New parameters are listed
+        below.
+
+        Attributes:
+            max_x_length: The maximum length of an input sequence.
+            max_y_length: The maximum length of an output sequence.
+            null: Unicode string corresponding to the "null" symbol.
+        """
+
+        def __init__(self, **kwargs):
+            self.max_x_length = kwargs.get("max_x_length", 10)
+            self.max_y_length = kwargs.get("max_y_length", 10)
+            self.null = kwargs.get("null", u"#")
+            super(FormalTask.Params, self).__init__(**kwargs)
+
+
+    def __init__(self, params):
+        super(FormalTask, self).__init__(params)
+        self.alphabet = self._init_alphabet(self.null)
         self.code_to_word = {c: w for w, c in self.alphabet.iteritems()}
-        self.alphabet_size = len(self.alphabet)
 
         self.model = None
-        self.reset_model(model_type, controller_type, struct_type,
-                         hidden_size=hidden_size, reg_weight=reg_weight)
+        self.reset_model(self.model_type, self.controller_type, self.struct_type,
+                         hidden_size=self.hidden_size,
+                         reg_weight=self.reg_weight)
 
-        if load_path:
-            self.model.load_state_dict(torch.load(load_path))
+        if self.load_path:
+            self.model.load_state_dict(torch.load(self.load_path))
             self._has_trained_model = True
         else:
             self._has_trained_model = False
 
-        # Backpropagation settings
-        self.criterion = criterion
+        # Backpropagation settings.
         self.optimizer = optim.Adam(self.model.parameters(),
                                     lr=self.learning_rate,
-                                    weight_decay=l2_weight)
+                                    weight_decay=self.l2_weight)
 
-        # Runtime settings
-        self.cuda = cuda
-        self.verbose = verbose
-
-        # Training and testing data
+        # Training and testing data.
         self.train_x = None
         self.train_y = None
         self.test_x = None
         self.test_y = None
 
-        # Reporting
+        # Reporting.
         self._logging = False
         self._logged_x_text = None
         self._logged_y_text = None
@@ -184,6 +178,7 @@ class Task(object):
         self._curr_log_index = 0
 
         self.batch_acc = None
+
     @abstractmethod
     def reset_model(self, model_type, controller_type, struct_type):
         """
@@ -253,13 +248,13 @@ class Task(object):
         s_codes = [[self.alphabet[w] for w in s] for s in sentences]
         num_strings = len(s_codes)
 
-        # Initialize output to NULLs
+        # Initialize output to NULLs.
         null_code = self.alphabet[self.null]
         x = torch.FloatTensor(num_strings, max_length, self.alphabet_size)
         x[:, :, :].fill_(0)
         x[:, :, null_code].fill_(1)
 
-        # Fill in values
+        # Fill in values.
         for i, s in enumerate(s_codes):
             for j, w in enumerate(s):
                 x[i, j, :] = self.one_hot(w, self.alphabet_size)
@@ -914,7 +909,7 @@ class Task(object):
         """
         if not self.verbose:
             return
-        elif is_batch and name % 10 != 9:
+        elif is_batch and name % 10 != 0:
             return
 
         if is_batch:
@@ -929,20 +924,11 @@ class Task(object):
         message += "Loss = {:.4f}, Accuracy = {:.1f}%".format(loss, accuracy)
         print message
 
+    @property
+    def alphabet_size(self):
+        return len(self.alphabet)
+
     @abstractproperty
     def generic_example(self):
         """Get the example input for creating visualizations."""
         raise NotImplementedError("Abstract property generic_example not implemented.")
-
-    @classmethod
-    def from_config_dict(cls, config_dict):
-        """Create a new task instance from a config dict."""
-        if "task" not in config_dict:
-            raise ValueError("Config dictionary does not contain a task.")
-        if not issubclass(config_dict["task"], cls):
-            raise ValueError("Invalid task type %s." % config_dict["task"])
-
-        config_dict = copy(config_dict)
-        task_type = config_dict["task"]
-        del config_dict["task"]
-        return task_type(**config_dict)

@@ -6,151 +6,34 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
-from base import Task
+from tasks.base import FormalTask
 from models import VanillaModel
 from controllers.feedforward import LinearSimpleStructController
 from structs import Stack
 
 
-class ReverseTask(Task):
-    """
-    String Reversal
-    """
+class ReverseTask(FormalTask):
 
-    def __init__(self,
-                 min_length=1,
-                 max_length=12,
-                 mean_length=10,
-                 std_length=2.,
-                 num_symbols=2,
-                 batch_size=10,
-                 clipping_norm=None,
-                 criterion=nn.CrossEntropyLoss(),
-                 cuda=False,
-                 epochs=100,
-                 early_stopping_steps=5,
-                 hidden_size=10,
-                 learning_rate=0.01,
-                 load_path=None,
-                 l2_weight=0.01,
-                 model_type=VanillaModel,
-                 controller_type=LinearSimpleStructController,
-                 read_size=2,
-                 save_path=None,
-                 struct_type=Stack,
-                 time_function=(lambda t: t),
-                 verbose=True):
-        """
-        Constructor for the ReverseTask object. The only information
-        that needs to be specified by the user is information about the
-        distribution of the strings appearing in the input data.
+    """String reversal task."""
 
-        :type min_length: int
-        :param min_length: The shortest possible length of an input
-            string
 
-        :type max_length: int
-        :param max_length: The longest possible length of an input
-            string
+    class Params(FormalTask.Params):
 
-        :type mean_length: int
-        :param mean_length: The average length of an input string
+        def __init__(self, **kwargs):
+            self.min_length = kwargs.get("min_length", 1)
+            self.max_length = kwargs.get("max_length", 12)
+            self.mean_length = kwargs.get("mean_length", 10)
+            self.std_length = kwargs.get("std_length", 2.)
+            self.num_symbols = kwargs.get("num_symbols", 2)
+            super(ReverseTask.Params, self).__init__(**kwargs)
 
-        :type std_length: float
-        :param std_length: The standard deviation of the length of an
-            input string
+            # Override parameters from more abstract tasks.
+            self.null = unicode(self.num_symbols)
+            self.max_x_length = self.max_length * 2
+            self.max_y_length = self.max_length * 8
 
-        :type num_symbols: int
-        :param num_symbols: The number of possible symbols appearing in
-            input and output strings, not including NULL
+            # This does not run properly.
 
-        :type batch_size: int
-        :param batch_size: The number of trials in each mini-batch
-
-        :type clipping_norm:
-        :param clipping_norm:
-
-        :type criterion: nn.modules.loss._Loss
-        :param criterion: The error function used for training the model
-
-        :type cuda: bool
-        :param cuda: If True, CUDA functionality will be used
-
-        :type epochs: int
-        :param epochs: The number of training epochs that will be
-            performed when executing an experiment
-
-        :type hidden_size: int
-        :param hidden_size: The size of state vectors
-
-        :type learning_rate: float
-        :param learning_rate: The learning rate used for training
-
-        :type load_path: str
-        :param load_path: The neural network will be initialized to a
-            saved controller located in this path. If load_path is set to
-            None, then the controller will be initialized to an empty state
-
-        :type l2_weight: float
-        :param l2_weight: The amount of l2 regularization used for
-            training
-
-        :type model_type: type
-        :param model_type: The type of Model that will be trained
-            and evaluated
-
-        :type controller_type: type
-        :param controller_type: The type of neural network that will drive
-            the Model
-
-        :type read_size: int
-        :param read_size: The length of the vectors stored on the neural
-            data structure
-
-        :type save_path: str
-        :param save_path: If this param is not set to None, then the
-            neural network will be saved to the path specified by this
-            save_path
-
-        :type struct_type: type
-        :param struct_type: The type of neural data structure that will
-            be used by the Model
-
-        :type time_function: function
-        :param time_function: A function mapping the length of an input
-            to the number of computational steps the controller will
-            perform on that input
-
-        :type verbose: bool
-        :param verbose: If True, the progress of the experiment will be
-            displayed in the console
-        """
-        self.num_symbols = num_symbols
-        super(ReverseTask, self).__init__(batch_size=batch_size,
-                                          clipping_norm=clipping_norm,
-                                          criterion=criterion,
-                                          cuda=cuda,
-                                          epochs=epochs,
-                                          early_stopping_steps=early_stopping_steps,
-                                          hidden_size=hidden_size,
-                                          learning_rate=learning_rate,
-                                          load_path=load_path,
-                                          l2_weight=l2_weight,
-                                          max_x_length=max_length * 2,
-                                          max_y_length=max_length * 8,
-                                          model_type=model_type,
-                                          controller_type=controller_type,
-                                          null=unicode(num_symbols),
-                                          read_size=read_size,
-                                          save_path=save_path,
-                                          struct_type=struct_type,
-                                          time_function=time_function,
-                                          verbose=verbose)
-
-        self.min_length = min_length
-        self.mean_length = mean_length
-        self.std_length = std_length
-        self.max_length = max_length
 
     def reset_model(self, model_type, controller_type, struct_type, **kwargs):
         self.model = model_type(self.alphabet_size,
