@@ -32,16 +32,14 @@ class ReverseTask(FormalTask):
             self.max_x_length = self.max_length * 2
             self.max_y_length = self.max_length * 8
 
-            # This does not run properly.
 
+    @property
+    def input_size(self):
+        return self.alphabet_size
 
-    def reset_model(self, model_type, controller_type, struct_type, **kwargs):
-        self.model = model_type(self.alphabet_size,
-                                self.read_size,
-                                self.alphabet_size,
-                                controller_type=controller_type,
-                                struct_type=struct_type,
-                                **kwargs)
+    @property
+    def output_size(self):
+        return self.alphabet_size
 
     def _init_alphabet(self, null):
         return {unicode(i): i for i in xrange(self.num_symbols + 1)}

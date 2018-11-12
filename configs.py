@@ -13,6 +13,7 @@ A config can be run with:
 """
 
 from formalisms.cfg import *
+from stacknn_utils.data_readers import *
 from tasks import *
 from torch.nn import CrossEntropyLoss
 
@@ -262,4 +263,13 @@ anb2n_config = {
     "task": OrderedCountingTask,
     "length_fns": [lambda n: n, lambda n: 2 * n],
     "hidden_size": 1,
+}
+
+"""Tasks using datasets."""
+
+linzen_agreement_config = {
+    "task": NaturalTask,
+    "train_filename": "../data/linzen/rnn_arg_simple/numpred.test.5",
+    "test_filename": "../data/linzen/rnn_arg_simple/numpred.test.5",
+    "data_reader": ByLineDatasetReader(linzen_line_consumer),
 }

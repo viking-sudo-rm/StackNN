@@ -16,12 +16,13 @@ from structs import Stack
 
 
 class EvaluationTask(FormalTask):
+
     """
     Abstract class for experiments where the controller is incrementally
     fed a sequence and at every iteration has to evaluate a given
     function over all the sequence elements it has seen by that point.
     """
-    
+
 
     class Params(FormalTask.Params):
 
@@ -33,32 +34,13 @@ class EvaluationTask(FormalTask):
             self.max_y_length = self.max_length
 
 
-    def reset_model(self, model_type, controller_type, struct_type,
-                    reg_weight=1., **kwargs):
-        """
-        Instantiates a neural network model of a given type that is
-        compatible with this Task. This function must set self.model to
-        an instance of model_type
+    @property
+    def input_size(self):
+        return self.alphabet_size
 
-        :type model_type: type
-        :param model_type: A type from the models package
-
-        :type controller_type: type
-        :param controller_type: The type of the Controller that will perform
-            the neural network computations
-
-        :type struct_type: type
-        :param struct_type: The type of neural data structure that this
-            Model will operate
-
-        :return: None
-        """
-        self.model = model_type(self.alphabet_size,
-                                self.read_size,
-                                self.alphabet_size,
-                                controller_type=controller_type,
-                                struct_type=struct_type,
-                                reg_weight=reg_weight)
+    @property
+    def output_size(self):
+        return self.alphabet_size
 
     def _init_alphabet(self, null):
         return {u"0": 0, u"1": 1, u"2": 2}
@@ -232,6 +214,7 @@ class XORTask(EvaluationTask):
             super(XORTask.Params, self).__init__(max_length=self.str_length,
                                                  time_function=time_function,
                                                  **kwargs)
+
 
     """ Model Training """
 

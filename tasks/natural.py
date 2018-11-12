@@ -20,47 +20,35 @@ class NaturalTask(Task):
     DataFrame and then used to train a model.
     """
 
-    # TODO(lambdaviking): Write this class here.
+    
+    class Params(Task.Params):
 
-    def __init__(self, train_filename, test_filename, data_reader, **args):
-        self._train_filename = train_filename
-        self._test_filename = test_filename
-        self._data_reader = data_reader
-        super(NaturalTask, self).__init__(**args)
+        def __init__(self, train_filename, test_filename, data_reader, **kwargs):
+            self.train_filename = train_filename
+            self.test_filename = test_filename
+            self.data_reader = data_reader
+            self.max_num_embeddings = kwargs.get("max_num_embeddings", 5000)
+            self.max_num_output_classes = kwargs.get("max_num_output_classes", 2)
+            super(NaturalTask.Params, self).__init__(**kwargs)
 
-    def reset_model(self, model_type, controller_type, struct_type):
-        # TODO(lambdaviking): Implement this.
-        pass
+
+    @property
+    def input_size(self):
+        return self.max_num_embeddings
+
+    @property
+    def output_size(self):
+        return self.max_num_output_classes
 
     def get_data(self):
-        train_x, train_y = self._data_reader.read_x_and_y(self.train_filename)
-        test_x, test_y = self._data_reader.read_x_and_y(self.test_filename)
+        self.data_reader.reset_counts()
 
-        max_length = self._data_reader.max_x_length
+        train_x, train_y = self.data_reader.read_x_and_y(self.train_filename)
+        test_x, test_y = self.data_reader.read_x_and_y(self.test_filename)
+
+        max_length = self.data_reader.max_x_length
         pad = lambda line: np.pad(line, max_length, "constant")
         train_x = array_map(pad, train_x)
         test_x = array_map(pad, test_x)
 
         print(train_x)
-
-        # TODO: Map words to integers.
-
-    def _init_alphabet(self, null):
-        """Task doesn't fit desired design pattern for this method."""
-        return None
-
-    def _evaluate_step(self, x, y, a, j):
-        pass
-
-    def generic_example(self):
-        pass
-
-
-@testcase(DataFrameTask)
-def test_get_data():
-    from stacknn_utils.data_readers import ByLineDatasetReader, linzen_line_consumer
-    filename = "../data/linzen/rnn_arg_simple/numpred.test.5"
-    data_reader = ByLineDatasetReader(linzen_line_consumer)
-    task = NaturalTask(filename, filename, data_reader)
-    task.get_data()
-
