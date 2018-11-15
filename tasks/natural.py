@@ -10,6 +10,7 @@ from torch.autograd import Variable
 from tasks.base import Task
 from stacknn_utils.vector_ops import array_map
 from stacknn_utils.testcase import testcase, test_module
+from stacknn_utils import overrides
 
 
 class NaturalTask(Task):
@@ -52,3 +53,7 @@ class NaturalTask(Task):
         test_x = array_map(pad, test_x)
 
         print(train_x)
+
+    @overrides(Task)
+    def _evaluate_step(self, x, y, a, j):
+        pass
