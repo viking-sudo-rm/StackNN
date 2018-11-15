@@ -44,6 +44,9 @@ class NaturalTask(Task):
     def get_data(self):
         self.data_reader.reset_counts()
 
+        import os
+        print os.getcwd()
+
         train_x, train_y = self.data_reader.read_x_and_y(self.train_filename)
         test_x, test_y = self.data_reader.read_x_and_y(self.test_filename)
 
