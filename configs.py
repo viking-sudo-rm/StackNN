@@ -269,7 +269,7 @@ anb2n_config = {
 
 linzen_agreement_config = {
     "task": NaturalTask,
-    "train_filename": "../data/linzen/rnn_arg_simple/numpred.test.5",
-    "test_filename": "../data/linzen/rnn_arg_simple/numpred.test.5",
+    "train_path": "data/linzen/rnn_agr_simple/numpred.test.5",
+    "test_path": "data/linzen/rnn_agr_simple/numpred.test.5",
     "data_reader": ByLineDatasetReader(linzen_line_consumer),
 }
