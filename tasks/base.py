@@ -292,7 +292,6 @@ class Task(object):
             y = self.train_y[i:i + self.batch_size, :]
 
             self.model.init_model(self.batch_size, x)
-            # TODO(lambdaviking): Pass indices to _evaluate_batch so we can ignore zero indices.
             self._evaluate_batch(x, y, batch, True)
 
     def evaluate(self, epoch):
