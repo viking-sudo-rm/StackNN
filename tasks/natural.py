@@ -129,9 +129,6 @@ class NaturalTask(Task):
 
         _, valid_y_ = torch.max(valid_a, 1)
 
-        print("valid_a", valid_a)
-        print("valid_y", valid_y)
-
         total = len(valid_a)
         correct = len(torch.nonzero((valid_y_ == valid_y).data))
         loss = self.criterion(valid_a, valid_y)

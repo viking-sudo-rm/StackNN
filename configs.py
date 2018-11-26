@@ -273,7 +273,7 @@ linzen_agreement_config = {
     "test_path": "data/linzen/rnn_agr_simple/numpred.test.5",
     "data_reader": ByLineDatasetReader(linzen_line_consumer),
     "num_labels": 2,
-    "batch_size": 100,
+    "batch_size": 16,
     "embedding_dim": 50,
     "read_size": 50,
     "hidden_size": 50,
