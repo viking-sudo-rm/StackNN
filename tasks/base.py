@@ -285,10 +285,10 @@ class Task(object):
             else:
                 xi = self.train_x[i:i + self.batch_size, :]
                 x = self.embedding(xi.long())
-                # TODO(lambdaviking): Ignore indices that are zero.
 
             y = self.train_y[i:i + self.batch_size, :]
             self.model.init_model(self.batch_size, x)
+            # TODO(lambdaviking): Pass indices to _evaluate_batch so we can ignore zero indices.
             self._evaluate_batch(x, y, batch, True)
 
     def evaluate(self, epoch):

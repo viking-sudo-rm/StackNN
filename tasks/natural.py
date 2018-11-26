@@ -119,4 +119,10 @@ class NaturalTask(Task):
 
     @overrides(Task)
     def _evaluate_step(self, x, y, a, j):
-        pass
+        _, y_pred = torch.max(a, 1)
+        y_label = y[:, j]
+
+        total = len(a)
+        correct = len(torch.nonzero((y_pred == y_label).data))
+        loss = self.criterion(a, y_label)
+        return loss, correct, total
