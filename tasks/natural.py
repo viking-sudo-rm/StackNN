@@ -84,7 +84,7 @@ class NaturalTask(Task):
         self.embedding = nn.Embedding(self.num_embeddings, self.input_size)
         print("Embedding layer initialized.")
 
-        assert self.num_labels >= len(self.label_to_i), \
+        assert self.params.num_labels >= len(self.label_to_i), \
             "More labels found in data than specified in config."
 
         print("Train x shape:", self.train_x.shape)
@@ -128,6 +128,9 @@ class NaturalTask(Task):
             return None, None, None
 
         _, valid_y_ = torch.max(valid_a, 1)
+
+        print("valid_a", valid_a)
+        print("valid_y", valid_y)
 
         total = len(valid_a)
         correct = len(torch.nonzero((valid_y_ == valid_y).data))
