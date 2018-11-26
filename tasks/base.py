@@ -77,6 +77,7 @@ class Task(object):
             self.load_path = kwargs.get("load_path", None)
             self.save_path = kwargs.get("save_path", None)
 
+
         def __iter__(self):
             return ((attr, getattr(self, attr)) for attr in dir(self)
                     if not attr.startswith("_"))
@@ -102,6 +103,9 @@ class Task(object):
         else:
             self._has_trained_model = False
 
+        # If it is used, the embedding object should be re-initialized.
+        self.embedding = None
+
         # Backpropagation settings.
         self.optimizer = optim.Adam(self.model.parameters(),
                                     lr=self.learning_rate,
@@ -126,8 +130,9 @@ class Task(object):
     def __getattr__(self, name):
         """Allows us to reference params with self.PARAM notation.
 
-        TODO: Accessing parameters in this way should be deprecated. Instead,
-        references to parameters should be replaced with self.params.PARAM.
+        Note: Accessing parameters in this way is deprecated. It is here for
+        backward compatibility. In new code, references to parameters should
+        be replaced with self.params.PARAM notation.
         """
         if not hasattr(self.params, name):
             type_name = type(self).__name__
@@ -274,7 +279,13 @@ class Task(object):
 
         last_trial = len(self.train_x.data) - self.batch_size + 1
         for batch, i in enumerate(xrange(0, last_trial, self.batch_size)):
-            x = self.train_x[i:i + self.batch_size, :, :]
+
+            if self.embedding is None:
+                x = self.train_x[i:i + self.batch_size, :, :]
+            else:
+                xi = self.train_x[i:i + self.batch_size, :]
+                x = self.embedding(xi)
+
             y = self.train_y[i:i + self.batch_size, :]
             self.model.init_model(self.batch_size, x)
             self._evaluate_batch(x, y, batch, True)

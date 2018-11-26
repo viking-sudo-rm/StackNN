@@ -96,7 +96,10 @@ class NaturalTask(Task):
 
     @staticmethod
     def _get_y_tensor(labels, lookup_table):
-        return torch.Tensor([lookup_table[label] for label in labels])
+        y_tensor = torch.zeros(len(labels), len(lookup_table) + 1)
+        for i, label in enumerate(labels):
+            y_tensor[i, lookup_table[label]] = 1
+        return y_tensor
 
     @overrides(Task)
     def _evaluate_step(self, x, y, a, j):
