@@ -284,7 +284,8 @@ class Task(object):
                 x = self.train_x[i:i + self.batch_size, :, :]
             else:
                 xi = self.train_x[i:i + self.batch_size, :]
-                x = self.embedding(xi)
+                x = self.embedding(xi.long())
+                # TODO(lambdaviking): Ignore indices that are zero.
 
             y = self.train_y[i:i + self.batch_size, :]
             self.model.init_model(self.batch_size, x)

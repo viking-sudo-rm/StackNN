@@ -272,4 +272,5 @@ linzen_agreement_config = {
     "train_path": "data/linzen/rnn_agr_simple/numpred.test.5",
     "test_path": "data/linzen/rnn_agr_simple/numpred.test.5",
     "data_reader": ByLineDatasetReader(linzen_line_consumer),
+    "num_labels": 2,
 }

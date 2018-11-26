@@ -39,10 +39,11 @@ class NaturalTask(Task):
                 classes in the dataset.
         """
 
-        def __init__(self, train_path, test_path, data_reader, **kwargs):
+        def __init__(self, train_path, test_path, data_reader, num_labels, **kwargs):
             self.train_path = train_path
             self.test_path = test_path
             self.data_reader = data_reader
+            self.num_labels = num_labels
             self.embedding_dim = kwargs.get("embedding_dim", 300)
             super(NaturalTask.Params, self).__init__(**kwargs)
 
@@ -50,9 +51,6 @@ class NaturalTask(Task):
     def __init__(self, params):
         self.word_to_i = None
         self.label_to_i = None
-        self.num_embeddings = None
-        self.num_labels = None
-
         super(NaturalTask, self).__init__(params)
 
     @property
@@ -61,7 +59,7 @@ class NaturalTask(Task):
 
     @property
     def output_size(self):
-        return len(self.label_to_i) + 1
+        return self.num_labels + 1
 
     @property
     def num_embeddings(self):
@@ -71,19 +69,23 @@ class NaturalTask(Task):
         train_x, train_y = self.data_reader.read_x_and_y(self.train_path)
         test_x, test_y = self.data_reader.read_x_and_y(self.test_path)
 
-        pad_length = self._get_max_sentence_length(train_x, test_x)
+        # This field is referenced in the training logic.
+        self.max_x_length = self._get_max_sentence_length(train_x, test_x)
 
         flatten = lambda li: (item for sublist in li for item in sublist)
         vocab_x, self.word_to_i = self._get_vocab_and_lookup_table(flatten(train_x), flatten(test_x))
         vocab_y, self.label_to_i = self._get_vocab_and_lookup_table(train_y, test_y)
 
-        self.train_x = self._get_x_tensor(train_x, word_to_i, pad_length)
-        self.train_y = self._get_y_tensor(train_y, label_to_i)
-        self.test_x = self._get_x_tensor(test_x, word_to_i, pad_length)
-        self.test_y = self._get_y_tensor(test_y, label_to_i)
+        self.train_x = self._get_x_tensor(train_x, self.word_to_i, self.max_x_length)
+        self.train_y = self._get_y_tensor(train_y, self.label_to_i)
+        self.test_x = self._get_x_tensor(test_x, self.word_to_i, self.max_x_length)
+        self.test_y = self._get_y_tensor(test_y, self.label_to_i)
 
         self.embedding = nn.Embedding(self.num_embeddings, self.input_size)
         print("Embedding layer initialized.")
+
+        assert self.num_labels >= len(self.label_to_i), \
+            "More labels found in data than specified in config."
 
         print("Train x shape:", self.train_x.shape)
         print("Train y shape:", self.train_y.shape)
