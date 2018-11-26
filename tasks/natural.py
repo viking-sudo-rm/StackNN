@@ -57,20 +57,46 @@ class NaturalTask(Task):
         return self.max_num_output_classes
 
     def get_data(self):
-        self.data_reader.reset_counts()
-
-        import os
-        print(os.getcwd())
-
         train_x, train_y = self.data_reader.read_x_and_y(self.train_path)
         test_x, test_y = self.data_reader.read_x_and_y(self.test_path)
 
-        max_length = self.data_reader.max_x_length
-        pad = lambda line: np.pad(line, max_length, "constant")
-        train_x = array_map(pad, train_x)
-        test_x = array_map(pad, test_x)
+        pad_length = self._get_max_sentence_length(train_x, test_x)
 
-        print(train_x)
+        flatten = lambda li: (item for sublist in li for item in sublist)
+        vocab_x, word_to_i = self._get_vocab_and_lookup_table(flatten(train_x), flatten(test_x))
+        vocab_y, label_to_i = self._get_vocab_and_lookup_table(train_y, test_y)
+
+        self.train_x = self._get_x_tensor(train_x, word_to_i, pad_length)
+        self.train_y = self._get_y_tensor(train_y, label_to_i)
+        self.test_x = self._get_x_tensor(test_x, word_to_i, pad_length)
+        self.test_y = self._get_y_tensor(test_y, label_to_i)
+
+        print("train x shape:", self.train_x.shape)
+        print("train y shape:", self.train_y.shape)
+
+    @staticmethod
+    def _get_vocab_and_lookup_table(*datasets):
+        vocab = set()
+        for dataset in datasets:
+            vocab.update(dataset)
+        lookup_table = {word: i + 1 for i, word in enumerate(vocab)}
+        return vocab, lookup_table
+
+    @staticmethod
+    def _get_max_sentence_length(*datasets):
+        return max(len(sent) for dataset in datasets for sent in dataset)
+
+    @staticmethod
+    def _get_x_tensor(sents, lookup_table, pad_length):
+        x_tensor = torch.zeros(len(sents), pad_length)
+        for i, sent in enumerate(sents):
+            for j, word in enumerate(sent):
+                x_tensor[i, j] = lookup_table[word]
+        return x_tensor
+
+    @staticmethod
+    def _get_y_tensor(labels, lookup_table):
+        return torch.Tensor([lookup_table[label] for label in labels])
 
     @overrides(Task)
     def _evaluate_step(self, x, y, a, j):
