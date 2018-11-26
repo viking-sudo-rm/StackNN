@@ -76,10 +76,10 @@ class NaturalTask(Task):
         vocab_x, self.word_to_i = self._get_vocab_and_lookup_table(flatten(train_x), flatten(test_x))
         vocab_y, self.label_to_i = self._get_vocab_and_lookup_table(train_y, test_y)
 
-        self.train_x = self._get_x_tensor(train_x, self.word_to_i, self.max_x_length)
-        self.train_y = self._get_y_tensor(train_y, self.label_to_i)
-        self.test_x = self._get_x_tensor(test_x, self.word_to_i, self.max_x_length)
-        self.test_y = self._get_y_tensor(test_y, self.label_to_i)
+        self.train_x = self._get_x_tensor(train_x)
+        self.train_y = self._get_y_tensor(train_x, train_y)
+        self.test_x = self._get_x_tensor(test_x)
+        self.test_y = self._get_y_tensor(test_x, test_y)
 
         self.embedding = nn.Embedding(self.num_embeddings, self.input_size)
         print("Embedding layer initialized.")
@@ -102,27 +102,34 @@ class NaturalTask(Task):
     def _get_max_sentence_length(*datasets):
         return max(len(sent) for dataset in datasets for sent in dataset)
 
-    @staticmethod
-    def _get_x_tensor(sents, lookup_table, pad_length):
-        x_tensor = torch.zeros(len(sents), pad_length)
+    def _get_x_tensor(self, sents):
+        x_tensor = torch.zeros(len(sents), self.max_x_length)
+        x_tensor = x_tensor.long() # Type must be long to work properly with embeddings.
         for i, sent in enumerate(sents):
             for j, word in enumerate(sent):
-                x_tensor[i, j] = lookup_table[word]
+                x_tensor[i, j] = self.word_to_i[word]
         return x_tensor
 
-    @staticmethod
-    def _get_y_tensor(labels, lookup_table):
-        y_tensor = torch.zeros(len(labels), len(lookup_table) + 1)
+    def _get_y_tensor(self, sents, labels):
+        y_tensor = torch.zeros(len(labels), self.max_x_length)
+        y_tensor = y_tensor.long() # Make type long for evaluation logic.
         for i, label in enumerate(labels):
-            y_tensor[i, lookup_table[label]] = 1
+            predict_index = len(sents[i]) - 1
+            y_tensor[i, predict_index] = self.label_to_i[label]
         return y_tensor
 
     @overrides(Task)
     def _evaluate_step(self, x, y, a, j):
-        _, y_pred = torch.max(a, 1)
-        y_label = y[:, j]
+        indices = (y[:, j] != 0)
+        valid_a = a[indices.view(-1)].view(-1, self.output_size)
+        valid_y = y[:, j][indices]
 
-        total = len(a)
-        correct = len(torch.nonzero((y_pred == y_label).data))
-        loss = self.criterion(a, y_label)
+        if len(valid_a) == 0:
+            return None, None, None
+
+        _, valid_y_ = torch.max(valid_a, 1)
+
+        total = len(valid_a)
+        correct = len(torch.nonzero((valid_y_ == valid_y).data))
+        loss = self.criterion(valid_a, valid_y)
         return loss, correct, total

@@ -25,6 +25,8 @@ class Task(object):
     neural network model with a neural stack or queue.
     """
 
+    # TODO(#18): Remove max_x_length/max_y_length and replace with max_length.
+
 
     class Params(object):
 
@@ -236,7 +238,6 @@ class Task(object):
         best_acc = 0.
         for epoch in xrange(self.epochs):
             self.run_epoch(epoch)
-#            print best_acc, self.batch_acc, no_improvement_batches
             if self.batch_acc <= best_acc:
                 no_improvement_batches += 1
             else:
@@ -280,13 +281,16 @@ class Task(object):
         last_trial = len(self.train_x.data) - self.batch_size + 1
         for batch, i in enumerate(xrange(0, last_trial, self.batch_size)):
 
+            # Embed x if it is not one-hot.
             if self.embedding is None:
                 x = self.train_x[i:i + self.batch_size, :, :]
             else:
                 xi = self.train_x[i:i + self.batch_size, :]
-                x = self.embedding(xi.long())
+                x = self.embedding(xi)
 
+            # Currently, y must be a [batch_size, num_steps] tensor.
             y = self.train_y[i:i + self.batch_size, :]
+
             self.model.init_model(self.batch_size, x)
             # TODO(lambdaviking): Pass indices to _evaluate_batch so we can ignore zero indices.
             self._evaluate_batch(x, y, batch, True)
@@ -302,8 +306,15 @@ class Task(object):
             raise ValueError("Missing testing data")
 
         self.model.eval()
-        self.model.init_model(len(self.test_x.data), self.test_x)
-        self._evaluate_batch(self.test_x, self.test_y, epoch, False)
+
+        # Embed the input data if necessary.
+        if self.embedding is None:
+            test_x = self.test_x
+        else:
+            test_x = self.embedding(self.test_x)
+
+        self.model.init_model(len(test_x.data), test_x)
+        self._evaluate_batch(test_x, self.test_y, epoch, False)
 
     def _evaluate_batch(self, x, y, name, is_batch):
         """
@@ -329,7 +340,6 @@ class Task(object):
         batch_total = 0
 
         # Read the input from left to right and evaluate the output
-        # TODO: Verify counts and total.
         num_steps = self.time_function(self.max_x_length)
         for j in xrange(num_steps):
             self.model()
@@ -800,12 +810,12 @@ class FormalTask(Task):
         s_codes = [[self.alphabet[w] for w in s] for s in sentences]
         num_strings = len(s_codes)
 
-        # Initialize output to NULLs
+        # Initialize output to null.
         null_code = self.alphabet[self.null]
         y = torch.LongTensor(num_strings, max_length)
         y.fill_(null_code)
 
-        # Fill in values
+        # Fill in values.
         for i, s in enumerate(s_codes):
             for j, w in enumerate(s):
                 y[i, j] = w

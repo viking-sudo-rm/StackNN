@@ -6,9 +6,10 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
-from tasks.base import FormalTask
+from tasks.base import Task, FormalTask
 from models import VanillaModel
 from controllers.feedforward import LinearSimpleStructController
+from stacknn_utils import overrides
 from structs import Stack
 
 
@@ -46,6 +47,7 @@ class ReverseTask(FormalTask):
 
     """ Model Training """
 
+    @overrides(Task)
     def _evaluate_step(self, x, y, a, j):
         """
         Computes the loss, number of guesses correct, and total number
@@ -81,6 +83,7 @@ class ReverseTask(FormalTask):
         # Indexing semantics in the line below were changed in different versions of pytorch.
         valid_a = a[indices.view(-1)].view(-1, self.alphabet_size)
         valid_y = y[:, j][indices]
+
         if len(valid_a) == 0:
             return None, None, None
 
