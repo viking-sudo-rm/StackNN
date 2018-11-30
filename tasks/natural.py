@@ -131,5 +131,6 @@ class NaturalTask(Task):
 
         total = len(valid_a)
         correct = len(torch.nonzero((valid_y_ == valid_y).data))
+        # TODO(#19): Use binary cross entropy here.
         loss = self.criterion(valid_a, valid_y)
         return loss, correct, total
