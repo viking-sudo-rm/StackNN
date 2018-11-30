@@ -3,6 +3,7 @@ from __future__ import division
 from abc import ABCMeta, abstractmethod, abstractproperty
 
 from copy import copy
+import warnings
 
 import numpy as np
 import torch
@@ -41,7 +42,7 @@ class Task(object):
             batch_size: The number of trials in each mini-batch.
             clipping_norm: Related to gradient clipping.
             criterion: The loss function.
-            cuda: If True, CUDA will be enabled.
+            cuda: If true and CUDA is available, the model will use it.
             epochs: Number of epochs to train for.
             early_stopping_steps: Number of epochs of no improvement that are
                 required to stop early.
@@ -64,7 +65,7 @@ class Task(object):
             self.batch_size = kwargs.get("batch_size", 10)
             self.clipping_norm = kwargs.get("clipping_norm", None)
             self.criterion = kwargs.get("criterion", nn.CrossEntropyLoss())
-            self.cuda = kwargs.get("cuda", False)
+            self.cuda = kwargs.get("cuda", True)
             self.epochs = kwargs.get("epochs", 100)
             self.early_stopping_steps = kwargs.get("early_stopping_steps", 5)
             self.hidden_size = kwargs.get("hidden_size", 10)
@@ -95,7 +96,15 @@ class Task(object):
         # Create the model.
         self.model = self._init_model()
 
-        # Do we have a saved model?
+        # Use CUDA if it is available.
+        if self.params.cuda:
+            if torch.cuda.is_available():
+                self.model.cuda()
+                print "CUDA enabled!"
+            else:
+                warnings.warn("CUDA is not available.")
+
+        # Load a saved model if one is specified.
         if self.load_path:
             self.model.load_state_dict(torch.load(self.load_path))
             self._has_trained_model = True
@@ -225,6 +234,7 @@ class Task(object):
 
         :return: None
         """
+
         self._print_experiment_start()
         self.get_data()
         no_improvement_batches = 0
