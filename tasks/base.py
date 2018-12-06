@@ -247,6 +247,9 @@ class Task(object):
             else:
                 best_acc = self.batch_acc
                 no_improvement_batches = 0
+                if self.save_path:
+                    torch.save(self.model.state_dict(), self.save_path)
+
             if no_improvement_batches == self.early_stopping_steps:
                 break
         self._has_trained_model = True
@@ -382,8 +385,6 @@ class Task(object):
         self._shuffle_training_data()
         self.train()
         self.evaluate(epoch)
-        if self.save_path:
-            torch.save(self.model.state_dict(), self.save_path)
 
     def _shuffle_training_data(self):
         """
