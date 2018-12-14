@@ -76,7 +76,7 @@ The buffered models use read-only and write-only versions of the differentiable 
 
 ## Tasks
 
-Below are some formal language tasks that we have explored using stack models.
+The `Task` class defines specific tasks that models can be trained on. Below are some formal language tasks that we have explored using stack models.
 
 ### String reversal
 
