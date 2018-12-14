@@ -3,7 +3,7 @@ This project implements differentible stacks and queues in PyTorch. We also prov
 
 ## Running a demo
 
-*Check example.ipynb for the most up-to-date demo code.*
+*Check [example.ipynb](example.ipynb) for the most up-to-date demo code.*
 
 There are several experiment configurations pre-defined in [configs.py](configs.py). To train a model on one of these configs, do:
 
