@@ -60,10 +60,10 @@ Using pip or conda should suffice for installing most of these dependencies. To 
 
 ## Models
 
-Models implement the high-level controllers that use a stack for recurrent memory. You can think of these networks as LSTMs with a more sophisticated storage mechanism to pass data between time steps.
+A model is a pairing of a controller network with a neural data structure. There are two kinds of models:
 
-* `models.VanillaModel` is a simple controller-data structure network.
-* `models.BufferedModel` adds input and output buffers to the vanilla model.
+* `models.VanillaModel` is a simple controller-data structure network. This means there will be one step of computation per input.
+* `models.BufferedModel` adds input and output buffers to the vanilla model. This allows the network to run for extra computation steps.
 
 To use a model, call `model.forward()` on every input and `model.init_controller()` whenever you want to reset the stack between inputs. You can find example training logic in the `tasks` package.
 
