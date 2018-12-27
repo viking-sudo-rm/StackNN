@@ -59,7 +59,7 @@ class NaturalTask(Task):
 
     @property
     def output_size(self):
-        return self.num_labels + 1
+        return self.params.num_labels + 1
 
     @property
     def num_embeddings(self):
@@ -80,6 +80,12 @@ class NaturalTask(Task):
         self.train_y = self._get_y_tensor(train_x, train_y)
         self.test_x = self._get_x_tensor(test_x)
         self.test_y = self._get_y_tensor(test_x, test_y)
+
+        print(train_x[0])
+        print(self.train_x[0])
+
+        print(train_y[0])
+        print(self.train_y[0])
 
         self.embedding = nn.Embedding(self.num_embeddings, self.input_size)
         print("Embedding layer initialized.")
@@ -111,7 +117,7 @@ class NaturalTask(Task):
         return x_tensor
 
     def _get_y_tensor(self, sents, labels):
-        y_tensor = torch.zeros(len(labels), self.max_x_length)
+        y_tensor = torch.zeros(len(sents), self.max_x_length)
         y_tensor = y_tensor.long() # Make type long for evaluation logic.
         for i, label in enumerate(labels):
             predict_index = len(sents[i]) - 1

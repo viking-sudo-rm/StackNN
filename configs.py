@@ -277,4 +277,10 @@ linzen_agreement_config = {
     "embedding_dim": 50,
     "read_size": 50,
     "hidden_size": 50,
+    "learning_rate": .001,  # Learning rate from paper/default for Adam.
+    "l2_weight": 0,  # Maybe add this back in to prevent overfitting.
+    "reg_weight": None,
+    "verbosity": 1000,
+    # Whether or not our custom initialization is used for RNNs.
+    "custom_initialization": False,
 }

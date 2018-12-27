@@ -18,7 +18,12 @@ class LinearSimpleStructController(SimpleStructController):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 n_args=2, discourage_pop=True, **kwargs):
+                 n_args=2,
+                 # TODO: These network classes could be refactored.
+                 # TODO: Remove/move initialization out of constructor.
+                 custom_initialization=True,
+                 discourage_pop=True,
+                 **kwargs):
         """
         Constructor for the LinearSimpleStruct object.
 
@@ -55,9 +60,10 @@ class LinearSimpleStructController(SimpleStructController):
         nn_output_size = self._n_args + self._read_size + self._output_size
         self._linear = nn.Linear(nn_input_size, nn_output_size)
 
-        # Initialize Module weights
-        LinearSimpleStructController.init_normal(self._linear.weight)
-        self._linear.bias.data.fill_(0)
+        if custom_initialization:
+            LinearSimpleStructController.init_normal(self._linear.weight)
+            self._linear.bias.data.fill_(0)
+
         if discourage_pop:
             self._linear.bias.data[0] = -1.  # Discourage popping
             if n_args >= 4:

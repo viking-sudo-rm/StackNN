@@ -54,6 +54,7 @@ class Task(object):
             time_function: A function specifying the maximum number of
                 computation steps in terms of input length.
             verbose: Boolean describing how much output should be generated.
+            verbosity: Periodicity for printing batch summaries.
             load_path: Path for loading a model.
             save_path: Path for saving a model.
         """
@@ -76,6 +77,8 @@ class Task(object):
             self.reg_weight = kwargs.get("reg_weight", 1.)
             self.time_function = kwargs.get("time_function", lambda t: t)
             self.verbose = kwargs.get("verbose", True)
+            self.verbosity = kwargs.get("verbosity", 10)
+            self.custom_initialization = kwargs.get("custom_initialization", True)
             self.load_path = kwargs.get("load_path", None)
             self.save_path = kwargs.get("save_path", None)
 
@@ -156,13 +159,15 @@ class Task(object):
         return task_type(params)
 
     def _init_model(self):
+        # TODO: Should initialize controller/task here and pass it in.
         return self.model_type(self.input_size,
                                self.read_size,
                                self.output_size,
                                controller_type=self.controller_type,
                                struct_type=self.struct_type,
                                hidden_size=self.hidden_size,
-                               reg_weight=self.reg_weight)
+                               reg_weight=self.reg_weight,
+                               custom_initialization=self.custom_initialization)
 
     """Abstract methods."""
 
@@ -681,7 +686,7 @@ class Task(object):
         """
         if not self.verbose:
             return
-        elif is_batch and name % 10 != 0:
+        elif is_batch and name % self.params.verbosity != 0:
             return
 
         if is_batch:
