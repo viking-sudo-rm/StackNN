@@ -45,7 +45,11 @@ class NaturalTask(Task):
             self.data_reader = data_reader
             self.num_labels = num_labels
             self.embedding_dim = kwargs.get("embedding_dim", 300)
+            self.binary_label = kwargs.get("binary_label", None)
             super(NaturalTask.Params, self).__init__(**kwargs)
+            if self.binary_label is not None:
+                # If we are predicting a scalar, use sigmoid cross entropy for logistic regression.
+                self.criterion = nn.BCEWithLogitsLoss(reduction="sum")
 
 
     def __init__(self, params):
@@ -59,7 +63,7 @@ class NaturalTask(Task):
 
     @property
     def output_size(self):
-        return self.params.num_labels + 1
+        return 1 if self.params.binary_label is not None else self.params.num_labels + 1
 
     @property
     def num_embeddings(self):
@@ -95,6 +99,8 @@ class NaturalTask(Task):
 
         print("Train x shape:", self.train_x.shape)
         print("Train y shape:", self.train_y.shape)
+
+        print("Label dict:", self.label_to_i)
 
     @staticmethod
     def _get_vocab_and_lookup_table(*datasets):
@@ -133,10 +139,18 @@ class NaturalTask(Task):
         if len(valid_a) == 0:
             return None, None, None
 
-        _, valid_y_ = torch.max(valid_a, 1)
-
+        if self.params.binary_label is not None:
+            # Treat as bits that should be softmaxed.
+            valid_a = torch.squeeze(valid_a, 1).float()
+            valid_y_ = (valid_a > .5).float() # Hard sigmoid.
+            main_i = self.label_to_i[self.params.binary_label]
+            valid_y = (valid_y == main_i).float()
+        else:
+            # Do normal softmax stuff on the output distribution.
+            _, valid_y_ = torch.max(valid_a, 1) # Hard softmax.
+        
         total = len(valid_a)
         correct = len(torch.nonzero((valid_y_ == valid_y).data))
-        # TODO(#19): Use binary cross entropy here.
+        # TODO: Could "reduce" in the loss criterion matter for training?
         loss = self.criterion(valid_a, valid_y)
         return loss, correct, total

@@ -89,6 +89,8 @@ class Task(object):
 
         def print_experiment_start(self):
             for key, value in self:
+                if type(value) == type:
+                    value = value.__name__
                 print "%s: %s" % (key, value)
 
 
@@ -102,8 +104,8 @@ class Task(object):
         self.model = self._init_model()
 
         # Do we have a saved model?
-        if self.load_path:
-            self.model.load_state_dict(torch.load(self.load_path))
+        if self.params.load_path:
+            self.model.load_state_dict(torch.load(self.params.load_path))
             self._has_trained_model = True
         else:
             self._has_trained_model = False
@@ -113,8 +115,8 @@ class Task(object):
 
         # Backpropagation settings.
         self.optimizer = optim.Adam(self.model.parameters(),
-                                    lr=self.learning_rate,
-                                    weight_decay=self.l2_weight)
+                                    lr=self.params.learning_rate,
+                                    weight_decay=self.params.l2_weight)
 
         # Initialize training and testing data.
         self.train_x = None
@@ -139,10 +141,11 @@ class Task(object):
         backward compatibility. In new code, references to parameters should
         be replaced with self.params.PARAM notation.
         """
-        if not hasattr(self.params, name):
-            type_name = type(self).__name__
-            raise ValueError("Attribute %s is neither a valid field for %s nor a task parameter." % (name, type_name))
-        return getattr(self.params, name)
+        if hasattr(self.params, name):
+            return getattr(self.params, name)
+
+        type_name = type(self).__name__
+        raise ValueError("Attribute %s is neither a valid field for %s nor a task parameter." % (name, type_name))
 
     @classmethod
     def from_config_dict(cls, config_dict):
@@ -160,14 +163,14 @@ class Task(object):
 
     def _init_model(self):
         # TODO: Should initialize controller/task here and pass it in.
-        return self.model_type(self.input_size,
-                               self.read_size,
-                               self.output_size,
-                               controller_type=self.controller_type,
-                               struct_type=self.struct_type,
-                               hidden_size=self.hidden_size,
-                               reg_weight=self.reg_weight,
-                               custom_initialization=self.custom_initialization)
+        return self.params.model_type(self.input_size,
+                                      self.params.read_size,
+                                      self.output_size,
+                                      controller_type=self.controller_type,
+                                      struct_type=self.struct_type,
+                                      hidden_size=self.hidden_size,
+                                      reg_weight=self.reg_weight,
+                                      custom_initialization=self.custom_initialization)
 
     """Abstract methods."""
 
@@ -241,14 +244,14 @@ class Task(object):
         self.get_data()
         no_improvement_batches = 0
         best_acc = 0.
-        for epoch in xrange(self.epochs):
+        for epoch in xrange(self.params.epochs):
             self.run_epoch(epoch)
             if self.batch_acc <= best_acc:
                 no_improvement_batches += 1
             else:
                 best_acc = self.batch_acc
                 no_improvement_batches = 0
-            if no_improvement_batches == self.early_stopping_steps:
+            if no_improvement_batches == self.params.early_stopping_steps:
                 break
         self._has_trained_model = True
 
@@ -344,13 +347,14 @@ class Task(object):
         batch_total = 0
 
         # Read the input from left to right and evaluate the output
-        num_steps = self.time_function(self.max_x_length)
+        num_steps = self.params.time_function(self.max_x_length)
         for j in xrange(num_steps):
             self.model()
         for j in xrange(self.max_x_length):
             a = self.model.read_output()
             self._log_prediction(a)
             loss, correct, total = self._evaluate_step(x, y, a, j)
+            # TODO(#24): In general, can increase performance by not calculating loss in eval mode?
             if loss is None or correct is None or total is None:
                 continue
 
@@ -471,7 +475,7 @@ class Task(object):
         x_sent = self.text_to_sentences(x)
         x_var = self.sentences_to_one_hot(self.max_x_length, *x_sent)
         x_code = self.sentences_to_codes(self.max_y_length, *x_sent)
-        num_steps = self.time_function(len(x_sent))
+        num_steps = self.params.time_function(len(x_sent))
 
         print "Begin computation on input " + x
         if step:
@@ -579,7 +583,7 @@ class Task(object):
         :return: None
         """
         print "Starting Test"
-        print "Read Size: " + str(self.read_size)
+        print "Read Size: " + str(self.params.read_size)
 
     """ Reporting """
 
@@ -698,7 +702,7 @@ class Task(object):
         loss = batch_loss.data.item()
 
         accuracy = 100. * (batch_correct * 1.0) / batch_total
-        message += "Loss = {:.4f}, Accuracy = {:.1f}%".format(loss, accuracy)
+        message += "Loss = {:.2f}, Accuracy = {:.1f}%".format(loss, accuracy)
         print message
 
 
