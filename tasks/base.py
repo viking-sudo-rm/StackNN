@@ -1,4 +1,5 @@
 from __future__ import division
+from __future__ import print_function
 
 from abc import ABCMeta, abstractmethod, abstractproperty
 
@@ -91,7 +92,7 @@ class Task(object):
             for key, value in self:
                 if type(value) == type:
                     value = value.__name__
-                print "%s: %s" % (key, value)
+                print("%s: %s" % (key, value))
 
 
     def __init__(self, params):
@@ -268,7 +269,7 @@ class Task(object):
         if not self.verbose:
             return
 
-        print "Starting {} Experiment".format(type(self).__name__)
+        print("Starting {} Experiment".format(type(self).__name__))
         self.model.print_experiment_start()
         self.params.print_experiment_start()
 
@@ -402,8 +403,8 @@ class Task(object):
         self._shuffle_training_data()
         self.train()
         self.evaluate(epoch)
-        if self.save_path:
-            torch.save(self.model.state_dict(), self.save_path)
+        if self.params.save_path:
+            torch.save(self.model.state_dict(), self.params.save_path)
 
     def _shuffle_training_data(self):
         """
@@ -426,8 +427,8 @@ class Task(object):
 
         :return: None
         """
-        if self.verbose:
-            print "\n-- Epoch {} of {} --\n".format(epoch, self.epochs - 1)
+        if self.params.verbose:
+            print("\n-- Epoch {} of {} --\n".format(epoch, self.epochs - 1))
 
     """ Testing Mode """
 
@@ -477,7 +478,7 @@ class Task(object):
         x_code = self.sentences_to_codes(self.max_y_length, *x_sent)
         num_steps = self.params.time_function(len(x_sent))
 
-        print "Begin computation on input " + x
+        print("Begin computation on input", x)
         if step:
             raw_input("Press Enter to continue\n")
 
@@ -496,8 +497,8 @@ class Task(object):
         a_sent = self.codes_to_sentences(self.max_y_length, self._logged_a)
         a_text = self.sentences_to_text(*a_sent)[0]
 
-        print "Input: " + x
-        print "Output: " + a_text
+        print("Input:", x)
+        print("Output:", a_text)
 
     def trace_console(self, step=True):
         """
@@ -512,7 +513,7 @@ class Task(object):
         """
         x = "x"
         while x != "":
-            print ""
+            print()
             x = raw_input("Please enter an input, or enter nothing to quit.\n")
             x = x.strip()
             if x != "":
@@ -582,8 +583,8 @@ class Task(object):
 
         :return: None
         """
-        print "Starting Test"
-        print "Read Size: " + str(self.params.read_size)
+        print("Starting Test")
+        print("Read Size:", str(self.params.read_size))
 
     """ Reporting """
 
@@ -688,7 +689,7 @@ class Task(object):
 
         :return: None
         """
-        if not self.verbose:
+        if not self.params.verbose:
             return
         elif is_batch and name % self.params.verbosity != 0:
             return
@@ -703,7 +704,7 @@ class Task(object):
 
         accuracy = 100. * (batch_correct * 1.0) / batch_total
         message += "Loss = {:.2f}, Accuracy = {:.1f}%".format(loss, accuracy)
-        print message
+        print(message)
 
 
 class FormalTask(Task):
