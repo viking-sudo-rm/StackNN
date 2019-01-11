@@ -165,10 +165,8 @@ class CFGTask(LanguageModelingTask):
     def generic_example(self):
         """
         The string for visualizations.
-
-        TODO: Make this a function of the grammar.
         """
-        return [u"#"]
+        return self.sample_strings[0]
 
 
 class CFGTransduceTask(CFGTask):
