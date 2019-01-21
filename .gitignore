@@ -6,3 +6,4 @@ stacknn-experiments
 stacknn_experiments
 .ipynb_checkpoints
 docs/_build/
+.vscode/
