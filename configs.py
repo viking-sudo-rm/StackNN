@@ -284,6 +284,6 @@ linzen_agreement_config = {
     # Whether or not our custom initialization is used for RNNs.
     "custom_initialization": False,
     # This setting means we want to train a binary sigmoid classifier for the
-    # "VBZ" label instead of the standard multiclass sigmoid.
+    # "VBZ" label instead of the standard multiclass softmax.
     "binary_label": "VBZ",
 }
