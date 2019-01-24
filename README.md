@@ -3,7 +3,7 @@ This project implements differentible stacks and queues in PyTorch. We also prov
 
 ## Running a demo
 
-*Check example.ipynb for the most up-to-date demo code.*
+*Check [example.ipynb](example.ipynb) for the most up-to-date demo code.*
 
 There are several experiment configurations pre-defined in [configs.py](configs.py). To train a model on one of these configs, do:
 
@@ -48,17 +48,22 @@ If you use this codebase in your research, please cite the associated paper:
 ## Dependencies
 
 Python 2.7 with PyTorch 0.4.1 is supported. A possibly incomplete list of dependencies is:
-* PyTorch
-* numpy
-* matplotlib
-* enum
+
+* `pytorch`
+* `numpy`
+* `scipy` (for data processing)
+* `matplotlib` (for visualization)
+* `enum` (for backward compatibility)
+* `nltk`
+
+Using pip or conda should suffice for installing most of these dependencies. To get the right command for installing PyTorch, refer to the installation widget on the PyTorch website.
 
 ## Models
 
-Models implement the high-level controllers that use a stack for recurrent memory. You can think of these networks as LSTMs with a more sophisticated storage mechanism to pass data between time steps.
+A model is a pairing of a controller network with a neural data structure. There are two kinds of models:
 
-* `models.VanillaModel` is a simple controller-data structure network.
-* `models.BufferedModel` adds input and output buffers to the vanilla model.
+* `models.VanillaModel` is a simple controller-data structure network. This means there will be one step of computation per input.
+* `models.BufferedModel` adds input and output buffers to the vanilla model. This allows the network to run for extra computation steps.
 
 To use a model, call `model.forward()` on every input and `model.init_controller()` whenever you want to reset the stack between inputs. You can find example training logic in the `tasks` package.
 
@@ -71,7 +76,7 @@ The buffered models use read-only and write-only versions of the differentiable 
 
 ## Tasks
 
-Below are some formal language tasks that we have explored using stack models.
+The `Task` class defines specific tasks that models can be trained on. Below are some formal language tasks that we have explored using stack models.
 
 ### String reversal
 

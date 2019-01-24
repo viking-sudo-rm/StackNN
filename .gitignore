@@ -1,6 +1,7 @@
 .DS_Store
 *.pyc
 *.dat
+*.out
 stacknn-experiments
 stacknn_experiments
 .ipynb_checkpoints
