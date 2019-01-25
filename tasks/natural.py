@@ -140,7 +140,7 @@ class NaturalTask(Task):
             return None, None, None
 
         if self.params.binary_label is not None:
-            # Treat as bits that should be softmaxed.
+            # We are out here in sigmoid land.
             valid_a = torch.squeeze(valid_a, 1).float()
             valid_y_ = (valid_a > 0.).float() # Hard sigmoid.
             main_i = self.label_to_i[self.params.binary_label]

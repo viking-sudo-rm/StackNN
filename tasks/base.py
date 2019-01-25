@@ -110,7 +110,7 @@ class Task(object):
         if self.params.cuda:
             if torch.cuda.is_available():
                 self.model.cuda()
-                print "CUDA enabled!"
+                print("CUDA enabled!")
             else:
                 warnings.warn("CUDA is not available.")
 
