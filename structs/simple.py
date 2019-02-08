@@ -1,7 +1,6 @@
 from abc import ABCMeta, abstractmethod
 
 import torch
-from enum import Enum
 from torch.autograd import Variable
 from torch.nn.functional import relu
 
@@ -54,7 +53,7 @@ def bottom(num_steps):
     return 0
 
 
-class Operation(Enum):
+class Operation(object):
     push = 0
     pop = 1
 
@@ -93,7 +92,8 @@ class SimpleStruct(Struct):
         """
         super(SimpleStruct, self).__init__(batch_size, embedding_size)
         self._t = 0
-        self._reg_trackers = [None for _ in Operation]
+        operations = [Operation.push, Operation.pop]
+        self._reg_trackers = [None for _ in operations]
         return
 
     def init_contents(self, xs):
@@ -279,7 +279,7 @@ class SimpleStruct(Struct):
         regularized.
 
         """
-        self._reg_trackers[operation.value] = reg_tracker
+        self._reg_trackers[operation] = reg_tracker
 
     def _track_reg(self, strength, operation):
         """
@@ -292,7 +292,7 @@ class SimpleStruct(Struct):
         :param operation: Operation type specified by enum.
 
         """
-        reg_tracker = self._reg_trackers[operation.value]
+        reg_tracker = self._reg_trackers[operation]
         if reg_tracker is not None:
             reg_tracker.regularize(strength)
 
