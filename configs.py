@@ -272,3 +272,13 @@ alphabet_test_config = {
     "read_size": 4,
     "num_symbols": 10
 }
+
+alphabet_test_config_long = {
+    "task": ReverseTask,
+    "epochs": 100,
+    "early_stopping_steps": 10,
+    "read_size": 4,
+    "num_symbols": 10,
+    "max_length": 40,
+    "mean_length": 30
+}

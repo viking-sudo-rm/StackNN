@@ -1,0 +1,968 @@
+Loading alphabet_test_config
+Starting ReverseTask Experiment
+Model Type: VanillaModel
+Controller Type: LSTMSimpleStructController
+Struct Type: Stack
+Learning Rate: 0.01
+Batch Size: 10
+Read Size: 4
+
+-- Epoch 0 of 99 --
+
+Batch 9: Loss = 38.8644, Accuracy = 8.5%
+Batch 19: Loss = 42.8391, Accuracy = 6.4%
+Batch 29: Loss = 41.5078, Accuracy = 9.3%
+Batch 39: Loss = 41.4394, Accuracy = 14.3%
+Batch 49: Loss = 36.2073, Accuracy = 16.0%
+Batch 59: Loss = 38.9682, Accuracy = 14.4%
+Batch 69: Loss = 40.5170, Accuracy = 18.3%
+Batch 79: Loss = 40.9663, Accuracy = 12.6%
+Epoch 0 Test: Loss = 43.4321, Accuracy = 12.3%
+
+-- Epoch 1 of 99 --
+
+Batch 9: Loss = 40.1556, Accuracy = 16.8%
+Batch 19: Loss = 35.4664, Accuracy = 19.8%
+Batch 29: Loss = 36.5686, Accuracy = 18.9%
+Batch 39: Loss = 33.5871, Accuracy = 16.9%
+Batch 49: Loss = 41.3926, Accuracy = 7.4%
+Batch 59: Loss = 39.8176, Accuracy = 22.3%
+Batch 69: Loss = 40.2670, Accuracy = 14.6%
+Batch 79: Loss = 43.6759, Accuracy = 15.2%
+Epoch 1 Test: Loss = 42.2068, Accuracy = 16.6%
+
+-- Epoch 2 of 99 --
+
+Batch 9: Loss = 40.1929, Accuracy = 13.7%
+Batch 19: Loss = 30.5314, Accuracy = 16.1%
+Batch 29: Loss = 34.8303, Accuracy = 23.0%
+Batch 39: Loss = 43.7452, Accuracy = 19.1%
+Batch 49: Loss = 32.4758, Accuracy = 24.7%
+Batch 59: Loss = 36.6037, Accuracy = 17.7%
+Batch 69: Loss = 41.2434, Accuracy = 19.4%
+Batch 79: Loss = 38.0765, Accuracy = 16.3%
+Epoch 2 Test: Loss = 40.4781, Accuracy = 21.9%
+
+-- Epoch 3 of 99 --
+
+Batch 9: Loss = 34.2930, Accuracy = 19.1%
+Batch 19: Loss = 36.3759, Accuracy = 20.5%
+Batch 29: Loss = 35.1527, Accuracy = 19.6%
+Batch 39: Loss = 36.3758, Accuracy = 22.4%
+Batch 49: Loss = 37.7986, Accuracy = 23.5%
+Batch 59: Loss = 34.2060, Accuracy = 22.5%
+Batch 69: Loss = 38.1538, Accuracy = 20.2%
+Batch 79: Loss = 30.2497, Accuracy = 21.0%
+Epoch 3 Test: Loss = 40.0309, Accuracy = 21.7%
+
+-- Epoch 4 of 99 --
+
+Batch 9: Loss = 37.6758, Accuracy = 24.7%
+Batch 19: Loss = 32.8609, Accuracy = 29.4%
+Batch 29: Loss = 37.7042, Accuracy = 29.2%
+Batch 39: Loss = 38.0807, Accuracy = 28.6%
+Batch 49: Loss = 34.1321, Accuracy = 23.3%
+Batch 59: Loss = 30.5212, Accuracy = 26.9%
+Batch 69: Loss = 34.1975, Accuracy = 27.8%
+Batch 79: Loss = 37.6747, Accuracy = 18.0%
+Epoch 4 Test: Loss = 38.0994, Accuracy = 24.5%
+
+-- Epoch 5 of 99 --
+
+Batch 9: Loss = 37.9760, Accuracy = 25.8%
+Batch 19: Loss = 34.0851, Accuracy = 27.5%
+Batch 29: Loss = 32.3555, Accuracy = 28.2%
+Batch 39: Loss = 33.6779, Accuracy = 24.8%
+Batch 49: Loss = 36.7677, Accuracy = 27.7%
+Batch 59: Loss = 33.3001, Accuracy = 27.4%
+Batch 69: Loss = 32.3428, Accuracy = 25.5%
+Batch 79: Loss = 30.4831, Accuracy = 30.9%
+Epoch 5 Test: Loss = 36.8320, Accuracy = 26.0%
+
+-- Epoch 6 of 99 --
+
+Batch 9: Loss = 27.9545, Accuracy = 31.5%
+Batch 19: Loss = 35.1490, Accuracy = 25.0%
+Batch 29: Loss = 34.0586, Accuracy = 22.3%
+Batch 39: Loss = 35.6930, Accuracy = 27.2%
+Batch 49: Loss = 33.2620, Accuracy = 29.6%
+Batch 59: Loss = 37.8238, Accuracy = 28.6%
+Batch 69: Loss = 31.9720, Accuracy = 28.6%
+Batch 79: Loss = 38.2163, Accuracy = 29.2%
+Epoch 6 Test: Loss = 36.1776, Accuracy = 26.2%
+
+-- Epoch 7 of 99 --
+
+Batch 9: Loss = 37.4580, Accuracy = 27.4%
+Batch 19: Loss = 34.6187, Accuracy = 23.1%
+Batch 29: Loss = 33.8755, Accuracy = 34.4%
+Batch 39: Loss = 31.3788, Accuracy = 33.7%
+Batch 49: Loss = 34.2213, Accuracy = 27.9%
+Batch 59: Loss = 33.9149, Accuracy = 26.0%
+Batch 69: Loss = 32.1812, Accuracy = 30.4%
+Batch 79: Loss = 33.8617, Accuracy = 27.6%
+Epoch 7 Test: Loss = 35.5309, Accuracy = 27.0%
+
+-- Epoch 8 of 99 --
+
+Batch 9: Loss = 31.6517, Accuracy = 27.2%
+Batch 19: Loss = 33.3374, Accuracy = 28.1%
+Batch 29: Loss = 36.5425, Accuracy = 34.8%
+Batch 39: Loss = 31.2018, Accuracy = 33.7%
+Batch 49: Loss = 35.2004, Accuracy = 36.8%
+Batch 59: Loss = 38.3297, Accuracy = 27.3%
+Batch 69: Loss = 25.3909, Accuracy = 31.6%
+Batch 79: Loss = 34.0815, Accuracy = 26.9%
+Epoch 8 Test: Loss = 34.9634, Accuracy = 28.2%
+
+-- Epoch 9 of 99 --
+
+Batch 9: Loss = 36.2762, Accuracy = 28.6%
+Batch 19: Loss = 33.2602, Accuracy = 28.2%
+Batch 29: Loss = 29.8417, Accuracy = 28.0%
+Batch 39: Loss = 35.1523, Accuracy = 33.7%
+Batch 49: Loss = 32.1781, Accuracy = 28.9%
+Batch 59: Loss = 29.8130, Accuracy = 26.7%
+Batch 69: Loss = 30.7117, Accuracy = 30.7%
+Batch 79: Loss = 28.3085, Accuracy = 29.9%
+Epoch 9 Test: Loss = 34.6710, Accuracy = 28.4%
+
+-- Epoch 10 of 99 --
+
+Batch 9: Loss = 30.9789, Accuracy = 23.1%
+Batch 19: Loss = 32.8457, Accuracy = 36.4%
+Batch 29: Loss = 33.0968, Accuracy = 27.1%
+Batch 39: Loss = 35.2514, Accuracy = 32.9%
+Batch 49: Loss = 27.6157, Accuracy = 30.0%
+Batch 59: Loss = 34.6580, Accuracy = 26.7%
+Batch 69: Loss = 34.9572, Accuracy = 27.6%
+Batch 79: Loss = 30.1729, Accuracy = 32.3%
+Epoch 10 Test: Loss = 34.5645, Accuracy = 26.7%
+
+-- Epoch 11 of 99 --
+
+Batch 9: Loss = 36.0233, Accuracy = 29.6%
+Batch 19: Loss = 33.2211, Accuracy = 31.3%
+Batch 29: Loss = 28.0383, Accuracy = 27.1%
+Batch 39: Loss = 35.2528, Accuracy = 27.5%
+Batch 49: Loss = 30.7561, Accuracy = 31.9%
+Batch 59: Loss = 30.1707, Accuracy = 26.5%
+Batch 69: Loss = 35.1718, Accuracy = 27.6%
+Batch 79: Loss = 31.3384, Accuracy = 37.4%
+Epoch 11 Test: Loss = 34.1349, Accuracy = 28.5%
+
+-- Epoch 12 of 99 --
+
+Batch 9: Loss = 29.6804, Accuracy = 36.3%
+Batch 19: Loss = 28.1299, Accuracy = 30.4%
+Batch 29: Loss = 30.9307, Accuracy = 33.0%
+Batch 39: Loss = 34.2287, Accuracy = 30.9%
+Batch 49: Loss = 32.2657, Accuracy = 36.5%
+Batch 59: Loss = 34.2382, Accuracy = 24.4%
+Batch 69: Loss = 30.7746, Accuracy = 24.8%
+Batch 79: Loss = 31.3852, Accuracy = 34.3%
+Epoch 12 Test: Loss = 33.5239, Accuracy = 28.8%
+
+-- Epoch 13 of 99 --
+
+Batch 9: Loss = 26.8112, Accuracy = 30.0%
+Batch 19: Loss = 29.0385, Accuracy = 28.1%
+Batch 29: Loss = 33.0008, Accuracy = 28.4%
+Batch 39: Loss = 29.0085, Accuracy = 29.0%
+Batch 49: Loss = 31.3588, Accuracy = 36.3%
+Batch 59: Loss = 28.2151, Accuracy = 35.4%
+Batch 69: Loss = 31.4273, Accuracy = 37.1%
+Batch 79: Loss = 32.6505, Accuracy = 31.0%
+Epoch 13 Test: Loss = 33.4967, Accuracy = 27.9%
+
+-- Epoch 14 of 99 --
+
+Batch 9: Loss = 33.8845, Accuracy = 31.5%
+Batch 19: Loss = 33.6422, Accuracy = 31.9%
+Batch 29: Loss = 24.9952, Accuracy = 34.6%
+Batch 39: Loss = 30.8989, Accuracy = 31.1%
+Batch 49: Loss = 28.0229, Accuracy = 29.8%
+Batch 59: Loss = 31.7834, Accuracy = 39.3%
+Batch 69: Loss = 28.4927, Accuracy = 26.5%
+Batch 79: Loss = 29.4308, Accuracy = 29.4%
+Epoch 14 Test: Loss = 33.2912, Accuracy = 28.8%
+
+-- Epoch 15 of 99 --
+
+Batch 9: Loss = 27.5376, Accuracy = 33.7%
+Batch 19: Loss = 30.6664, Accuracy = 27.4%
+Batch 29: Loss = 28.3381, Accuracy = 27.4%
+Batch 39: Loss = 33.8660, Accuracy = 33.0%
+Batch 49: Loss = 25.7725, Accuracy = 36.1%
+Batch 59: Loss = 30.3542, Accuracy = 31.7%
+Batch 69: Loss = 30.9130, Accuracy = 30.7%
+Batch 79: Loss = 28.9451, Accuracy = 28.4%
+Epoch 15 Test: Loss = 33.2492, Accuracy = 29.5%
+
+-- Epoch 16 of 99 --
+
+Batch 9: Loss = 32.6830, Accuracy = 32.1%
+Batch 19: Loss = 30.8960, Accuracy = 39.5%
+Batch 29: Loss = 34.2831, Accuracy = 37.9%
+Batch 39: Loss = 25.2112, Accuracy = 39.1%
+Batch 49: Loss = 28.6478, Accuracy = 28.7%
+Batch 59: Loss = 32.9482, Accuracy = 30.5%
+Batch 69: Loss = 27.1377, Accuracy = 35.3%
+Batch 79: Loss = 31.7924, Accuracy = 31.9%
+Epoch 16 Test: Loss = 33.1087, Accuracy = 28.4%
+
+-- Epoch 17 of 99 --
+
+Batch 9: Loss = 30.8739, Accuracy = 33.3%
+Batch 19: Loss = 28.1566, Accuracy = 34.4%
+Batch 29: Loss = 26.0572, Accuracy = 32.7%
+Batch 39: Loss = 27.1933, Accuracy = 26.4%
+Batch 49: Loss = 29.1286, Accuracy = 34.3%
+Batch 59: Loss = 31.4668, Accuracy = 31.0%
+Batch 69: Loss = 29.3215, Accuracy = 36.5%
+Batch 79: Loss = 29.5344, Accuracy = 27.7%
+Epoch 17 Test: Loss = 33.0361, Accuracy = 28.8%
+
+-- Epoch 18 of 99 --
+
+Batch 9: Loss = 25.6687, Accuracy = 37.0%
+Batch 19: Loss = 34.2849, Accuracy = 33.3%
+Batch 29: Loss = 32.6450, Accuracy = 29.2%
+Batch 39: Loss = 25.4445, Accuracy = 31.1%
+Batch 49: Loss = 32.4642, Accuracy = 33.7%
+Batch 59: Loss = 26.0998, Accuracy = 33.0%
+Batch 69: Loss = 30.3676, Accuracy = 30.1%
+Batch 79: Loss = 33.9062, Accuracy = 30.3%
+Epoch 18 Test: Loss = 32.8128, Accuracy = 30.0%
+
+-- Epoch 19 of 99 --
+
+Batch 9: Loss = 29.7784, Accuracy = 31.0%
+Batch 19: Loss = 32.5328, Accuracy = 36.6%
+Batch 29: Loss = 32.1539, Accuracy = 37.9%
+Batch 39: Loss = 26.2507, Accuracy = 36.7%
+Batch 49: Loss = 29.5310, Accuracy = 33.0%
+Batch 59: Loss = 24.8628, Accuracy = 33.3%
+Batch 69: Loss = 31.9013, Accuracy = 35.4%
+Batch 79: Loss = 32.3906, Accuracy = 35.1%
+Epoch 19 Test: Loss = 32.5591, Accuracy = 30.6%
+
+-- Epoch 20 of 99 --
+
+Batch 9: Loss = 26.3729, Accuracy = 31.6%
+Batch 19: Loss = 26.4795, Accuracy = 28.3%
+Batch 29: Loss = 30.4986, Accuracy = 29.0%
+Batch 39: Loss = 30.4252, Accuracy = 30.4%
+Batch 49: Loss = 30.7201, Accuracy = 33.3%
+Batch 59: Loss = 28.6257, Accuracy = 27.7%
+Batch 69: Loss = 32.0403, Accuracy = 28.7%
+Batch 79: Loss = 28.5793, Accuracy = 30.1%
+Epoch 20 Test: Loss = 32.2496, Accuracy = 30.2%
+
+-- Epoch 21 of 99 --
+
+Batch 9: Loss = 29.5647, Accuracy = 35.2%
+Batch 19: Loss = 33.4520, Accuracy = 30.0%
+Batch 29: Loss = 32.5506, Accuracy = 35.1%
+Batch 39: Loss = 26.6833, Accuracy = 36.3%
+Batch 49: Loss = 30.5390, Accuracy = 32.0%
+Batch 59: Loss = 31.1882, Accuracy = 36.3%
+Batch 69: Loss = 25.3572, Accuracy = 31.4%
+Batch 79: Loss = 33.8250, Accuracy = 24.7%
+Epoch 21 Test: Loss = 32.0439, Accuracy = 30.4%
+
+-- Epoch 22 of 99 --
+
+Batch 9: Loss = 23.3351, Accuracy = 33.7%
+Batch 19: Loss = 28.4506, Accuracy = 28.7%
+Batch 29: Loss = 31.3186, Accuracy = 34.9%
+Batch 39: Loss = 31.8103, Accuracy = 37.8%
+Batch 49: Loss = 32.0530, Accuracy = 31.1%
+Batch 59: Loss = 30.7722, Accuracy = 31.6%
+Batch 69: Loss = 33.0964, Accuracy = 28.7%
+Batch 79: Loss = 33.9571, Accuracy = 31.6%
+Epoch 22 Test: Loss = 32.0228, Accuracy = 29.5%
+
+-- Epoch 23 of 99 --
+
+Batch 9: Loss = 27.4415, Accuracy = 29.9%
+Batch 19: Loss = 31.1544, Accuracy = 38.9%
+Batch 29: Loss = 31.1872, Accuracy = 30.9%
+Batch 39: Loss = 24.7313, Accuracy = 34.4%
+Batch 49: Loss = 31.2565, Accuracy = 35.1%
+Batch 59: Loss = 31.3285, Accuracy = 31.2%
+Batch 69: Loss = 28.5502, Accuracy = 34.7%
+Batch 79: Loss = 30.6959, Accuracy = 34.1%
+Epoch 23 Test: Loss = 31.7218, Accuracy = 30.8%
+
+-- Epoch 24 of 99 --
+
+Batch 9: Loss = 31.7559, Accuracy = 35.8%
+Batch 19: Loss = 21.5638, Accuracy = 38.6%
+Batch 29: Loss = 25.8280, Accuracy = 30.0%
+Batch 39: Loss = 25.8795, Accuracy = 29.2%
+Batch 49: Loss = 33.3833, Accuracy = 33.7%
+Batch 59: Loss = 24.8646, Accuracy = 32.2%
+Batch 69: Loss = 34.4229, Accuracy = 26.2%
+Batch 79: Loss = 30.6432, Accuracy = 33.7%
+Epoch 24 Test: Loss = 31.8350, Accuracy = 30.6%
+
+-- Epoch 25 of 99 --
+
+Batch 9: Loss = 25.3900, Accuracy = 31.9%
+Batch 19: Loss = 26.7597, Accuracy = 39.8%
+Batch 29: Loss = 32.0653, Accuracy = 34.9%
+Batch 39: Loss = 30.7676, Accuracy = 31.1%
+Batch 49: Loss = 25.2629, Accuracy = 36.0%
+Batch 59: Loss = 25.9449, Accuracy = 32.6%
+Batch 69: Loss = 30.8886, Accuracy = 40.0%
+Batch 79: Loss = 31.8658, Accuracy = 31.2%
+Epoch 25 Test: Loss = 31.4202, Accuracy = 31.8%
+
+-- Epoch 26 of 99 --
+
+Batch 9: Loss = 27.9719, Accuracy = 38.7%
+Batch 19: Loss = 27.2774, Accuracy = 33.3%
+Batch 29: Loss = 24.4705, Accuracy = 38.9%
+Batch 39: Loss = 24.3238, Accuracy = 34.8%
+Batch 49: Loss = 27.7303, Accuracy = 39.1%
+Batch 59: Loss = 31.3164, Accuracy = 37.1%
+Batch 69: Loss = 32.3812, Accuracy = 28.9%
+Batch 79: Loss = 29.3161, Accuracy = 27.5%
+Epoch 26 Test: Loss = 30.9700, Accuracy = 31.0%
+
+-- Epoch 27 of 99 --
+
+Batch 9: Loss = 31.6763, Accuracy = 33.3%
+Batch 19: Loss = 22.0231, Accuracy = 42.9%
+Batch 29: Loss = 26.2326, Accuracy = 31.7%
+Batch 39: Loss = 33.3149, Accuracy = 32.6%
+Batch 49: Loss = 28.8109, Accuracy = 32.3%
+Batch 59: Loss = 30.5087, Accuracy = 34.4%
+Batch 69: Loss = 28.0790, Accuracy = 35.8%
+Batch 79: Loss = 27.0033, Accuracy = 34.7%
+Epoch 27 Test: Loss = 31.5698, Accuracy = 31.1%
+
+-- Epoch 28 of 99 --
+
+Batch 9: Loss = 27.5030, Accuracy = 36.8%
+Batch 19: Loss = 31.4160, Accuracy = 35.6%
+Batch 29: Loss = 32.7245, Accuracy = 25.0%
+Batch 39: Loss = 29.7190, Accuracy = 35.3%
+Batch 49: Loss = 27.7424, Accuracy = 30.6%
+Batch 59: Loss = 29.7595, Accuracy = 39.4%
+Batch 69: Loss = 28.5025, Accuracy = 44.3%
+Batch 79: Loss = 21.8453, Accuracy = 34.5%
+Epoch 28 Test: Loss = 30.5985, Accuracy = 33.0%
+
+-- Epoch 29 of 99 --
+
+Batch 9: Loss = 27.0876, Accuracy = 35.6%
+Batch 19: Loss = 25.4203, Accuracy = 40.2%
+Batch 29: Loss = 28.4327, Accuracy = 29.4%
+Batch 39: Loss = 27.5471, Accuracy = 39.8%
+Batch 49: Loss = 31.2581, Accuracy = 38.7%
+Batch 59: Loss = 22.0499, Accuracy = 34.3%
+Batch 69: Loss = 30.4993, Accuracy = 32.2%
+Batch 79: Loss = 29.6076, Accuracy = 32.2%
+Epoch 29 Test: Loss = 30.7912, Accuracy = 31.1%
+
+-- Epoch 30 of 99 --
+
+Batch 9: Loss = 33.6136, Accuracy = 36.1%
+Batch 19: Loss = 26.3505, Accuracy = 33.3%
+Batch 29: Loss = 29.6922, Accuracy = 35.1%
+Batch 39: Loss = 28.7048, Accuracy = 37.9%
+Batch 49: Loss = 31.1256, Accuracy = 28.1%
+Batch 59: Loss = 24.8725, Accuracy = 37.9%
+Batch 69: Loss = 23.8989, Accuracy = 37.6%
+Batch 79: Loss = 29.7268, Accuracy = 34.0%
+Epoch 30 Test: Loss = 30.6457, Accuracy = 33.1%
+
+-- Epoch 31 of 99 --
+
+Batch 9: Loss = 24.7903, Accuracy = 34.4%
+Batch 19: Loss = 28.3243, Accuracy = 32.0%
+Batch 29: Loss = 26.9430, Accuracy = 38.5%
+Batch 39: Loss = 27.2375, Accuracy = 34.0%
+Batch 49: Loss = 31.5785, Accuracy = 29.4%
+Batch 59: Loss = 28.3221, Accuracy = 36.7%
+Batch 69: Loss = 28.1218, Accuracy = 34.7%
+Batch 79: Loss = 25.8590, Accuracy = 33.7%
+Epoch 31 Test: Loss = 30.1457, Accuracy = 33.5%
+
+-- Epoch 32 of 99 --
+
+Batch 9: Loss = 25.4739, Accuracy = 40.0%
+Batch 19: Loss = 30.0340, Accuracy = 32.3%
+Batch 29: Loss = 27.4894, Accuracy = 41.0%
+Batch 39: Loss = 26.5375, Accuracy = 37.8%
+Batch 49: Loss = 30.4996, Accuracy = 30.4%
+Batch 59: Loss = 25.7707, Accuracy = 38.8%
+Batch 69: Loss = 31.7262, Accuracy = 28.9%
+Batch 79: Loss = 28.2049, Accuracy = 37.4%
+Epoch 32 Test: Loss = 29.9580, Accuracy = 33.0%
+
+-- Epoch 33 of 99 --
+
+Batch 9: Loss = 23.8985, Accuracy = 37.0%
+Batch 19: Loss = 27.9084, Accuracy = 30.1%
+Batch 29: Loss = 29.4104, Accuracy = 41.4%
+Batch 39: Loss = 27.7783, Accuracy = 33.0%
+Batch 49: Loss = 26.2490, Accuracy = 41.9%
+Batch 59: Loss = 29.8163, Accuracy = 32.3%
+Batch 69: Loss = 29.8340, Accuracy = 35.5%
+Batch 79: Loss = 24.9350, Accuracy = 39.1%
+Epoch 33 Test: Loss = 29.5949, Accuracy = 33.1%
+
+-- Epoch 34 of 99 --
+
+Batch 9: Loss = 22.9885, Accuracy = 33.3%
+Batch 19: Loss = 23.3854, Accuracy = 43.2%
+Batch 29: Loss = 22.7607, Accuracy = 39.0%
+Batch 39: Loss = 31.7923, Accuracy = 31.0%
+Batch 49: Loss = 28.9119, Accuracy = 30.0%
+Batch 59: Loss = 20.4017, Accuracy = 35.3%
+Batch 69: Loss = 29.8855, Accuracy = 32.7%
+Batch 79: Loss = 22.8749, Accuracy = 34.7%
+Epoch 34 Test: Loss = 29.1219, Accuracy = 35.0%
+
+-- Epoch 35 of 99 --
+
+Batch 9: Loss = 28.1787, Accuracy = 33.0%
+Batch 19: Loss = 24.9234, Accuracy = 31.3%
+Batch 29: Loss = 28.3303, Accuracy = 34.7%
+Batch 39: Loss = 29.0452, Accuracy = 38.4%
+Batch 49: Loss = 28.5383, Accuracy = 32.7%
+Batch 59: Loss = 27.3683, Accuracy = 45.2%
+Batch 69: Loss = 24.6179, Accuracy = 35.7%
+Batch 79: Loss = 30.0224, Accuracy = 37.8%
+Epoch 35 Test: Loss = 28.8734, Accuracy = 33.4%
+
+-- Epoch 36 of 99 --
+
+Batch 9: Loss = 23.3694, Accuracy = 39.8%
+Batch 19: Loss = 29.5176, Accuracy = 34.1%
+Batch 29: Loss = 33.0127, Accuracy = 26.7%
+Batch 39: Loss = 26.2977, Accuracy = 40.0%
+Batch 49: Loss = 23.8675, Accuracy = 35.6%
+Batch 59: Loss = 24.6407, Accuracy = 37.5%
+Batch 69: Loss = 27.5897, Accuracy = 47.0%
+Batch 79: Loss = 26.7433, Accuracy = 37.5%
+Epoch 36 Test: Loss = 29.4553, Accuracy = 33.4%
+
+-- Epoch 37 of 99 --
+
+Batch 9: Loss = 22.1158, Accuracy = 32.1%
+Batch 19: Loss = 22.4788, Accuracy = 32.7%
+Batch 29: Loss = 25.4521, Accuracy = 36.4%
+Batch 39: Loss = 18.4184, Accuracy = 40.5%
+Batch 49: Loss = 25.1506, Accuracy = 38.2%
+Batch 59: Loss = 24.9930, Accuracy = 34.8%
+Batch 69: Loss = 25.8711, Accuracy = 36.7%
+Batch 79: Loss = 25.0522, Accuracy = 34.5%
+Epoch 37 Test: Loss = 28.9060, Accuracy = 35.6%
+
+-- Epoch 38 of 99 --
+
+Batch 9: Loss = 21.5955, Accuracy = 37.2%
+Batch 19: Loss = 27.9328, Accuracy = 38.8%
+Batch 29: Loss = 25.5109, Accuracy = 34.7%
+Batch 39: Loss = 26.7993, Accuracy = 34.3%
+Batch 49: Loss = 24.8853, Accuracy = 35.0%
+Batch 59: Loss = 24.8039, Accuracy = 40.0%
+Batch 69: Loss = 26.9091, Accuracy = 37.1%
+Batch 79: Loss = 28.8448, Accuracy = 35.9%
+Epoch 38 Test: Loss = 28.4529, Accuracy = 36.0%
+
+-- Epoch 39 of 99 --
+
+Batch 9: Loss = 25.7899, Accuracy = 36.3%
+Batch 19: Loss = 21.6668, Accuracy = 44.7%
+Batch 29: Loss = 28.4248, Accuracy = 39.8%
+Batch 39: Loss = 26.7037, Accuracy = 41.4%
+Batch 49: Loss = 30.6250, Accuracy = 39.8%
+Batch 59: Loss = 29.4016, Accuracy = 38.3%
+Batch 69: Loss = 23.4089, Accuracy = 35.6%
+Batch 79: Loss = 29.8796, Accuracy = 33.3%
+Epoch 39 Test: Loss = 27.9770, Accuracy = 35.5%
+
+-- Epoch 40 of 99 --
+
+Batch 9: Loss = 26.3203, Accuracy = 33.3%
+Batch 19: Loss = 24.0738, Accuracy = 37.5%
+Batch 29: Loss = 23.6707, Accuracy = 40.5%
+Batch 39: Loss = 27.7979, Accuracy = 39.2%
+Batch 49: Loss = 28.5619, Accuracy = 44.7%
+Batch 59: Loss = 24.3251, Accuracy = 37.3%
+Batch 69: Loss = 21.9047, Accuracy = 39.6%
+Batch 79: Loss = 26.4092, Accuracy = 40.0%
+Epoch 40 Test: Loss = 27.9837, Accuracy = 36.0%
+
+-- Epoch 41 of 99 --
+
+Batch 9: Loss = 28.5351, Accuracy = 37.9%
+Batch 19: Loss = 25.0672, Accuracy = 38.9%
+Batch 29: Loss = 24.2224, Accuracy = 30.1%
+Batch 39: Loss = 25.7618, Accuracy = 40.4%
+Batch 49: Loss = 25.2564, Accuracy = 38.7%
+Batch 59: Loss = 22.8792, Accuracy = 37.4%
+Batch 69: Loss = 25.2029, Accuracy = 39.8%
+Batch 79: Loss = 26.6918, Accuracy = 32.2%
+Epoch 41 Test: Loss = 28.1189, Accuracy = 37.0%
+
+-- Epoch 42 of 99 --
+
+Batch 9: Loss = 25.1833, Accuracy = 42.9%
+Batch 19: Loss = 26.2359, Accuracy = 40.7%
+Batch 29: Loss = 26.0383, Accuracy = 42.3%
+Batch 39: Loss = 25.2721, Accuracy = 37.4%
+Batch 49: Loss = 27.6625, Accuracy = 38.8%
+Batch 59: Loss = 23.8091, Accuracy = 33.7%
+Batch 69: Loss = 26.2001, Accuracy = 39.6%
+Batch 79: Loss = 25.4071, Accuracy = 37.8%
+Epoch 42 Test: Loss = 27.7851, Accuracy = 36.0%
+
+-- Epoch 43 of 99 --
+
+Batch 9: Loss = 23.6955, Accuracy = 47.8%
+Batch 19: Loss = 29.4532, Accuracy = 38.8%
+Batch 29: Loss = 29.0617, Accuracy = 38.5%
+Batch 39: Loss = 23.4001, Accuracy = 42.7%
+Batch 49: Loss = 24.5370, Accuracy = 35.5%
+Batch 59: Loss = 25.6686, Accuracy = 37.6%
+Batch 69: Loss = 25.6921, Accuracy = 38.4%
+Batch 79: Loss = 22.2512, Accuracy = 39.0%
+Epoch 43 Test: Loss = 27.4285, Accuracy = 37.3%
+
+-- Epoch 44 of 99 --
+
+Batch 9: Loss = 23.8819, Accuracy = 39.8%
+Batch 19: Loss = 25.5199, Accuracy = 31.4%
+Batch 29: Loss = 24.2678, Accuracy = 36.6%
+Batch 39: Loss = 23.7081, Accuracy = 47.0%
+Batch 49: Loss = 29.2097, Accuracy = 39.4%
+Batch 59: Loss = 29.0372, Accuracy = 36.0%
+Batch 69: Loss = 25.7081, Accuracy = 38.8%
+Batch 79: Loss = 24.4882, Accuracy = 42.7%
+Epoch 44 Test: Loss = 27.4013, Accuracy = 37.2%
+
+-- Epoch 45 of 99 --
+
+Batch 9: Loss = 29.4964, Accuracy = 40.7%
+Batch 19: Loss = 27.1845, Accuracy = 39.8%
+Batch 29: Loss = 26.8873, Accuracy = 34.4%
+Batch 39: Loss = 29.1279, Accuracy = 39.6%
+Batch 49: Loss = 26.3045, Accuracy = 42.2%
+Batch 59: Loss = 25.2595, Accuracy = 40.9%
+Batch 69: Loss = 26.5918, Accuracy = 45.3%
+Batch 79: Loss = 26.4864, Accuracy = 42.6%
+Epoch 45 Test: Loss = 26.7410, Accuracy = 39.7%
+
+-- Epoch 46 of 99 --
+
+Batch 9: Loss = 25.6614, Accuracy = 44.7%
+Batch 19: Loss = 20.0926, Accuracy = 44.3%
+Batch 29: Loss = 23.3810, Accuracy = 41.0%
+Batch 39: Loss = 23.6575, Accuracy = 40.0%
+Batch 49: Loss = 27.1887, Accuracy = 45.3%
+Batch 59: Loss = 25.1691, Accuracy = 43.2%
+Batch 69: Loss = 24.9877, Accuracy = 45.7%
+Batch 79: Loss = 23.3865, Accuracy = 52.5%
+Epoch 46 Test: Loss = 26.1900, Accuracy = 40.8%
+
+-- Epoch 47 of 99 --
+
+Batch 9: Loss = 24.6486, Accuracy = 50.0%
+Batch 19: Loss = 27.3341, Accuracy = 40.6%
+Batch 29: Loss = 28.2009, Accuracy = 38.9%
+Batch 39: Loss = 20.9013, Accuracy = 41.3%
+Batch 49: Loss = 28.0003, Accuracy = 37.4%
+Batch 59: Loss = 23.1871, Accuracy = 49.0%
+Batch 69: Loss = 20.4985, Accuracy = 48.8%
+Batch 79: Loss = 20.0852, Accuracy = 52.8%
+Epoch 47 Test: Loss = 25.0340, Accuracy = 44.4%
+
+-- Epoch 48 of 99 --
+
+Batch 9: Loss = 24.3595, Accuracy = 58.0%
+Batch 19: Loss = 20.8278, Accuracy = 52.7%
+Batch 29: Loss = 21.0472, Accuracy = 50.5%
+Batch 39: Loss = 18.9596, Accuracy = 52.7%
+Batch 49: Loss = 18.6906, Accuracy = 63.9%
+Batch 59: Loss = 22.4491, Accuracy = 57.1%
+Batch 69: Loss = 17.2876, Accuracy = 53.8%
+Batch 79: Loss = 22.3597, Accuracy = 56.2%
+Epoch 48 Test: Loss = 20.4222, Accuracy = 55.8%
+
+-- Epoch 49 of 99 --
+
+Batch 9: Loss = 17.3181, Accuracy = 65.2%
+Batch 19: Loss = 20.2937, Accuracy = 54.7%
+Batch 29: Loss = 15.8493, Accuracy = 69.7%
+Batch 39: Loss = 15.5380, Accuracy = 58.0%
+Batch 49: Loss = 18.7279, Accuracy = 66.0%
+Batch 59: Loss = 15.4866, Accuracy = 62.4%
+Batch 69: Loss = 15.1430, Accuracy = 63.0%
+Batch 79: Loss = 16.3585, Accuracy = 67.4%
+Epoch 49 Test: Loss = 16.3778, Accuracy = 65.0%
+
+-- Epoch 50 of 99 --
+
+Batch 9: Loss = 17.1108, Accuracy = 58.2%
+Batch 19: Loss = 13.0345, Accuracy = 71.7%
+Batch 29: Loss = 11.9796, Accuracy = 79.5%
+Batch 39: Loss = 13.6712, Accuracy = 63.8%
+Batch 49: Loss = 13.3889, Accuracy = 74.7%
+Batch 59: Loss = 12.5018, Accuracy = 68.2%
+Batch 69: Loss = 9.9777, Accuracy = 69.0%
+Batch 79: Loss = 11.7188, Accuracy = 72.5%
+Epoch 50 Test: Loss = 14.3411, Accuracy = 68.8%
+
+-- Epoch 51 of 99 --
+
+Batch 9: Loss = 11.5930, Accuracy = 65.3%
+Batch 19: Loss = 13.7661, Accuracy = 75.6%
+Batch 29: Loss = 13.8967, Accuracy = 64.4%
+Batch 39: Loss = 15.4179, Accuracy = 67.4%
+Batch 49: Loss = 12.2455, Accuracy = 66.3%
+Batch 59: Loss = 13.1934, Accuracy = 71.3%
+Batch 69: Loss = 13.7162, Accuracy = 70.1%
+Batch 79: Loss = 14.1554, Accuracy = 72.8%
+Epoch 51 Test: Loss = 12.9420, Accuracy = 72.8%
+
+-- Epoch 52 of 99 --
+
+Batch 9: Loss = 11.2691, Accuracy = 65.7%
+Batch 19: Loss = 10.7849, Accuracy = 77.8%
+Batch 29: Loss = 10.9221, Accuracy = 75.3%
+Batch 39: Loss = 9.4579, Accuracy = 80.6%
+Batch 49: Loss = 12.4365, Accuracy = 63.1%
+Batch 59: Loss = 10.3330, Accuracy = 78.7%
+Batch 69: Loss = 12.9908, Accuracy = 73.5%
+Batch 79: Loss = 11.4469, Accuracy = 77.8%
+Epoch 52 Test: Loss = 11.6851, Accuracy = 73.9%
+
+-- Epoch 53 of 99 --
+
+Batch 9: Loss = 12.7887, Accuracy = 72.0%
+Batch 19: Loss = 8.6631, Accuracy = 86.5%
+Batch 29: Loss = 11.0329, Accuracy = 82.2%
+Batch 39: Loss = 10.8273, Accuracy = 80.0%
+Batch 49: Loss = 10.2127, Accuracy = 78.1%
+Batch 59: Loss = 9.3761, Accuracy = 78.2%
+Batch 69: Loss = 8.7733, Accuracy = 81.6%
+Batch 79: Loss = 9.6303, Accuracy = 75.0%
+Epoch 53 Test: Loss = 10.9571, Accuracy = 77.0%
+
+-- Epoch 54 of 99 --
+
+Batch 9: Loss = 9.7318, Accuracy = 81.6%
+Batch 19: Loss = 10.3307, Accuracy = 80.0%
+Batch 29: Loss = 9.2405, Accuracy = 76.7%
+Batch 39: Loss = 9.6521, Accuracy = 81.9%
+Batch 49: Loss = 8.2258, Accuracy = 72.3%
+Batch 59: Loss = 10.3606, Accuracy = 79.0%
+Batch 69: Loss = 11.0761, Accuracy = 76.1%
+Batch 79: Loss = 12.1518, Accuracy = 81.7%
+Epoch 54 Test: Loss = 10.4209, Accuracy = 79.9%
+
+-- Epoch 55 of 99 --
+
+Batch 9: Loss = 9.6859, Accuracy = 77.3%
+Batch 19: Loss = 12.5550, Accuracy = 76.1%
+Batch 29: Loss = 10.0858, Accuracy = 80.2%
+Batch 39: Loss = 7.1957, Accuracy = 84.4%
+Batch 49: Loss = 10.2507, Accuracy = 74.2%
+Batch 59: Loss = 8.6496, Accuracy = 75.8%
+Batch 69: Loss = 8.2250, Accuracy = 76.0%
+Batch 79: Loss = 10.2767, Accuracy = 77.4%
+Epoch 55 Test: Loss = 9.8503, Accuracy = 81.1%
+
+-- Epoch 56 of 99 --
+
+Batch 9: Loss = 8.6687, Accuracy = 83.3%
+Batch 19: Loss = 10.3971, Accuracy = 84.3%
+Batch 29: Loss = 8.4718, Accuracy = 81.1%
+Batch 39: Loss = 11.0820, Accuracy = 75.5%
+Batch 49: Loss = 10.0803, Accuracy = 88.4%
+Batch 59: Loss = 8.4819, Accuracy = 81.6%
+Batch 69: Loss = 8.4740, Accuracy = 81.8%
+Batch 79: Loss = 9.5829, Accuracy = 80.8%
+Epoch 56 Test: Loss = 9.3235, Accuracy = 84.2%
+
+-- Epoch 57 of 99 --
+
+Batch 9: Loss = 9.3588, Accuracy = 76.0%
+Batch 19: Loss = 7.8533, Accuracy = 87.8%
+Batch 29: Loss = 7.6218, Accuracy = 94.0%
+Batch 39: Loss = 9.7395, Accuracy = 81.1%
+Batch 49: Loss = 8.9886, Accuracy = 81.8%
+Batch 59: Loss = 9.4136, Accuracy = 87.2%
+Batch 69: Loss = 8.9920, Accuracy = 82.0%
+Batch 79: Loss = 10.0777, Accuracy = 89.5%
+Epoch 57 Test: Loss = 8.9364, Accuracy = 85.2%
+
+-- Epoch 58 of 99 --
+
+Batch 9: Loss = 7.6144, Accuracy = 85.1%
+Batch 19: Loss = 6.5018, Accuracy = 89.2%
+Batch 29: Loss = 7.0241, Accuracy = 88.0%
+Batch 39: Loss = 6.9549, Accuracy = 84.9%
+Batch 49: Loss = 6.1675, Accuracy = 84.5%
+Batch 59: Loss = 9.2580, Accuracy = 82.6%
+Batch 69: Loss = 8.4695, Accuracy = 86.4%
+Batch 79: Loss = 8.6505, Accuracy = 87.6%
+Epoch 58 Test: Loss = 8.4107, Accuracy = 87.0%
+
+-- Epoch 59 of 99 --
+
+Batch 9: Loss = 7.3581, Accuracy = 83.8%
+Batch 19: Loss = 7.9824, Accuracy = 86.1%
+Batch 29: Loss = 6.8164, Accuracy = 89.1%
+Batch 39: Loss = 7.5791, Accuracy = 86.2%
+Batch 49: Loss = 7.5536, Accuracy = 85.1%
+Batch 59: Loss = 7.0200, Accuracy = 85.9%
+Batch 69: Loss = 7.7106, Accuracy = 92.9%
+Batch 79: Loss = 6.1563, Accuracy = 88.5%
+Epoch 59 Test: Loss = 7.5527, Accuracy = 90.2%
+
+-- Epoch 60 of 99 --
+
+Batch 9: Loss = 7.0012, Accuracy = 91.4%
+Batch 19: Loss = 6.5869, Accuracy = 90.9%
+Batch 29: Loss = 5.3681, Accuracy = 92.5%
+Batch 39: Loss = 5.5629, Accuracy = 93.8%
+Batch 49: Loss = 6.1863, Accuracy = 88.7%
+Batch 59: Loss = 7.1740, Accuracy = 92.0%
+Batch 69: Loss = 6.8430, Accuracy = 90.9%
+Batch 79: Loss = 5.4827, Accuracy = 91.0%
+Epoch 60 Test: Loss = 7.6812, Accuracy = 88.2%
+
+-- Epoch 61 of 99 --
+
+Batch 9: Loss = 7.0983, Accuracy = 87.4%
+Batch 19: Loss = 6.9781, Accuracy = 87.0%
+Batch 29: Loss = 6.7823, Accuracy = 88.9%
+Batch 39: Loss = 7.0086, Accuracy = 88.7%
+Batch 49: Loss = 6.7102, Accuracy = 88.4%
+Batch 59: Loss = 6.3558, Accuracy = 89.8%
+Batch 69: Loss = 4.7101, Accuracy = 95.9%
+Batch 79: Loss = 5.9748, Accuracy = 90.7%
+Epoch 61 Test: Loss = 6.6677, Accuracy = 90.5%
+
+-- Epoch 62 of 99 --
+
+Batch 9: Loss = 4.5086, Accuracy = 94.7%
+Batch 19: Loss = 7.5270, Accuracy = 87.4%
+Batch 29: Loss = 6.8259, Accuracy = 87.4%
+Batch 39: Loss = 5.7908, Accuracy = 87.0%
+Batch 49: Loss = 6.6973, Accuracy = 89.9%
+Batch 59: Loss = 6.2112, Accuracy = 90.9%
+Batch 69: Loss = 4.1346, Accuracy = 93.8%
+Batch 79: Loss = 4.8803, Accuracy = 93.8%
+Epoch 62 Test: Loss = 6.2297, Accuracy = 92.0%
+
+-- Epoch 63 of 99 --
+
+Batch 9: Loss = 4.7767, Accuracy = 92.6%
+Batch 19: Loss = 5.8721, Accuracy = 95.9%
+Batch 29: Loss = 4.4430, Accuracy = 95.7%
+Batch 39: Loss = 5.2671, Accuracy = 94.7%
+Batch 49: Loss = 5.1234, Accuracy = 94.6%
+Batch 59: Loss = 6.6163, Accuracy = 86.7%
+Batch 69: Loss = 4.7073, Accuracy = 91.5%
+Batch 79: Loss = 4.6690, Accuracy = 88.0%
+Epoch 63 Test: Loss = 5.3117, Accuracy = 93.6%
+
+-- Epoch 64 of 99 --
+
+Batch 9: Loss = 4.7031, Accuracy = 95.4%
+Batch 19: Loss = 5.3229, Accuracy = 94.4%
+Batch 29: Loss = 4.7741, Accuracy = 93.9%
+Batch 39: Loss = 3.7086, Accuracy = 99.0%
+Batch 49: Loss = 4.9264, Accuracy = 92.7%
+Batch 59: Loss = 4.3529, Accuracy = 93.3%
+Batch 69: Loss = 4.3191, Accuracy = 93.8%
+Batch 79: Loss = 5.1369, Accuracy = 94.9%
+Epoch 64 Test: Loss = 4.9128, Accuracy = 93.9%
+
+-- Epoch 65 of 99 --
+
+Batch 9: Loss = 3.7731, Accuracy = 96.6%
+Batch 19: Loss = 4.5724, Accuracy = 95.8%
+Batch 29: Loss = 5.0894, Accuracy = 91.6%
+Batch 39: Loss = 3.7944, Accuracy = 96.2%
+Batch 49: Loss = 4.3135, Accuracy = 90.8%
+Batch 59: Loss = 2.9938, Accuracy = 96.8%
+Batch 69: Loss = 4.9327, Accuracy = 95.8%
+Batch 79: Loss = 3.8436, Accuracy = 97.8%
+Epoch 65 Test: Loss = 4.2117, Accuracy = 95.7%
+
+-- Epoch 66 of 99 --
+
+Batch 9: Loss = 3.5133, Accuracy = 96.9%
+Batch 19: Loss = 3.3470, Accuracy = 100.0%
+Batch 29: Loss = 3.5150, Accuracy = 96.8%
+Batch 39: Loss = 3.7967, Accuracy = 96.9%
+Batch 49: Loss = 4.0018, Accuracy = 96.7%
+Batch 59: Loss = 3.0961, Accuracy = 99.0%
+Batch 69: Loss = 3.0068, Accuracy = 96.7%
+Batch 79: Loss = 3.8600, Accuracy = 97.8%
+Epoch 66 Test: Loss = 3.5820, Accuracy = 97.9%
+
+-- Epoch 67 of 99 --
+
+Batch 9: Loss = 4.3401, Accuracy = 97.8%
+Batch 19: Loss = 2.8385, Accuracy = 100.0%
+Batch 29: Loss = 3.0996, Accuracy = 100.0%
+Batch 39: Loss = 2.7965, Accuracy = 100.0%
+Batch 49: Loss = 2.4730, Accuracy = 100.0%
+Batch 59: Loss = 2.7939, Accuracy = 99.0%
+Batch 69: Loss = 2.9643, Accuracy = 100.0%
+Batch 79: Loss = 2.0514, Accuracy = 100.0%
+Epoch 67 Test: Loss = 2.8818, Accuracy = 99.4%
+
+-- Epoch 68 of 99 --
+
+Batch 9: Loss = 2.3157, Accuracy = 98.9%
+Batch 19: Loss = 2.6606, Accuracy = 98.9%
+Batch 29: Loss = 2.1990, Accuracy = 100.0%
+Batch 39: Loss = 2.0358, Accuracy = 100.0%
+Batch 49: Loss = 1.9983, Accuracy = 100.0%
+Batch 59: Loss = 2.3999, Accuracy = 100.0%
+Batch 69: Loss = 2.1606, Accuracy = 100.0%
+Batch 79: Loss = 2.0978, Accuracy = 100.0%
+Epoch 68 Test: Loss = 2.5113, Accuracy = 99.6%
+
+-- Epoch 69 of 99 --
+
+Batch 9: Loss = 2.2185, Accuracy = 100.0%
+Batch 19: Loss = 2.2306, Accuracy = 100.0%
+Batch 29: Loss = 2.2668, Accuracy = 100.0%
+Batch 39: Loss = 2.2767, Accuracy = 98.9%
+Batch 49: Loss = 2.1227, Accuracy = 100.0%
+Batch 59: Loss = 2.2025, Accuracy = 100.0%
+Batch 69: Loss = 1.7909, Accuracy = 100.0%
+Batch 79: Loss = 1.8579, Accuracy = 100.0%
+Epoch 69 Test: Loss = 2.2943, Accuracy = 100.0%
+
+-- Epoch 70 of 99 --
+
+Batch 9: Loss = 2.0248, Accuracy = 100.0%
+Batch 19: Loss = 1.8562, Accuracy = 100.0%
+Batch 29: Loss = 2.1479, Accuracy = 100.0%
+Batch 39: Loss = 1.8457, Accuracy = 100.0%
+Batch 49: Loss = 1.8591, Accuracy = 100.0%
+Batch 59: Loss = 2.0857, Accuracy = 100.0%
+Batch 69: Loss = 2.0950, Accuracy = 100.0%
+Batch 79: Loss = 2.2813, Accuracy = 100.0%
+Epoch 70 Test: Loss = 2.0259, Accuracy = 99.9%
+
+-- Epoch 71 of 99 --
+
+Batch 9: Loss = 1.7804, Accuracy = 100.0%
+Batch 19: Loss = 2.0322, Accuracy = 100.0%
+Batch 29: Loss = 1.5622, Accuracy = 100.0%
+Batch 39: Loss = 1.4614, Accuracy = 100.0%
+Batch 49: Loss = 2.0790, Accuracy = 100.0%
+Batch 59: Loss = 2.0258, Accuracy = 100.0%
+Batch 69: Loss = 1.8999, Accuracy = 100.0%
+Batch 79: Loss = 1.5054, Accuracy = 100.0%
+Epoch 71 Test: Loss = 1.9042, Accuracy = 100.0%
+
+-- Epoch 72 of 99 --
+
+Batch 9: Loss = 1.6442, Accuracy = 100.0%
+Batch 19: Loss = 1.6274, Accuracy = 100.0%
+Batch 29: Loss = 1.3391, Accuracy = 100.0%
+Batch 39: Loss = 1.5120, Accuracy = 100.0%
+Batch 49: Loss = 1.7698, Accuracy = 100.0%
+Batch 59: Loss = 1.5825, Accuracy = 100.0%
+Batch 69: Loss = 1.2636, Accuracy = 100.0%
+Batch 79: Loss = 1.9533, Accuracy = 100.0%
+Epoch 72 Test: Loss = 1.7749, Accuracy = 100.0%
+
+-- Epoch 73 of 99 --
+
+Batch 9: Loss = 1.9525, Accuracy = 100.0%
+Batch 19: Loss = 1.5827, Accuracy = 100.0%
+Batch 29: Loss = 1.3897, Accuracy = 100.0%
+Batch 39: Loss = 1.5079, Accuracy = 100.0%
+Batch 49: Loss = 2.0134, Accuracy = 100.0%
+Batch 59: Loss = 1.5240, Accuracy = 100.0%
+Batch 69: Loss = 1.5774, Accuracy = 98.9%
+Batch 79: Loss = 1.4653, Accuracy = 100.0%
+Epoch 73 Test: Loss = 1.6791, Accuracy = 100.0%
+
+-- Epoch 74 of 99 --
+
+Batch 9: Loss = 1.5575, Accuracy = 100.0%
+Batch 19: Loss = 1.6018, Accuracy = 100.0%
+Batch 29: Loss = 1.3880, Accuracy = 100.0%
+Batch 39: Loss = 1.4058, Accuracy = 100.0%
+Batch 49: Loss = 1.2613, Accuracy = 100.0%
+Batch 59: Loss = 1.3612, Accuracy = 100.0%
+Batch 69: Loss = 1.4734, Accuracy = 100.0%
+Batch 79: Loss = 1.6027, Accuracy = 100.0%
+Epoch 74 Test: Loss = 1.6176, Accuracy = 100.0%
+
+-- Epoch 75 of 99 --
+
+Batch 9: Loss = 1.2963, Accuracy = 100.0%
+Batch 19: Loss = 1.5983, Accuracy = 100.0%
+Batch 29: Loss = 1.3482, Accuracy = 100.0%
+Batch 39: Loss = 1.5913, Accuracy = 100.0%
+Batch 49: Loss = 1.2958, Accuracy = 98.8%
+Batch 59: Loss = 1.0586, Accuracy = 100.0%
+Batch 69: Loss = 1.4375, Accuracy = 100.0%
+Batch 79: Loss = 1.5070, Accuracy = 100.0%
+Epoch 75 Test: Loss = 1.4756, Accuracy = 100.0%
+
+-- Epoch 76 of 99 --
+
+Batch 9: Loss = 1.5395, Accuracy = 100.0%
+Batch 19: Loss = 1.2449, Accuracy = 100.0%
+Batch 29: Loss = 1.2050, Accuracy = 100.0%
+Batch 39: Loss = 1.2801, Accuracy = 100.0%
+Batch 49: Loss = 1.3063, Accuracy = 100.0%
+Batch 59: Loss = 1.3425, Accuracy = 100.0%
+Batch 69: Loss = 1.3108, Accuracy = 100.0%
+Batch 79: Loss = 1.1051, Accuracy = 100.0%
+Epoch 76 Test: Loss = 1.3859, Accuracy = 100.0%
+
+-- Epoch 77 of 99 --
+
+Batch 9: Loss = 1.4361, Accuracy = 100.0%
+Batch 19: Loss = 1.1555, Accuracy = 100.0%
+Batch 29: Loss = 0.7812, Accuracy = 100.0%
+Batch 39: Loss = 1.0142, Accuracy = 100.0%
+Batch 49: Loss = 1.0714, Accuracy = 100.0%
+Batch 59: Loss = 1.2205, Accuracy = 100.0%
+Batch 69: Loss = 1.1662, Accuracy = 100.0%
+Batch 79: Loss = 0.8903, Accuracy = 100.0%
+Epoch 77 Test: Loss = 1.2666, Accuracy = 100.0%
+
+-- Epoch 78 of 99 --
+
+Batch 9: Loss = 1.2523, Accuracy = 100.0%
+Batch 19: Loss = 0.9751, Accuracy = 100.0%
+Batch 29: Loss = 1.0352, Accuracy = 100.0%
+Batch 39: Loss = 1.0335, Accuracy = 100.0%
+Batch 49: Loss = 1.0486, Accuracy = 100.0%
+Batch 59: Loss = 1.0960, Accuracy = 100.0%
+Batch 69: Loss = 1.2602, Accuracy = 100.0%
+Batch 79: Loss = 1.1236, Accuracy = 100.0%
+Epoch 78 Test: Loss = 1.1938, Accuracy = 100.0%
+
+-- Epoch 79 of 99 --
+
+Batch 9: Loss = 0.9996, Accuracy = 100.0%
+Batch 19: Loss = 0.8902, Accuracy = 100.0%
+Batch 29: Loss = 1.1582, Accuracy = 100.0%
+Batch 39: Loss = 1.2065, Accuracy = 100.0%
+Batch 49: Loss = 1.1130, Accuracy = 100.0%
+Batch 59: Loss = 0.8832, Accuracy = 100.0%
+Batch 69: Loss = 1.0428, Accuracy = 100.0%
+Batch 79: Loss = 0.9534, Accuracy = 100.0%
+Epoch 79 Test: Loss = 1.1015, Accuracy = 100.0%
