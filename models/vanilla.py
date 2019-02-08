@@ -55,6 +55,8 @@ class VanillaModel(Model):
         self._t = 0
         self._zeros = None
 
+        self._push_input = kwargs.get("push_input", False)
+
     def _init_buffer(self, batch_size, xs):
         """
         Initializes the input and output buffers. The input buffer will
@@ -96,6 +98,8 @@ class VanillaModel(Model):
         x = self._read_input()
 
         output, (v, u, d) = self._controller(x, self._read)
+        if self._push_input:
+            v = x
         self._read = self._struct(v, u, d)
 
         self._write_output(output)
