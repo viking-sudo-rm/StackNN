@@ -273,11 +273,11 @@ linzen_agreement_config = {
     "test_path": "data/linzen/rnn_agr_simple/numpred.val",
     "data_reader": ByLineDatasetReader(linzen_line_consumer),
     "num_labels": 2,
-    "batch_size": 16,
+    "batch_size": 100,  # 16,
     "embedding_dim": 50,
     "read_size": 50,
     "hidden_size": 50,
-    "learning_rate": .001,  # Learning rate from paper/default for Adam.
+    "learning_rate": .01,  # .001,  # Learning rate from paper/default for Adam.
     "l2_weight": 0,  # Maybe add this back in to prevent overfitting.
     "reg_weight": None,
     "verbosity": 1000,
@@ -285,5 +285,5 @@ linzen_agreement_config = {
     "custom_initialization": False,
     # This setting means we want to train a binary sigmoid classifier for the
     # "VBZ" label instead of the standard multiclass softmax.
-    "binary_label": "VBZ",
+    # "binary_label": "VBZ",
 }
