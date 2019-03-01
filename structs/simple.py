@@ -1,10 +1,13 @@
+from __future__ import absolute_import
+
 from abc import ABCMeta, abstractmethod
+from six.moves import range
 
 import torch
 from torch.autograd import Variable
 from torch.nn.functional import relu
 
-from base import Struct
+from .base import Struct
 
 
 def tensor_to_string(tensor):
@@ -38,11 +41,11 @@ def to_string(obj):
 
 
 def bottom_to_top(num_steps):
-    return xrange(num_steps)
+    return range(num_steps)
 
 
 def top_to_bottom(num_steps):
-    return reversed(xrange(num_steps))
+    return reversed(range(num_steps))
 
 
 def top(num_steps):
@@ -176,18 +179,18 @@ class SimpleStruct(Struct):
         :return: None
         """
 
+        # TODO: Reimplement this as list of Variables.
         self._track_reg(strength, Operation.pop)
 
-        u = strength
         s = Variable(torch.FloatTensor(self._t, self.batch_size))
         for i in self._pop_indices():
-            s_i = relu(self.strengths[i, :] - u)
-            u = relu(u - self.strengths[i, :])
+            s_i = relu(self.strengths[i, :] - strength)
+            strength = relu(strength - self.strengths[i, :])
             s[i, :] = s_i
-            # TODO: Figure out a way to break early
+            # if all(strength == 0):
+            #     s[i, :] = self.strengths[i, :]
         self.strengths = s
 
-        return
 
     def push(self, value, strength):
         """
@@ -235,7 +238,7 @@ class SimpleStruct(Struct):
                 self.strengths = torch.cat([first_s, s, last_s], 0)
 
         self._t += 1
-        return
+
 
     def read(self, strength):
         """
@@ -311,13 +314,13 @@ class SimpleStruct(Struct):
         if batch < 0 or batch >= self.batch_size:
             raise IndexError("There is no batch {}.".format(batch))
 
-        print "t\t|Strength\t|Value"
-        print "\t|\t\t\t|"
+        print("t\t|Strength\t|Value")
+        print("\t|\t\t\t|")
 
-        for t in reversed(xrange(self._t)):
+        for t in reversed(range(self._t)):
             v_str = to_string(self.contents[t, batch, :])
             s = self.strengths[t, batch].data.item()
-            print "{}\t|{:.4f}\t\t|{}".format(t, s, v_str)
+            print("{}\t|{:.4f}\t\t|{}".format(t, s, v_str))
 
     def log(self):
         """
@@ -326,8 +329,8 @@ class SimpleStruct(Struct):
 
         :return: None
         """
-        for b in xrange(self.batch_size):
-            print "Batch {}:".format(b)
+        for b in range(self.batch_size):
+            print("Batch {}:".format(b))
             self.print_summary(b)
 
 

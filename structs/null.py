@@ -1,7 +1,9 @@
+from __future__ import absolute_import
+
 import torch
 from torch.autograd import Variable
 
-from structs.base import Struct
+from .base import Struct
 
 
 class NullStruct(Struct):
