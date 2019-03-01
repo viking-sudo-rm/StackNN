@@ -179,18 +179,18 @@ class SimpleStruct(Struct):
         :return: None
         """
 
+        # TODO: Reimplement this as list of Variables.
         self._track_reg(strength, Operation.pop)
 
-        u = strength
         s = Variable(torch.FloatTensor(self._t, self.batch_size))
         for i in self._pop_indices():
-            s_i = relu(self.strengths[i, :] - u)
-            u = relu(u - self.strengths[i, :])
+            s_i = relu(self.strengths[i, :] - strength)
+            strength = relu(strength - self.strengths[i, :])
             s[i, :] = s_i
-            # TODO: Figure out a way to break early
+            # if all(strength == 0):
+            #     s[i, :] = self.strengths[i, :]
         self.strengths = s
 
-        return
 
     def push(self, value, strength):
         """
@@ -238,7 +238,7 @@ class SimpleStruct(Struct):
                 self.strengths = torch.cat([first_s, s, last_s], 0)
 
         self._t += 1
-        return
+
 
     def read(self, strength):
         """
