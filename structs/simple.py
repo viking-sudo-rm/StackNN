@@ -1,10 +1,12 @@
+from __future__ import absolute_import
+
 from abc import ABCMeta, abstractmethod
 
 import torch
 from torch.autograd import Variable
 from torch.nn.functional import relu
 
-from base import Struct
+from .base import Struct
 
 
 def tensor_to_string(tensor):
@@ -311,13 +313,13 @@ class SimpleStruct(Struct):
         if batch < 0 or batch >= self.batch_size:
             raise IndexError("There is no batch {}.".format(batch))
 
-        print "t\t|Strength\t|Value"
-        print "\t|\t\t\t|"
+        print("t\t|Strength\t|Value")
+        print("\t|\t\t\t|")
 
         for t in reversed(xrange(self._t)):
             v_str = to_string(self.contents[t, batch, :])
             s = self.strengths[t, batch].data.item()
-            print "{}\t|{:.4f}\t\t|{}".format(t, s, v_str)
+            print("{}\t|{:.4f}\t\t|{}".format(t, s, v_str))
 
     def log(self):
         """
@@ -327,7 +329,7 @@ class SimpleStruct(Struct):
         :return: None
         """
         for b in xrange(self.batch_size):
-            print "Batch {}:".format(b)
+            print("Batch {}:".format(b))
             self.print_summary(b)
 
 
