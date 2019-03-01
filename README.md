@@ -71,6 +71,13 @@ To use a model, call `model.forward()` on every input and `model.init_controller
 * `structs.Stack` implements the differentiable stack data structure.
 * `structs.Queue` implements the differentiable queue data structure.
 
+Data structures can be constructed as follows:
+
+```python
+from StackNN.structs import Stack
+stack = Stack(BATCH_SIZE, STACK_VECTOR_SIZE)
+```
+
 The buffered models use read-only and write-only versions of the differentiable queue for their input and output buffers.
 
 ## Tasks
