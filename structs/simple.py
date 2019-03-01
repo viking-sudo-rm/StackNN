@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 from abc import ABCMeta, abstractmethod
+from six.moves import range
 
 import torch
 from torch.autograd import Variable
@@ -40,11 +41,11 @@ def to_string(obj):
 
 
 def bottom_to_top(num_steps):
-    return xrange(num_steps)
+    return range(num_steps)
 
 
 def top_to_bottom(num_steps):
-    return reversed(xrange(num_steps))
+    return reversed(range(num_steps))
 
 
 def top(num_steps):
@@ -316,7 +317,7 @@ class SimpleStruct(Struct):
         print("t\t|Strength\t|Value")
         print("\t|\t\t\t|")
 
-        for t in reversed(xrange(self._t)):
+        for t in reversed(range(self._t)):
             v_str = to_string(self.contents[t, batch, :])
             s = self.strengths[t, batch].data.item()
             print("{}\t|{:.4f}\t\t|{}".format(t, s, v_str))
@@ -328,7 +329,7 @@ class SimpleStruct(Struct):
 
         :return: None
         """
-        for b in xrange(self.batch_size):
+        for b in range(self.batch_size):
             print("Batch {}:".format(b))
             self.print_summary(b)
 
