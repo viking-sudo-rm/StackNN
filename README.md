@@ -1,10 +1,10 @@
 # StackNN
-This project implements differentiable stacks and queues in PyTorch. The datastructures are implemented in such a way that it should be easy to integrate them into your own models. For example, to construct a differentiable stack:
+This project implements differentiable stacks and queues in PyTorch. The datastructures are implemented in such a way that it should be easy to integrate them into your own models. For example, to construct a differentiable stack and perform a push:
 
 ```python
 from StackNN.structs import Stack
 stack = Stack(BATCH_SIZE, STACK_VECTOR_SIZE)
-READ_VECTORS = stack(VALUE_VECTORS, PUSH_STRENGTHS, POP_STRENGTHS)
+read_vectors = stack(value_vectors, push_strengths, pop_strengths)
 ```
 
 We also provide implementations of neural models utilizing these data structures and tasks that the models can be trained on. All this code is associated with the paper [Context-Free Transductions with Neural Stacks](https://arxiv.org/abs/1809.02836), which appeared at the Analyzing and Interpreting Neural Networks for NLP workshop at EMNLP 2018. Refer to our paper for more theoretical background on differentiable data structures.
