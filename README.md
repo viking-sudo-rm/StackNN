@@ -1,5 +1,12 @@
 # StackNN
-This project implements differentible stacks and queues in PyTorch. We also provide implementations of neural models utilizing these data structures and tasks that the models can be trained on. All this code is associated with the paper [Context-Free Transductions with Neural Stacks](https://arxiv.org/abs/1809.02836), which appeared at the Analyzing and Interpreting Neural Networks for NLP workshop at EMNLP 2018. Refer to our paper for more theoretical background on differentiable data structures.
+This project implements differentible stacks and queues in PyTorch. The datastructures are implemented in such a way that it should be easy to integrate them into your own models. For example, to construct a differentiable stack:
+
+```python
+from StackNN.structs import Stack
+stack = Stack(BATCH_SIZE, STACK_VECTOR_SIZE)
+```
+
+We also provide implementations of neural models utilizing these data structures and tasks that the models can be trained on. All this code is associated with the paper [Context-Free Transductions with Neural Stacks](https://arxiv.org/abs/1809.02836), which appeared at the Analyzing and Interpreting Neural Networks for NLP workshop at EMNLP 2018. Refer to our paper for more theoretical background on differentiable data structures.
 
 ## Running a demo
 
@@ -47,9 +54,8 @@ If you use this codebase in your research, please cite the associated paper:
 
 ## Dependencies
 
-Python 2.7 with PyTorch 0.4.1 is supported. A possibly incomplete list of dependencies is:
+The core implementation of the data structures is stable in Python 2 and 3. The specific tasks that we have implemented require Python 2.7. We use PyTorch version 0.4.1, with the following additional dependencies:
 
-* `pytorch`
 * `numpy`
 * `scipy` (for data processing)
 * `matplotlib` (for visualization)
@@ -70,13 +76,6 @@ To use a model, call `model.forward()` on every input and `model.init_controller
 
 * `structs.Stack` implements the differentiable stack data structure.
 * `structs.Queue` implements the differentiable queue data structure.
-
-Data structures can be constructed as follows:
-
-```python
-from StackNN.structs import Stack
-stack = Stack(BATCH_SIZE, STACK_VECTOR_SIZE)
-```
 
 The buffered models use read-only and write-only versions of the differentiable queue for their input and output buffers.
 
