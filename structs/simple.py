@@ -66,7 +66,7 @@ class SimpleStruct(Struct):
     Abstract class that subsumes the stack and the queue. This class is
     intended for implementing data structures that have the following
     behavior:
-        - self.contents is a list of vectors represented by a matrix
+        - self._values is a list of vectors represented by a matrix
         - popping consists of removing items from the structure in a
             cascading fashion
         - pushing consists of inserting an item at some position in the
@@ -94,10 +94,12 @@ class SimpleStruct(Struct):
             SimpleStruct
         """
         super(SimpleStruct, self).__init__(batch_size, embedding_size)
-        self._t = 0
         operations = [Operation.push, Operation.pop]
         self._reg_trackers = [None for _ in operations]
-        return
+
+        # Vector contents on the stack and their corresponding strengths.
+        self._values = []
+        self._strengths = []
 
     def init_contents(self, xs):
         """
@@ -112,12 +114,12 @@ class SimpleStruct(Struct):
 
         :return: None
         """
-        self._t = xs.size(0)
+        length = xs.size(0)
+        self._values = torch.unbind(xs)
+        self._strengths = [Variable(torch.ones(self.batch_size)) for _ in length]
 
-        self.contents = xs
-        self.strengths = Variable(torch.ones(self._t, self.batch_size))
-
-        return
+    def __len__(self):
+        return len(self._values)
 
     """ Struct Operations """
 
@@ -129,7 +131,7 @@ class SimpleStruct(Struct):
         function should either be a generator or return an iterator.
 
         :rtype: Iterator
-        :return: An iterator looping over indices of self.contents in
+        :return: An iterator looping over indices of self._values in
             the order of the popping cascade
         """
         raise NotImplementedError("Missing implementation for _pop_indices")
@@ -142,7 +144,7 @@ class SimpleStruct(Struct):
         SimpleStruct.
 
         :rtype: int
-        :return: The index of an item in self.contents after it has been
+        :return: The index of an item in self._values after it has been
             pushed to the SimpleStruct
         """
         raise NotImplementedError("Missing implementation for _push_index")
@@ -155,7 +157,7 @@ class SimpleStruct(Struct):
         function should either be a generator or return an iterator.
 
         :rtype: Iterator
-        :return: An iterator looping over indices of self.contents in
+        :return: An iterator looping over indices of self._values in
             the order of the reading cascade
         """
         raise NotImplementedError("Missing implementation for _read_indices")
@@ -178,26 +180,22 @@ class SimpleStruct(Struct):
 
         :return: None
         """
-
-        # TODO: Reimplement this as list of Variables.
         self._track_reg(strength, Operation.pop)
 
-        s = Variable(torch.FloatTensor(self._t, self.batch_size))
         for i in self._pop_indices():
-            s_i = relu(self.strengths[i, :] - strength)
-            strength = relu(strength - self.strengths[i, :])
-            s[i, :] = s_i
-            # if all(strength == 0):
-            #     s[i, :] = self.strengths[i, :]
-        self.strengths = s
-
+            local_strength = relu(self._strengths[i] - strength)
+            strength = relu(strength - self._strengths[i])
+            self._strengths[i] = local_strength
+            # TODO: Should we remove values if they are all zero?
+            if all(strength == 0):
+                break
 
     def push(self, value, strength):
         """
         The push operation inserts a vector and a strength somewhere in
-        self.contents and self.strengths. The location of the new item
+        self._values and self._strengths. The location of the new item
         is determined by self._push_index, which gives the index of the
-        new item in self.contents and self.strengths after the push
+        new item in self._values and self._strengths after the push
         operation is complete.
 
         :type value: Variable
@@ -210,35 +208,11 @@ class SimpleStruct(Struct):
 
         :return: None
         """
-
         self._track_reg(strength, Operation.push)
 
-        v = value.view(1, self.batch_size, self.embedding_size)
-        s = Variable(torch.FloatTensor(1, self.batch_size))
-        s[0, :] = strength
-
-        if self._t == 0:
-            self.contents = v
-            self.strengths = s
-        else:
-            i = self._push_index()
-            if i == 0:
-                self.contents = torch.cat([v, self.contents], 0)
-                self.strengths = torch.cat([s, self.strengths], 0)
-            elif i == self._t:
-                self.contents = torch.cat([self.contents, v], 0)
-                self.strengths = torch.cat([self.strengths, s], 0)
-            else:
-                first_v = self.contents[:i, :, :]
-                first_s = self.strengths[:i, :, :]
-                last_v = self.contents[i:, :, :]
-                last_s = self.strengths[i:, :, :]
-
-                self.contents = torch.cat([first_v, v, last_v], 0)
-                self.strengths = torch.cat([first_s, s, last_s], 0)
-
-        self._t += 1
-
+        push_index = self._push_index()
+        self._values.insert(push_index, value)
+        self._strengths.insert(push_index, strength)
 
     def read(self, strength):
         """
@@ -258,17 +232,19 @@ class SimpleStruct(Struct):
         :rtype: Variable
         :return: The output of the read operation, described above
         """
-        r = Variable(torch.zeros([self.batch_size, self.embedding_size]))
-        str_used = Variable(torch.zeros(self.batch_size))
+        summary = Variable(torch.zeros([self.batch_size, self.embedding_size]))
+        strength_used = Variable(torch.zeros(self.batch_size))
         for i in self._read_indices():
-            str_i = self.strengths[i, :]
-            str_weights = torch.min(str_i, relu(1 - str_used))
-            str_weights = str_weights.view(self.batch_size, 1)
-            str_weights = str_weights.repeat(1, self.embedding_size)
-            r += str_weights * self.contents[i, :, :]
-            str_used = str_used + str_i
+            strength_weight = torch.min(self._strengths[i], relu(1 - strength_used))
+            strength_weight = strength_weight.view(self.batch_size, 1)
+            strength_weight = strength_weight.repeat(1, self.embedding_size)
+            
+            summary += strength_weight * self._values[i]
+            strength_used = strength_used + self._strengths[i]
+            if all(strength_used == 1):
+                break
 
-        return r
+        return summary
 
     def set_reg_tracker(self, reg_tracker, operation):
         """
@@ -303,7 +279,7 @@ class SimpleStruct(Struct):
 
     def print_summary(self, batch):
         """
-        Prints self.contents and self.strengths to the console for a
+        Prints self._values and self._strengths to the console for a
         particular batch.
 
         :type batch: int
@@ -317,14 +293,14 @@ class SimpleStruct(Struct):
         print("t\t|Strength\t|Value")
         print("\t|\t\t\t|")
 
-        for t in reversed(range(self._t)):
-            v_str = to_string(self.contents[t, batch, :])
-            s = self.strengths[t, batch].data.item()
+        for t in reversed(range(len(self))):
+            v_str = to_string(self._values[t][batch, :])
+            s = self._strengths[t][batch].data.item()
             print("{}\t|{:.4f}\t\t|{}".format(t, s, v_str))
 
     def log(self):
         """
-        Prints self.contents and self.strengths to the console for all
+        Prints self._values and self._strengths to the console for all
         batches.
 
         :return: None
@@ -341,13 +317,13 @@ class Stack(SimpleStruct):
     """
 
     def _pop_indices(self):
-        return top_to_bottom(self._t)
+        return top_to_bottom(len(self))
 
     def _push_index(self):
-        return top(self._t)
+        return top(len(self))
 
     def _read_indices(self):
-        return top_to_bottom(self._t)
+        return top_to_bottom(len(self))
 
 
 class Queue(SimpleStruct):
@@ -357,10 +333,10 @@ class Queue(SimpleStruct):
     """
 
     def _pop_indices(self):
-        return bottom_to_top(self._t)
+        return bottom_to_top(len(self))
 
     def _push_index(self):
-        return top(self._t)
+        return top(len(self))
 
     def _read_indices(self):
-        return bottom_to_top(self._t)
+        return bottom_to_top(len(self))
