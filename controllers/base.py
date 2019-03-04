@@ -33,8 +33,6 @@ class Controller(nn.Module):
         self._read_size = read_size
         self._output_size = output_size
 
-        return
-
     @abstractmethod
     def forward(self, x, r):
         """
@@ -131,8 +129,6 @@ class SimpleStructController(Controller):
         self.log_data = None  # A numpy array containing logged data
         self._log_data_size = 0  # The maximum number of entries to log
         self._curr_log_entry = 0  # The number of entries logged already
-
-        return
 
     """ Reporting """
 
