@@ -51,8 +51,14 @@ final_dyck_config = {
     "grammar": dyck_grammar_2,
     "to_predict": [u")", u"]"],
     "sample_depth": 6,
+    "max_length": 20,
     "read_size": 2,
-    "criterion": CrossEntropyLoss(reduction="none")
+    "criterion": CrossEntropyLoss(reduction="none"),
+    "test_override": {
+        "sample_depth": 12,
+        "max_length": 110,
+        "sentence_count": 1000
+    }
 }
 
 # 5) Agreement grammar task.
@@ -67,7 +73,7 @@ final_agreement_config = {
     "criterion": CrossEntropyLoss(reduction="none")
 }
 
-# 5b) Agreement grammar task with longer early stopping 
+# 5b) Agreement grammar task with longer early stopping
 final_agreement_config_10 = {
     "task": CFGTask,
     "epochs": 100,
@@ -78,7 +84,7 @@ final_agreement_config_10 = {
     "read_size": 2,
     "criterion": CrossEntropyLoss(reduction="none")
 }
-    
+
 # 6) Reverse Polish notation formula task.
 final_formula_config = {
     "task": CFGTransduceTask,

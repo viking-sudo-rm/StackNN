@@ -28,7 +28,6 @@ class LanguageModelingTask(FormalTask):
     output nothing during the first time step and then copy the input.
     """
 
-
     class Params(FormalTask.Params):
 
         """Parameters object for a LanguageModelingTask.
@@ -46,14 +45,21 @@ class LanguageModelingTask(FormalTask):
 
         def __init__(self, to_predict, **kwargs):
             self.to_predict = to_predict
-            self.include_unpredicted_symbols_in_loss = kwargs.get("include_unpredicted_symbols_in_loss", False)
+            self.include_unpredicted_symbols_in_loss = kwargs.get(
+                "include_unpredicted_symbols_in_loss", False)
             self.max_length = kwargs.get("max_length", 25)
             self.mask_null = kwargs.get("mask_null", True)
             super(LanguageModelingTask.Params, self).__init__(**kwargs)
-            self.criterion = kwargs.get("criterion", nn.CrossEntropyLoss(reduction="none"))
-            self.max_x_length = self.max_length
-            self.max_y_length = self.max_length
+            self.criterion = kwargs.get(
+                "criterion", nn.CrossEntropyLoss(reduction="none"))
 
+            if 'max_length' in self.test_override:
+                self.max_x_length = max(
+                    self.max_length, self.test_override['max_length'])
+            else:
+                self.max_x_length = self.max_length
+
+            self.max_y_length = self.max_x_length
 
     def __init__(self, params):
         super(LanguageModelingTask, self).__init__(params)
@@ -116,7 +122,7 @@ class LanguageModelingTask(FormalTask):
                     to_predict_x[k] = 0
         else:
             to_predict_x = valid_x
-        
+
         # Compute the accuracy over indices of interest.
         correct_trials = (y_pred == y[:, j]).type(torch.FloatTensor)
         correct = sum(to_predict_x * correct_trials.data)
