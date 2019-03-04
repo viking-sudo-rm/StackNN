@@ -183,10 +183,10 @@ class SimpleStruct(Struct):
         self._track_reg(strength, Operation.pop)
 
         for i in self._pop_indices():
-            new_strength = relu(self._strengths[i] - strength)
+            local_strength = relu(self._strengths[i] - strength)
             strength = relu(strength - self._strengths[i])
-            self._strengths[i] = new_strength
-            # TODO: Track values to remove if they are zeroed.
+            self._strengths[i] = local_strength
+            # TODO: Should we remove values if they are all zero?
             if all(strength == 0):
                 break
 
