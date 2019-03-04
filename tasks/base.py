@@ -3,7 +3,7 @@ from __future__ import print_function
 
 from abc import ABCMeta, abstractmethod, abstractproperty
 
-from copy import copy
+from copy import copy, deepcopy
 import warnings
 
 import numpy as np
@@ -60,12 +60,15 @@ class Task(object):
             verbosity: Periodicity for printing batch summaries.
             load_path: Path for loading a model.
             save_path: Path for saving a model.
+            test_override: Object describing params to override when evaluating
+                a model for testing.
         """
 
         def __init__(self, **kwargs):
             """Extract passed arguments or use the default values."""
             self.model_type = kwargs.get("model_type", VanillaModel)
-            self.controller_type = kwargs.get("controller_type", LinearSimpleStructController)
+            self.controller_type = kwargs.get(
+                "controller_type", LinearSimpleStructController)
             self.struct_type = kwargs.get("struct_type", Stack)
             self.batch_size = kwargs.get("batch_size", 10)
             self.clipping_norm = kwargs.get("clipping_norm", None)
@@ -84,6 +87,7 @@ class Task(object):
             self.custom_initialization = kwargs.get("custom_initialization", True)
             self.load_path = kwargs.get("load_path", None)
             self.save_path = kwargs.get("save_path", None)
+            self.test_override = kwargs.get("test_override", dict())
 
 
         def __iter__(self):
@@ -96,10 +100,18 @@ class Task(object):
                     value = value.__name__
                 print("%s: %s" % (key, value))
 
+        @property
+        def test(self):
+            """ Get a Params object with test values set. """
+            clone = deepcopy(self)
+            for key, value in clone.test_override.items():
+                setattr(clone, key, value)
+
+            return clone
 
     def __init__(self, params):
         """Calling the constructor will register all fields in params for task."""
-        
+
         # Register the hyperparameters.
         self.params = params
 
@@ -723,7 +735,6 @@ class FormalTask(Task):
 
     """A task whose data is generated from a formal language."""
 
-
     class Params(Task.Params):
 
         """Parameters object for a FormalTask.
@@ -743,7 +754,6 @@ class FormalTask(Task):
             self.null = kwargs.get("null", u"#")
             super(FormalTask.Params, self).__init__(**kwargs)
 
-
     def _init_model(self):
         # We need to initialize the alphabet before constructing the model.
         self.alphabet = self._init_alphabet(self.null)
@@ -759,7 +769,8 @@ class FormalTask(Task):
     @abstractproperty
     def generic_example(self):
         """Get the example input for creating visualizations."""
-        raise NotImplementedError("Abstract property generic_example not implemented.")
+        raise NotImplementedError(
+            "Abstract property generic_example not implemented.")
 
     @abstractmethod
     def _init_alphabet(self, null):
