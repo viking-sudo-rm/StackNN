@@ -1,6 +1,5 @@
 from __future__ import division
 
-import matplotlib.pyplot as plt
 import torch
 from torch.autograd import Variable
 
@@ -170,6 +169,7 @@ class VanillaModel(Model):
         v_labels = ["v_" + str(i) for i in xrange(self._read_size)]
         labels = x_labels + y_labels + i_labels + v_labels
 
+        import matplotlib.pyplot as plt
         plt.imshow(self._controller.log_data, cmap="hot", interpolation="nearest")
         plt.title("Trace")
         plt.yticks(range(len(labels)), labels)
