@@ -1,8 +1,9 @@
 from __future__ import division
+from __future__ import print_function
 
 from abc import ABCMeta, abstractmethod, abstractproperty
 
-from copy import copy
+from copy import copy, deepcopy
 import warnings
 
 import numpy as np
@@ -26,6 +27,8 @@ class Task(object):
     neural network model with a neural stack or queue.
     """
 
+    # TODO(#18): Remove max_x_length/max_y_length and replace with max_length.
+
 
     class Params(object):
 
@@ -42,7 +45,8 @@ class Task(object):
             batch_size: The number of trials in each mini-batch.
             clipping_norm: Related to gradient clipping.
             criterion: The loss function.
-            cuda: If true and CUDA is available, the model will use it.
+            
+            : If true and CUDA is available, the model will use it.
             epochs: Number of epochs to train for.
             early_stopping_steps: Number of epochs of no improvement that are
                 required to stop early.
@@ -53,14 +57,18 @@ class Task(object):
             time_function: A function specifying the maximum number of
                 computation steps in terms of input length.
             verbose: Boolean describing how much output should be generated.
+            verbosity: Periodicity for printing batch summaries.
             load_path: Path for loading a model.
             save_path: Path for saving a model.
+            test_override: Object describing params to override when evaluating
+                a model for testing.
         """
 
         def __init__(self, **kwargs):
             """Extract passed arguments or use the default values."""
             self.model_type = kwargs.get("model_type", VanillaModel)
-            self.controller_type = kwargs.get("controller_type", LinearSimpleStructController)
+            self.controller_type = kwargs.get(
+                "controller_type", LinearSimpleStructController)
             self.struct_type = kwargs.get("struct_type", Stack)
             self.batch_size = kwargs.get("batch_size", 10)
             self.clipping_norm = kwargs.get("clipping_norm", None)
@@ -75,8 +83,12 @@ class Task(object):
             self.reg_weight = kwargs.get("reg_weight", 1.)
             self.time_function = kwargs.get("time_function", lambda t: t)
             self.verbose = kwargs.get("verbose", True)
+            self.verbosity = kwargs.get("verbosity", 10)
+            self.custom_initialization = kwargs.get("custom_initialization", True)
             self.load_path = kwargs.get("load_path", None)
             self.save_path = kwargs.get("save_path", None)
+            self.test_override = kwargs.get("test_override", dict())
+
 
         def __iter__(self):
             return ((attr, getattr(self, attr)) for attr in dir(self)
@@ -84,12 +96,22 @@ class Task(object):
 
         def print_experiment_start(self):
             for key, value in self:
-                print "%s: %s" % (key, value)
+                if type(value) == type:
+                    value = value.__name__
+                print("%s: %s" % (key, value))
 
+        @property
+        def test(self):
+            """ Get a Params object with test values set. """
+            clone = deepcopy(self)
+            for key, value in clone.test_override.items():
+                setattr(clone, key, value)
+
+            return clone
 
     def __init__(self, params):
         """Calling the constructor will register all fields in params for task."""
-        
+
         # Register the hyperparameters.
         self.params = params
 
@@ -100,21 +122,24 @@ class Task(object):
         if self.params.cuda:
             if torch.cuda.is_available():
                 self.model.cuda()
-                print "CUDA enabled!"
+                print("CUDA enabled!")
             else:
                 warnings.warn("CUDA is not available.")
 
         # Load a saved model if one is specified.
-        if self.load_path:
+        if self.params.load_path:
             self.model.load_state_dict(torch.load(self.load_path))
             self._has_trained_model = True
         else:
             self._has_trained_model = False
 
+        # If it is used, the embedding object should be re-initialized.
+        self.embedding = None
+
         # Backpropagation settings.
         self.optimizer = optim.Adam(self.model.parameters(),
-                                    lr=self.learning_rate,
-                                    weight_decay=self.l2_weight)
+                                    lr=self.params.learning_rate,
+                                    weight_decay=self.params.l2_weight)
 
         # Initialize training and testing data.
         self.train_x = None
@@ -135,13 +160,15 @@ class Task(object):
     def __getattr__(self, name):
         """Allows us to reference params with self.PARAM notation.
 
-        TODO: Accessing parameters in this way should be deprecated. Instead,
-        references to parameters should be replaced with self.params.PARAM.
+        Note: Accessing parameters in this way is deprecated. It is here for
+        backward compatibility. In new code, references to parameters should
+        be replaced with self.params.PARAM notation.
         """
-        if not hasattr(self.params, name):
-            type_name = type(self).__name__
-            raise ValueError("Attribute %s is neither a valid field for %s nor a task parameter." % (name, type_name))
-        return getattr(self.params, name)
+        if hasattr(self.params, name):
+            return getattr(self.params, name)
+
+        type_name = type(self).__name__
+        raise ValueError("Attribute %s is neither a valid field for %s nor a task parameter." % (name, type_name))
 
     @classmethod
     def from_config_dict(cls, config_dict):
@@ -158,13 +185,15 @@ class Task(object):
         return task_type(params)
 
     def _init_model(self):
-        return self.model_type(self.input_size,
-                               self.read_size,
-                               self.output_size,
-                               controller_type=self.controller_type,
-                               struct_type=self.struct_type,
-                               hidden_size=self.hidden_size,
-                               reg_weight=self.reg_weight)
+        # TODO: Should initialize controller/task here and pass it in.
+        return self.params.model_type(self.input_size,
+                                      self.params.read_size,
+                                      self.output_size,
+                                      controller_type=self.controller_type,
+                                      struct_type=self.struct_type,
+                                      hidden_size=self.hidden_size,
+                                      reg_weight=self.reg_weight,
+                                      custom_initialization=self.custom_initialization)
 
     """Abstract methods."""
 
@@ -239,9 +268,8 @@ class Task(object):
         self.get_data()
         no_improvement_batches = 0
         best_acc = 0.
-        for epoch in xrange(self.epochs):
+        for epoch in xrange(self.params.epochs):
             self.run_epoch(epoch)
-#            print best_acc, self.batch_acc, no_improvement_batches
             if self.batch_acc <= best_acc:
                 no_improvement_batches += 1
             else:
@@ -267,7 +295,7 @@ class Task(object):
         if not self.verbose:
             return
 
-        print "Starting {} Experiment".format(type(self).__name__)
+        print("Starting {} Experiment".format(type(self).__name__))
         self.model.print_experiment_start()
         self.params.print_experiment_start()
 
@@ -287,8 +315,17 @@ class Task(object):
 
         last_trial = len(self.train_x.data) - self.batch_size + 1
         for batch, i in enumerate(xrange(0, last_trial, self.batch_size)):
-            x = self.train_x[i:i + self.batch_size, :, :]
+
+            # Embed x if it is not one-hot.
+            if self.embedding is None:
+                x = self.train_x[i:i + self.batch_size, :, :]
+            else:
+                xi = self.train_x[i:i + self.batch_size, :]
+                x = self.embedding(xi)
+
+            # Currently, y must be a [batch_size, num_steps] tensor.
             y = self.train_y[i:i + self.batch_size, :]
+
             self.model.init_model(self.batch_size, x)
             self._evaluate_batch(x, y, batch, True)
 
@@ -303,8 +340,15 @@ class Task(object):
             raise ValueError("Missing testing data")
 
         self.model.eval()
-        self.model.init_model(len(self.test_x.data), self.test_x)
-        self._evaluate_batch(self.test_x, self.test_y, epoch, False)
+
+        # Embed the input data if necessary.
+        if self.embedding is None:
+            test_x = self.test_x
+        else:
+            test_x = self.embedding(self.test_x)
+
+        self.model.init_model(len(test_x.data), test_x)
+        self._evaluate_batch(test_x, self.test_y, epoch, False)
 
     def _evaluate_batch(self, x, y, name, is_batch):
         """
@@ -330,14 +374,14 @@ class Task(object):
         batch_total = 0
 
         # Read the input from left to right and evaluate the output
-        # TODO: Verify counts and total.
-        num_steps = self.time_function(self.max_x_length)
+        num_steps = self.params.time_function(self.max_x_length)
         for j in xrange(num_steps):
             self.model()
         for j in xrange(self.max_x_length):
             a = self.model.read_output()
             self._log_prediction(a)
             loss, correct, total = self._evaluate_step(x, y, a, j)
+            # TODO(#24): In general, can increase performance by not calculating loss in eval mode?
             if loss is None or correct is None or total is None:
                 continue
 
@@ -407,8 +451,8 @@ class Task(object):
 
         :return: None
         """
-        if self.verbose:
-            print "\n-- Epoch {} of {} --\n".format(epoch, self.epochs - 1)
+        if self.params.verbose:
+            print("\n-- Epoch {} of {} --\n".format(epoch, self.epochs - 1))
 
     """ Testing Mode """
 
@@ -456,9 +500,9 @@ class Task(object):
         x_sent = self.text_to_sentences(x)
         x_var = self.sentences_to_one_hot(self.max_x_length, *x_sent)
         x_code = self.sentences_to_codes(self.max_y_length, *x_sent)
-        num_steps = self.time_function(len(x_sent))
+        num_steps = self.params.time_function(len(x_sent))
 
-        print "Begin computation on input " + x
+        print("Begin computation on input", x)
         if step:
             raw_input("Press Enter to continue\n")
 
@@ -477,8 +521,8 @@ class Task(object):
         a_sent = self.codes_to_sentences(self.max_y_length, self._logged_a)
         a_text = self.sentences_to_text(*a_sent)[0]
 
-        print "Input: " + x
-        print "Output: " + a_text
+        print("Input:", x)
+        print("Output:", a_text)
 
     def trace_console(self, step=True):
         """
@@ -493,7 +537,7 @@ class Task(object):
         """
         x = "x"
         while x != "":
-            print ""
+            print()
             x = raw_input("Please enter an input, or enter nothing to quit.\n")
             x = x.strip()
             if x != "":
@@ -563,8 +607,8 @@ class Task(object):
 
         :return: None
         """
-        print "Starting Test"
-        print "Read Size: " + str(self.read_size)
+        print("Starting Test")
+        print("Read Size:", str(self.params.read_size))
 
     """ Reporting """
 
@@ -669,9 +713,9 @@ class Task(object):
 
         :return: None
         """
-        if not self.verbose:
+        if not self.params.verbose:
             return
-        elif is_batch and name % 10 != 0:
+        elif is_batch and name % self.params.verbosity != 0:
             return
 
         if is_batch:
@@ -683,14 +727,13 @@ class Task(object):
         loss = batch_loss.data.item()
 
         accuracy = 100. * (batch_correct * 1.0) / batch_total
-        message += "Loss = {:.4f}, Accuracy = {:.1f}%".format(loss, accuracy)
-        print message
+        message += "Loss = {:.2f}, Accuracy = {:.1f}%".format(loss, accuracy)
+        print(message)
 
 
 class FormalTask(Task):
 
     """A task whose data is generated from a formal language."""
-
 
     class Params(Task.Params):
 
@@ -711,7 +754,6 @@ class FormalTask(Task):
             self.null = kwargs.get("null", u"#")
             super(FormalTask.Params, self).__init__(**kwargs)
 
-
     def _init_model(self):
         # We need to initialize the alphabet before constructing the model.
         self.alphabet = self._init_alphabet(self.null)
@@ -727,7 +769,8 @@ class FormalTask(Task):
     @abstractproperty
     def generic_example(self):
         """Get the example input for creating visualizations."""
-        raise NotImplementedError("Abstract property generic_example not implemented.")
+        raise NotImplementedError(
+            "Abstract property generic_example not implemented.")
 
     @abstractmethod
     def _init_alphabet(self, null):
@@ -799,12 +842,12 @@ class FormalTask(Task):
         s_codes = [[self.alphabet[w] for w in s] for s in sentences]
         num_strings = len(s_codes)
 
-        # Initialize output to NULLs
+        # Initialize output to null.
         null_code = self.alphabet[self.null]
         y = torch.LongTensor(num_strings, max_length)
         y.fill_(null_code)
 
-        # Fill in values
+        # Fill in values.
         for i, s in enumerate(s_codes):
             for j, w in enumerate(s):
                 y[i, j] = w

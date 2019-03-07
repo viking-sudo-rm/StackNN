@@ -18,7 +18,11 @@ class RNNSimpleStructController(SimpleStructController):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 discourage_pop=True, hidden_size=10, n_args=2, **kwargs):
+                 custom_initialization=True,
+                 discourage_pop=True,
+                 hidden_size=10,
+                 n_args=2,
+                 **kwargs):
         """
         Constructor for the RNNSimpleStructController object.
 
@@ -61,14 +65,15 @@ class RNNSimpleStructController(SimpleStructController):
         self._rnn = nn.RNNCell(nn_input_size, hidden_size)
         self._linear = nn.Linear(hidden_size, nn_output_size)
 
-        # Initialize Module weights
-        RNNSimpleStructController.init_normal(self._rnn.weight_hh)
-        RNNSimpleStructController.init_normal(self._rnn.weight_ih)
-        self._rnn.bias_hh.data.fill_(0)
-        self._rnn.bias_ih.data.fill_(0)
+        if custom_initialization:
+            # Initialize Module weights
+            RNNSimpleStructController.init_normal(self._rnn.weight_hh)
+            RNNSimpleStructController.init_normal(self._rnn.weight_ih)
+            self._rnn.bias_hh.data.fill_(0)
+            self._rnn.bias_ih.data.fill_(0)
 
-        RNNSimpleStructController.init_normal(self._linear.weight)
-        self._linear.bias.data.fill_(0)
+            RNNSimpleStructController.init_normal(self._linear.weight)
+            self._linear.bias.data.fill_(0)
 
         if discourage_pop:
             self._linear.bias.data[0] = -1.  # Discourage popping
@@ -134,7 +139,11 @@ class LSTMSimpleStructController(SimpleStructController):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 discourage_pop=True, hidden_size=10, n_args=2, **kwargs):
+                 custom_initialization=True,
+                 discourage_pop=True,
+                 hidden_size=10,
+                 n_args=2,
+                 **kwargs):
         """
         Constructor for the LSTMSimpleStructController object.
 
@@ -178,14 +187,14 @@ class LSTMSimpleStructController(SimpleStructController):
         self._lstm = nn.LSTMCell(nn_input_size, hidden_size)
         self._linear = nn.Linear(hidden_size, nn_output_size)
 
-        # Initialize Module weights
-        LSTMSimpleStructController.init_normal(self._lstm.weight_hh)
-        LSTMSimpleStructController.init_normal(self._lstm.weight_ih)
-        self._lstm.bias_hh.data.fill_(0)
-        self._lstm.bias_ih.data.fill_(0)
+        if custom_initialization:
+            LSTMSimpleStructController.init_normal(self._lstm.weight_hh)
+            LSTMSimpleStructController.init_normal(self._lstm.weight_ih)
+            self._lstm.bias_hh.data.fill_(0)
+            self._lstm.bias_ih.data.fill_(0)
 
-        LSTMSimpleStructController.init_normal(self._linear.weight)
-        self._linear.bias.data.fill_(0)
+            LSTMSimpleStructController.init_normal(self._linear.weight)
+            self._linear.bias.data.fill_(0)
 
         if discourage_pop:
             self._linear.bias.data[0] = -1.  # Discourage popping
@@ -251,7 +260,11 @@ class GRUSimpleStructController(SimpleStructController):
     """
 
     def __init__(self, input_size, read_size, output_size,
-                 discourage_pop=True, hidden_size=10, n_args=2, **kwargs):
+                 custom_initialization=True,
+                 discourage_pop=True,
+                 hidden_size=10,
+                 n_args=2,
+                 **kwargs):
         """
         Constructor for the GRUSimpleStructController object.
 
@@ -294,14 +307,14 @@ class GRUSimpleStructController(SimpleStructController):
         self._GRU = nn.GRUCell(nn_input_size, hidden_size)
         self._linear = nn.Linear(hidden_size, nn_output_size)
 
-        # Initialize Module weights
-        GRUSimpleStructController.init_normal(self._GRU.weight_hh)
-        GRUSimpleStructController.init_normal(self._GRU.weight_ih)
-        self._GRU.bias_hh.data.fill_(0)
-        self._GRU.bias_ih.data.fill_(0)
+        if custom_initialization:
+            GRUSimpleStructController.init_normal(self._GRU.weight_hh)
+            GRUSimpleStructController.init_normal(self._GRU.weight_ih)
+            self._GRU.bias_hh.data.fill_(0)
+            self._GRU.bias_ih.data.fill_(0)
 
-        GRUSimpleStructController.init_normal(self._linear.weight)
-        self._linear.bias.data.fill_(0)
+            GRUSimpleStructController.init_normal(self._linear.weight)
+            self._linear.bias.data.fill_(0)
 
         if discourage_pop:
             self._linear.bias.data[0] = -1.  # Discourage popping

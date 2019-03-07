@@ -51,8 +51,14 @@ final_dyck_config = {
     "grammar": dyck_grammar_2,
     "to_predict": [u")", u"]"],
     "sample_depth": 6,
+    "max_length": 20,
     "read_size": 2,
-    "criterion": CrossEntropyLoss(reduction="none")
+    "criterion": CrossEntropyLoss(reduction="none"),
+    "test_override": {
+        "sample_depth": 12,
+        "max_length": 110,
+        "sentence_count": 1000
+    }
 }
 
 # 5) Agreement grammar task.
@@ -67,7 +73,7 @@ final_agreement_config = {
     "criterion": CrossEntropyLoss(reduction="none")
 }
 
-# 5b) Agreement grammar task with longer early stopping 
+# 5b) Agreement grammar task with longer early stopping
 final_agreement_config_10 = {
     "task": CFGTask,
     "epochs": 100,
@@ -78,7 +84,7 @@ final_agreement_config_10 = {
     "read_size": 2,
     "criterion": CrossEntropyLoss(reduction="none")
 }
-    
+
 # 6) Reverse Polish notation formula task.
 final_formula_config = {
     "task": CFGTransduceTask,
@@ -269,7 +275,21 @@ anb2n_config = {
 
 linzen_agreement_config = {
     "task": NaturalTask,
-    "train_filename": "../data/linzen/rnn_arg_simple/numpred.test.5",
-    "test_filename": "../data/linzen/rnn_arg_simple/numpred.test.5",
+    "train_path": "data/linzen/rnn_agr_simple/numpred.train",
+    "test_path": "data/linzen/rnn_agr_simple/numpred.val",
     "data_reader": ByLineDatasetReader(linzen_line_consumer),
+    "num_labels": 2,
+    "batch_size": 100,  # 16,
+    "embedding_dim": 50,
+    "read_size": 50,
+    "hidden_size": 50,
+    "learning_rate": .01,  # .001,  # Learning rate from paper/default for Adam.
+    "l2_weight": 0,  # Maybe add this back in to prevent overfitting.
+    "reg_weight": None,
+    "verbosity": 1000,
+    # Whether or not our custom initialization is used for RNNs.
+    "custom_initialization": False,
+    # This setting means we want to train a binary sigmoid classifier for the
+    # "VBZ" label instead of the standard multiclass softmax.
+    # "binary_label": "VBZ",
 }

@@ -1,5 +1,13 @@
 # StackNN
-This project implements differentible stacks and queues in PyTorch. We also provide implementations of neural models utilizing these data structures and tasks that the models can be trained on. All this code is associated with the paper [Context-Free Transductions with Neural Stacks](https://arxiv.org/abs/1809.02836), which appeared at the Analyzing and Interpreting Neural Networks for NLP workshop at EMNLP 2018. Refer to our paper for more theoretical background on differentiable data structures.
+This project implements differentiable stacks and queues in PyTorch. The data structures are implemented in such a way that it should be easy to integrate them into your own models. For example, to construct a differentiable stack and perform a push:
+
+```python
+from StackNN.structs import Stack
+stack = Stack(BATCH_SIZE, STACK_VECTOR_SIZE)
+read_vectors = stack(value_vectors, push_strengths, pop_strengths)
+```
+
+We also provide implementations of neural models utilizing these data structures and tasks that the models can be trained on. All this code is associated with the paper [Context-Free Transductions with Neural Stacks](https://arxiv.org/abs/1809.02836), which appeared at the Analyzing and Interpreting Neural Networks for NLP workshop at EMNLP 2018. Refer to our paper for more theoretical background on differentiable data structures.
 
 ## Running a demo
 
@@ -47,13 +55,11 @@ If you use this codebase in your research, please cite the associated paper:
 
 ## Dependencies
 
-Python 2.7 with PyTorch 0.4.1 is supported. A possibly incomplete list of dependencies is:
+The core implementation of the data structures is stable in Python 2 and 3. The specific tasks that we have implemented require Python 2.7. We use PyTorch version 0.4.1, with the following additional dependencies:
 
-* `pytorch`
 * `numpy`
 * `scipy` (for data processing)
 * `matplotlib` (for visualization)
-* `enum` (for backward compatibility)
 * `nltk`
 
 Using pip or conda should suffice for installing most of these dependencies. To get the right command for installing PyTorch, refer to the installation widget on the PyTorch website.

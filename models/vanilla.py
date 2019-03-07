@@ -1,6 +1,6 @@
 from __future__ import division
+from __future__ import print_function
 
-import matplotlib.pyplot as plt
 import torch
 from torch.autograd import Variable
 
@@ -174,6 +174,7 @@ class VanillaModel(Model):
         v_labels = ["v_" + str(i) for i in xrange(self._read_size)]
         labels = x_labels + y_labels + i_labels + v_labels
 
+        import matplotlib.pyplot as plt
         plt.imshow(self._controller.log_data, cmap="hot", interpolation="nearest")
         plt.title("Trace")
         plt.yticks(range(len(labels)), labels)
@@ -216,9 +217,9 @@ class VanillaModel(Model):
         max_length = trace_x.data.shape[1]
         self._controller.start_log(max_length)
         for j in xrange(max_length):
-            print "\n-- Step {} of {} --".format(j, max_length)
+            print("\n-- Step {} of {} --".format(j, max_length))
 
-            self.forward()
+            self()
 
             i = self._controller.log_data[:x_end, j]
             o = self._controller.log_data[x_end:y_end, j].round(decimals=4)
@@ -227,16 +228,16 @@ class VanillaModel(Model):
             v = self._controller.log_data[v_start:, j].round(decimals=4)
             r = self._struct.read(1).data.numpy()[0].round(decimals=4)
 
-            print "\nInput: " + str(i)
-            print "Output: " + str(o)
+            print("\nInput: " + str(i))
+            print("Output: " + str(o))
 
-            print "\nPop Strength: " + str(u)
+            print("\nPop Strength: " + str(u))
 
-            print "\nPush Vector: " + str(v)
-            print "Push Strength: " + str(d)
+            print("\nPush Vector: " + str(v))
+            print("Push Strength: " + str(d))
 
-            print "\nRead Vector: " + str(r)
-            print "Struct Contents: "
+            print("\nRead Vector: " + str(r))
+            print("Struct Contents: ")
             self._struct.print_summary(0)
 
             if step:
