@@ -72,7 +72,7 @@ class Struct(nn.Module):
         """
         self.pop(u)
         self.push(v, d)
-        return self.read(1.)
+        return self.read(self.read_strength)
 
     @abstractmethod
     def pop(self, strength):
@@ -121,3 +121,7 @@ class Struct(nn.Module):
             be combined into a single tensor
         """
         raise NotImplementedError("Missing implementation for read")
+
+    @property
+    def read_strength(self):
+        return 1.

@@ -96,6 +96,7 @@ class SimpleStruct(Struct):
         super(SimpleStruct, self).__init__(batch_size, embedding_size)
         operations = [Operation.push, Operation.pop]
         self._reg_trackers = [None for _ in operations]
+        self._read_strength = k
 
         # Vector contents on the stack and their corresponding strengths.
         self._values = []
@@ -161,6 +162,10 @@ class SimpleStruct(Struct):
             the order of the reading cascade
         """
         raise NotImplementedError("Missing implementation for _read_indices")
+
+    @property
+    def read_strength(self):
+        return self._read_strength
 
     def pop(self, strength):
         """
@@ -238,7 +243,7 @@ class SimpleStruct(Struct):
             strength_weight = torch.min(self._strengths[i], relu(1 - strength_used))
             strength_weight = strength_weight.view(self.batch_size, 1)
             strength_weight = strength_weight.repeat(1, self.embedding_size)
-            
+
             summary += strength_weight * self._values[i]
             strength_used = strength_used + self._strengths[i]
             if all(strength_used == 1):
