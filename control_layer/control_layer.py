@@ -29,13 +29,13 @@ class ControlLayer(nn.Module):
 
         # Next, we compute a distribution for popping and return its expectation.
         pop_distribution = torch.softmax(self._pop_map(input_vector))
-        pop_values = self._get_expectation(pop_distribution)
+        pop_strength = self._get_expectation(pop_distribution)
 
         # Finally, we compute a separate distribution for reading.
         read_distribution = torch.softmax(self._read_map(input_vector))
-        read_values = self._get_expectation(read_distribution)
+        read_strength = self._get_expectation(read_distribution)
 
-        return push_vector, push_strength.squeeze(), pop_values, read_values
+        return push_vector, push_strength.squeeze(), pop_values, read_strength
 
     @staticmethod
     def _get_expectation(distribution):
