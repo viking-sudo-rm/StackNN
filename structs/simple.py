@@ -240,13 +240,13 @@ class SimpleStruct(Struct):
         summary = Variable(torch.zeros([self.batch_size, self.embedding_size]))
         strength_used = Variable(torch.zeros(self.batch_size))
         for i in self._read_indices():
-            strength_weight = torch.min(self._strengths[i], relu(1 - strength_used))
+            strength_weight = torch.min(self._strengths[i], relu(strength - strength_used))
             strength_weight = strength_weight.view(self.batch_size, 1)
             strength_weight = strength_weight.repeat(1, self.embedding_size)
 
             summary += strength_weight * self._values[i]
             strength_used = strength_used + self._strengths[i]
-            if all(strength_used == 1):
+            if all(strength_used == strength):
                 break
 
         return summary

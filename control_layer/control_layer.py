@@ -2,10 +2,9 @@ from __future__ import print_function
 
 from numpy.testing import assert_approx_equal
 import torch
-from torch import nn
 
 
-class ControlLayer(nn.Module):
+class ControlLayer(torch.nn.Module):
 
     """Layer to convert a vector to stack instructions."""
 
@@ -17,25 +16,26 @@ class ControlLayer(nn.Module):
             stack_size: The size of the vectors on the stack.
             vision: The maximum depth with which we can read and pop from the stack.
         """
-        self._vector_map = nn.Linear(input_size, stack_size)
-        self._push_map = nn.Linear(input_size, 1)
-        self._pop_map = nn.Linear(input_size, vision)
-        self._read_map = nn.Linear(input_size, vision)
+        super().__init__()
+        self._vector_map = torch.nn.Linear(input_size, stack_size)
+        self._push_map = torch.nn.Linear(input_size, 1)
+        self._pop_map = torch.nn.Linear(input_size, vision)
+        self._read_map = torch.nn.Linear(input_size, vision)
 
-    def forward(input_vector):
+    def forward(self, input_vector):
         # First, we calculate the vector that should be pushed, and with how much weight.
         push_vector = torch.tanh(self._vector_map(input_vector))
         push_strength = torch.sigmoid(self._push_map(input_vector))
 
         # Next, we compute a distribution for popping and return its expectation.
-        pop_distribution = torch.softmax(self._pop_map(input_vector))
+        pop_distribution = torch.softmax(self._pop_map(input_vector), 1)
         pop_strength = self._get_expectation(pop_distribution)
 
         # Finally, we compute a separate distribution for reading.
-        read_distribution = torch.softmax(self._read_map(input_vector))
+        read_distribution = torch.softmax(self._read_map(input_vector), 1)
         read_strength = self._get_expectation(read_distribution)
 
-        return push_vector, push_strength.squeeze(), pop_values, read_strength
+        return push_vector, push_strength.squeeze(), pop_strength.squeeze(), read_strength.squeeze()
 
     @staticmethod
     def _get_expectation(distribution):

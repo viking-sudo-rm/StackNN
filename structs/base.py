@@ -49,7 +49,7 @@ class Struct(nn.Module):
 
         return
 
-    def forward(self, v, u, d):
+    def forward(self, v, u, d, r=None):
         """
         Performs the following three operations:
             - Pop something from the data structure
@@ -72,7 +72,16 @@ class Struct(nn.Module):
         """
         self.pop(u)
         self.push(v, d)
-        return self.read(self.read_strength)
+
+        if r is not None:
+            read_strength = r
+        elif self._read_strength is not None:
+            # TODO: Should deprecate this option.
+            read_strength = self._read_strength
+        else:
+            read_strength = 1
+
+        return self.read(read_strength)
 
     @abstractmethod
     def pop(self, strength):
