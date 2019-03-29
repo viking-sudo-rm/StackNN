@@ -7,6 +7,8 @@ stack = Stack(BATCH_SIZE, STACK_VECTOR_SIZE)
 read_vectors = stack(value_vectors, push_strengths, pop_strengths)
 ```
 
+For examples of more complex use cases of this library, refer to the [industrial-stacknns](https://github.com/viking-sudo-rm/industrial-stacknns) repository.
+
 We also provide implementations of neural models utilizing these data structures and tasks that the models can be trained on. All this code is associated with the paper [Context-Free Transductions with Neural Stacks](https://arxiv.org/abs/1809.02836), which appeared at the Analyzing and Interpreting Neural Networks for NLP workshop at EMNLP 2018. Refer to our paper for more theoretical background on differentiable data structures.
 
 ## Running a demo
