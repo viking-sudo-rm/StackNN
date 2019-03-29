@@ -1,7 +1,10 @@
+from __future__ import absolute_import
 from __future__ import print_function
 
 from numpy.testing import assert_approx_equal
 import torch
+
+from .control_instructions import ControlInstructions
 
 
 class ControlLayer(torch.nn.Module):
@@ -35,7 +38,12 @@ class ControlLayer(torch.nn.Module):
         read_distribution = torch.softmax(self._read_map(input_vector), 1)
         read_strength = self._get_expectation(read_distribution)
 
-        return push_vector, push_strength.squeeze(), pop_strength.squeeze(), read_strength.squeeze()
+        return ControlInstructions(push_vector,
+                                   push_strength.squeeze(),
+                                   pop_strength.squeeze(),
+                                   read_strength.squeeze(),
+                                   pop_distribution,
+                                   read_distribution)
 
     @staticmethod
     def _get_expectation(distribution):
