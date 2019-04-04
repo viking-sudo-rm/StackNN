@@ -186,13 +186,12 @@ class SimpleStruct(Struct):
         :return: None
         """
         self._track_reg(strength, Operation.pop)
-
         for i in self._pop_indices():
             local_strength = relu(self._strengths[i] - strength)
             strength = relu(strength - self._strengths[i])
             self._strengths[i] = local_strength
             # TODO: Should we remove values if they are all zero?
-            if (strength.dim() > 0 and strength==0) or (strength.dim() > 1 and all(strength == 0)):
+            if (strength.dim() == 0 and strength==0) or (strength.dim() > 0 and all(strength == 0)):
                 break
 
     def push(self, value, strength):
