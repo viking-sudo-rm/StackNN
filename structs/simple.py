@@ -192,7 +192,7 @@ class SimpleStruct(Struct):
             strength = relu(strength - self._strengths[i])
             self._strengths[i] = local_strength
             # TODO: Should we remove values if they are all zero?
-            if all(strength == 0):
+            if (strength.dim==0 and strength==0) or all(strength == 0):
                 break
 
     def push(self, value, strength):
