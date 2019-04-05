@@ -23,3 +23,6 @@ class ControlInstructions:
 
     def make_tuple(self):
         return self.push_vectors, self.push_strengths, self.pop_strengths, self.read_strengths
+
+    def __len__(self):
+        return len(self.push_vectors)
