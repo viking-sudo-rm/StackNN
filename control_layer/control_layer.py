@@ -39,9 +39,9 @@ class ControlLayer(torch.nn.Module):
         read_strength = self._get_expectation(read_distribution)
 
         return ControlInstructions(push_vector,
-                                   push_strength.squeeze(),
-                                   pop_strength.squeeze(),
-                                   read_strength.squeeze(),
+                                   push_strength.squeeze(1),
+                                   pop_strength.squeeze(1),
+                                   read_strength.squeeze(1),
                                    pop_distribution,
                                    read_distribution)
 
