@@ -4,7 +4,7 @@ This project implements differentiable stacks and queues in PyTorch. The data st
 ```python
 from StackNN.structs import Stack
 stack = Stack(BATCH_SIZE, STACK_VECTOR_SIZE)
-read_vectors = stack(value_vectors, push_strengths, pop_strengths)
+read_vectors = stack(value_vectors, pop_strengths, push_strengths)
 ```
 
 For examples of more complex use cases of this library, refer to the [industrial-stacknns](https://github.com/viking-sudo-rm/industrial-stacknns) repository.
