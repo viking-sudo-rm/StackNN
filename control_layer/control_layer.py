@@ -17,7 +17,7 @@ class ControlLayer(torch.nn.Module):
         Args:
             input_size: The length of the vectors inputted to the ControlLayer.
             stack_size: The size of the vectors on the stack.
-            vision: The maximum depth with which we can read and pop from the stack.
+            vision: The maximum depth for reading and popping from the stack.
         """
         super().__init__()
         self._vector_map = torch.nn.Linear(input_size, stack_size)
@@ -28,11 +28,11 @@ class ControlLayer(torch.nn.Module):
         self._cuda = cuda
 
     def forward(self, input_vector):
-        # First, we calculate the vector that should be pushed, and with how much weight.
+        # First, compute the vector that should be pushed and push strength.
         push_vector = torch.tanh(self._vector_map(input_vector))
         push_strength = torch.sigmoid(self._push_map(input_vector))
 
-        # Next, we compute a distribution for popping and return its expectation.
+        # Next, compute a distribution for popping and return its expectation.
         pop_distribution = torch.softmax(self._pop_map(input_vector), 1)
         pop_strength = self._get_expectation(pop_distribution)
 
@@ -60,7 +60,7 @@ def test_expectation():
     expectation = ControlLayer._get_expectation(distribution)
     expectation = expectation.squeeze().item()
     assert_approx_equal(expectation, 1.2)
-    print("Expectation test passed!")   
+    print("Expectation test passed!")
 
 
 if __name__ == "__main__":
