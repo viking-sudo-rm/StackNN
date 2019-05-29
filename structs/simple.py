@@ -82,7 +82,7 @@ class SimpleStruct(Struct):
     """
     __metaclass__ = ABCMeta
 
-    def __init__(self, batch_size, embedding_size, k=None):
+    def __init__(self, batch_size, embedding_size, k=None, device=None):
         """
         Constructor for the SimpleStruct object.
 
@@ -102,6 +102,9 @@ class SimpleStruct(Struct):
         self._values = []
         self._strengths = []
 
+        # Whether the stack should be computed on the CPU or GPU.
+        self._device = device
+
     def init_contents(self, xs):
         """
         Initialize the SimpleStruct's contents to a specified collection
@@ -117,7 +120,9 @@ class SimpleStruct(Struct):
         """
         length = xs.size(0)
         self._values = torch.unbind(xs)
-        self._strengths = [Variable(torch.ones(self.batch_size)) for _ in length]
+        self._strengths = [Variable(torch.ones(self.batch_size,
+                                               device=self._device))
+                           for _ in length]
 
     def __len__(self):
         return len(self._values)
@@ -236,10 +241,14 @@ class SimpleStruct(Struct):
         :rtype: Variable
         :return: The output of the read operation, described above
         """
-        summary = Variable(torch.zeros([self.batch_size, self.embedding_size]))
-        strength_used = Variable(torch.zeros(self.batch_size))
+        summary = Variable(torch.zeros([self.batch_size, self.embedding_size],
+                                       device=self._device))
+        strength_used = Variable(torch.zeros(self.batch_size,
+                                             device=self._device))
+
         for i in self._read_indices():
-            strength_weight = torch.min(self._strengths[i], relu(strength - strength_used))
+            strength_weight = torch.min(self._strengths[i],
+                                        relu(strength - strength_used))
             strength_weight = strength_weight.view(self.batch_size, 1)
             strength_weight = strength_weight.repeat(1, self.embedding_size)
 

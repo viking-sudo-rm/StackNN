@@ -11,7 +11,7 @@ class ControlLayer(torch.nn.Module):
 
     """Layer to convert a vector to stack instructions."""
 
-    def __init__(self, input_size, stack_size, vision, cuda=False):
+    def __init__(self, input_size, stack_size, vision, device=None):
         """Construct a ControlLayer object.
 
         Args:
@@ -25,7 +25,7 @@ class ControlLayer(torch.nn.Module):
         self._pop_map = torch.nn.Linear(input_size, vision)
         self._read_map = torch.nn.Linear(input_size, vision)
 
-        self._cuda = cuda
+        self._device = device
 
     def forward(self, input_vector):
         # First, compute the vector that should be pushed and push strength.
@@ -49,9 +49,8 @@ class ControlLayer(torch.nn.Module):
 
     def _get_expectation(self, distribution):
         """Take the expected value of a pop/read distribution."""
-        values = torch.arange(distribution.size(1)).unsqueeze(1)
-        if self._cuda:
-            values = values.cuda()
+        values = torch.arange(distribution.size(1), device=self._device)
+        values = values.unsqueeze(1)
         return torch.mm(distribution, values.float())
 
 
