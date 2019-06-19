@@ -47,11 +47,23 @@ This project is managed by [Computational Linguistics at Yale](http://clay.yale.
 If you use this codebase in your research, please cite the associated paper:
 
 ```
-@article{hao2018context,
-  title={Context-Free Transductions with Neural Stacks},
-  author={Hao, Yiding and Merrill, William and Angluin, Dana and Frank, Robert and Amsel, Noah and Benz, Andrew and Mendelsohn, Simon},
-  journal={arXiv preprint arXiv:1809.02836},
-  year={2018}
+@inproceedings{hao-etal-2018-context,
+    title = "Context-Free Transductions with Neural Stacks",
+    author = "Hao, Yiding  and
+      Merrill, William  and
+      Angluin, Dana  and
+      Frank, Robert  and
+      Amsel, Noah  and
+      Benz, Andrew  and
+      Mendelsohn, Simon",
+    booktitle = "Proceedings of the 2018 {EMNLP} Workshop {B}lackbox{NLP}: Analyzing and Interpreting Neural Networks for {NLP}",
+    month = nov,
+    year = "2018",
+    address = "Brussels, Belgium",
+    publisher = "Association for Computational Linguistics",
+    url = "https://www.aclweb.org/anthology/W18-5433",
+    pages = "306--315",
+    abstract = "This paper analyzes the behavior of stack-augmented recurrent neural network (RNN) models. Due to the architectural similarity between stack RNNs and pushdown transducers, we train stack RNN models on a number of tasks, including string reversal, context-free language modelling, and cumulative XOR evaluation. Examining the behavior of our networks, we show that stack-augmented RNNs can discover intuitive stack-based strategies for solving our tasks. However, stack RNNs are more difficult to train than classical architectures such as LSTMs. Rather than employ stack-based strategies, more complex stack-augmented networks often find approximate solutions by using the stack as unstructured memory.",
 }
 ```
 
