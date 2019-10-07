@@ -1,3 +1,7 @@
+# Please use [stacknn-core](https://github.com/viking-sudo-rm/stacknn-core) instead!
+
+---------------------
+
 # StackNN
 This project implements differentiable stacks and queues in PyTorch. The data structures are implemented in such a way that it should be easy to integrate them into your own models. For example, to construct a differentiable stack and perform a push:
 
